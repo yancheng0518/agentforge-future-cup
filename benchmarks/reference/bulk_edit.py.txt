@@ -1,0 +1,62 @@
+"""Maintainer-authored positive control; never supply to live model tasks."""
+
+class TodoStore:
+    def __init__(self):
+        self._tasks = []
+        self._next_id = 1
+
+    def add(self, title):
+        if not isinstance(title, str) or not title.strip():
+            raise ValueError("title must not be empty")
+        task = {"id": self._next_id, "title": title.strip(), "completed": False}
+        self._next_id += 1
+        self._tasks.append(task)
+        return dict(task)
+
+    def complete(self, task_id, completed=True):
+        for task in self._tasks:
+            if task["id"] == task_id:
+                task["completed"] = bool(completed)
+                return dict(task)
+        raise KeyError(task_id)
+
+    def list(self, completed=None):
+        return [dict(task) for task in self._tasks
+                if completed is None or task["completed"] == completed]
+
+    @staticmethod
+    def _valid_id(task_id):
+        if type(task_id) is not int or task_id <= 0:
+            raise ValueError("id must be a positive integer")
+
+    def _find(self, task_id):
+        for task in self._tasks:
+            if task["id"] == task_id:
+                return task
+        raise KeyError(task_id)
+
+    def rename(self, task_id, title):
+        self._valid_id(task_id)
+        if not isinstance(title, str) or not title.strip():
+            raise ValueError("title must not be empty")
+        task = self._find(task_id)
+        task["title"] = title.strip()
+        return dict(task)
+
+    def delete(self, task_id):
+        self._valid_id(task_id)
+        task = self._find(task_id)
+        self._tasks.remove(task)
+        return dict(task)
+
+    def batch_complete(self, task_ids, completed=True):
+        if type(task_ids) is not list or type(completed) is not bool:
+            raise ValueError("batch must be a list and completed must be bool")
+        for task_id in task_ids:
+            self._valid_id(task_id)
+        if len(set(task_ids)) != len(task_ids):
+            raise ValueError("duplicate ids are not allowed")
+        tasks = [self._find(task_id) for task_id in task_ids]
+        for task in tasks:
+            task["completed"] = completed
+        return [dict(task) for task in tasks]

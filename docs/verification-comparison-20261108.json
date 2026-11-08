@@ -1,0 +1,142 @@
+{
+  "date": "2026-11-08",
+  "scope": "Three-arm comparison implementation before formal live freeze",
+  "platform_regression": {
+    "command": ".venv/Scripts/python.exe -m pytest -q",
+    "exit_code": 0,
+    "passed": 227,
+    "subtests_passed": 133,
+    "seconds": 44.08,
+    "candidate_execution": false,
+    "live_model_requests": 0
+  },
+  "new_tests": {
+    "comparison_runtime": 16,
+    "comparison_report": 43,
+    "comparison_runner": 6,
+    "atomic_evidence_write": 6,
+    "comparison_continuation": 23,
+    "comparison_merge": 31
+  },
+  "exporter_self_test": {
+    "command": ".venv/Scripts/python.exe scripts/export_reproduction.py --self-test",
+    "checks_passed": 6,
+    "live_model_requests": 0
+  },
+  "docker_controls": {
+    "source": ".agentforge/task-controls/20261108T092717Z-4b7676/evidence.json",
+    "samples": 8,
+    "all_expected_outcomes": true,
+    "reference_candidates_passed": 4,
+    "declared_synthetic_candidates_failed_as_expected": 4,
+    "live_model_requests": 0,
+    "duration_seconds": 32.06
+  },
+  "preflight": {
+    "python": "3.13.5",
+    "model_configured": "deepseek-v4.1-flash",
+    "base_url": "https://aigw.omniedu.com/v1",
+    "docker_backend": "wsl",
+    "model_request_sent_by_preflight": false
+  },
+  "dry_run": {
+    "directory": ".agentforge/comparisons/20261108-design-check",
+    "only_plan_created": true,
+    "included_in_live_comparison": false
+  },
+  "pre_continuation_regression": {
+    "command": ".venv/Scripts/python.exe -m pytest -q",
+    "passed": 255,
+    "subtests_passed": 133,
+    "seconds": 41.48,
+    "live_model_requests": 0
+  },
+  "final_platform_regression": {
+    "command": ".venv/Scripts/python.exe -m pytest -q",
+    "exit_code": 0,
+    "passed": 287,
+    "subtests_passed": 133,
+    "seconds": 48.71,
+    "live_model_requests": 0,
+    "candidate_execution": false,
+    "real_windows_handle_lock_test_passed": true
+  },
+  "continuation": {
+    "parent": ".agentforge/comparisons/20261108T093911Z-d4cafa49",
+    "child": ".agentforge/comparisons/20261108T100258Z-dd103ac6",
+    "retained_original_submissions": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15
+    ],
+    "selected_never_submitted_slots": [
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24
+    ],
+    "dry_run": ".agentforge/comparisons/20261108-continuation-review",
+    "claim_prevents_duplicate_submission": true
+  },
+  "final_live_comparison": {
+    "planned_trials": 24,
+    "observed_terminal_trials": 24,
+    "primary_successes": 20,
+    "strategy_completions": 19,
+    "model_requests": 174,
+    "model_tokens_known": 1150622,
+    "model_metrics_complete": false,
+    "http_429": 4,
+    "contract_retries": 13,
+    "natural_code_failure": 0,
+    "natural_repair_success": 0,
+    "synthetic_defect_injection": false,
+    "local_observer_interruption_trial": 15,
+    "independent_complete_grid_verified": true,
+    "single_uninterrupted_batch": false,
+    "request_archives_verified": 174,
+    "candidate_archives_verified": 21,
+    "all_unapplied": true
+  },
+  "evidence_hashes": {
+    "preregistration.json": "b0a5fc833702ceeafbc32902c36c2b781f0defc2bd82e8cc92c205e559490a13",
+    "state.json": "da2d481863ebe151feec33109168529884e2e7ee9a4b99754357f093b8082cf4",
+    "combined-summary.json": "7022eb966da61386277275cdd5317225c8ec9b23a2493844816d1ba9a0b78731",
+    "audits/audit_requests.py": "2bda8449d0276b86c8fbd1f82775c9c61b118a6caf54668d6156d96f4dcc875b",
+    "audits/audit.json": "a7776d2cb1a9f4a4ccedf19ce38507e47056aa45be9122408ac9c6fc1062c935",
+    "audits/combined-audit.json": "4324fa6761ed991a7ec2f4428faf9fad64393dea5e757885b5c7de2034a7a2cf"
+  },
+  "final_workspace_check": {
+    "task_snapshot_hashes_current_match_both_phases": true,
+    "remaining_test_containers": 0,
+    "batch_states": [
+      {
+        "batch_id": "20261108T093911Z-d4cafa49",
+        "recorded_task_inputs_unchanged": true,
+        "recorded_applied": false
+      },
+      {
+        "batch_id": "20261108T100258Z-dd103ac6",
+        "recorded_task_inputs_unchanged": true,
+        "recorded_applied": false
+      }
+    ]
+  }
+}

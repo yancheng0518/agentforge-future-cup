@@ -1,0 +1,52 @@
+"""Maintainer-authored positive control; never supply to live model tasks."""
+
+class TodoStore:
+    def __init__(self):
+        self._tasks = []
+        self._next_id = 1
+
+    def add(self, title):
+        if not isinstance(title, str) or not title.strip():
+            raise ValueError("title must not be empty")
+        task = {"id": self._next_id, "title": title.strip(), "completed": False, "priority": 1}
+        self._next_id += 1
+        self._tasks.append(task)
+        return dict(task)
+
+    def complete(self, task_id, completed=True):
+        for task in self._tasks:
+            if task["id"] == task_id:
+                task["completed"] = bool(completed)
+                return dict(task)
+        raise KeyError(task_id)
+
+    def list(self, completed=None):
+        return [dict(task) for task in self._tasks
+                if completed is None or task["completed"] == completed]
+
+    def set_priority(self, task_id, priority):
+        if type(task_id) is not int or task_id <= 0:
+            raise ValueError("id must be a positive integer")
+        if type(priority) is not int or not 0 <= priority <= 3:
+            raise ValueError("priority must be an integer in 0..3")
+        for task in self._tasks:
+            if task["id"] == task_id:
+                task["priority"] = priority
+                return dict(task)
+        raise KeyError(task_id)
+
+    def query(self, completed=None, min_priority=0, limit=None, offset=0):
+        if completed is not None and type(completed) is not bool:
+            raise ValueError("completed must be bool or None")
+        if type(min_priority) is not int or not 0 <= min_priority <= 3:
+            raise ValueError("min_priority must be an integer in 0..3")
+        if limit is not None and (type(limit) is not int or limit < 0):
+            raise ValueError("limit must be a nonnegative integer or None")
+        if type(offset) is not int or offset < 0:
+            raise ValueError("offset must be a nonnegative integer")
+        selected = [task for task in self._tasks
+                    if (completed is None or task["completed"] is completed)
+                    and task["priority"] >= min_priority]
+        selected.sort(key=lambda task: (-task["priority"], task["id"]))
+        end = None if limit is None else offset + limit
+        return [dict(task) for task in selected[offset:end]]

@@ -1,0 +1,76 @@
+"""Synthetic negative control: import does not advance next_id."""
+
+import json
+
+class TodoStore:
+    def __init__(self):
+        self._tasks = []
+        self._next_id = 1
+
+    def add(self, title):
+        if not isinstance(title, str) or not title.strip():
+            raise ValueError("title must not be empty")
+        task = {"id": self._next_id, "title": title.strip(), "completed": False}
+        self._next_id += 1
+        self._tasks.append(task)
+        return dict(task)
+
+    def complete(self, task_id, completed=True):
+        for task in self._tasks:
+            if task["id"] == task_id:
+                task["completed"] = bool(completed)
+                return dict(task)
+        raise KeyError(task_id)
+
+    def list(self, completed=None):
+        return [dict(task) for task in self._tasks
+                if completed is None or task["completed"] == completed]
+
+    def export_json(self):
+        return json.dumps({"version": 1, "tasks": self.list()}, ensure_ascii=False)
+
+    def import_json(self, payload, collision="error"):
+        if not isinstance(collision, str) or collision not in ("error", "replace", "skip"):
+            raise ValueError("unsupported collision mode")
+        if not isinstance(payload, str):
+            raise ValueError("payload must be a JSON string")
+        try:
+            document = json.loads(payload)
+        except (ValueError, TypeError) as exc:
+            raise ValueError("invalid JSON") from exc
+        if not isinstance(document, dict) or set(document) != {"version", "tasks"}:
+            raise ValueError("invalid document schema")
+        if type(document["version"]) is not int or document["version"] != 1:
+            raise ValueError("unsupported version")
+        if type(document["tasks"]) is not list:
+            raise ValueError("tasks must be a list")
+        incoming, seen = [], set()
+        for item in document["tasks"]:
+            if not isinstance(item, dict) or set(item) != {"id", "title", "completed"}:
+                raise ValueError("invalid task schema")
+            task_id, title, completed = item["id"], item["title"], item["completed"]
+            if type(task_id) is not int or task_id <= 0 or task_id in seen:
+                raise ValueError("invalid or duplicate id")
+            if not isinstance(title, str) or not title.strip():
+                raise ValueError("invalid title")
+            if type(completed) is not bool:
+                raise ValueError("completed must be bool")
+            seen.add(task_id)
+            incoming.append({"id": task_id, "title": title.strip(), "completed": completed})
+        existing = {task["id"]: index for index, task in enumerate(self._tasks)}
+        if collision == "error" and any(task["id"] in existing for task in incoming):
+            raise ValueError("id collision")
+        merged = [dict(task) for task in self._tasks]
+        counts = {"inserted": 0, "updated": 0, "skipped": 0}
+        for task in incoming:
+            if task["id"] not in existing:
+                merged.append(task)
+                counts["inserted"] += 1
+            elif collision == "replace":
+                merged[existing[task["id"]]] = task
+                counts["updated"] += 1
+            else:
+                counts["skipped"] += 1
+        next_id = max([self._next_id, *(task["id"] + 1 for task in merged)])
+        self._tasks = merged
+        return counts

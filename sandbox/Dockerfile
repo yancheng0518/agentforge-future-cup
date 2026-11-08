@@ -1,0 +1,5 @@
+FROM python:3.13-slim
+ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1
+WORKDIR /tmp
+USER 65534:65534
+CMD ["python", "-I", "-B", "/acceptance/runner.py"]

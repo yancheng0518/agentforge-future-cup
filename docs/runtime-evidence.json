@@ -1,0 +1,23 @@
+{
+  "source": "actual local API and SQLite",
+  "runs": [
+    {
+      "id": "ea3ae9298c644c09877b2f29f29af542",
+      "workflow": "review",
+      "mode": "mock",
+      "status": "blocked",
+      "events": 26,
+      "steps": 5,
+      "summary": "Docker CLI 未安装；自动验收测试已阻塞。"
+    },
+    {
+      "id": "498280fc3f0b4c79b7f5224a6fdc5e2a",
+      "workflow": "development",
+      "mode": "mock",
+      "status": "blocked",
+      "events": 60,
+      "steps": 6,
+      "summary": "Docker CLI 未安装；自动验收测试已阻塞。"
+    }
+  ]
+}

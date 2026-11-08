@@ -1,0 +1,38 @@
+{
+  "date": "2026-11-08",
+  "platform_tests": {
+    "command": ".venv/Scripts/python.exe -m pytest -q",
+    "exit_code": 0,
+    "passed": 162,
+    "subtests_passed": 133,
+    "seconds": 31.89,
+    "real_model_or_candidate_execution": false
+  },
+  "frontend_build": {
+    "command": "npm run build",
+    "cwd": "frontend",
+    "exit_code": 0,
+    "tsc": true,
+    "vite": true
+  },
+  "archive_checks": [
+    {
+      "batch": ".agentforge/evaluations/20261108T084840Z-9d855f",
+      "frozen_files_verified": 43,
+      "task_inputs_unchanged": true
+    },
+    {
+      "batch": ".agentforge/evaluations/20261108T090616Z-606cb8",
+      "frozen_files_verified": 45,
+      "task_inputs_unchanged": true
+    },
+    {
+      "batch": ".agentforge/seeded-workflows/20261108T091215Z-1da7d89a",
+      "frozen_files_verified": 51,
+      "task_inputs_unchanged": true
+    }
+  ],
+  "ui_screenshot": "output/playwright/multi-task-real-v2.png",
+  "candidate_applied": false,
+  "model_protocol_and_code_repairs_separate": true
+}
