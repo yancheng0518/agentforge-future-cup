@@ -1,0 +1,20 @@
+{
+  "passed": false,
+  "candidate_hash": "76eeb7474f84b268699291fae2e9266821dceb3166bc88e6c4a4a5a393cf2d3b",
+  "source": "开发核查 + 独立事后 Docker 验收",
+  "timestamp": "2026-11-08T12:59:20.874657+00:00",
+  "category": "acceptance_contract_conflict",
+  "summary": "AI 生成的验收包含相互冲突的排序期望。候选虽然通过原验收，但未正确实现原始需求；不能算有效完成或自然自修正成功。",
+  "issues": [
+    "原需求要求 category 默认字符串升序，交通应在餐饮之前；冻结验收的 summarize 用例把次序写反。",
+    "主 Agent 为满足错误验收把 summarize 改成 GBK 字节序，build_report 又改回 Unicode，破坏原需求的一致排序与组合语义。",
+    "额外 Docker 验收实际执行 8 项，3 项失败、0 错误；原候选和原验收均未修改。"
+  ],
+  "evidence_path": ".agentforge/autonomous-chat-posthoc-20261108/20261108T125744Z/evidence.json",
+  "evidence_sha256": "3197cb25d17593ac96bf1c7560619fbd4c38cf5988158cb97e217d6ca98355ff",
+  "test_count": 8,
+  "failures": 3,
+  "model_calls": 0,
+  "original_status": "succeeded",
+  "original_export_sha256": "618caf8039abc14a9eaa750f297f15c29da93ad8a63b3b409601f723f436d7f1"
+}

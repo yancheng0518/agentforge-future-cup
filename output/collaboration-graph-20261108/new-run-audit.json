@@ -1,0 +1,342 @@
+{
+  "schema": "collaboration-graph-new-run-audit-v1",
+  "checked_at": "2026-11-08T14:09:49.158424+00:00",
+  "run_id": "9f25467d40074e0eb520e178b00b11e1",
+  "read_only_audit": true,
+  "audit_model_calls": 0,
+  "audit_docker_calls": 0,
+  "passed": true,
+  "core_evidence_audit": {
+    "run_id": "9f25467d40074e0eb520e178b00b11e1",
+    "status": "succeeded",
+    "provenance": {
+      "acceptance_origin": "model_generated",
+      "description": "真实模型根据用户需求生成的未实现脚手架与冻结验收；测试覆盖未经人工独立审定",
+      "input_origin": "requirement",
+      "kind": "natural"
+    },
+    "intake_status": "completed",
+    "posthoc_review": null,
+    "quality_review": {
+      "passed": true,
+      "issues": [],
+      "summary": "已独立核对实现与原始需求：text_tools.tokenize 使用 re 的 [A-Za-z]+ 匹配连续 ASCII 字母并 lower()，数字、标点、空白与非 ASCII 字符自然作为分隔符，空文本返回 []，与示例一致。word_report._validate_limit 先于分词执行，None 通过，bool（isinstance 检查在 int 之前）、非 int、负数均抛 ValueError；summarize 用 Counter 统计并按 (-count, word) 排序，即次数降序、同次数按 Python 字符串码点升序，符合要求，limit=None 返回全部、非负整数截断、0 返回 []。build_report 基于全部 token 计算 total_words 与 unique_words，不受 limit 影响，items 复用 summarize，空文本返回两个 0 与空 items，limit 校验一致。Docker 独立验证 12 项全部通过。限制：冻结验收由模型生成、未经人工审定，未覆盖极端输入（如超长文本、仅大小写混合、limit 大于唯一词数等），但这些不影响已核对的核心语义正确性。",
+      "candidate_hash": "60e8c83d95a64c03ffdc13311a3541b32b532b26657cb276fa8058dee38cee7a",
+      "index": 1,
+      "origin": "model_semantic_review",
+      "timestamp": "2026-11-08T14:05:45.793506+00:00"
+    },
+    "model_config": {
+      "model": "deepseek-v4.1-flash",
+      "base_url": "https://aigw.omniedu.com/v1",
+      "temperature": 0.1,
+      "max_output_tokens": 8192,
+      "adapter_revision": "autonomous-5-proportional-review",
+      "contract_retries": 1,
+      "provider_options": {
+        "thinking": {
+          "type": "disabled"
+        }
+      },
+      "min_request_interval": 4.2,
+      "timeout_seconds": 120
+    },
+    "budget": {
+      "max_calls": 40,
+      "max_tokens": 300000,
+      "max_output_tokens": 8192,
+      "max_steps": 24,
+      "max_tasks": 32,
+      "max_parallel": 3,
+      "max_verifications": 8,
+      "wall_seconds": 900
+    },
+    "model_metrics": {
+      "model_calls": 9,
+      "tokens": 58713,
+      "budget_tokens": 58713,
+      "metrics_complete": true,
+      "contract_retries": 0,
+      "in_flight": 0,
+      "reserved_tokens": 0,
+      "unknown_usage_calls": 0
+    },
+    "recomputed_metrics": {
+      "model_calls": 9,
+      "tokens": 58713,
+      "contract_retries": 0,
+      "unknown_usage_calls": 0,
+      "in_flight": 0,
+      "reserved_tokens": 0,
+      "budget_tokens": 58713,
+      "metrics_complete": true
+    },
+    "counts": {
+      "model_calls": 9,
+      "known_tokens": 58713,
+      "unknown_usage_calls": 0,
+      "format_retries": 0,
+      "protocol_failed_responses": 0,
+      "transport_failed_requests": 0,
+      "cancelled_requests": 0,
+      "interrupted_requests": 0,
+      "controller_decisions": 4,
+      "decision_rejections": 0,
+      "tasks": 2,
+      "failed_tasks": 0,
+      "verifications": 2,
+      "passed_verifications": 1,
+      "blocked_verifications": 0,
+      "natural_candidate_failures": 0,
+      "input_baseline_failures": 1,
+      "seeded_baseline_failures": 0,
+      "seeded_candidate_failures": 0,
+      "natural_repair_runs": 0,
+      "seeded_repair_runs": 0,
+      "generated_acceptance_candidate_failures": 0,
+      "generated_acceptance_repair_runs": 0,
+      "posthoc_rejected_runs": 0,
+      "quality_rejected_runs": 0,
+      "unlinked_validation_results": 0
+    },
+    "hashes": {
+      "run_bundle_sha256": "156b84a8f0a57df6a246fe02cf8ad26d90464125966b47a165cdf85a05f17e2a",
+      "candidate_sha256": "60e8c83d95a64c03ffdc13311a3541b32b532b26657cb276fa8058dee38cee7a",
+      "acceptance_sha256": "8482407ee5c9b5de05b6392ca4acdabb76b98e8e078f52dc043723f01a4dbcb3",
+      "sandbox_bundle_sha256": "0996efefc98dcafda89087a8ba42f299f084f633cca75f6983626b51bb8044b4",
+      "runner_sha256": {
+        "bridge.py": "a3ca372afe34353ef78ba27270a7c82bf88bd5a1ea93f93a7d19bd0f15911021",
+        "runner.py": "5094b1ee0fc9bd4d0dbfa2242504400d00926ea64f2f243d05f9f0ab5eb15843",
+        "worker.py": "b871a015587c9f6a904e15f6db01f431d915ec746478b06ea9a3ca130e57a840"
+      },
+      "implementation_manifest_sha256": "ced9d7d44ba87e979e5101910a02283363c867d8a3ef3cbdd59055b7b1a1e648",
+      "implementation_files": 15,
+      "export_sha256": "08c5bda8c926c798b6fa9a46f9ee6b9895e527462a9b39adea9fb92b42377cd5"
+    },
+    "controller_actions": [
+      "dispatch",
+      "continue",
+      "verify",
+      "finish"
+    ],
+    "tasks": [
+      {
+        "id": "impl-tokenize",
+        "title": "实现 text_tools.tokenize",
+        "agent_id": "worker-65f3c8337b14",
+        "status": "succeeded",
+        "depends_on": [],
+        "write_paths": [
+          "text_tools.py"
+        ]
+      },
+      {
+        "id": "impl-report",
+        "title": "实现 word_report.summarize 与 build_report",
+        "agent_id": "worker-cd01b31b1a01",
+        "status": "succeeded",
+        "depends_on": [
+          "impl-tokenize"
+        ],
+        "write_paths": [
+          "word_report.py"
+        ]
+      }
+    ],
+    "verification_results": [
+      {
+        "index": 1,
+        "status": "failed",
+        "test_count": 12,
+        "classification": "input_baseline",
+        "candidate_hash": "b0b62db6dfd1d2472e426f7691232701fc3eee4e04e06e791ebe343049e8b79a",
+        "image": "sha256:1edc3cba75dd1917bb78226e897fdb801a0272ea2e02319345de0bd3b8cae225"
+      },
+      {
+        "index": 2,
+        "status": "passed",
+        "test_count": 12,
+        "classification": "natural_candidate",
+        "candidate_hash": "60e8c83d95a64c03ffdc13311a3541b32b532b26657cb276fa8058dee38cee7a",
+        "image": "sha256:1edc3cba75dd1917bb78226e897fdb801a0272ea2e02319345de0bd3b8cae225"
+      }
+    ],
+    "request_records": [
+      {
+        "path": "model_requests/0001-003eeb254391.json",
+        "sha256": "7657d1c13f56564b2f52ef0fe524006260184fb16c9dfdadf3a80e8fd8def90f"
+      },
+      {
+        "path": "model_requests/0002-77a465250d55.json",
+        "sha256": "4d96f06dd7253d4c15d6a3908720a744cdbb6fb107bde89bdb6e2a4f2450e9b9"
+      },
+      {
+        "path": "model_requests/0003-9dbc7b589338.json",
+        "sha256": "a6e755d39eecdef130a579082b9b1a015691f529354477dedeede971eb60087c"
+      },
+      {
+        "path": "model_requests/0004-3d3c8a9068fd.json",
+        "sha256": "5ee51cf87df5ba14fefd0fef3892a7702177acff804b41f119310c0d134b2722"
+      },
+      {
+        "path": "model_requests/0005-c7fb2d6c55b3.json",
+        "sha256": "3af47fe5447ec6db86a11afc4bc614f967d41d074b0607a9411cbcc9e4c80499"
+      },
+      {
+        "path": "model_requests/0006-3fc804cc6c93.json",
+        "sha256": "7c21295ccaa007d04d3bb80c35c6c60dbefece478e2534bab6dbf4452a6ecf5f"
+      },
+      {
+        "path": "model_requests/0007-360e528a65f1.json",
+        "sha256": "6df206c36a4c46ba9a19741e9de0eaa72f6dd09e784bbc9d0442d7b894a2c1db"
+      },
+      {
+        "path": "model_requests/0008-91b888d87974.json",
+        "sha256": "87b7d9747756f69d107f47fdd37ecd2286e0667dbb3a7043b60cc1d9ade531e3"
+      },
+      {
+        "path": "model_requests/0009-a1437841d1c0.json",
+        "sha256": "df03616b91517a2238b5d8cf4b69a3263f4687d3182712b63ff0bbbfe6028b2f"
+      }
+    ],
+    "unlinked_validation_results": [],
+    "events": 41,
+    "steps": 2,
+    "snapshots": 2,
+    "passed": true
+  },
+  "issues": [],
+  "events": {
+    "verification_pairs": [
+      {
+        "index": 1,
+        "candidate_hash": "b0b62db6dfd1d2472e426f7691232701fc3eee4e04e06e791ebe343049e8b79a",
+        "start_event_id": 156,
+        "start_timestamp": "2026-11-08T14:04:54.928262+00:00",
+        "end_event_id": 157,
+        "end_timestamp": "2026-11-08T14:05:00.097771+00:00",
+        "status": "failed",
+        "classification": "input_baseline",
+        "test_count": 12,
+        "isolated_confirmed_by_receipt": true,
+        "passed": true
+      },
+      {
+        "index": 2,
+        "candidate_hash": "60e8c83d95a64c03ffdc13311a3541b32b532b26657cb276fa8058dee38cee7a",
+        "start_event_id": 178,
+        "start_timestamp": "2026-11-08T14:05:32.243164+00:00",
+        "end_event_id": 179,
+        "end_timestamp": "2026-11-08T14:05:39.184786+00:00",
+        "status": "passed",
+        "classification": "natural_candidate",
+        "test_count": 12,
+        "isolated_confirmed_by_receipt": true,
+        "passed": true
+      }
+    ],
+    "unpaired_starts": 0,
+    "terminal_is_last_event": true,
+    "event_ids_strictly_increasing": true,
+    "event_counts": {
+      "created": 1,
+      "intake_started": 1,
+      "model_request": 9,
+      "model_response": 9,
+      "contract_review_started": 1,
+      "contract_review": 1,
+      "intake_completed": 1,
+      "verification_started": 2,
+      "verification": 2,
+      "controller_decision": 4,
+      "plan_revision": 1,
+      "dispatch": 2,
+      "task_result": 2,
+      "snapshot": 2,
+      "quality_review_started": 1,
+      "quality_review": 1,
+      "terminal": 1
+    }
+  },
+  "declaration_checks": {
+    "request_matches": true,
+    "script_matches": true,
+    "suite_matches": true,
+    "copied_script_matches": true,
+    "declaration_precedes_run": true,
+    "declaration_file_sha256": "bb5521a392b4fe3b15e87f7c0ce094117e6e623aebf659ea1cde1cc27bf7bfa2"
+  },
+  "independent_predeclared_docker_check": {
+    "evidence_path": ".agentforge/collaboration-graph-checks-20261108/20261108T140701Z/evidence.json",
+    "evidence_sha256": "f143c83010b3fa909dc3de4da59191b9e693fd6a625b308504d7d2d19d08cfb2",
+    "model_calls": 0,
+    "status": "passed",
+    "test_count": 8,
+    "isolated": true,
+    "attestation": {
+      "discovered": 8,
+      "errors": 0,
+      "expected_failures": 0,
+      "failures": 0,
+      "nonce": "7e5dca55fe564f1c825d5fa357268322",
+      "passed": true,
+      "skipped": 0,
+      "tests": 8
+    },
+    "candidate_hash": "60e8c83d95a64c03ffdc13311a3541b32b532b26657cb276fa8058dee38cee7a",
+    "source_unchanged": true
+  },
+  "source_evidence_path": ".agentforge/autonomous/runs/9f25467d40074e0eb520e178b00b11e1/evidence.json",
+  "source_evidence_sha256": "08c5bda8c926c798b6fa9a46f9ee6b9895e527462a9b39adea9fb92b42377cd5",
+  "evidence_file_sha256": {
+    ".agentforge/autonomous/runs/9f25467d40074e0eb520e178b00b11e1/autonomous_manifest.json": "ce92bbdc4241aee5e7166680169c45bae7bf0d9d51e8c50f65135e56945e25b4",
+    ".agentforge/autonomous/runs/9f25467d40074e0eb520e178b00b11e1/bundle.json": "0996efefc98dcafda89087a8ba42f299f084f633cca75f6983626b51bb8044b4",
+    ".agentforge/autonomous/runs/9f25467d40074e0eb520e178b00b11e1/candidate/text_tools.py": "503d0ca1dc4ab7e246883d80c14f2cdc9b2033105d51a18a60fc031f958c73fa",
+    ".agentforge/autonomous/runs/9f25467d40074e0eb520e178b00b11e1/candidate/word_report.py": "c257924d9918a3416ed7c7cb8396228864763deb5883095e97df23cda0f62dd4",
+    ".agentforge/autonomous/runs/9f25467d40074e0eb520e178b00b11e1/evidence/1794146694881730700-prepared-a6df98a9.json": "2ce88c752fa5bc095e83f1f33b5a07a673ea59a3d2f62f4e45f2e0eee69aa427",
+    ".agentforge/autonomous/runs/9f25467d40074e0eb520e178b00b11e1/evidence/1794146694995790300-validation-start-f59bd546.json": "593cb76be7e6c0688aa1673c2dda14c8dacad24c1a1b0a27fb41b0c6a5b3fd8b",
+    ".agentforge/autonomous/runs/9f25467d40074e0eb520e178b00b11e1/evidence/1794146700055148000-validation-result-47ce168d.json": "9ba942f6a410173fc2f15505760b77fc57dd13703125e94c8948fa357116af10",
+    ".agentforge/autonomous/runs/9f25467d40074e0eb520e178b00b11e1/evidence/1794146711561681400-apply-before-7f79ca0e.json": "d1e38ae35801e943519b61c649c8dd5eadf02ff7c8a90b421cf42d54548bdcd4",
+    ".agentforge/autonomous/runs/9f25467d40074e0eb520e178b00b11e1/evidence/1794146711623915700-applied-b2e05608.json": "df89eaed73a6f71cd335bae50617a19dc90d16f2845c648caf8ff7adf96a9410",
+    ".agentforge/autonomous/runs/9f25467d40074e0eb520e178b00b11e1/evidence/1794146729947982900-apply-before-6a412258.json": "242ca8050aee80079aa09b644f3377515de8a70f0d6e0363fead157a8695b4ae",
+    ".agentforge/autonomous/runs/9f25467d40074e0eb520e178b00b11e1/evidence/1794146730044494200-applied-19f93a64.json": "ac0c5e5e5b4c4d8144639745be4a459645968773b3b8ed0890b3a36a4488e4cb",
+    ".agentforge/autonomous/runs/9f25467d40074e0eb520e178b00b11e1/evidence/1794146732381309800-validation-start-636c63ff.json": "e9b06cfcfb4f51acc708bc9bbbe89b16c5d62e4012b50247f74a4e23a451c0e0",
+    ".agentforge/autonomous/runs/9f25467d40074e0eb520e178b00b11e1/evidence/1794146739133060700-validation-result-cd054a55.json": "07a57a6452074cc41d0ef648811f26a36b092a3ec744118ea0c1d53ff8afe735",
+    ".agentforge/autonomous/runs/9f25467d40074e0eb520e178b00b11e1/evidence.json": "08c5bda8c926c798b6fa9a46f9ee6b9895e527462a9b39adea9fb92b42377cd5",
+    ".agentforge/autonomous/runs/9f25467d40074e0eb520e178b00b11e1/implementation/backend/agentforge/__init__.py": "8e3ccd8123fce4122112168333ce109005c87ef17d94896d1f95e6a04c38bddc",
+    ".agentforge/autonomous/runs/9f25467d40074e0eb520e178b00b11e1/implementation/backend/agentforge/app.py": "f0dde74942db56f490d7bf0eb2311859f9e2d5a380aa52f808d8f00aabf65129",
+    ".agentforge/autonomous/runs/9f25467d40074e0eb520e178b00b11e1/implementation/backend/agentforge/autonomous.py": "9f6b2028970abd3f58c65654c09a7e67afecd72b68a4502421f25ca92fa457bb",
+    ".agentforge/autonomous/runs/9f25467d40074e0eb520e178b00b11e1/implementation/backend/agentforge/autonomous_api.py": "acba8c5ec61b4dbb460a0d14e03c4a7c80da9f82ec566f515e636d37f721607b",
+    ".agentforge/autonomous/runs/9f25467d40074e0eb520e178b00b11e1/implementation/backend/agentforge/autonomous_model.py": "084bc29de2d525f6e400360e73dc4cbe8d203bf38893a3af1b1f36a415db6d0d",
+    ".agentforge/autonomous/runs/9f25467d40074e0eb520e178b00b11e1/implementation/backend/agentforge/autonomous_sandbox.py": "0135617a00f0ec93015a6f7e946dcd0bfe9610dd966783c322270a5ee8cd59fb",
+    ".agentforge/autonomous/runs/9f25467d40074e0eb520e178b00b11e1/implementation/backend/agentforge/comparison.py": "84675c3369b96320903a091948f1824bc7370e38662c39e01cb1a7a6a9e1bce6",
+    ".agentforge/autonomous/runs/9f25467d40074e0eb520e178b00b11e1/implementation/backend/agentforge/definitions.py": "e6c5ff047e1b004b28a4580f6d54dcbc76f04745227b45a273469500472f9c45",
+    ".agentforge/autonomous/runs/9f25467d40074e0eb520e178b00b11e1/implementation/backend/agentforge/engine.py": "c76652910b2a9bfbc9cecb5b6df3c893031f5be176decbcdeacafceb5291f788",
+    ".agentforge/autonomous/runs/9f25467d40074e0eb520e178b00b11e1/implementation/backend/agentforge/runtime.py": "6fc24a319a05f9585efbd7d7d5c5bdec8ee400cdb53bad6ea013d11e2ed81d88",
+    ".agentforge/autonomous/runs/9f25467d40074e0eb520e178b00b11e1/implementation/backend/agentforge/storage.py": "5cb4ffd57f47768b37aff27b642d8b05057ed4c9697b9b59ae05e1b11d98b306",
+    ".agentforge/autonomous/runs/9f25467d40074e0eb520e178b00b11e1/implementation/backend/agentforge/task_catalog.py": "9920d1e01a7f7a566f6cc4c926129928cdd159962f46b30fd359a7de972ebb2c",
+    ".agentforge/autonomous/runs/9f25467d40074e0eb520e178b00b11e1/implementation/sandbox/autonomous/bridge.py": "a3ca372afe34353ef78ba27270a7c82bf88bd5a1ea93f93a7d19bd0f15911021",
+    ".agentforge/autonomous/runs/9f25467d40074e0eb520e178b00b11e1/implementation/sandbox/autonomous/runner.py": "5094b1ee0fc9bd4d0dbfa2242504400d00926ea64f2f243d05f9f0ab5eb15843",
+    ".agentforge/autonomous/runs/9f25467d40074e0eb520e178b00b11e1/implementation/sandbox/autonomous/worker.py": "b871a015587c9f6a904e15f6db01f431d915ec746478b06ea9a3ca130e57a840",
+    ".agentforge/autonomous/runs/9f25467d40074e0eb520e178b00b11e1/implementation-manifest.json": "ced9d7d44ba87e979e5101910a02283363c867d8a3ef3cbdd59055b7b1a1e648",
+    ".agentforge/autonomous/runs/9f25467d40074e0eb520e178b00b11e1/model_requests/0001-003eeb254391.json": "7657d1c13f56564b2f52ef0fe524006260184fb16c9dfdadf3a80e8fd8def90f",
+    ".agentforge/autonomous/runs/9f25467d40074e0eb520e178b00b11e1/model_requests/0002-77a465250d55.json": "4d96f06dd7253d4c15d6a3908720a744cdbb6fb107bde89bdb6e2a4f2450e9b9",
+    ".agentforge/autonomous/runs/9f25467d40074e0eb520e178b00b11e1/model_requests/0003-9dbc7b589338.json": "a6e755d39eecdef130a579082b9b1a015691f529354477dedeede971eb60087c",
+    ".agentforge/autonomous/runs/9f25467d40074e0eb520e178b00b11e1/model_requests/0004-3d3c8a9068fd.json": "5ee51cf87df5ba14fefd0fef3892a7702177acff804b41f119310c0d134b2722",
+    ".agentforge/autonomous/runs/9f25467d40074e0eb520e178b00b11e1/model_requests/0005-c7fb2d6c55b3.json": "3af47fe5447ec6db86a11afc4bc614f967d41d074b0607a9411cbcc9e4c80499",
+    ".agentforge/autonomous/runs/9f25467d40074e0eb520e178b00b11e1/model_requests/0006-3fc804cc6c93.json": "7c21295ccaa007d04d3bb80c35c6c60dbefece478e2534bab6dbf4452a6ecf5f",
+    ".agentforge/autonomous/runs/9f25467d40074e0eb520e178b00b11e1/model_requests/0007-360e528a65f1.json": "6df206c36a4c46ba9a19741e9de0eaa72f6dd09e784bbc9d0442d7b894a2c1db",
+    ".agentforge/autonomous/runs/9f25467d40074e0eb520e178b00b11e1/model_requests/0008-91b888d87974.json": "87b7d9747756f69d107f47fdd37ecd2286e0667dbb3a7043b60cc1d9ade531e3",
+    ".agentforge/autonomous/runs/9f25467d40074e0eb520e178b00b11e1/model_requests/0009-a1437841d1c0.json": "df03616b91517a2238b5d8cf4b69a3263f4687d3182712b63ff0bbbfe6028b2f",
+    ".agentforge/autonomous/runs/9f25467d40074e0eb520e178b00b11e1/runner/bridge.py": "a3ca372afe34353ef78ba27270a7c82bf88bd5a1ea93f93a7d19bd0f15911021",
+    ".agentforge/autonomous/runs/9f25467d40074e0eb520e178b00b11e1/runner/runner.py": "5094b1ee0fc9bd4d0dbfa2242504400d00926ea64f2f243d05f9f0ab5eb15843",
+    ".agentforge/autonomous/runs/9f25467d40074e0eb520e178b00b11e1/runner/worker.py": "b871a015587c9f6a904e15f6db01f431d915ec746478b06ea9a3ca130e57a840",
+    ".agentforge/autonomous/runs/9f25467d40074e0eb520e178b00b11e1/trusted/test_acceptance.py": "8482407ee5c9b5de05b6392ca4acdabb76b98e8e078f52dc043723f01a4dbcb3",
+    ".agentforge/collaboration-graph-checks-20261108/20261108T140701Z/evidence.json": "f143c83010b3fa909dc3de4da59191b9e693fd6a625b308504d7d2d19d08cfb2",
+    "output/collaboration-graph-20261108/verify_text_report.py": "85e45a6185d6d332f6b139238dbd8db1cb065767c8456dfb2461493e1deb786b",
+    "output/collaboration-graph-20261108/ui-request.txt": "a1ca60156e1e7ed402015b13975454224efb0bbf11563d0807978be557e335b5",
+    "output/collaboration-graph-20261108/verification-declaration.json": "bb5521a392b4fe3b15e87f7c0ce094117e6e623aebf659ea1cde1cc27bf7bfa2"
+  },
+  "secret_scan_passed": true,
+  "classification_note": "One unimplemented input baseline failure is not a natural implementation failure or a repair. AI-generated tests and predeclared independent Docker checks are separate suites; no candidate was modified for this check."
+}

@@ -1,0 +1,565 @@
+{
+  "schema": "agentforge-autonomous-audit-v1",
+  "data_dir": "D:\\未来杯\\.agentforge\\autonomous",
+  "read_only_inputs": true,
+  "models_invoked": false,
+  "docker_invoked": false,
+  "secret_scan": {
+    "configured_key_available": true,
+    "passed": true,
+    "locations": []
+  },
+  "passed": true,
+  "aggregate": {
+    "runs": 3,
+    "succeeded_runs": 1,
+    "non_successful_runs": 2,
+    "model_calls": 23,
+    "known_tokens": 225571,
+    "unknown_usage_calls": 1,
+    "format_retries": 3,
+    "protocol_failed_responses": 4,
+    "transport_failed_requests": 1,
+    "cancelled_requests": 0,
+    "interrupted_requests": 0,
+    "controller_decisions": 9,
+    "decision_rejections": 0,
+    "tasks": 5,
+    "failed_tasks": 0,
+    "verifications": 5,
+    "passed_verifications": 1,
+    "blocked_verifications": 0,
+    "natural_candidate_failures": 0,
+    "input_baseline_failures": 1,
+    "seeded_baseline_failures": 0,
+    "seeded_candidate_failures": 0,
+    "natural_repair_runs": 0,
+    "seeded_repair_runs": 0,
+    "generated_acceptance_candidate_failures": 3,
+    "generated_acceptance_repair_runs": 1,
+    "posthoc_rejected_runs": 1,
+    "quality_rejected_runs": 0,
+    "unlinked_validation_results": 0
+  },
+  "runs": [
+    {
+      "run_id": "d2b9e645213f41b8a56e706427f1a5ed",
+      "status": "succeeded",
+      "provenance": {
+        "acceptance_origin": "model_generated",
+        "description": "真实模型根据用户需求生成的未实现脚手架与冻结验收；测试覆盖未经人工独立审定",
+        "input_origin": "requirement",
+        "kind": "natural"
+      },
+      "intake_status": "completed",
+      "posthoc_review": {
+        "passed": false,
+        "candidate_hash": "76eeb7474f84b268699291fae2e9266821dceb3166bc88e6c4a4a5a393cf2d3b",
+        "source": "开发核查 + 独立事后 Docker 验收",
+        "timestamp": "2026-11-08T12:59:20.874657+00:00",
+        "category": "acceptance_contract_conflict",
+        "summary": "AI 生成的验收包含相互冲突的排序期望。候选虽然通过原验收，但未正确实现原始需求；不能算有效完成或自然自修正成功。",
+        "issues": [
+          "原需求要求 category 默认字符串升序，交通应在餐饮之前；冻结验收的 summarize 用例把次序写反。",
+          "主 Agent 为满足错误验收把 summarize 改成 GBK 字节序，build_report 又改回 Unicode，破坏原需求的一致排序与组合语义。",
+          "额外 Docker 验收实际执行 8 项，3 项失败、0 错误；原候选和原验收均未修改。"
+        ],
+        "evidence_path": ".agentforge/autonomous-chat-posthoc-20261108/20261108T125744Z/evidence.json",
+        "evidence_sha256": "3197cb25d17593ac96bf1c7560619fbd4c38cf5988158cb97e217d6ca98355ff",
+        "test_count": 8,
+        "failures": 3,
+        "model_calls": 0,
+        "original_status": "succeeded",
+        "original_export_sha256": "618caf8039abc14a9eaa750f297f15c29da93ad8a63b3b409601f723f436d7f1"
+      },
+      "quality_review": null,
+      "model_config": {
+        "model": "deepseek-v4.1-flash",
+        "base_url": "https://aigw.omniedu.com/v1",
+        "temperature": 0.1,
+        "max_output_tokens": 8192,
+        "adapter_revision": "autonomous-2-intake",
+        "contract_retries": 1,
+        "min_request_interval": 4.2,
+        "timeout_seconds": 60
+      },
+      "budget": {
+        "max_calls": 40,
+        "max_tokens": 300000,
+        "max_output_tokens": 8192,
+        "max_steps": 24,
+        "max_tasks": 32,
+        "max_parallel": 3,
+        "max_verifications": 8,
+        "wall_seconds": 900
+      },
+      "model_metrics": {
+        "model_calls": 16,
+        "tokens": 171893,
+        "budget_tokens": 171893,
+        "metrics_complete": true,
+        "contract_retries": 1,
+        "in_flight": 0,
+        "reserved_tokens": 0,
+        "unknown_usage_calls": 0
+      },
+      "recomputed_metrics": {
+        "model_calls": 16,
+        "tokens": 171893,
+        "contract_retries": 1,
+        "unknown_usage_calls": 0,
+        "in_flight": 0,
+        "reserved_tokens": 0,
+        "budget_tokens": 171893,
+        "metrics_complete": true
+      },
+      "counts": {
+        "model_calls": 16,
+        "known_tokens": 171893,
+        "unknown_usage_calls": 0,
+        "format_retries": 1,
+        "protocol_failed_responses": 1,
+        "transport_failed_requests": 0,
+        "cancelled_requests": 0,
+        "interrupted_requests": 0,
+        "controller_decisions": 9,
+        "decision_rejections": 0,
+        "tasks": 5,
+        "failed_tasks": 0,
+        "verifications": 5,
+        "passed_verifications": 1,
+        "blocked_verifications": 0,
+        "natural_candidate_failures": 0,
+        "input_baseline_failures": 1,
+        "seeded_baseline_failures": 0,
+        "seeded_candidate_failures": 0,
+        "natural_repair_runs": 0,
+        "seeded_repair_runs": 0,
+        "generated_acceptance_candidate_failures": 3,
+        "generated_acceptance_repair_runs": 1,
+        "posthoc_rejected_runs": 1,
+        "quality_rejected_runs": 0,
+        "unlinked_validation_results": 0
+      },
+      "hashes": {
+        "run_bundle_sha256": "0547a2188ea32ebb9b05009f46b64db4ad74448bf0042f50f886b71d5165312a",
+        "candidate_sha256": "76eeb7474f84b268699291fae2e9266821dceb3166bc88e6c4a4a5a393cf2d3b",
+        "acceptance_sha256": "795d28256c529c22187e1168ec2fbb885bdcdf111f4ce8d16f0af76a5d71814f",
+        "sandbox_bundle_sha256": "08a23a038bcc698c0ad038cc7223c2a75011de2617853dbfb6da2d4647103428",
+        "runner_sha256": {
+          "bridge.py": "a3ca372afe34353ef78ba27270a7c82bf88bd5a1ea93f93a7d19bd0f15911021",
+          "runner.py": "5094b1ee0fc9bd4d0dbfa2242504400d00926ea64f2f243d05f9f0ab5eb15843",
+          "worker.py": "b871a015587c9f6a904e15f6db01f431d915ec746478b06ea9a3ca130e57a840"
+        },
+        "implementation_manifest_sha256": "af67820f33fd605a08e67ba9368f391aa1eae1ae251d0a826e23fce9b3a4952d",
+        "implementation_files": 15,
+        "export_sha256": "f476703ea9f23a58e283a178e3179c42d52fad8611447f9ab4c06f39ccd51c54"
+      },
+      "controller_actions": [
+        "dispatch",
+        "verify",
+        "dispatch",
+        "verify",
+        "dispatch",
+        "verify",
+        "dispatch",
+        "verify",
+        "finish"
+      ],
+      "tasks": [
+        {
+          "id": "impl-csv-reader",
+          "title": "实现 csv_reader.parse_expenses 的严格 CSV 解析与十进制金额换算",
+          "agent_id": "worker-46d7afe29f96",
+          "status": "succeeded",
+          "depends_on": [],
+          "write_paths": [
+            "csv_reader.py"
+          ]
+        },
+        {
+          "id": "impl-report",
+          "title": "实现 report.summarize 与 report.build_report 的聚合、排序和组合",
+          "agent_id": "worker-76b008a5e022",
+          "status": "succeeded",
+          "depends_on": [],
+          "write_paths": [
+            "report.py"
+          ]
+        },
+        {
+          "id": "fix-report-category-order",
+          "title": "修正 report.summarize 的类别排序以匹配验收顺序",
+          "agent_id": "worker-8c752f53a40c",
+          "status": "succeeded",
+          "depends_on": [
+            "impl-report"
+          ],
+          "write_paths": [
+            "report.py"
+          ]
+        },
+        {
+          "id": "fix-report-unicode-order",
+          "title": "恢复 report.summarize 为 category 默认 Unicode 升序排序",
+          "agent_id": "worker-9dc13eb39b83",
+          "status": "succeeded",
+          "depends_on": [],
+          "write_paths": [
+            "report.py"
+          ]
+        },
+        {
+          "id": "fix-report-dual-order",
+          "title": "summarize 采用 GBK 字节序排序，build_report 保持 Unicode 码点序输出",
+          "agent_id": "worker-6670f63e7e73",
+          "status": "succeeded",
+          "depends_on": [],
+          "write_paths": [
+            "report.py"
+          ]
+        }
+      ],
+      "verification_results": [
+        {
+          "index": 1,
+          "status": "failed",
+          "test_count": 8,
+          "classification": "input_baseline",
+          "candidate_hash": "f368e2395317b2e122293221b1fd1b7d88d1c6b7e78a01192f48aba8ac77b943",
+          "image": "sha256:1edc3cba75dd1917bb78226e897fdb801a0272ea2e02319345de0bd3b8cae225"
+        },
+        {
+          "index": 2,
+          "status": "failed",
+          "test_count": 8,
+          "classification": "natural_candidate",
+          "candidate_hash": "4f80d7c9845e2c96eb7a8182c07425e12c32ec8aaf07c1cbc214014fbf707466",
+          "image": "sha256:1edc3cba75dd1917bb78226e897fdb801a0272ea2e02319345de0bd3b8cae225"
+        },
+        {
+          "index": 3,
+          "status": "failed",
+          "test_count": 8,
+          "classification": "natural_candidate",
+          "candidate_hash": "a3dcdb74bf743bd5d1b29f60645ad526a93dda44204497723cb1b2a5473009fa",
+          "image": "sha256:1edc3cba75dd1917bb78226e897fdb801a0272ea2e02319345de0bd3b8cae225"
+        },
+        {
+          "index": 4,
+          "status": "failed",
+          "test_count": 8,
+          "classification": "natural_candidate",
+          "candidate_hash": "d5134ceb87aa1f2d5a1adb66a5e9f619079c776051406159b16c5810034ba7c1",
+          "image": "sha256:1edc3cba75dd1917bb78226e897fdb801a0272ea2e02319345de0bd3b8cae225"
+        },
+        {
+          "index": 5,
+          "status": "passed",
+          "test_count": 8,
+          "classification": "natural_candidate",
+          "candidate_hash": "76eeb7474f84b268699291fae2e9266821dceb3166bc88e6c4a4a5a393cf2d3b",
+          "image": "sha256:1edc3cba75dd1917bb78226e897fdb801a0272ea2e02319345de0bd3b8cae225"
+        }
+      ],
+      "request_records": [
+        {
+          "path": "model_requests/0001-4955c0fa91d6.json",
+          "sha256": "5ecd0fe725300955e56a0bfd8296a2e41abdaa9fc3b0018ca922a7d4dae3bab4"
+        },
+        {
+          "path": "model_requests/0002-ff857370418a.json",
+          "sha256": "cdc1ceff9bc188ae4f839d88dbebd1bbcdceea7557ee2954b4a8ee0ddc67487b"
+        },
+        {
+          "path": "model_requests/0003-6635bf147e2e.json",
+          "sha256": "a8e78d367871ab072ee04d613b54e64420afb0516f9a771ad0346d1eb097ff8a"
+        },
+        {
+          "path": "model_requests/0004-42bbed4ffe69.json",
+          "sha256": "97ead958dae8247bc0fffac9367ea5632f6a9a93eb6ea3a9bdfcf57c6de68d5f"
+        },
+        {
+          "path": "model_requests/0005-7e5fd376a4e5.json",
+          "sha256": "621c322b3029b58cdc2a72d7047512c2ce5956834e87657e5c7eafa7e63a45e5"
+        },
+        {
+          "path": "model_requests/0006-0c8c90e5edd7.json",
+          "sha256": "0b75fffca38be637c69808d838d6a06aad5b6c992feb918b0824fa9591f52b9d"
+        },
+        {
+          "path": "model_requests/0007-56e0eff9e8f1.json",
+          "sha256": "016cf7faa4ea17e44c858adc180f66cd9927da823068c262e1b3d50b057a1146"
+        },
+        {
+          "path": "model_requests/0008-5a86cbff1330.json",
+          "sha256": "281e8b24421e23ae76c4af20a3677c42312786a456a53a54ba8482aac85c5db6"
+        },
+        {
+          "path": "model_requests/0009-f9279b7ddb5b.json",
+          "sha256": "1a28c7dbf4175f721d9b80e5cfc3eb908d584797f758ce4ab17be58226995484"
+        },
+        {
+          "path": "model_requests/0010-47426e5a37b8.json",
+          "sha256": "ce0cd13ced8b043caeb64104f956050a33a3e1f18cb48fb3c18f89db0ef08511"
+        },
+        {
+          "path": "model_requests/0011-3585cfa09668.json",
+          "sha256": "21f24d4bf04e051c25a1a508f1cf0a2d052e0d02a9736b019a9ff0118b54f6e3"
+        },
+        {
+          "path": "model_requests/0012-163b0eb236c9.json",
+          "sha256": "04ca44d565b9ee97f803e8cfa9bd3d8bcb31bde3e6f8b258afe6cac533005568"
+        },
+        {
+          "path": "model_requests/0013-146b8ab32097.json",
+          "sha256": "6ef3260a0098e651c30dc4da83057f3e35e238925cf008a65c009b7d93d564c0"
+        },
+        {
+          "path": "model_requests/0014-dd74c232e8e9.json",
+          "sha256": "a5e7044ac3d79dd936aec5aa88e413a45949239a367d3b67dfa94a143fdebefb"
+        },
+        {
+          "path": "model_requests/0015-1f28cc7bbef3.json",
+          "sha256": "fa1413a93de77fe8f9a5825b39bb0b864ffd07a00a748ef8f2821a960a806e27"
+        },
+        {
+          "path": "model_requests/0016-8afb95638621.json",
+          "sha256": "8f1655b1f217219e430be194e265636a3c5857c17406b520a217e6a8af9653ee"
+        }
+      ],
+      "unlinked_validation_results": [],
+      "events": 69,
+      "steps": 5,
+      "snapshots": 4,
+      "passed": true
+    },
+    {
+      "run_id": "cd76099e00e74e29bc50ea80fea2bcee",
+      "status": "failed",
+      "provenance": null,
+      "intake_status": "pending",
+      "posthoc_review": null,
+      "quality_review": null,
+      "model_config": {
+        "model": "deepseek-v4.1-flash",
+        "base_url": "https://aigw.omniedu.com/v1",
+        "temperature": 0.1,
+        "max_output_tokens": 8192,
+        "adapter_revision": "autonomous-3-semantic-review",
+        "contract_retries": 1,
+        "min_request_interval": 4.2,
+        "timeout_seconds": 60
+      },
+      "budget": {
+        "max_calls": 40,
+        "max_tokens": 300000,
+        "max_output_tokens": 8192,
+        "max_steps": 24,
+        "max_tasks": 32,
+        "max_parallel": 3,
+        "max_verifications": 8,
+        "wall_seconds": 900
+      },
+      "model_metrics": {
+        "model_calls": 2,
+        "tokens": 7047,
+        "budget_tokens": 28476,
+        "metrics_complete": false,
+        "contract_retries": 0,
+        "in_flight": 0,
+        "reserved_tokens": 0,
+        "unknown_usage_calls": 1
+      },
+      "recomputed_metrics": {
+        "model_calls": 2,
+        "tokens": 7047,
+        "contract_retries": 0,
+        "unknown_usage_calls": 1,
+        "in_flight": 0,
+        "reserved_tokens": 0,
+        "budget_tokens": 28476,
+        "metrics_complete": false
+      },
+      "counts": {
+        "model_calls": 2,
+        "known_tokens": 7047,
+        "unknown_usage_calls": 1,
+        "format_retries": 0,
+        "protocol_failed_responses": 0,
+        "transport_failed_requests": 1,
+        "cancelled_requests": 0,
+        "interrupted_requests": 0,
+        "controller_decisions": 0,
+        "decision_rejections": 0,
+        "tasks": 0,
+        "failed_tasks": 0,
+        "verifications": 0,
+        "passed_verifications": 0,
+        "blocked_verifications": 0,
+        "natural_candidate_failures": 0,
+        "input_baseline_failures": 0,
+        "seeded_baseline_failures": 0,
+        "seeded_candidate_failures": 0,
+        "natural_repair_runs": 0,
+        "seeded_repair_runs": 0,
+        "generated_acceptance_candidate_failures": 0,
+        "generated_acceptance_repair_runs": 0,
+        "posthoc_rejected_runs": 0,
+        "quality_rejected_runs": 0,
+        "unlinked_validation_results": 0
+      },
+      "hashes": {
+        "implementation_manifest_sha256": "847320167f9bccd10c336b2263c9a936e3d58bf150c51f03fce4d22015396e2c",
+        "implementation_files": 15,
+        "export_sha256": "c308a568bf050d8d3dec9131277ee5fff7a71270edf8d1f46b68f52b56b0d563"
+      },
+      "controller_actions": [],
+      "tasks": [],
+      "verification_results": [],
+      "request_records": [
+        {
+          "path": "model_requests/0001-d91f011595e9.json",
+          "sha256": "0a026703932eaac8dd0ea02fd7a8751eb77ce6b2bab2ce906c0fff8f29fc0181"
+        },
+        {
+          "path": "model_requests/0002-03252a7a9c26.json",
+          "sha256": "81b5477e3d2f85cede5c9f6bdd37d60cd137373058cb5f3949fbbc3cf92f368d"
+        }
+      ],
+      "unlinked_validation_results": [],
+      "events": 8,
+      "steps": 0,
+      "snapshots": 0,
+      "passed": true
+    },
+    {
+      "run_id": "1969d48bdbff45018a0bcaa606cff94c",
+      "status": "failed",
+      "provenance": null,
+      "intake_status": "pending",
+      "posthoc_review": null,
+      "quality_review": null,
+      "model_config": {
+        "model": "deepseek-v4.1-flash",
+        "base_url": "https://aigw.omniedu.com/v1",
+        "temperature": 0.1,
+        "max_output_tokens": 8192,
+        "adapter_revision": "autonomous-3-semantic-review",
+        "contract_retries": 1,
+        "min_request_interval": 4.2,
+        "timeout_seconds": 120
+      },
+      "budget": {
+        "max_calls": 40,
+        "max_tokens": 300000,
+        "max_output_tokens": 8192,
+        "max_steps": 24,
+        "max_tasks": 32,
+        "max_parallel": 3,
+        "max_verifications": 8,
+        "wall_seconds": 900
+      },
+      "model_metrics": {
+        "model_calls": 5,
+        "tokens": 46631,
+        "budget_tokens": 46631,
+        "metrics_complete": true,
+        "contract_retries": 2,
+        "in_flight": 0,
+        "reserved_tokens": 0,
+        "unknown_usage_calls": 0
+      },
+      "recomputed_metrics": {
+        "model_calls": 5,
+        "tokens": 46631,
+        "contract_retries": 2,
+        "unknown_usage_calls": 0,
+        "in_flight": 0,
+        "reserved_tokens": 0,
+        "budget_tokens": 46631,
+        "metrics_complete": true
+      },
+      "counts": {
+        "model_calls": 5,
+        "known_tokens": 46631,
+        "unknown_usage_calls": 0,
+        "format_retries": 2,
+        "protocol_failed_responses": 3,
+        "transport_failed_requests": 0,
+        "cancelled_requests": 0,
+        "interrupted_requests": 0,
+        "controller_decisions": 0,
+        "decision_rejections": 0,
+        "tasks": 0,
+        "failed_tasks": 0,
+        "verifications": 0,
+        "passed_verifications": 0,
+        "blocked_verifications": 0,
+        "natural_candidate_failures": 0,
+        "input_baseline_failures": 0,
+        "seeded_baseline_failures": 0,
+        "seeded_candidate_failures": 0,
+        "natural_repair_runs": 0,
+        "seeded_repair_runs": 0,
+        "generated_acceptance_candidate_failures": 0,
+        "generated_acceptance_repair_runs": 0,
+        "posthoc_rejected_runs": 0,
+        "quality_rejected_runs": 0,
+        "unlinked_validation_results": 0
+      },
+      "hashes": {
+        "implementation_manifest_sha256": "847320167f9bccd10c336b2263c9a936e3d58bf150c51f03fce4d22015396e2c",
+        "implementation_files": 15,
+        "export_sha256": "ad940a9031fc1436bd7b3cb812e4c7fca769870049662845d1f707724900429b"
+      },
+      "controller_actions": [],
+      "tasks": [],
+      "verification_results": [],
+      "request_records": [
+        {
+          "path": "model_requests/0001-67f3f2604df6.json",
+          "sha256": "9d2ff5a970d269b3d71ea3f87fb733dcb0791dac0efbb7de4655ca3e62c856c8"
+        },
+        {
+          "path": "model_requests/0002-c5b5409253fb.json",
+          "sha256": "98076bcbda0b4fa17c0c7d4e38d1874254ec12d9ac70513422ebcba7045ef5ed"
+        },
+        {
+          "path": "model_requests/0003-49235963caf0.json",
+          "sha256": "884e94407cc937f5264c6267cf92ff79266884c1749958038b0bb17d00e86956"
+        },
+        {
+          "path": "model_requests/0004-9830f52537d4.json",
+          "sha256": "7990782105fdb8af02fac7fffcb5dbe6b8874c874aa9802f5d8f4cd3ab61f4f6"
+        },
+        {
+          "path": "model_requests/0005-4dda944415b1.json",
+          "sha256": "e739823da4cb95f6b93ae33b0b931de6c5d58a1feed170c160b75e23f847bb37"
+        }
+      ],
+      "unlinked_validation_results": [],
+      "events": 19,
+      "steps": 0,
+      "snapshots": 0,
+      "passed": true
+    }
+  ],
+  "issues": [
+    {
+      "run_id": "cd76099e00e74e29bc50ea80fea2bcee",
+      "check": "Intake ended before any candidate was prepared; request evidence retained",
+      "severity": "warning"
+    },
+    {
+      "run_id": "1969d48bdbff45018a0bcaa606cff94c",
+      "check": "Intake ended before any candidate was prepared; request evidence retained",
+      "severity": "warning"
+    }
+  ],
+  "limitations": [
+    "Hashes establish internal evidence consistency, not resistance to coordinated malicious evidence rewriting.",
+    "Unknown provider usage remains unknown; budget charge is a conservative estimate, not actual billed tokens.",
+    "No model or candidate execution occurs during this audit; live evidence is inspected, not rerun."
+  ]
+}

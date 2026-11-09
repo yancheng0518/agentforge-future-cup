@@ -1,0 +1,29 @@
+{
+  "checked_at": "2026-11-08T12:30:59.310314+00:00",
+  "checked_files": 1137,
+  "changed_files": [],
+  "tables": {
+    "runs": {
+      "rows": 17,
+      "sha256": "59310a51cb901d005861759cce7c8e6e759ee033b0c7041a87052a8eb3aa91fb"
+    },
+    "events": {
+      "rows": 776,
+      "sha256": "03da5566ab04e54b1a139e4e76e00bdb0c94b5411c129182d83cc0fe398e50c2"
+    },
+    "steps": {
+      "rows": 125,
+      "sha256": "7575d94638a6bf8a5602b6addc395f96c469fbbb147b50ebc9e787c8c7baded6"
+    },
+    "snapshots": {
+      "rows": 101,
+      "sha256": "59ed6a70ff9175ae8ec0fc8c4b9b49d58f20352ca3eb909aa60812ceb432995d"
+    },
+    "agents": {
+      "rows": 6,
+      "sha256": "c67abbe5a11ea2dc5b73db63351d4f630a0bd76680c046c8f47771bc3a35a52c"
+    }
+  },
+  "tables_unchanged": true,
+  "passed": true
+}

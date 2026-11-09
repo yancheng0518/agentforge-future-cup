@@ -1,0 +1,510 @@
+{
+  "schema": "agentforge-autonomous-audit-v1",
+  "data_dir": "D:\\未来杯\\.agentforge\\autonomous-validation-20261108",
+  "read_only_inputs": true,
+  "models_invoked": false,
+  "docker_invoked": false,
+  "secret_scan": {
+    "configured_key_available": true,
+    "passed": true,
+    "locations": []
+  },
+  "passed": true,
+  "aggregate": {
+    "runs": 3,
+    "succeeded_runs": 3,
+    "non_successful_runs": 0,
+    "model_calls": 18,
+    "known_tokens": 79927,
+    "unknown_usage_calls": 1,
+    "format_retries": 2,
+    "protocol_failed_responses": 2,
+    "transport_failed_requests": 1,
+    "cancelled_requests": 0,
+    "interrupted_requests": 0,
+    "controller_decisions": 11,
+    "decision_rejections": 0,
+    "tasks": 5,
+    "failed_tasks": 1,
+    "verifications": 4,
+    "passed_verifications": 3,
+    "blocked_verifications": 0,
+    "natural_candidate_failures": 0,
+    "input_baseline_failures": 0,
+    "seeded_baseline_failures": 1,
+    "seeded_candidate_failures": 0,
+    "natural_repair_runs": 0,
+    "seeded_repair_runs": 1,
+    "unlinked_validation_results": 0
+  },
+  "runs": [
+    {
+      "run_id": "3f64240036f443ec9300d6ea14d6ea9e",
+      "status": "succeeded",
+      "provenance": {
+        "description": "Incomplete NotImplementedError scaffolds, not a deliberately faulty model output. Baseline failures are incomplete-scaffold evidence. Only failures of subsequently model-generated candidates qualify as natural generated-code failures.",
+        "kind": "natural"
+      },
+      "model_config": {
+        "model": "deepseek-v4.1-flash",
+        "base_url": "https://aigw.omniedu.com/v1",
+        "temperature": 0.1,
+        "max_output_tokens": 4096,
+        "adapter_revision": "autonomous-1",
+        "contract_retries": 1,
+        "min_request_interval": 4.2,
+        "timeout_seconds": 60
+      },
+      "budget": {
+        "max_calls": 40,
+        "max_tokens": 300000,
+        "max_output_tokens": 4096,
+        "max_steps": 24,
+        "max_tasks": 32,
+        "max_parallel": 3,
+        "max_verifications": 8,
+        "wall_seconds": 900
+      },
+      "model_metrics": {
+        "model_calls": 9,
+        "tokens": 42022,
+        "budget_tokens": 58744,
+        "metrics_complete": false,
+        "contract_retries": 2,
+        "in_flight": 0,
+        "reserved_tokens": 0,
+        "unknown_usage_calls": 1
+      },
+      "recomputed_metrics": {
+        "model_calls": 9,
+        "tokens": 42022,
+        "contract_retries": 2,
+        "unknown_usage_calls": 1,
+        "in_flight": 0,
+        "reserved_tokens": 0,
+        "budget_tokens": 58744,
+        "metrics_complete": false
+      },
+      "counts": {
+        "model_calls": 9,
+        "known_tokens": 42022,
+        "unknown_usage_calls": 1,
+        "format_retries": 2,
+        "protocol_failed_responses": 2,
+        "transport_failed_requests": 1,
+        "cancelled_requests": 0,
+        "interrupted_requests": 0,
+        "controller_decisions": 4,
+        "decision_rejections": 0,
+        "tasks": 3,
+        "failed_tasks": 1,
+        "verifications": 1,
+        "passed_verifications": 1,
+        "blocked_verifications": 0,
+        "natural_candidate_failures": 0,
+        "input_baseline_failures": 0,
+        "seeded_baseline_failures": 0,
+        "seeded_candidate_failures": 0,
+        "natural_repair_runs": 0,
+        "seeded_repair_runs": 0,
+        "unlinked_validation_results": 0
+      },
+      "hashes": {
+        "run_bundle_sha256": "be56360a078d9d03646b99e51066476686b35aad2032523029c9f10e1a68bf26",
+        "candidate_sha256": "51431aa4fc98c6db2b2e237d22c1258b77688753c24f80bf38263cea089a295f",
+        "acceptance_sha256": "8813a2fce74a70d846be08d596a0f97efec91f055abca9a11f25655665abe1de",
+        "sandbox_bundle_sha256": "10cb0ca255d30e13d9579f1b9c0cebb0e43be4432287baf5aae7cd64581a4d13",
+        "runner_sha256": {
+          "bridge.py": "a3ca372afe34353ef78ba27270a7c82bf88bd5a1ea93f93a7d19bd0f15911021",
+          "runner.py": "5094b1ee0fc9bd4d0dbfa2242504400d00926ea64f2f243d05f9f0ab5eb15843",
+          "worker.py": "b871a015587c9f6a904e15f6db01f431d915ec746478b06ea9a3ca130e57a840"
+        },
+        "implementation_manifest_sha256": "bd8f49837ebd95ad6efa8f4b879161719da3d0b368c9723d5fd7486d1105d893",
+        "implementation_files": 16,
+        "export_sha256": "23f379ec0e06c0540b7c241bddc61dc69f0ee76e5315de7fdf038ef8478194ff"
+      },
+      "controller_actions": [
+        "dispatch",
+        "dispatch",
+        "verify",
+        "finish"
+      ],
+      "tasks": [
+        {
+          "id": "implement-sales-csv",
+          "title": "Implement sales_csv.parse_sales",
+          "agent_id": "worker-4ad6b672781c",
+          "status": "succeeded",
+          "depends_on": [],
+          "write_paths": [
+            "sales_csv.py"
+          ]
+        },
+        {
+          "id": "implement-sales-report",
+          "title": "Implement sales_report summarize and report",
+          "agent_id": "worker-2727daea9b96",
+          "status": "failed",
+          "depends_on": [],
+          "write_paths": [
+            "sales_report.py"
+          ]
+        },
+        {
+          "id": "implement-sales-report-retry",
+          "title": "Implement sales_report summarize and report (retry)",
+          "agent_id": "worker-91663a4c53dc",
+          "status": "succeeded",
+          "depends_on": [],
+          "write_paths": [
+            "sales_report.py"
+          ]
+        }
+      ],
+      "verification_results": [
+        {
+          "index": 1,
+          "status": "passed",
+          "test_count": 12,
+          "classification": "natural_candidate",
+          "candidate_hash": "51431aa4fc98c6db2b2e237d22c1258b77688753c24f80bf38263cea089a295f",
+          "image": "sha256:1edc3cba75dd1917bb78226e897fdb801a0272ea2e02319345de0bd3b8cae225"
+        }
+      ],
+      "request_records": [
+        {
+          "path": "model_requests/0001-8c5ef73702d2.json",
+          "sha256": "769702946f1501366e7d8f7e973d47bbee608be1b4c2626a83cfa3bc1790ea93"
+        },
+        {
+          "path": "model_requests/0002-d7213dcb1d16.json",
+          "sha256": "a5d195536b7a08b856695e34834f805bbbde7bfe42009eb9a052b5e0b97bf10b"
+        },
+        {
+          "path": "model_requests/0003-bfc03f84f252.json",
+          "sha256": "48832126f21ebe35d8b1c46ff624bbdfe5a2dee39819bd112979e15f810003ef"
+        },
+        {
+          "path": "model_requests/0004-1d85253d73f3.json",
+          "sha256": "fb01761f29b19195f72097fd4a0d769814df0a23ae4a0aa57215051b80b5b2bf"
+        },
+        {
+          "path": "model_requests/0005-65ac70ea22d9.json",
+          "sha256": "668ad0892179737d5cc6f428eaaa396f23b7d275572d60cdbd1d914e04008668"
+        },
+        {
+          "path": "model_requests/0006-c1888567ed12.json",
+          "sha256": "94d4007d95a9b547885478d131613477400ca95796865423159e6684f6a696ad"
+        },
+        {
+          "path": "model_requests/0007-d84bade922b7.json",
+          "sha256": "b0a272bdc40c1a7698140399bac09c1cc0f5586c167b1d2987bf4239511182ac"
+        },
+        {
+          "path": "model_requests/0008-c971aca4a7a4.json",
+          "sha256": "ccd2f029882c0a0d4aed1d4755f6ec7d45be524c9e92033dd769d64446bde502"
+        },
+        {
+          "path": "model_requests/0009-e8f2f801ef8c.json",
+          "sha256": "b2f4c31453251d4b38d49663ef37378c50f19e2058b3ca8e9eda33db5aad493b"
+        }
+      ],
+      "unlinked_validation_results": [],
+      "events": 37,
+      "steps": 3,
+      "snapshots": 2,
+      "passed": true
+    },
+    {
+      "run_id": "82b877460dce442486120909087ce608",
+      "status": "succeeded",
+      "provenance": {
+        "description": "Incomplete NotImplementedError scaffold, no injected defect. Any scaffold baseline failure is separately classified; natural failure means a real-model candidate later failed independent acceptance.",
+        "kind": "natural"
+      },
+      "model_config": {
+        "model": "deepseek-v4.1-flash",
+        "base_url": "https://aigw.omniedu.com/v1",
+        "temperature": 0.1,
+        "max_output_tokens": 4096,
+        "adapter_revision": "autonomous-1",
+        "contract_retries": 1,
+        "min_request_interval": 4.2,
+        "timeout_seconds": 60
+      },
+      "budget": {
+        "max_calls": 40,
+        "max_tokens": 300000,
+        "max_output_tokens": 4096,
+        "max_steps": 24,
+        "max_tasks": 32,
+        "max_parallel": 3,
+        "max_verifications": 8,
+        "wall_seconds": 900
+      },
+      "model_metrics": {
+        "model_calls": 4,
+        "tokens": 15840,
+        "budget_tokens": 15840,
+        "metrics_complete": true,
+        "contract_retries": 0,
+        "in_flight": 0,
+        "reserved_tokens": 0,
+        "unknown_usage_calls": 0
+      },
+      "recomputed_metrics": {
+        "model_calls": 4,
+        "tokens": 15840,
+        "contract_retries": 0,
+        "unknown_usage_calls": 0,
+        "in_flight": 0,
+        "reserved_tokens": 0,
+        "budget_tokens": 15840,
+        "metrics_complete": true
+      },
+      "counts": {
+        "model_calls": 4,
+        "known_tokens": 15840,
+        "unknown_usage_calls": 0,
+        "format_retries": 0,
+        "protocol_failed_responses": 0,
+        "transport_failed_requests": 0,
+        "cancelled_requests": 0,
+        "interrupted_requests": 0,
+        "controller_decisions": 3,
+        "decision_rejections": 0,
+        "tasks": 1,
+        "failed_tasks": 0,
+        "verifications": 1,
+        "passed_verifications": 1,
+        "blocked_verifications": 0,
+        "natural_candidate_failures": 0,
+        "input_baseline_failures": 0,
+        "seeded_baseline_failures": 0,
+        "seeded_candidate_failures": 0,
+        "natural_repair_runs": 0,
+        "seeded_repair_runs": 0,
+        "unlinked_validation_results": 0
+      },
+      "hashes": {
+        "run_bundle_sha256": "e2477c02749f258a5c1bf25c0606fbc7c0a6ed082e47ea8fd916924540533c0f",
+        "candidate_sha256": "31777fa8ba30fbcf0910202e985b892401463c956b4c2d53db57a5519d665ca2",
+        "acceptance_sha256": "2add7b5501f9335b7ff5a5f050a41c018f411292bd67c41ee80dc287fb03c100",
+        "sandbox_bundle_sha256": "15de5fbbd3fa613c7d220344519951d94629917c8ab98c342b74b843fad33bb7",
+        "runner_sha256": {
+          "bridge.py": "a3ca372afe34353ef78ba27270a7c82bf88bd5a1ea93f93a7d19bd0f15911021",
+          "runner.py": "5094b1ee0fc9bd4d0dbfa2242504400d00926ea64f2f243d05f9f0ab5eb15843",
+          "worker.py": "b871a015587c9f6a904e15f6db01f431d915ec746478b06ea9a3ca130e57a840"
+        },
+        "implementation_manifest_sha256": "fc4e042ba822b661ac32338d566a235d86e882df3454945e5f427dd40a8b277d",
+        "implementation_files": 16,
+        "export_sha256": "9c30f346d42a4130999b208e6bfeca4901804e11ab8244e21be59a0f0c7c4add"
+      },
+      "controller_actions": [
+        "dispatch",
+        "verify",
+        "finish"
+      ],
+      "tasks": [
+        {
+          "id": "impl-intervals",
+          "title": "Implement intervals.py utility",
+          "agent_id": "worker-2064cb0e7f37",
+          "status": "succeeded",
+          "depends_on": [],
+          "write_paths": [
+            "intervals.py"
+          ]
+        }
+      ],
+      "verification_results": [
+        {
+          "index": 1,
+          "status": "passed",
+          "test_count": 12,
+          "classification": "natural_candidate",
+          "candidate_hash": "31777fa8ba30fbcf0910202e985b892401463c956b4c2d53db57a5519d665ca2",
+          "image": "sha256:1edc3cba75dd1917bb78226e897fdb801a0272ea2e02319345de0bd3b8cae225"
+        }
+      ],
+      "request_records": [
+        {
+          "path": "model_requests/0001-fdb53c2b33f8.json",
+          "sha256": "000ca014240b6275bd37c1676c6b88084ee6f541b0077407a858333cff157cbe"
+        },
+        {
+          "path": "model_requests/0002-98ba60f4ddba.json",
+          "sha256": "c4e77405d1f041bceb96b7363367c31063852683833dd88053416e42d6a64d47"
+        },
+        {
+          "path": "model_requests/0003-85c6f6c2ca6f.json",
+          "sha256": "7c94a755c540d3bf0b8c7a3b90b7ba408e544ce26d68a6857cde620fbc1564c4"
+        },
+        {
+          "path": "model_requests/0004-4134eb7f5d3f.json",
+          "sha256": "1c3beb0e577cff32a04e97655bcefd6c1f0b7ab4418029472c8c43cf73a773aa"
+        }
+      ],
+      "unlinked_validation_results": [],
+      "events": 19,
+      "steps": 1,
+      "snapshots": 1,
+      "passed": true
+    },
+    {
+      "run_id": "738f6262c2044c5cb69b91739d3f2cd5",
+      "status": "succeeded",
+      "provenance": {
+        "description": "Disclosed fixture defect: additional shipping kilograms use floor division rather than ceiling. Baseline is expected to fail 3 of 10 test methods (one-gram-over, partial-second-kilogram, round-each-started-kilogram). This is not a naturally occurring model defect or an undisclosed post-generation injection.",
+        "kind": "seeded_defect"
+      },
+      "model_config": {
+        "model": "deepseek-v4.1-flash",
+        "base_url": "https://aigw.omniedu.com/v1",
+        "temperature": 0.1,
+        "max_output_tokens": 4096,
+        "adapter_revision": "autonomous-1",
+        "contract_retries": 1,
+        "min_request_interval": 4.2,
+        "timeout_seconds": 60
+      },
+      "budget": {
+        "max_calls": 40,
+        "max_tokens": 300000,
+        "max_output_tokens": 4096,
+        "max_steps": 24,
+        "max_tasks": 32,
+        "max_parallel": 3,
+        "max_verifications": 8,
+        "wall_seconds": 900
+      },
+      "model_metrics": {
+        "model_calls": 5,
+        "tokens": 22065,
+        "budget_tokens": 22065,
+        "metrics_complete": true,
+        "contract_retries": 0,
+        "in_flight": 0,
+        "reserved_tokens": 0,
+        "unknown_usage_calls": 0
+      },
+      "recomputed_metrics": {
+        "model_calls": 5,
+        "tokens": 22065,
+        "contract_retries": 0,
+        "unknown_usage_calls": 0,
+        "in_flight": 0,
+        "reserved_tokens": 0,
+        "budget_tokens": 22065,
+        "metrics_complete": true
+      },
+      "counts": {
+        "model_calls": 5,
+        "known_tokens": 22065,
+        "unknown_usage_calls": 0,
+        "format_retries": 0,
+        "protocol_failed_responses": 0,
+        "transport_failed_requests": 0,
+        "cancelled_requests": 0,
+        "interrupted_requests": 0,
+        "controller_decisions": 4,
+        "decision_rejections": 0,
+        "tasks": 1,
+        "failed_tasks": 0,
+        "verifications": 2,
+        "passed_verifications": 1,
+        "blocked_verifications": 0,
+        "natural_candidate_failures": 0,
+        "input_baseline_failures": 0,
+        "seeded_baseline_failures": 1,
+        "seeded_candidate_failures": 0,
+        "natural_repair_runs": 0,
+        "seeded_repair_runs": 1,
+        "unlinked_validation_results": 0
+      },
+      "hashes": {
+        "run_bundle_sha256": "cd900df6ed1c6f74420757555b781873d0d52a19dc3c41d9802c7d3c50f93f7a",
+        "candidate_sha256": "b35ddd95b1aa5584f14dd74fdbf8cedaaf37799158b4ca79ca8cc2e06ea703fa",
+        "acceptance_sha256": "3b2c6c5ccbb5b1ab50d4898381e8e23c074ad1e850798fd4157d22402a7262c3",
+        "sandbox_bundle_sha256": "1376f01e927334bde0e3fde25f1d9382fe401e4f830376ab56fa73b3c4922208",
+        "runner_sha256": {
+          "bridge.py": "a3ca372afe34353ef78ba27270a7c82bf88bd5a1ea93f93a7d19bd0f15911021",
+          "runner.py": "5094b1ee0fc9bd4d0dbfa2242504400d00926ea64f2f243d05f9f0ab5eb15843",
+          "worker.py": "b871a015587c9f6a904e15f6db01f431d915ec746478b06ea9a3ca130e57a840"
+        },
+        "implementation_manifest_sha256": "a010fee4adea88320f2fd967852d5d39561d7e96ea4d464d067724a607407083",
+        "implementation_files": 16,
+        "export_sha256": "f9e298d8086dec690fa6d87d0dcc017973f155766ed43b41cc9b962341723cd6"
+      },
+      "controller_actions": [
+        "verify",
+        "dispatch",
+        "verify",
+        "finish"
+      ],
+      "tasks": [
+        {
+          "id": "repair-shipping-ceiling-kg",
+          "title": "Repair additional-kilogram rounding in shipping.py",
+          "agent_id": "worker-9ecd3521b295",
+          "status": "succeeded",
+          "depends_on": [],
+          "write_paths": [
+            "shipping.py"
+          ]
+        }
+      ],
+      "verification_results": [
+        {
+          "index": 1,
+          "status": "failed",
+          "test_count": 10,
+          "classification": "seeded_defect_baseline",
+          "candidate_hash": "7e08bcc2a60e0485893e41cfd43cd80ca0546870547ba8d0687ef69ca2e6720c",
+          "image": "sha256:1edc3cba75dd1917bb78226e897fdb801a0272ea2e02319345de0bd3b8cae225"
+        },
+        {
+          "index": 2,
+          "status": "passed",
+          "test_count": 10,
+          "classification": "seeded_experiment_candidate",
+          "candidate_hash": "b35ddd95b1aa5584f14dd74fdbf8cedaaf37799158b4ca79ca8cc2e06ea703fa",
+          "image": "sha256:1edc3cba75dd1917bb78226e897fdb801a0272ea2e02319345de0bd3b8cae225"
+        }
+      ],
+      "request_records": [
+        {
+          "path": "model_requests/0001-43412fb156bc.json",
+          "sha256": "480cc8377f06c7fbece1fcc99321c3e94e1e9da82bc172b12b8840427c977e27"
+        },
+        {
+          "path": "model_requests/0002-e6b336837e1e.json",
+          "sha256": "7f702332debc164b6d5529805d9d7c1673e86cb81ab507c1038665cfde80fab6"
+        },
+        {
+          "path": "model_requests/0003-f5032541a510.json",
+          "sha256": "44f90e5a42f83d554e623227acf1d37df27b3cbc29b1a7df3b1981c70fa1e502"
+        },
+        {
+          "path": "model_requests/0004-9d1a47997b01.json",
+          "sha256": "6118b8c8361ed245c0fdc7be85c269ed884fa3095a88e82411c762fd94739a6c"
+        },
+        {
+          "path": "model_requests/0005-0683fe25dd89.json",
+          "sha256": "2b5e441307c8e740de822aef773983488aeac801411024841adaac818322d490"
+        }
+      ],
+      "unlinked_validation_results": [],
+      "events": 23,
+      "steps": 1,
+      "snapshots": 1,
+      "passed": true
+    }
+  ],
+  "issues": [],
+  "limitations": [
+    "Hashes establish internal evidence consistency, not resistance to coordinated malicious evidence rewriting.",
+    "Unknown provider usage remains unknown; budget charge is a conservative estimate, not actual billed tokens.",
+    "No model or candidate execution occurs during this audit; live evidence is inspected, not rerun."
+  ]
+}

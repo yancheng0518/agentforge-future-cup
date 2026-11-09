@@ -1,0 +1,35 @@
+
+> agentforge-workbench@0.1.0 test
+> node --experimental-strip-types --test tests/conversation.test.ts
+
+✔ supported requests resolve to their bounded task (3.0147ms)
+✔ unknown and multiple tasks do not silently become completion (0.3145ms)
+✔ review routes explicitly, while requested edits remain development (0.73ms)
+✔ explicit read-only intent takes precedence over descriptions or repair advice (0.2518ms)
+✔ reviewing already added or repaired code does not request another edit (0.107ms)
+✔ positive repair requests are not mistaken for read-only constraints (0.1055ms)
+✔ request format preserves arbitrary user text and unchanged contract (0.2346ms)
+✔ request rejects empty or oversized combined input before API submission (0.3676ms)
+✔ legacy and malformed request strings stay intact (0.1527ms)
+✔ titles use user words, with task names for historical long contracts (0.3362ms)
+✔ current trusted test result survives a later tester model failure (0.7549ms)
+✔ model claims and wrong-scope or wrong-suite evidence are rejected (0.2235ms)
+✔ candidate changes or a new test start invalidate the previous displayed result (0.1814ms)
+✔ review uses its frozen read baseline and does not need a fabricated edit (0.188ms)
+✔ failed tests report counts from actual unittest output (0.2033ms)
+✔ expected count never fills in missing actual counts or fabricates success (0.1132ms)
+✔ inconsistent attestation and unittest counts remain unconfirmed (0.157ms)
+✔ blocked isolation never reuses claimed pass counts (0.0917ms)
+✔ an incomplete timeout can report failure without manufacturing test counts (0.1187ms)
+✔ successful output distinguishes application and simulation from model development (0.3451ms)
+✔ a historical succeeded status cannot certify a changed or unverified current candidate (0.2508ms)
+✔ failure summaries retain actual service and sandbox reasons (0.0919ms)
+✔ running summary reflects actual leaf steps rather than a fabricated percent (0.1069ms)
+ℹ tests 23
+ℹ suites 0
+ℹ pass 23
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 174.4729

@@ -17,6 +17,7 @@ from .engine import Engine, candidate_fingerprint
 from .runtime import Runtime
 from .storage import Store
 from .task_catalog import TASKS, list_tasks, snapshot_task
+from .autonomous_api import mount_autonomous
 
 
 class AgentInput(BaseModel):
@@ -59,8 +60,10 @@ def create_app(root=None, data_dir=None, runtime=None):
     @asynccontextmanager
     async def lifespan(app):
         store.recover_interrupted()
+        app.state.autonomous_engine.recover_interrupted()
         yield
-        active = [t for t in engine.tasks.values() if not t.done()]
+        active = [t for runner in (engine, app.state.autonomous_engine)
+                  for t in runner.tasks.values() if not t.done()]
         for task in active:
             task.cancel()
         if active:
@@ -68,6 +71,7 @@ def create_app(root=None, data_dir=None, runtime=None):
 
     app = FastAPI(title="AgentForge local workbench", version="0.1.0", lifespan=lifespan)
     app.state.store, app.state.engine, app.state.runtime = store, engine, runtime
+    mount_autonomous(app, root, data_dir)
     origins = ["http://127.0.0.1:5173", "http://localhost:5173", "http://127.0.0.1:8000", "http://localhost:8000"]
     app.add_middleware(CORSMiddleware, allow_origins=origins, allow_methods=["GET", "POST", "PUT"], allow_headers=["Content-Type"])
     app.add_middleware(TrustedHostMiddleware, allowed_hosts=["127.0.0.1", "localhost", "testserver"])

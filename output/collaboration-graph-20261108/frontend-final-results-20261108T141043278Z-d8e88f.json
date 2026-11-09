@@ -1,0 +1,37 @@
+{
+  "test_command": "npm test",
+  "test_exit_code": 0,
+  "test_started_utc": "2026-11-08T14:10:43.2921307Z",
+  "test_log": "D:\\未来杯\\output\\collaboration-graph-20261108\\frontend-final-test-20261108T141043278Z-d8e88f.log",
+  "build_command": "npm run build",
+  "build_exit_code": 0,
+  "build_started_utc": "2026-11-08T14:10:44.2940676Z",
+  "build_log": "D:\\未来杯\\output\\collaboration-graph-20261108\\frontend-final-build-20261108T141043278Z-d8e88f.log",
+  "finished_utc": "2026-11-08T14:10:45.7505133Z",
+  "source_sha256": [
+    {
+      "path": "frontend/src/App.tsx",
+      "sha256": "ad2c1ba7d783023086dfc17bf46cc344ea7417d070b849c5de4d6873ba0d0fba"
+    },
+    {
+      "path": "frontend/src/AutonomousRun.tsx",
+      "sha256": "9e26a5e4082c80ad6dbffa6ecf1bccaa6b54229e0fa411a0551aac45bb67fee8"
+    },
+    {
+      "path": "frontend/src/CollaborationGraphView.tsx",
+      "sha256": "a2aa75fe84146295135789c6a83455c1e33bb7ed4cecebd95994be09e557c9f6"
+    },
+    {
+      "path": "frontend/src/collaborationGraph.ts",
+      "sha256": "c87a31053b9e806bf952f5e954c1a61a19416566f2f7b08313e72ac3e3d792df"
+    },
+    {
+      "path": "frontend/src/collaborationGraph.css",
+      "sha256": "8862947866726b59572500f0d3760c2e45be576533f01c0e1f9284ff6e222cb4"
+    },
+    {
+      "path": "frontend/tests/collaborationGraph.test.ts",
+      "sha256": "924d8f641c6ba9f15cea6f314cc78d37c248f756a070246bb9d68c71d94dcefd"
+    }
+  ]
+}

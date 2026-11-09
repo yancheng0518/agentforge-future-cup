@@ -1,0 +1,3 @@
+Browser tab: 7, Title: "AgentForge · 多智能体工作台", URL: "http://127.0.0.1:5173/#task=auto%3Ad2b9e645213f41b8a56e706427f1a5ed".
+There has been no change in the accessibility tree.
+The focused UI element is 22 slider (settable, integer) Description: 选择回放事件, Value: 25

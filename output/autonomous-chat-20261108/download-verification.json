@@ -1,0 +1,38 @@
+{
+  "downloaded_project_zip": "C:\\Users\\26837\\Downloads\\05002763f0dc45ee805c68a04af789e9-candidate.zip",
+  "downloaded_full_evidence": "C:\\Users\\26837\\Downloads\\auto-05002763f0dc45ee805c68a04af789e9-evidence.json",
+  "zip_entries": [
+    "csv_reader.py",
+    "report.py",
+    "manifest.json"
+  ],
+  "candidate_sha256": "b2cf8b79672c94d3327e4b4f1e060bf99c302c8f013641d9637b08586a714403",
+  "matches_verified_hash": true,
+  "record_events": 34,
+  "record_steps": 2,
+  "manifest": {
+    "schema": "agentforge-candidate-export-v1",
+    "run_id": "05002763f0dc45ee805c68a04af789e9",
+    "status": "succeeded",
+    "candidate_sha256": "b2cf8b79672c94d3327e4b4f1e060bf99c302c8f013641d9637b08586a714403",
+    "verified_sha256": "b2cf8b79672c94d3327e4b4f1e060bf99c302c8f013641d9637b08586a714403",
+    "verification_matches_candidate": true,
+    "acceptance_origin": "model_generated",
+    "files": [
+      "csv_reader.py",
+      "report.py"
+    ],
+    "applied_to_source_project": false,
+    "quality_review": {
+      "passed": true,
+      "issues": [],
+      "summary": "已独立核对实现与原始需求：parse_expenses 用 csv.reader 解析、表头按列名匹配且必须恰好为 category/amount 两列（缺列或额外列抛 ValueError）；跳过全空行；类别 strip 后非空校验；金额用 Decimal 精确解析，拒绝 NaN/Infinity/非法文本，exponent < -2 拒绝超过两位小数，乘以 100 后校验整数并转 int，负数正确（-2.50→-250）；带引号逗号类别由 csv 模块保留；仅表头返回 []。summarize 只读取输入、构造新字典，按 category 累加 total_cents 与 count，用 sorted 默认 Unicode 码点升序，空列表返回 []，不修改传入列表或字典。build_report 等价于 summarize(parse_expenses(text))，解析错误以 ValueError 传播，示例结果交通 300/1、餐饮 1000/2 正确。Docker 12 项测试通过，但测试覆盖有限（未覆盖表头列顺序颠倒、空文本、正号/科学计数法金额等边界），这些属非阻塞的覆盖局限，不影响对已实现语义的判定。",
+      "candidate_hash": "b2cf8b79672c94d3327e4b4f1e060bf99c302c8f013641d9637b08586a714403",
+      "origin": "model_semantic_review",
+      "timestamp": "2026-11-08T13:26:28.322794+00:00"
+    },
+    "posthoc_review": null,
+    "business_verification": "model_review_passed",
+    "notice": "状态和 Docker 测试通过不等于业务语义正确；模型审查也不是人工验证。"
+  }
+}

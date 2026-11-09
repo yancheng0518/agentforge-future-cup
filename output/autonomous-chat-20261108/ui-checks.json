@@ -1,0 +1,40 @@
+{
+  "entry": "http://127.0.0.1:5173",
+  "natural_language_input": true,
+  "fixed_role_or_task_selects": 0,
+  "mobile": {
+    "viewport_width": 390,
+    "document_scroll_width": 390,
+    "document_client_width": 390,
+    "navigation_opened": true,
+    "viewport_override_reset": true
+  },
+  "legacy_record_opened": "c1777cf1dca74b95bbb0a638f04ad395",
+  "legacy_record_test_count_displayed": 10,
+  "legacy_and_mock_labels_preserved": true,
+  "third_failure_cause_displayed": true,
+  "candidate_controls_hidden_before_project_exists": true,
+  "pending": [],
+  "completed_run_id": "05002763f0dc45ee805c68a04af789e9",
+  "refresh_retains_run": true,
+  "task_history_count": 22,
+  "dynamic_tasks_displayed": 2,
+  "docker_rounds_displayed": 2,
+  "final_tests_displayed": 12,
+  "contract_and_quality_reviews_visible": true,
+  "project_zip_download_verified": true,
+  "full_record_download_verified": true,
+  "browser_errors_after_final_reload": 0,
+  "historical_browser_error": {
+    "timestamp": "2026-11-08T12:44:49.524Z",
+    "message": "ReferenceError: mode is not defined",
+    "context": "Transient during earlier frontend editing; not reproduced after final build and reload; log retained."
+  },
+  "final_screenshot": "output/autonomous-chat-20261108/final-ui.png",
+  "backend_start_script_syntax": "passed",
+  "services": {
+    "frontend": "http://127.0.0.1:5173",
+    "backend": "http://127.0.0.1:8000",
+    "backend_pid": 43240
+  }
+}

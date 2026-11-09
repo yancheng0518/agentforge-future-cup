@@ -1,0 +1,114 @@
+[
+  {
+    "id": "c1777cf1dca74b95bbb0a638f04ad395",
+    "status": "succeeded",
+    "mode": "live",
+    "task_id": "json_merge",
+    "applied": false
+  },
+  {
+    "id": "4d016c52d9b546829973b21dca2eeee1",
+    "status": "succeeded",
+    "mode": "live",
+    "task_id": "priority_query",
+    "applied": false
+  },
+  {
+    "id": "a3e66b793e00417aaf2e2b6583ce4f44",
+    "status": "succeeded",
+    "mode": "live",
+    "task_id": "bulk_edit",
+    "applied": false
+  },
+  {
+    "id": "7ff15e24e5af4e0a97167bef70c32956",
+    "status": "succeeded",
+    "mode": "live",
+    "task_id": "completion",
+    "applied": false
+  },
+  {
+    "id": "2136073cc2e94afcac4fe3212f3e470a",
+    "status": "failed",
+    "mode": "live",
+    "task_id": "json_merge",
+    "applied": false
+  },
+  {
+    "id": "8902681fc64948f8a7d3ba12ad744c3c",
+    "status": "failed",
+    "mode": "live",
+    "task_id": "priority_query",
+    "applied": false
+  },
+  {
+    "id": "1808536914e54cc6a977646af19ef15c",
+    "status": "failed",
+    "mode": "live",
+    "task_id": "bulk_edit",
+    "applied": false
+  },
+  {
+    "id": "ba9e14dc97ec4c94b24dbfd10a24252e",
+    "status": "succeeded",
+    "mode": "live",
+    "task_id": "completion",
+    "applied": false
+  },
+  {
+    "id": "b443d72687dc4f3cae2796d767daefd3",
+    "status": "failed",
+    "mode": "live",
+    "task_id": "json_merge",
+    "applied": false
+  },
+  {
+    "id": "5fdba40548df4f1ea8568b0cae8f3348",
+    "status": "failed",
+    "mode": "live",
+    "task_id": "priority_query",
+    "applied": false
+  },
+  {
+    "id": "03ff43f5ed5b4452b6752d7e5eacd4c5",
+    "status": "succeeded",
+    "mode": "live",
+    "task_id": "bulk_edit",
+    "applied": false
+  },
+  {
+    "id": "dc97b4e792fb4f598babc99e092ce346",
+    "status": "failed",
+    "mode": "live",
+    "task_id": "completion",
+    "applied": false
+  },
+  {
+    "id": "57585159b48a45e6b12e1ef0f69718db",
+    "status": "needs_human",
+    "mode": "live",
+    "task_id": null,
+    "applied": false
+  },
+  {
+    "id": "e9c8badd6c5a4dfd9aad4e9710b5e6da",
+    "status": "succeeded",
+    "mode": "live",
+    "task_id": null,
+    "applied": false
+  },
+  {
+    "id": "ea3ae9298c644c09877b2f29f29af542",
+    "status": "blocked",
+    "mode": "mock",
+    "task_id": null,
+    "applied": false
+  },
+  {
+    "id": "498280fc3f0b4c79b7f5224a6fdc5e2a",
+    "status": "succeeded",
+    "mode": "mock",
+    "task_id": null,
+    "applied": false
+  }
+]

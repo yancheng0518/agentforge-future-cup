@@ -1,0 +1,1124 @@
+{
+  "schema": "collaboration-event-inventory-v1",
+  "read_only": true,
+  "model_calls": 0,
+  "docker_calls": 0,
+  "databases": {
+    ".agentforge/agentforge.sqlite3": {
+      "event_count": 776,
+      "counts": {
+        "status": 192,
+        "tool": 281,
+        "snapshot": 113,
+        "schedule": 82,
+        "agent": 78,
+        "error": 16,
+        "validation": 12,
+        "feedback": 2
+      },
+      "shapes": {
+        "status": [
+          {
+            "event_keys": [
+              "data",
+              "message",
+              "node_id",
+              "timestamp",
+              "type"
+            ],
+            "data_keys": [
+              "mode",
+              "workflow_version"
+            ],
+            "node_id_present": false
+          },
+          {
+            "event_keys": [
+              "data",
+              "message",
+              "node_id",
+              "timestamp",
+              "type"
+            ],
+            "data_keys": [],
+            "node_id_present": false
+          },
+          {
+            "event_keys": [
+              "data",
+              "message",
+              "node_id",
+              "timestamp",
+              "type"
+            ],
+            "data_keys": [],
+            "node_id_present": true
+          },
+          {
+            "event_keys": [
+              "data",
+              "message",
+              "node_id",
+              "timestamp",
+              "type"
+            ],
+            "data_keys": [
+              "children",
+              "parallel"
+            ],
+            "node_id_present": true
+          }
+        ],
+        "tool": [
+          {
+            "event_keys": [
+              "data",
+              "message",
+              "node_id",
+              "timestamp",
+              "type"
+            ],
+            "data_keys": [
+              "input",
+              "status",
+              "tool"
+            ],
+            "node_id_present": true
+          },
+          {
+            "event_keys": [
+              "data",
+              "message",
+              "node_id",
+              "timestamp",
+              "type"
+            ],
+            "data_keys": [
+              "input",
+              "output",
+              "status",
+              "tool"
+            ],
+            "node_id_present": true
+          },
+          {
+            "event_keys": [
+              "data",
+              "message",
+              "node_id",
+              "timestamp",
+              "type"
+            ],
+            "data_keys": [
+              "input",
+              "outcome",
+              "output",
+              "source",
+              "status",
+              "tool"
+            ],
+            "node_id_present": true
+          },
+          {
+            "event_keys": [
+              "data",
+              "message",
+              "node_id",
+              "timestamp",
+              "type"
+            ],
+            "data_keys": [
+              "input",
+              "name",
+              "output",
+              "source",
+              "status"
+            ],
+            "node_id_present": true
+          }
+        ],
+        "snapshot": [
+          {
+            "event_keys": [
+              "data",
+              "message",
+              "node_id",
+              "timestamp",
+              "type"
+            ],
+            "data_keys": [
+              "snapshot_id"
+            ],
+            "node_id_present": true
+          },
+          {
+            "event_keys": [
+              "data",
+              "message",
+              "node_id",
+              "timestamp",
+              "type"
+            ],
+            "data_keys": [],
+            "node_id_present": true
+          }
+        ],
+        "schedule": [
+          {
+            "event_keys": [
+              "data",
+              "message",
+              "node_id",
+              "timestamp",
+              "type"
+            ],
+            "data_keys": [
+              "candidates",
+              "dependencies",
+              "dependencies_satisfied",
+              "excluded_after_failure",
+              "priority",
+              "required_tools",
+              "selected",
+              "version"
+            ],
+            "node_id_present": true
+          }
+        ],
+        "agent": [
+          {
+            "event_keys": [
+              "data",
+              "message",
+              "node_id",
+              "timestamp",
+              "type"
+            ],
+            "data_keys": [
+              "agent_id",
+              "agent_version",
+              "duration_ms",
+              "model_calls",
+              "model_mode",
+              "output",
+              "tool_calls"
+            ],
+            "node_id_present": true
+          },
+          {
+            "event_keys": [
+              "data",
+              "message",
+              "node_id",
+              "timestamp",
+              "type"
+            ],
+            "data_keys": [
+              "agent_id",
+              "agent_version",
+              "duration_ms",
+              "metrics_complete",
+              "model_calls",
+              "model_mode",
+              "output",
+              "tokens",
+              "tool_calls"
+            ],
+            "node_id_present": true
+          },
+          {
+            "event_keys": [
+              "data",
+              "message",
+              "node_id",
+              "timestamp",
+              "type"
+            ],
+            "data_keys": [
+              "agent_id",
+              "agent_version",
+              "error",
+              "metrics_complete",
+              "model_calls",
+              "model_mode",
+              "status",
+              "tokens",
+              "tool_calls"
+            ],
+            "node_id_present": true
+          },
+          {
+            "event_keys": [
+              "data",
+              "message",
+              "node_id",
+              "timestamp",
+              "type"
+            ],
+            "data_keys": [
+              "agent_id",
+              "agent_version",
+              "contract_retries",
+              "duration_ms",
+              "metrics_complete",
+              "model_calls",
+              "model_diagnostics",
+              "model_mode",
+              "output",
+              "tokens",
+              "tool_calls"
+            ],
+            "node_id_present": true
+          }
+        ],
+        "error": [
+          {
+            "event_keys": [
+              "data",
+              "message",
+              "node_id",
+              "timestamp",
+              "type"
+            ],
+            "data_keys": [
+              "recoverable"
+            ],
+            "node_id_present": false
+          },
+          {
+            "event_keys": [
+              "data",
+              "message",
+              "node_id",
+              "timestamp",
+              "type"
+            ],
+            "data_keys": [
+              "attempt",
+              "error"
+            ],
+            "node_id_present": true
+          }
+        ],
+        "validation": [
+          {
+            "event_keys": [
+              "data",
+              "message",
+              "node_id",
+              "timestamp",
+              "type"
+            ],
+            "data_keys": [
+              "attempt",
+              "passed",
+              "review",
+              "test"
+            ],
+            "node_id_present": true
+          }
+        ],
+        "feedback": [
+          {
+            "event_keys": [
+              "data",
+              "message",
+              "node_id",
+              "timestamp",
+              "type"
+            ],
+            "data_keys": [
+              "issues",
+              "next_attempt",
+              "test"
+            ],
+            "node_id_present": true
+          }
+        ]
+      }
+    },
+    ".agentforge/autonomous/agentforge.sqlite3": {
+      "event_count": 146,
+      "counts": {
+        "created": 5,
+        "intake_started": 5,
+        "model_request": 35,
+        "model_response": 35,
+        "intake_completed": 2,
+        "verification": 7,
+        "controller_decision": 12,
+        "plan_revision": 5,
+        "dispatch": 5,
+        "task_result": 7,
+        "snapshot": 5,
+        "format_error": 4,
+        "terminal": 5,
+        "posthoc_review": 1,
+        "contract_review_started": 5,
+        "contract_review": 4,
+        "intake_revision": 2,
+        "quality_review_started": 1,
+        "quality_review": 1
+      },
+      "shapes": {
+        "created": [
+          {
+            "event_keys": [
+              "data",
+              "message",
+              "node_id",
+              "timestamp",
+              "type"
+            ],
+            "data_keys": [
+              "acceptance_origin",
+              "budget",
+              "engine",
+              "input_origin"
+            ],
+            "node_id_present": false
+          }
+        ],
+        "intake_started": [
+          {
+            "event_keys": [
+              "data",
+              "message",
+              "node_id",
+              "timestamp",
+              "type"
+            ],
+            "data_keys": [],
+            "node_id_present": false
+          }
+        ],
+        "model_request": [
+          {
+            "event_keys": [
+              "data",
+              "message",
+              "node_id",
+              "timestamp",
+              "type"
+            ],
+            "data_keys": [
+              "evidence",
+              "format_retry",
+              "role",
+              "sequence"
+            ],
+            "node_id_present": false
+          },
+          {
+            "event_keys": [
+              "data",
+              "message",
+              "node_id",
+              "timestamp",
+              "type"
+            ],
+            "data_keys": [
+              "evidence",
+              "format_retry",
+              "role",
+              "sequence"
+            ],
+            "node_id_present": true
+          }
+        ],
+        "model_response": [
+          {
+            "event_keys": [
+              "data",
+              "message",
+              "node_id",
+              "timestamp",
+              "type"
+            ],
+            "data_keys": [
+              "format_retry",
+              "sequence",
+              "status",
+              "tokens",
+              "usage_known"
+            ],
+            "node_id_present": false
+          },
+          {
+            "event_keys": [
+              "data",
+              "message",
+              "node_id",
+              "timestamp",
+              "type"
+            ],
+            "data_keys": [
+              "format_retry",
+              "sequence",
+              "status",
+              "tokens",
+              "usage_known"
+            ],
+            "node_id_present": true
+          }
+        ],
+        "intake_completed": [
+          {
+            "event_keys": [
+              "data",
+              "message",
+              "node_id",
+              "timestamp",
+              "type"
+            ],
+            "data_keys": [
+              "acceptance_origin",
+              "assumptions",
+              "bundle_sha256",
+              "coverage_notice",
+              "specification",
+              "status",
+              "summary"
+            ],
+            "node_id_present": false
+          }
+        ],
+        "verification": [
+          {
+            "event_keys": [
+              "data",
+              "message",
+              "node_id",
+              "timestamp",
+              "type"
+            ],
+            "data_keys": [
+              "acceptance_origin",
+              "acceptance_sha256",
+              "attestation",
+              "candidate_hash",
+              "candidate_origin",
+              "candidate_sha256",
+              "classification",
+              "container_invoked",
+              "duration_ms",
+              "exit_code",
+              "hash",
+              "image",
+              "index",
+              "isolated",
+              "reason",
+              "result_record",
+              "runner_sha256",
+              "snapshot",
+              "status",
+              "stderr",
+              "stdout",
+              "test_count",
+              "timestamp"
+            ],
+            "node_id_present": false
+          }
+        ],
+        "controller_decision": [
+          {
+            "event_keys": [
+              "data",
+              "message",
+              "node_id",
+              "timestamp",
+              "type"
+            ],
+            "data_keys": [
+              "action",
+              "index",
+              "summary",
+              "tasks",
+              "timestamp"
+            ],
+            "node_id_present": false
+          },
+          {
+            "event_keys": [
+              "data",
+              "message",
+              "node_id",
+              "timestamp",
+              "type"
+            ],
+            "data_keys": [
+              "action",
+              "index",
+              "summary",
+              "timestamp"
+            ],
+            "node_id_present": false
+          }
+        ],
+        "plan_revision": [
+          {
+            "event_keys": [
+              "data",
+              "message",
+              "node_id",
+              "timestamp",
+              "type"
+            ],
+            "data_keys": [
+              "added",
+              "summary"
+            ],
+            "node_id_present": false
+          }
+        ],
+        "dispatch": [
+          {
+            "event_keys": [
+              "data",
+              "message",
+              "node_id",
+              "timestamp",
+              "type"
+            ],
+            "data_keys": [
+              "tasks"
+            ],
+            "node_id_present": false
+          }
+        ],
+        "task_result": [
+          {
+            "event_keys": [
+              "data",
+              "message",
+              "node_id",
+              "timestamp",
+              "type"
+            ],
+            "data_keys": [
+              "agent_id",
+              "depends_on",
+              "finished_at",
+              "id",
+              "instructions",
+              "result",
+              "started_at",
+              "status",
+              "title",
+              "write_paths"
+            ],
+            "node_id_present": true
+          }
+        ],
+        "snapshot": [
+          {
+            "event_keys": [
+              "data",
+              "message",
+              "node_id",
+              "timestamp",
+              "type"
+            ],
+            "data_keys": [
+              "snapshot_id"
+            ],
+            "node_id_present": true
+          }
+        ],
+        "format_error": [
+          {
+            "event_keys": [
+              "data",
+              "message",
+              "node_id",
+              "timestamp",
+              "type"
+            ],
+            "data_keys": [
+              "error",
+              "retry_scheduled",
+              "sequence"
+            ],
+            "node_id_present": false
+          }
+        ],
+        "terminal": [
+          {
+            "event_keys": [
+              "data",
+              "message",
+              "node_id",
+              "timestamp",
+              "type"
+            ],
+            "data_keys": [
+              "status",
+              "summary"
+            ],
+            "node_id_present": false
+          }
+        ],
+        "posthoc_review": [
+          {
+            "event_keys": [
+              "data",
+              "message",
+              "node_id",
+              "timestamp",
+              "type"
+            ],
+            "data_keys": [
+              "candidate_hash",
+              "category",
+              "evidence_path",
+              "evidence_sha256",
+              "failures",
+              "issues",
+              "model_calls",
+              "original_export_sha256",
+              "original_status",
+              "passed",
+              "source",
+              "summary",
+              "test_count",
+              "timestamp"
+            ],
+            "node_id_present": false
+          }
+        ],
+        "contract_review_started": [
+          {
+            "event_keys": [
+              "data",
+              "message",
+              "node_id",
+              "timestamp",
+              "type"
+            ],
+            "data_keys": [
+              "proposal_index"
+            ],
+            "node_id_present": false
+          }
+        ],
+        "contract_review": [
+          {
+            "event_keys": [
+              "data",
+              "message",
+              "node_id",
+              "timestamp",
+              "type"
+            ],
+            "data_keys": [
+              "index",
+              "issues",
+              "origin",
+              "passed",
+              "proposal_sha256",
+              "summary",
+              "timestamp"
+            ],
+            "node_id_present": false
+          }
+        ],
+        "intake_revision": [
+          {
+            "event_keys": [
+              "data",
+              "message",
+              "node_id",
+              "timestamp",
+              "type"
+            ],
+            "data_keys": [
+              "instruction",
+              "original_requirement",
+              "review"
+            ],
+            "node_id_present": false
+          }
+        ],
+        "quality_review_started": [
+          {
+            "event_keys": [
+              "data",
+              "message",
+              "node_id",
+              "timestamp",
+              "type"
+            ],
+            "data_keys": [
+              "candidate_hash"
+            ],
+            "node_id_present": false
+          }
+        ],
+        "quality_review": [
+          {
+            "event_keys": [
+              "data",
+              "message",
+              "node_id",
+              "timestamp",
+              "type"
+            ],
+            "data_keys": [
+              "candidate_hash",
+              "index",
+              "issues",
+              "origin",
+              "passed",
+              "summary",
+              "timestamp"
+            ],
+            "node_id_present": false
+          }
+        ]
+      }
+    },
+    ".agentforge/autonomous-validation-20261108/agentforge.sqlite3": {
+      "event_count": 79,
+      "counts": {
+        "created": 3,
+        "preflight": 3,
+        "model_request": 18,
+        "model_response": 18,
+        "controller_decision": 11,
+        "plan_revision": 4,
+        "dispatch": 4,
+        "format_error": 2,
+        "task_result": 5,
+        "snapshot": 4,
+        "verification": 4,
+        "terminal": 3
+      },
+      "shapes": {
+        "created": [
+          {
+            "event_keys": [
+              "data",
+              "message",
+              "node_id",
+              "timestamp",
+              "type"
+            ],
+            "data_keys": [
+              "budget",
+              "bundle_sha256",
+              "engine",
+              "provenance"
+            ],
+            "node_id_present": false
+          }
+        ],
+        "preflight": [
+          {
+            "event_keys": [
+              "data",
+              "message",
+              "node_id",
+              "timestamp",
+              "type"
+            ],
+            "data_keys": [
+              "mode",
+              "model",
+              "sandbox"
+            ],
+            "node_id_present": false
+          }
+        ],
+        "model_request": [
+          {
+            "event_keys": [
+              "data",
+              "message",
+              "node_id",
+              "timestamp",
+              "type"
+            ],
+            "data_keys": [
+              "evidence",
+              "format_retry",
+              "role",
+              "sequence"
+            ],
+            "node_id_present": false
+          },
+          {
+            "event_keys": [
+              "data",
+              "message",
+              "node_id",
+              "timestamp",
+              "type"
+            ],
+            "data_keys": [
+              "evidence",
+              "format_retry",
+              "role",
+              "sequence"
+            ],
+            "node_id_present": true
+          }
+        ],
+        "model_response": [
+          {
+            "event_keys": [
+              "data",
+              "message",
+              "node_id",
+              "timestamp",
+              "type"
+            ],
+            "data_keys": [
+              "format_retry",
+              "sequence",
+              "status",
+              "tokens",
+              "usage_known"
+            ],
+            "node_id_present": false
+          },
+          {
+            "event_keys": [
+              "data",
+              "message",
+              "node_id",
+              "timestamp",
+              "type"
+            ],
+            "data_keys": [
+              "format_retry",
+              "sequence",
+              "status",
+              "tokens",
+              "usage_known"
+            ],
+            "node_id_present": true
+          }
+        ],
+        "controller_decision": [
+          {
+            "event_keys": [
+              "data",
+              "message",
+              "node_id",
+              "timestamp",
+              "type"
+            ],
+            "data_keys": [
+              "action",
+              "index",
+              "summary",
+              "tasks",
+              "timestamp"
+            ],
+            "node_id_present": false
+          },
+          {
+            "event_keys": [
+              "data",
+              "message",
+              "node_id",
+              "timestamp",
+              "type"
+            ],
+            "data_keys": [
+              "action",
+              "index",
+              "summary",
+              "timestamp"
+            ],
+            "node_id_present": false
+          }
+        ],
+        "plan_revision": [
+          {
+            "event_keys": [
+              "data",
+              "message",
+              "node_id",
+              "timestamp",
+              "type"
+            ],
+            "data_keys": [
+              "added",
+              "summary"
+            ],
+            "node_id_present": false
+          }
+        ],
+        "dispatch": [
+          {
+            "event_keys": [
+              "data",
+              "message",
+              "node_id",
+              "timestamp",
+              "type"
+            ],
+            "data_keys": [
+              "tasks"
+            ],
+            "node_id_present": false
+          }
+        ],
+        "format_error": [
+          {
+            "event_keys": [
+              "data",
+              "message",
+              "node_id",
+              "timestamp",
+              "type"
+            ],
+            "data_keys": [
+              "error",
+              "retry_scheduled",
+              "sequence"
+            ],
+            "node_id_present": true
+          },
+          {
+            "event_keys": [
+              "data",
+              "message",
+              "node_id",
+              "timestamp",
+              "type"
+            ],
+            "data_keys": [
+              "error",
+              "retry_scheduled",
+              "sequence"
+            ],
+            "node_id_present": false
+          }
+        ],
+        "task_result": [
+          {
+            "event_keys": [
+              "data",
+              "message",
+              "node_id",
+              "timestamp",
+              "type"
+            ],
+            "data_keys": [
+              "agent_id",
+              "depends_on",
+              "finished_at",
+              "id",
+              "instructions",
+              "result",
+              "started_at",
+              "status",
+              "title",
+              "write_paths"
+            ],
+            "node_id_present": true
+          },
+          {
+            "event_keys": [
+              "data",
+              "message",
+              "node_id",
+              "timestamp",
+              "type"
+            ],
+            "data_keys": [
+              "agent_id",
+              "depends_on",
+              "error",
+              "finished_at",
+              "id",
+              "instructions",
+              "started_at",
+              "status",
+              "title",
+              "write_paths"
+            ],
+            "node_id_present": true
+          }
+        ],
+        "snapshot": [
+          {
+            "event_keys": [
+              "data",
+              "message",
+              "node_id",
+              "timestamp",
+              "type"
+            ],
+            "data_keys": [
+              "snapshot_id"
+            ],
+            "node_id_present": true
+          }
+        ],
+        "verification": [
+          {
+            "event_keys": [
+              "data",
+              "message",
+              "node_id",
+              "timestamp",
+              "type"
+            ],
+            "data_keys": [
+              "acceptance_sha256",
+              "attestation",
+              "candidate_hash",
+              "candidate_origin",
+              "candidate_sha256",
+              "classification",
+              "container_invoked",
+              "duration_ms",
+              "exit_code",
+              "hash",
+              "image",
+              "index",
+              "isolated",
+              "reason",
+              "result_record",
+              "runner_sha256",
+              "snapshot",
+              "status",
+              "stderr",
+              "stdout",
+              "test_count",
+              "timestamp"
+            ],
+            "node_id_present": false
+          }
+        ],
+        "terminal": [
+          {
+            "event_keys": [
+              "data",
+              "message",
+              "node_id",
+              "timestamp",
+              "type"
+            ],
+            "data_keys": [
+              "status",
+              "summary"
+            ],
+            "node_id_present": false
+          }
+        ]
+      }
+    }
+  },
+  "findings": [
+    "Events have ordered global SQLite ids; do not assume IDs are consecutive within a run.",
+    "controller_decision records intent; dispatch records actual delegation. Rejected decisions must not create executed task nodes.",
+    "plan_revision carries added task definitions or cancelled task_ids. task_result is the committed worker result, not model_response.",
+    "model_response status responded means transport completed, not task success. A later format_error may invalidate that response.",
+    "Existing records have verification end events but no verification_started. Old history cannot reconstruct exact start time; do not fabricate it.",
+    "Final acceptance is authoritative only from verification.isolated/exit_code/status/hash. started/preparing must not assert Docker execution."
+  ]
+}

@@ -1,0 +1,9 @@
+帮我做一个标准库 Python 的 CSV 支出汇总库，分成 csv_reader.py 和 report.py。
+
+csv_reader.parse_expenses(text) 读取包含 category、amount 两列的 CSV，返回 [{"category": "餐饮", "amount_cents": 1250}] 这样的列表。类别去除两端空格且不能为空；金额可为负数，使用十进制精确换算为整数分，最多两位小数，不接受 NaN、Infinity 或非法文本。忽略全空行，保留带引号的逗号类别；缺列、额外列或非法行抛 ValueError。只有表头时返回空列表。
+
+report.summarize(items) 按类别汇总整数分，返回按 category 字符串升序的 [{"category": "餐饮", "total_cents": 1250, "count": 1}]。空列表返回空列表，不修改传入列表或字典。
+
+report.build_report(text) 组合 CSV 解析和汇总。例如 category,amount 换行 餐饮,12.50 换行 交通,3.00 换行 餐饮,-2.50，应得到交通 300 分、餐饮 1000 分。
+
+请根据这些要求建立验收标准，自行拆分任务、分配子 Agent，运行 Docker 测试；发现问题时依据实际反馈修正。不要预设错误来演示修复。

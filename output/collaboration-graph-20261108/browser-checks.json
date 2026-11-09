@@ -1,0 +1,32 @@
+{
+  "schema": "collaboration-graph-browser-checks-v1",
+  "date": "2026-11-08",
+  "browser": "Codex in-app browser, CUA",
+  "url": "http://127.0.0.1:5173",
+  "real_ui_submission": "9f25467d40074e0eb520e178b00b11e1",
+  "new_submissions": 1,
+  "checks": [
+    {"name": "Natural-language request submitted through UI", "passed": true, "evidence": "ui-request.txt"},
+    {"name": "Live graph displayed completed tokenizer and running dependent report task", "passed": true, "event_count_at_observation": 25},
+    {"name": "Historical cursor remained at first event while backend advanced", "passed": true, "observed_event_counts": [38, 41], "cursor": 1, "visible_nodes": ["main"]},
+    {"name": "Docker node selected and actual receipt shown", "passed": true, "tests": 12, "failures": 0, "errors": 0},
+    {"name": "Old successful run node instructions and changed file details", "passed": true, "run_id": "05002763f0dc45ee805c68a04af789e9"},
+    {"name": "Selected future node shows not-yet-appeared state after rewind", "passed": true},
+    {"name": "New run explicit play, pause and return-to-live", "passed": true, "from_event": 1, "paused_event": 20, "returned_event": 41},
+    {"name": "Reduced-motion environment allows discrete explicit playback without transitions", "passed": true},
+    {"name": "Historical failed test followed by new task", "passed": true, "run_id": "d2b9e645213f41b8a56e706427f1a5ed", "failed_event": 22, "new_task_event": 26, "note": "This was incorrect AI acceptance, not a verified natural code repair success."},
+    {"name": "Posthoc rejection updates main status and summary", "passed": true, "event": 69, "evidence": "historical-posthoc-rejected.png"},
+    {"name": "Expanded modal background inert and Ctrl+K cannot escape", "passed": true},
+    {"name": "Escape closes expanded graph and returns focus to entry", "passed": true, "focused_text": "查看协作图", "inert_count_after": 0},
+    {"name": "390px graph and selected Docker details", "passed": true, "evidence": "mobile-layout.json", "viewport_restored": true},
+    {"name": "Browser console errors", "passed": true, "count": 0, "evidence": "browser-console.json"},
+    {"name": "Replay did not add model requests or runs", "passed": true, "evidence": "browser-replay-after.json"}
+  ],
+  "screenshots": ["real-run-docker.png", "collaboration-graph-final.png", "mobile-graph.png", "historical-posthoc-rejected.png"],
+  "automation_notes": [
+    "Source hot reload invalidated UI element IDs and reset open panels during review fixes; checks were repeated after source edits stopped.",
+    "Range fill changed the DOM value without advancing React playback state in this browser driver; actual arrow-key interactions were used to verify the event cursor.",
+    "No extra task submission or model retry was performed to resolve browser-driver issues."
+  ],
+  "limitations": ["Partial keyboard and responsive checks, not a formal accessibility audit.", "New real candidate passed first attempt; no natural repair success occurred."]
+}

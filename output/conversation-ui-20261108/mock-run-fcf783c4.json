@@ -1,0 +1,2028 @@
+{
+  "id": "fcf783c421194f3897ac0fca5eeabac7",
+  "requirement": "# AgentForge 任务请求 v1\n\n用户需求 JSON：\"【界面验证】给待办加上完成状态和筛选\"\n\n## 固定验收契约\n# Todo 演示需求与验收契约\n\n主演示任务：增加任务完成状态，并支持按照完成状态筛选任务。\n\n受控目标只有 `todo.py`，类名为 `TodoStore`。\n- `add(title)` 创建任务，id 单调递增，title 去除首尾空格，空标题抛出 ValueError。\n- 新任务 `completed` 默认为 False。\n- `complete(task_id, completed=True)` 标记完成/恢复未完成并返回任务副本，未知 id 抛出 KeyError。\n- `list(completed=None)` 返回所有任务；True/False 分别只返回完成/未完成任务。\n- 外部修改返回字典不能改写内部任务，多个实例不能共享任务。\n\n新增任意功能需求可交给真实模型，但第一版独立验收仅覆盖上述契约，其他需求不得据此宣称验收通过。",
+  "workflow_id": "development",
+  "mode": "mock",
+  "status": "succeeded",
+  "created_at": "2026-11-08T19:42:33.402174+08:00",
+  "updated_at": "2026-11-08T19:42:41.329003+08:00",
+  "attempt": 1,
+  "summary": "模拟模型运行：独立隔离测试及审查均通过；候选修改尚未应用。",
+  "applied": false,
+  "model_calls": 0,
+  "model_tokens": 0,
+  "model_metrics_complete": true,
+  "agent_invocations": 9,
+  "task_id": "completion",
+  "task": {
+    "id": "completion",
+    "name": "完成状态与筛选",
+    "version": 1,
+    "expected_tests": 10,
+    "provenance": "controlled_task_baseline_no_injected_model_defect",
+    "paths": {
+      "baseline": "examples/todo/todo.py",
+      "requirement": "knowledge/requirements.md",
+      "acceptance": "acceptance/test_todo.py"
+    },
+    "baseline_sha256": "952a45c6a05ce00ab3bda2c94fad38b82c1cc52cd2a7e5e93af84f803f5d240b",
+    "requirement": "# Todo 演示需求与验收契约\n\n主演示任务：增加任务完成状态，并支持按照完成状态筛选任务。\n\n受控目标只有 `todo.py`，类名为 `TodoStore`。\n- `add(title)` 创建任务，id 单调递增，title 去除首尾空格，空标题抛出 ValueError。\n- 新任务 `completed` 默认为 False。\n- `complete(task_id, completed=True)` 标记完成/恢复未完成并返回任务副本，未知 id 抛出 KeyError。\n- `list(completed=None)` 返回所有任务；True/False 分别只返回完成/未完成任务。\n- 外部修改返回字典不能改写内部任务，多个实例不能共享任务。\n\n新增任意功能需求可交给真实模型，但第一版独立验收仅覆盖上述契约，其他需求不得据此宣称验收通过。\n",
+    "requirement_sha256": "1b419de4e9107dc518479daafaf98f352141e60e8a59cd38304bbe4f26bac07f",
+    "acceptance_sha256": "cce34e17462fc2c0cfd256c81fa6011191930165fc07b565ea6ce323154e67af",
+    "snapshot_sha256": "912635f6dc9d2c901be0c265b85e37fbe0a5551b0cc6aa1797b5e23272070b86"
+  },
+  "candidate_origin": "preset_mock",
+  "fault_injection": false,
+  "model_config": {
+    "model": "deepseek-v4.1-flash",
+    "base_url": "https://aigw.omniedu.com/v1",
+    "temperature": 0.1,
+    "max_output_tokens": 4096,
+    "tool_rounds": 4,
+    "adapter_revision": 2,
+    "contract_retries": 1,
+    "automatic_tool_rounds": 2,
+    "min_request_interval": 4.2,
+    "timeout_seconds": 60
+  },
+  "verified_hash": "f4f50dfd09603ddbf38e209e45474e637f6b91b066c3f2de70cab41eb76dca52",
+  "events": [
+    {
+      "timestamp": "2026-11-08T19:42:33.411428+08:00",
+      "type": "status",
+      "node_id": null,
+      "message": "运行已建立",
+      "data": {
+        "mode": "mock",
+        "workflow_version": 1
+      },
+      "id": 708
+    },
+    {
+      "timestamp": "2026-11-08T19:42:33.417003+08:00",
+      "type": "status",
+      "node_id": null,
+      "message": "模拟模型模式：使用确定性候选；首轮预设筛选缺陷用于演示，不能作为真实 LLM 验收。",
+      "data": {},
+      "id": 709
+    },
+    {
+      "timestamp": "2026-11-08T19:42:33.434017+08:00",
+      "type": "status",
+      "node_id": null,
+      "message": "开始执行；已完成节点将从快照复用。",
+      "data": {},
+      "id": 710
+    },
+    {
+      "timestamp": "2026-11-08T19:42:33.455849+08:00",
+      "type": "status",
+      "node_id": "prepare",
+      "message": "开始：读取项目与知识",
+      "data": {},
+      "id": 711
+    },
+    {
+      "timestamp": "2026-11-08T19:42:33.461459+08:00",
+      "type": "tool",
+      "node_id": "prepare",
+      "message": "调用工具：prepare_workspace",
+      "data": {
+        "tool": "prepare_workspace",
+        "status": "running",
+        "input": {
+          "task_id": "completion"
+        }
+      },
+      "id": 712
+    },
+    {
+      "timestamp": "2026-11-08T19:42:33.476756+08:00",
+      "type": "tool",
+      "node_id": "prepare",
+      "message": "工具返回：prepare_workspace",
+      "data": {
+        "tool": "prepare_workspace",
+        "status": "completed",
+        "outcome": null,
+        "source": "runtime",
+        "input": {
+          "task_id": "completion"
+        },
+        "output": {
+          "workspace": "D:\\未来杯\\.agentforge\\runs\\fcf783c421194f3897ac0fca5eeabac7\\candidate",
+          "base_hash": "952a45c6a05ce00ab3bda2c94fad38b82c1cc52cd2a7e5e93af84f803f5d240b",
+          "task_id": "completion",
+          "task_snapshot_sha256": "912635f6dc9d2c901be0c265b85e37fbe0a5551b0cc6aa1797b5e23272070b86",
+          "target_relative": "examples/todo/todo.py",
+          "task": {
+            "id": "completion",
+            "name": "完成状态与筛选",
+            "version": 1,
+            "expected_tests": 10,
+            "provenance": "controlled_task_baseline_no_injected_model_defect",
+            "paths": {
+              "baseline": "examples/todo/todo.py",
+              "requirement": "knowledge/requirements.md",
+              "acceptance": "acceptance/test_todo.py"
+            },
+            "baseline_sha256": "952a45c6a05ce00ab3bda2c94fad38b82c1cc52cd2a7e5e93af84f803f5d240b",
+            "requirement": "# Todo 演示需求与验收契约\n\n主演示任务：增加任务完成状态，并支持按照完成状态筛选任务。\n\n受控目标只有 `todo.py`，类名为 `TodoStore`。\n- `add(title)` 创建任务，id 单调递增，title 去除首尾空格，空标题抛出 ValueError。\n- 新任务 `completed` 默认为 False。\n- `complete(task_id, completed=True)` 标记完成/恢复未完成并返回任务副本，未知 id 抛出 KeyError。\n- `list(completed=None)` 返回所有任务；True/False 分别只返回完成/未完成任务。\n- 外部修改返回字典不能改写内部任务，多个实例不能共享任务。\n\n新增任意功能需求可交给真实模型，但第一版独立验收仅覆盖上述契约，其他需求不得据此宣称验收通过。\n",
+            "requirement_sha256": "1b419de4e9107dc518479daafaf98f352141e60e8a59cd38304bbe4f26bac07f",
+            "acceptance_sha256": "cce34e17462fc2c0cfd256c81fa6011191930165fc07b565ea6ce323154e67af",
+            "snapshot_sha256": "912635f6dc9d2c901be0c265b85e37fbe0a5551b0cc6aa1797b5e23272070b86"
+          },
+          "acceptance_sha256": "cce34e17462fc2c0cfd256c81fa6011191930165fc07b565ea6ce323154e67af",
+          "requirement_sha256": "1b419de4e9107dc518479daafaf98f352141e60e8a59cd38304bbe4f26bac07f",
+          "runner_manifest": {
+            "proxy/todo.py": "7b33a2dc691457c5641c789722378b5346f09470eb37caa7f3a133d072795341",
+            "runner.py": "e7b099a38c6fbcfd0a6a297149b2a844e1b2d94350b78c5c40a699d493506697",
+            "test_todo.py": "cce34e17462fc2c0cfd256c81fa6011191930165fc07b565ea6ce323154e67af",
+            "worker.py": "bdfdc752589f9e3228fe930ab37d7c06b979d68b6f3e9c2bc779c3476aefb619"
+          }
+        }
+      },
+      "id": 713
+    },
+    {
+      "timestamp": "2026-11-08T19:42:33.48664+08:00",
+      "type": "tool",
+      "node_id": "prepare",
+      "message": "调用工具：read_project",
+      "data": {
+        "tool": "read_project",
+        "status": "running",
+        "input": {
+          "run_id": "fcf783c421194f3897ac0fca5eeabac7"
+        }
+      },
+      "id": 714
+    },
+    {
+      "timestamp": "2026-11-08T19:42:33.496152+08:00",
+      "type": "tool",
+      "node_id": "prepare",
+      "message": "工具返回：read_project",
+      "data": {
+        "tool": "read_project",
+        "status": "completed",
+        "outcome": null,
+        "source": "runtime",
+        "input": {
+          "run_id": "fcf783c421194f3897ac0fca5eeabac7"
+        },
+        "output": {
+          "files": [
+            {
+              "path": "todo.py",
+              "content": "\"\"\"Small, deliberately incomplete example project; candidate edits go to copies.\"\"\"\n\n\nclass TodoStore:\n    def __init__(self):\n        self._tasks = []\n        self._next_id = 1\n\n    def add(self, title):\n        if not isinstance(title, str) or not title.strip():\n            raise ValueError(\"title must not be empty\")\n        task = {\"id\": self._next_id, \"title\": title.strip()}\n        self._next_id += 1\n        self._tasks.append(task)\n        return dict(task)\n\n    def list(self):\n        return [dict(task) for task in self._tasks]\n"
+            }
+          ]
+        }
+      },
+      "id": 715
+    },
+    {
+      "timestamp": "2026-11-08T19:42:33.502572+08:00",
+      "type": "tool",
+      "node_id": "prepare",
+      "message": "调用工具：knowledge_search",
+      "data": {
+        "tool": "knowledge_search",
+        "status": "running",
+        "input": {
+          "query": "# AgentForge 任务请求 v1\n\n用户需求 JSON：\"【界面验证】给待办加上完成状态和筛选\"\n\n## 固定验收契约\n# Todo 演示需求与验收契约\n\n主演示任务：增加任务完成状态，并支持按照完成状态筛选任务。\n\n受控目标只有 `todo.py`，类名为 `TodoStore`。\n- `add(title)` 创建任务，id 单调递增，title 去除首尾空格，空标题抛出 ValueError。\n- 新任务 `completed` 默认为 False。\n- `complete(task_id, completed=True)` 标记完成/恢复未完成并返回任务副本，未知 id 抛出 KeyError。\n- `list(completed=None)` 返回所有任务；True/False 分别只返回完成/未完成任务。\n- 外部修改返回字典不能改写内部任务，多个实例不能共享任务。\n\n新增任意功能需求可交给真实模型，但第一版独立验收仅覆盖上述契约，其他需求不得据此宣称验收通过。"
+        }
+      },
+      "id": 716
+    },
+    {
+      "timestamp": "2026-11-08T19:42:33.517169+08:00",
+      "type": "tool",
+      "node_id": "prepare",
+      "message": "工具返回：knowledge_search",
+      "data": {
+        "tool": "knowledge_search",
+        "status": "completed",
+        "outcome": null,
+        "source": "runtime",
+        "input": {
+          "query": "# AgentForge 任务请求 v1\n\n用户需求 JSON：\"【界面验证】给待办加上完成状态和筛选\"\n\n## 固定验收契约\n# Todo 演示需求与验收契约\n\n主演示任务：增加任务完成状态，并支持按照完成状态筛选任务。\n\n受控目标只有 `todo.py`，类名为 `TodoStore`。\n- `add(title)` 创建任务，id 单调递增，title 去除首尾空格，空标题抛出 ValueError。\n- 新任务 `completed` 默认为 False。\n- `complete(task_id, completed=True)` 标记完成/恢复未完成并返回任务副本，未知 id 抛出 KeyError。\n- `list(completed=None)` 返回所有任务；True/False 分别只返回完成/未完成任务。\n- 外部修改返回字典不能改写内部任务，多个实例不能共享任务。\n\n新增任意功能需求可交给真实模型，但第一版独立验收仅覆盖上述契约，其他需求不得据此宣称验收通过。"
+        },
+        "output": {
+          "matches": [
+            {
+              "path": "knowledge/requirements.md",
+              "excerpt": "# Todo 演示需求与验收契约\n\n主演示任务：增加任务完成状态，并支持按照完成状态筛选任务。\n\n受控目标只有 `todo.py`，类名为 `TodoStore`。\n- `add(title)` 创建任务，id 单调递增，title 去除首尾空格，空标题抛出 ValueError。\n- 新任务 `completed` 默认为 False。\n- `complete(task_id, completed=True)` 标记完成/恢复未完成并返回任务副本，未知 id 抛出 KeyError。\n- `list(completed=None)` 返回所有任务；True/False 分别只返回完成/未完成任务。\n- 外部修改返回字典不能改写内部任务，多个实例不能共享任务。\n\n新增任意功能需求可交给真实模型，但第一版独立验收仅覆盖上述契约，其他需求不得据此宣称验收通过。\n",
+              "score": 10000,
+              "sha256": "1b419de4e9107dc518479daafaf98f352141e60e8a59cd38304bbe4f26bac07f",
+              "source": "frozen_task_contract"
+            },
+            {
+              "path": "knowledge/testing.md",
+              "excerpt": "# 独立验收与执行边界\n\n完成状态任务的验收位于 acceptance/test_todo.py；扩展任务位于 benchmarks/tasks/<task_id>/test_todo.py，每项固定10个测试。它们仅由平台维护，不接受 Agent 修改。运行时冻结所选任务的需求与验收，再只读挂载；当前 task_contract 是当前任务的完整契约，不把另一任务的约束混入。\n候选代码只能在通过预检的 Docker Linux 容器内执行；网络关闭、只读挂载、非 root 用户、资源上限、超时回收。\n没有 Docker、镜像或容器运行权限时返回 blocked；不会调用宿主 Python 执行候选。\n模拟模型首轮故意漏掉筛选实现，用来演示失败反馈；该故障属于预设演示，不是模型自主犯错的实证。\n平台单元测试中的 stub 仅证明编排逻辑，不能作为真实 LLM 或真实容器测试证据。\n",
+              "score": 57
+            },
+            {
+              "path": "knowledge/development.md",
+              "excerpt": "# 开发规范\n\n只修改候选副本中的 todo.py；不得修改验收测试，不得访问网络、系统环境变量或外部文件。\n保留 TodoStore.add/list 接口和 id 语义。使用 Python 标准库，避免不必要依赖。\n返回纯 JSON 对象，包含 summary 与 files（每项 path/content）。无法完成时解释问题，不要虚构测试结果。\n知识检索为本地关键词检索；引用使用实际文件名，不代表向量 RAG 或长期学习。\n",
+              "score": 32
+            }
+          ],
+          "method": "local_keyword"
+        }
+      },
+      "id": 717
+    },
+    {
+      "timestamp": "2026-11-08T19:42:33.529332+08:00",
+      "type": "snapshot",
+      "node_id": "prepare",
+      "message": "节点和恢复上下文已原子保存",
+      "data": {
+        "snapshot_id": 90
+      },
+      "id": 718
+    },
+    {
+      "timestamp": "2026-11-08T19:42:33.544062+08:00",
+      "type": "status",
+      "node_id": "plan",
+      "message": "开始：任务规划",
+      "data": {},
+      "id": 719
+    },
+    {
+      "timestamp": "2026-11-08T19:42:33.551747+08:00",
+      "type": "schedule",
+      "node_id": "plan",
+      "message": "分配给 规划 Agent：能力 plan 匹配；优先选择低负载和专用能力 Agent。",
+      "data": {
+        "selected": "planner",
+        "version": 1,
+        "priority": 90,
+        "dependencies": [
+          "prepare"
+        ],
+        "dependencies_satisfied": true,
+        "candidates": [
+          {
+            "id": "planner",
+            "load": 0,
+            "capability_count": 1,
+            "version": 1
+          }
+        ],
+        "required_tools": [],
+        "excluded_after_failure": []
+      },
+      "id": 720
+    },
+    {
+      "timestamp": "2026-11-08T19:42:33.578409+08:00",
+      "type": "agent",
+      "node_id": "plan",
+      "message": "模拟规划：实现完成状态、筛选并独立验证。",
+      "data": {
+        "agent_id": "planner",
+        "agent_version": 1,
+        "output": {
+          "summary": "模拟规划：实现完成状态、筛选并独立验证。",
+          "tasks": [
+            {
+              "id": "implement",
+              "capability": "code",
+              "priority": 10
+            },
+            {
+              "id": "validate",
+              "capability": "test",
+              "depends_on": [
+                "implement"
+              ]
+            }
+          ],
+          "citations": [
+            "knowledge/requirements.md"
+          ]
+        },
+        "model_mode": "mock",
+        "model_calls": 0,
+        "duration_ms": 0,
+        "tool_calls": []
+      },
+      "id": 721
+    },
+    {
+      "timestamp": "2026-11-08T19:42:33.587141+08:00",
+      "type": "snapshot",
+      "node_id": "plan",
+      "message": "节点和恢复上下文已原子保存",
+      "data": {
+        "snapshot_id": 91
+      },
+      "id": 722
+    },
+    {
+      "timestamp": "2026-11-08T19:42:33.599404+08:00",
+      "type": "status",
+      "node_id": "develop",
+      "message": "开始：候选代码开发",
+      "data": {},
+      "id": 723
+    },
+    {
+      "timestamp": "2026-11-08T19:42:33.604832+08:00",
+      "type": "schedule",
+      "node_id": "develop",
+      "message": "分配给 开发 Agent：能力 develop 匹配；优先选择低负载和专用能力 Agent。",
+      "data": {
+        "selected": "developer",
+        "version": 1,
+        "priority": 80,
+        "dependencies": [
+          "plan"
+        ],
+        "dependencies_satisfied": true,
+        "candidates": [
+          {
+            "id": "developer",
+            "load": 0,
+            "capability_count": 2,
+            "version": 1
+          }
+        ],
+        "required_tools": [
+          "candidate_diff",
+          "read_project"
+        ],
+        "excluded_after_failure": []
+      },
+      "id": 724
+    },
+    {
+      "timestamp": "2026-11-08T19:42:33.628232+08:00",
+      "type": "agent",
+      "node_id": "develop",
+      "message": "模拟首轮：预设遗漏状态筛选，用于演示反馈循环。",
+      "data": {
+        "agent_id": "developer",
+        "agent_version": 1,
+        "output": {
+          "summary": "模拟首轮：预设遗漏状态筛选，用于演示反馈循环。",
+          "files": [
+            {
+              "path": "todo.py",
+              "content": "\"\"\"Candidate generated by the explicit deterministic mock adapter.\"\"\"\nclass TodoStore:\n    def __init__(self):\n        self._tasks = []\n        self._next_id = 1\n\n    def add(self, title):\n        if not isinstance(title, str) or not title.strip():\n            raise ValueError(\"title must not be empty\")\n        task = {\"id\": self._next_id, \"title\": title.strip(), \"completed\": False}\n        self._next_id += 1\n        self._tasks.append(task)\n        return dict(task)\n\n    def complete(self, task_id, completed=True):\n        for task in self._tasks:\n            if task[\"id\"] == task_id:\n                task[\"completed\"] = bool(completed)\n                return dict(task)\n        raise KeyError(task_id)\n\n    def list(self, completed=None):\n        return [dict(task) for task in self._tasks]\n"
+            }
+          ],
+          "preset_fault": true
+        },
+        "model_mode": "mock",
+        "model_calls": 0,
+        "duration_ms": 0,
+        "tool_calls": []
+      },
+      "id": 725
+    },
+    {
+      "timestamp": "2026-11-08T19:42:33.634074+08:00",
+      "type": "tool",
+      "node_id": "develop",
+      "message": "调用工具：candidate_diff",
+      "data": {
+        "tool": "candidate_diff",
+        "status": "running",
+        "input": {
+          "paths": [
+            "todo.py"
+          ]
+        }
+      },
+      "id": 726
+    },
+    {
+      "timestamp": "2026-11-08T19:42:33.652199+08:00",
+      "type": "tool",
+      "node_id": "develop",
+      "message": "工具返回：candidate_diff",
+      "data": {
+        "tool": "candidate_diff",
+        "status": "completed",
+        "outcome": null,
+        "source": "runtime",
+        "input": {
+          "paths": [
+            "todo.py"
+          ]
+        },
+        "output": {
+          "files": [
+            {
+              "path": "todo.py",
+              "before": "\"\"\"Small, deliberately incomplete example project; candidate edits go to copies.\"\"\"\n\n\nclass TodoStore:\n    def __init__(self):\n        self._tasks = []\n        self._next_id = 1\n\n    def add(self, title):\n        if not isinstance(title, str) or not title.strip():\n            raise ValueError(\"title must not be empty\")\n        task = {\"id\": self._next_id, \"title\": title.strip()}\n        self._next_id += 1\n        self._tasks.append(task)\n        return dict(task)\n\n    def list(self):\n        return [dict(task) for task in self._tasks]\n",
+              "after": "\"\"\"Candidate generated by the explicit deterministic mock adapter.\"\"\"\nclass TodoStore:\n    def __init__(self):\n        self._tasks = []\n        self._next_id = 1\n\n    def add(self, title):\n        if not isinstance(title, str) or not title.strip():\n            raise ValueError(\"title must not be empty\")\n        task = {\"id\": self._next_id, \"title\": title.strip(), \"completed\": False}\n        self._next_id += 1\n        self._tasks.append(task)\n        return dict(task)\n\n    def complete(self, task_id, completed=True):\n        for task in self._tasks:\n            if task[\"id\"] == task_id:\n                task[\"completed\"] = bool(completed)\n                return dict(task)\n        raise KeyError(task_id)\n\n    def list(self, completed=None):\n        return [dict(task) for task in self._tasks]\n",
+              "diff": "--- a/todo.py\n+++ b/todo.py\n@@ -1,6 +1,4 @@\n-\"\"\"Small, deliberately incomplete example project; candidate edits go to copies.\"\"\"\n-\n-\n+\"\"\"Candidate generated by the explicit deterministic mock adapter.\"\"\"\n class TodoStore:\n     def __init__(self):\n         self._tasks = []\n@@ -9,10 +7,17 @@\n     def add(self, title):\n         if not isinstance(title, str) or not title.strip():\n             raise ValueError(\"title must not be empty\")\n-        task = {\"id\": self._next_id, \"title\": title.strip()}\n+        task = {\"id\": self._next_id, \"title\": title.strip(), \"completed\": False}\n         self._next_id += 1\n         self._tasks.append(task)\n         return dict(task)\n \n-    def list(self):\n+    def complete(self, task_id, completed=True):\n+        for task in self._tasks:\n+            if task[\"id\"] == task_id:\n+                task[\"completed\"] = bool(completed)\n+                return dict(task)\n+        raise KeyError(task_id)\n+\n+    def list(self, completed=None):\n         return [dict(task) for task in self._tasks]\n"
+            }
+          ],
+          "unified_diff": "--- a/todo.py\n+++ b/todo.py\n@@ -1,6 +1,4 @@\n-\"\"\"Small, deliberately incomplete example project; candidate edits go to copies.\"\"\"\n-\n-\n+\"\"\"Candidate generated by the explicit deterministic mock adapter.\"\"\"\n class TodoStore:\n     def __init__(self):\n         self._tasks = []\n@@ -9,10 +7,17 @@\n     def add(self, title):\n         if not isinstance(title, str) or not title.strip():\n             raise ValueError(\"title must not be empty\")\n-        task = {\"id\": self._next_id, \"title\": title.strip()}\n+        task = {\"id\": self._next_id, \"title\": title.strip(), \"completed\": False}\n         self._next_id += 1\n         self._tasks.append(task)\n         return dict(task)\n \n-    def list(self):\n+    def complete(self, task_id, completed=True):\n+        for task in self._tasks:\n+            if task[\"id\"] == task_id:\n+                task[\"completed\"] = bool(completed)\n+                return dict(task)\n+        raise KeyError(task_id)\n+\n+    def list(self, completed=None):\n         return [dict(task) for task in self._tasks]\n"
+        }
+      },
+      "id": 727
+    },
+    {
+      "timestamp": "2026-11-08T19:42:33.658761+08:00",
+      "type": "tool",
+      "node_id": "develop",
+      "message": "调用工具：read_project",
+      "data": {
+        "tool": "read_project",
+        "status": "running",
+        "input": {
+          "run_id": "fcf783c421194f3897ac0fca5eeabac7"
+        }
+      },
+      "id": 728
+    },
+    {
+      "timestamp": "2026-11-08T19:42:33.66577+08:00",
+      "type": "tool",
+      "node_id": "develop",
+      "message": "工具返回：read_project",
+      "data": {
+        "tool": "read_project",
+        "status": "completed",
+        "outcome": null,
+        "source": "runtime",
+        "input": {
+          "run_id": "fcf783c421194f3897ac0fca5eeabac7"
+        },
+        "output": {
+          "files": [
+            {
+              "path": "todo.py",
+              "content": "\"\"\"Candidate generated by the explicit deterministic mock adapter.\"\"\"\nclass TodoStore:\n    def __init__(self):\n        self._tasks = []\n        self._next_id = 1\n\n    def add(self, title):\n        if not isinstance(title, str) or not title.strip():\n            raise ValueError(\"title must not be empty\")\n        task = {\"id\": self._next_id, \"title\": title.strip(), \"completed\": False}\n        self._next_id += 1\n        self._tasks.append(task)\n        return dict(task)\n\n    def complete(self, task_id, completed=True):\n        for task in self._tasks:\n            if task[\"id\"] == task_id:\n                task[\"completed\"] = bool(completed)\n                return dict(task)\n        raise KeyError(task_id)\n\n    def list(self, completed=None):\n        return [dict(task) for task in self._tasks]\n"
+            }
+          ]
+        }
+      },
+      "id": 729
+    },
+    {
+      "timestamp": "2026-11-08T19:42:33.674604+08:00",
+      "type": "snapshot",
+      "node_id": "develop",
+      "message": "节点和恢复上下文已原子保存",
+      "data": {
+        "snapshot_id": 92
+      },
+      "id": 730
+    },
+    {
+      "timestamp": "2026-11-08T19:42:33.720105+08:00",
+      "type": "status",
+      "node_id": "round-0/verify",
+      "message": "开始：验证子工作流",
+      "data": {},
+      "id": 731
+    },
+    {
+      "timestamp": "2026-11-08T19:42:33.725664+08:00",
+      "type": "status",
+      "node_id": "round-0/verify",
+      "message": "进入验证子工作流：测试与初步审查并行，随后汇总审查。",
+      "data": {
+        "children": [
+          "test",
+          "inspect",
+          "review"
+        ],
+        "parallel": [
+          "test",
+          "inspect"
+        ]
+      },
+      "id": 732
+    },
+    {
+      "timestamp": "2026-11-08T19:42:33.743505+08:00",
+      "type": "status",
+      "node_id": "round-0/verify/test",
+      "message": "开始：独立验收测试",
+      "data": {},
+      "id": 733
+    },
+    {
+      "timestamp": "2026-11-08T19:42:33.749101+08:00",
+      "type": "schedule",
+      "node_id": "round-0/verify/test",
+      "message": "分配给 测试 Agent：能力 test 匹配；优先选择低负载和专用能力 Agent。",
+      "data": {
+        "selected": "tester",
+        "version": 2,
+        "priority": 90,
+        "dependencies": [],
+        "dependencies_satisfied": true,
+        "candidates": [
+          {
+            "id": "tester",
+            "load": 0,
+            "capability_count": 1,
+            "version": 2
+          }
+        ],
+        "required_tools": [
+          "run_acceptance"
+        ],
+        "excluded_after_failure": []
+      },
+      "id": 734
+    },
+    {
+      "timestamp": "2026-11-08T19:42:33.760842+08:00",
+      "type": "tool",
+      "node_id": "round-0/verify/test",
+      "message": "调用工具：run_acceptance",
+      "data": {
+        "tool": "run_acceptance",
+        "status": "running",
+        "input": {
+          "run_id": "fcf783c421194f3897ac0fca5eeabac7",
+          "independent_tests": true
+        }
+      },
+      "id": 735
+    },
+    {
+      "timestamp": "2026-11-08T19:42:33.802682+08:00",
+      "type": "status",
+      "node_id": "round-0/verify/inspect",
+      "message": "开始：需求与差异检查",
+      "data": {},
+      "id": 736
+    },
+    {
+      "timestamp": "2026-11-08T19:42:33.808577+08:00",
+      "type": "schedule",
+      "node_id": "round-0/verify/inspect",
+      "message": "分配给 审查 Agent：能力 review 匹配；优先选择低负载和专用能力 Agent。",
+      "data": {
+        "selected": "reviewer",
+        "version": 1,
+        "priority": 70,
+        "dependencies": [],
+        "dependencies_satisfied": true,
+        "candidates": [
+          {
+            "id": "reviewer",
+            "load": 0,
+            "capability_count": 1,
+            "version": 1
+          }
+        ],
+        "required_tools": [],
+        "excluded_after_failure": []
+      },
+      "id": 737
+    },
+    {
+      "timestamp": "2026-11-08T19:42:33.834459+08:00",
+      "type": "agent",
+      "node_id": "round-0/verify/inspect",
+      "message": "模拟规则审查（文本检查，不是 LLM 或运行测试）。",
+      "data": {
+        "agent_id": "reviewer",
+        "agent_version": 1,
+        "output": {
+          "summary": "模拟规则审查（文本检查，不是 LLM 或运行测试）。",
+          "passed": false,
+          "issues": [
+            "完成状态筛选尚未实现；需要 list(completed=None) 的过滤逻辑。"
+          ],
+          "citations": [
+            "knowledge/requirements.md"
+          ]
+        },
+        "model_mode": "mock",
+        "model_calls": 0,
+        "duration_ms": 0,
+        "tool_calls": []
+      },
+      "id": 738
+    },
+    {
+      "timestamp": "2026-11-08T19:42:33.844256+08:00",
+      "type": "snapshot",
+      "node_id": "round-0/verify/inspect",
+      "message": "节点和恢复上下文已原子保存",
+      "data": {
+        "snapshot_id": 93
+      },
+      "id": 739
+    },
+    {
+      "timestamp": "2026-11-08T19:42:37.959544+08:00",
+      "type": "tool",
+      "node_id": "round-0/verify/test",
+      "message": "工具返回：run_acceptance · failed",
+      "data": {
+        "tool": "run_acceptance",
+        "status": "failed",
+        "outcome": "failed",
+        "source": "runtime",
+        "input": {
+          "run_id": "fcf783c421194f3897ac0fca5eeabac7",
+          "independent_tests": true
+        },
+        "output": {
+          "status": "failed",
+          "exit_code": 1,
+          "stdout": "AGENTFORGE_ACCEPTANCE={\"tests\": 10, \"passed\": false}\n",
+          "stderr": "test_complete_and_reopen (test_todo.TodoAcceptance.test_complete_and_reopen) ... ok\ntest_filter_completed (test_todo.TodoAcceptance.test_filter_completed) ... FAIL\ntest_filter_incomplete (test_todo.TodoAcceptance.test_filter_incomplete) ... FAIL\ntest_ids_are_unique (test_todo.TodoAcceptance.test_ids_are_unique) ... ok\ntest_instances_are_independent (test_todo.TodoAcceptance.test_instances_are_independent) ... ok\ntest_invalid_and_trimmed_title (test_todo.TodoAcceptance.test_invalid_and_trimmed_title) ... ok\ntest_new_tasks_are_incomplete (test_todo.TodoAcceptance.test_new_tasks_are_incomplete) ... ok\ntest_returned_values_are_copies (test_todo.TodoAcceptance.test_returned_values_are_copies) ... ok\ntest_unfiltered_list (test_todo.TodoAcceptance.test_unfiltered_list) ... ok\ntest_unknown_id (test_todo.TodoAcceptance.test_unknown_id) ... ok\n\n======================================================================\nFAIL: test_filter_completed (test_todo.TodoAcceptance.test_filter_completed)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/task_acceptance/test_todo.py\", line 26, in test_filter_completed\n    self.assertEqual([t['title'] for t in store.list(True)], ['first'])\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Lists differ: ['first', 'second'] != ['first']\n\nFirst list contains 1 additional elements.\nFirst extra element 1:\n'second'\n\n- ['first', 'second']\n+ ['first']\n\n======================================================================\nFAIL: test_filter_incomplete (test_todo.TodoAcceptance.test_filter_incomplete)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/task_acceptance/test_todo.py\", line 32, in test_filter_incomplete\n    self.assertEqual([t['title'] for t in store.list(False)], ['second'])\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Lists differ: ['first', 'second'] != ['second']\n\nFirst differing element 0:\n'first'\n'second'\n\nFirst list contains 1 additional elements.\nFirst extra element 1:\n'second'\n\n- ['first', 'second']\n+ ['second']\n\n----------------------------------------------------------------------\nRan 10 tests in 0.784s\n\nFAILED (failures=2)\n",
+          "isolated": true,
+          "reason": "",
+          "duration_ms": 4193,
+          "acceptance_sha256": "cce34e17462fc2c0cfd256c81fa6011191930165fc07b565ea6ce323154e67af",
+          "task_id": "completion",
+          "expected_tests": 10
+        }
+      },
+      "id": 740
+    },
+    {
+      "timestamp": "2026-11-08T19:42:37.976815+08:00",
+      "type": "agent",
+      "node_id": "round-0/verify/test",
+      "message": "模拟测试建议：用独立验收覆盖默认状态、筛选、恢复和兼容性。",
+      "data": {
+        "agent_id": "tester",
+        "agent_version": 2,
+        "output": {
+          "summary": "模拟测试建议：用独立验收覆盖默认状态、筛选、恢复和兼容性。",
+          "tests": [
+            "acceptance/test_todo.py"
+          ]
+        },
+        "model_mode": "mock",
+        "model_calls": 0,
+        "duration_ms": 0,
+        "tool_calls": []
+      },
+      "id": 741
+    },
+    {
+      "timestamp": "2026-11-08T19:42:37.986484+08:00",
+      "type": "snapshot",
+      "node_id": "round-0/verify/test",
+      "message": "节点和恢复上下文已原子保存",
+      "data": {
+        "snapshot_id": 94
+      },
+      "id": 742
+    },
+    {
+      "timestamp": "2026-11-08T19:42:37.999293+08:00",
+      "type": "status",
+      "node_id": "round-0/verify/review",
+      "message": "开始：验证结果审查",
+      "data": {},
+      "id": 743
+    },
+    {
+      "timestamp": "2026-11-08T19:42:38.005189+08:00",
+      "type": "schedule",
+      "node_id": "round-0/verify/review",
+      "message": "分配给 审查 Agent：能力 review 匹配；优先选择低负载和专用能力 Agent。",
+      "data": {
+        "selected": "reviewer",
+        "version": 1,
+        "priority": 80,
+        "dependencies": [
+          "test",
+          "inspect"
+        ],
+        "dependencies_satisfied": true,
+        "candidates": [
+          {
+            "id": "reviewer",
+            "load": 0,
+            "capability_count": 1,
+            "version": 1
+          }
+        ],
+        "required_tools": [],
+        "excluded_after_failure": []
+      },
+      "id": 744
+    },
+    {
+      "timestamp": "2026-11-08T19:42:38.029716+08:00",
+      "type": "agent",
+      "node_id": "round-0/verify/review",
+      "message": "模拟规则审查（文本检查，不是 LLM 或运行测试）。",
+      "data": {
+        "agent_id": "reviewer",
+        "agent_version": 1,
+        "output": {
+          "summary": "模拟规则审查（文本检查，不是 LLM 或运行测试）。",
+          "passed": false,
+          "issues": [
+            "完成状态筛选尚未实现；需要 list(completed=None) 的过滤逻辑。"
+          ],
+          "citations": [
+            "knowledge/requirements.md"
+          ]
+        },
+        "model_mode": "mock",
+        "model_calls": 0,
+        "duration_ms": 0,
+        "tool_calls": []
+      },
+      "id": 745
+    },
+    {
+      "timestamp": "2026-11-08T19:42:38.039659+08:00",
+      "type": "snapshot",
+      "node_id": "round-0/verify/review",
+      "message": "节点和恢复上下文已原子保存",
+      "data": {
+        "snapshot_id": 95
+      },
+      "id": 746
+    },
+    {
+      "timestamp": "2026-11-08T19:42:38.046791+08:00",
+      "type": "snapshot",
+      "node_id": "round-0/verify",
+      "message": "节点和恢复上下文已原子保存",
+      "data": {
+        "snapshot_id": 96
+      },
+      "id": 747
+    },
+    {
+      "timestamp": "2026-11-08T19:42:38.05694+08:00",
+      "type": "validation",
+      "node_id": "round-0/gate",
+      "message": "验收未通过",
+      "data": {
+        "passed": false,
+        "test": {
+          "status": "failed",
+          "exit_code": 1,
+          "stdout": "AGENTFORGE_ACCEPTANCE={\"tests\": 10, \"passed\": false}\n",
+          "stderr": "test_complete_and_reopen (test_todo.TodoAcceptance.test_complete_and_reopen) ... ok\ntest_filter_completed (test_todo.TodoAcceptance.test_filter_completed) ... FAIL\ntest_filter_incomplete (test_todo.TodoAcceptance.test_filter_incomplete) ... FAIL\ntest_ids_are_unique (test_todo.TodoAcceptance.test_ids_are_unique) ... ok\ntest_instances_are_independent (test_todo.TodoAcceptance.test_instances_are_independent) ... ok\ntest_invalid_and_trimmed_title (test_todo.TodoAcceptance.test_invalid_and_trimmed_title) ... ok\ntest_new_tasks_are_incomplete (test_todo.TodoAcceptance.test_new_tasks_are_incomplete) ... ok\ntest_returned_values_are_copies (test_todo.TodoAcceptance.test_returned_values_are_copies) ... ok\ntest_unfiltered_list (test_todo.TodoAcceptance.test_unfiltered_list) ... ok\ntest_unknown_id (test_todo.TodoAcceptance.test_unknown_id) ... ok\n\n======================================================================\nFAIL: test_filter_completed (test_todo.TodoAcceptance.test_filter_completed)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/task_acceptance/test_todo.py\", line 26, in test_filter_completed\n    self.assertEqual([t['title'] for t in store.list(True)], ['first'])\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Lists differ: ['first', 'second'] != ['first']\n\nFirst list contains 1 additional elements.\nFirst extra element 1:\n'second'\n\n- ['first', 'second']\n+ ['first']\n\n======================================================================\nFAIL: test_filter_incomplete (test_todo.TodoAcceptance.test_filter_incomplete)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/task_acceptance/test_todo.py\", line 32, in test_filter_incomplete\n    self.assertEqual([t['title'] for t in store.list(False)], ['second'])\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Lists differ: ['first', 'second'] != ['second']\n\nFirst differing element 0:\n'first'\n'second'\n\nFirst list contains 1 additional elements.\nFirst extra element 1:\n'second'\n\n- ['first', 'second']\n+ ['second']\n\n----------------------------------------------------------------------\nRan 10 tests in 0.784s\n\nFAILED (failures=2)\n",
+          "isolated": true,
+          "reason": "",
+          "duration_ms": 4193,
+          "acceptance_sha256": "cce34e17462fc2c0cfd256c81fa6011191930165fc07b565ea6ce323154e67af",
+          "task_id": "completion",
+          "expected_tests": 10,
+          "evidence_scope": {
+            "id": "round-0/verify",
+            "attempt": 0,
+            "candidate_hash": "15a331ad8776c7aae753f99d1154c739a4ced67f97a958aa7f5ecb1968394d04"
+          }
+        },
+        "review": {
+          "summary": "模拟规则审查（文本检查，不是 LLM 或运行测试）。",
+          "passed": false,
+          "issues": [
+            "完成状态筛选尚未实现；需要 list(completed=None) 的过滤逻辑。"
+          ],
+          "citations": [
+            "knowledge/requirements.md"
+          ],
+          "evidence_scope": {
+            "id": "round-0/verify",
+            "attempt": 0,
+            "candidate_hash": "15a331ad8776c7aae753f99d1154c739a4ced67f97a958aa7f5ecb1968394d04"
+          }
+        },
+        "attempt": 0
+      },
+      "id": 748
+    },
+    {
+      "timestamp": "2026-11-08T19:42:38.063194+08:00",
+      "type": "feedback",
+      "node_id": "round-0/gate",
+      "message": "将具体验收问题交给修正 Agent",
+      "data": {
+        "test": {
+          "status": "failed",
+          "exit_code": 1,
+          "stdout": "AGENTFORGE_ACCEPTANCE={\"tests\": 10, \"passed\": false}\n",
+          "stderr": "test_complete_and_reopen (test_todo.TodoAcceptance.test_complete_and_reopen) ... ok\ntest_filter_completed (test_todo.TodoAcceptance.test_filter_completed) ... FAIL\ntest_filter_incomplete (test_todo.TodoAcceptance.test_filter_incomplete) ... FAIL\ntest_ids_are_unique (test_todo.TodoAcceptance.test_ids_are_unique) ... ok\ntest_instances_are_independent (test_todo.TodoAcceptance.test_instances_are_independent) ... ok\ntest_invalid_and_trimmed_title (test_todo.TodoAcceptance.test_invalid_and_trimmed_title) ... ok\ntest_new_tasks_are_incomplete (test_todo.TodoAcceptance.test_new_tasks_are_incomplete) ... ok\ntest_returned_values_are_copies (test_todo.TodoAcceptance.test_returned_values_are_copies) ... ok\ntest_unfiltered_list (test_todo.TodoAcceptance.test_unfiltered_list) ... ok\ntest_unknown_id (test_todo.TodoAcceptance.test_unknown_id) ... ok\n\n======================================================================\nFAIL: test_filter_completed (test_todo.TodoAcceptance.test_filter_completed)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/task_acceptance/test_todo.py\", line 26, in test_filter_completed\n    self.assertEqual([t['title'] for t in store.list(True)], ['first'])\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Lists differ: ['first', 'second'] != ['first']\n\nFirst list contains 1 additional elements.\nFirst extra element 1:\n'second'\n\n- ['first', 'second']\n+ ['first']\n\n======================================================================\nFAIL: test_filter_incomplete (test_todo.TodoAcceptance.test_filter_incomplete)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/task_acceptance/test_todo.py\", line 32, in test_filter_incomplete\n    self.assertEqual([t['title'] for t in store.list(False)], ['second'])\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Lists differ: ['first', 'second'] != ['second']\n\nFirst differing element 0:\n'first'\n'second'\n\nFirst list contains 1 additional elements.\nFirst extra element 1:\n'second'\n\n- ['first', 'second']\n+ ['second']\n\n----------------------------------------------------------------------\nRan 10 tests in 0.784s\n\nFAILED (failures=2)\n",
+          "isolated": true,
+          "reason": "",
+          "duration_ms": 4193,
+          "acceptance_sha256": "cce34e17462fc2c0cfd256c81fa6011191930165fc07b565ea6ce323154e67af",
+          "task_id": "completion",
+          "expected_tests": 10,
+          "evidence_scope": {
+            "id": "round-0/verify",
+            "attempt": 0,
+            "candidate_hash": "15a331ad8776c7aae753f99d1154c739a4ced67f97a958aa7f5ecb1968394d04"
+          }
+        },
+        "issues": [
+          "完成状态筛选尚未实现；需要 list(completed=None) 的过滤逻辑。"
+        ],
+        "next_attempt": 1
+      },
+      "id": 749
+    },
+    {
+      "timestamp": "2026-11-08T19:42:38.079707+08:00",
+      "type": "status",
+      "node_id": "round-1/fix",
+      "message": "开始：反馈修正 · 最多两轮",
+      "data": {},
+      "id": 750
+    },
+    {
+      "timestamp": "2026-11-08T19:42:38.086212+08:00",
+      "type": "schedule",
+      "node_id": "round-1/fix",
+      "message": "分配给 修正 Agent：能力 fix 匹配；优先选择低负载和专用能力 Agent。",
+      "data": {
+        "selected": "fixer",
+        "version": 1,
+        "priority": 50,
+        "dependencies": [
+          "gate"
+        ],
+        "dependencies_satisfied": true,
+        "candidates": [
+          {
+            "id": "fixer",
+            "load": 0,
+            "capability_count": 1,
+            "version": 1
+          },
+          {
+            "id": "developer",
+            "load": 0,
+            "capability_count": 2,
+            "version": 1
+          }
+        ],
+        "required_tools": [
+          "candidate_diff",
+          "read_project"
+        ],
+        "excluded_after_failure": []
+      },
+      "id": 751
+    },
+    {
+      "timestamp": "2026-11-08T19:42:38.111589+08:00",
+      "type": "agent",
+      "node_id": "round-1/fix",
+      "message": "模拟修正：实现状态筛选。",
+      "data": {
+        "agent_id": "fixer",
+        "agent_version": 1,
+        "output": {
+          "summary": "模拟修正：实现状态筛选。",
+          "files": [
+            {
+              "path": "todo.py",
+              "content": "\"\"\"Candidate generated by the explicit deterministic mock adapter.\"\"\"\nclass TodoStore:\n    def __init__(self):\n        self._tasks = []\n        self._next_id = 1\n\n    def add(self, title):\n        if not isinstance(title, str) or not title.strip():\n            raise ValueError(\"title must not be empty\")\n        task = {\"id\": self._next_id, \"title\": title.strip(), \"completed\": False}\n        self._next_id += 1\n        self._tasks.append(task)\n        return dict(task)\n\n    def complete(self, task_id, completed=True):\n        for task in self._tasks:\n            if task[\"id\"] == task_id:\n                task[\"completed\"] = bool(completed)\n                return dict(task)\n        raise KeyError(task_id)\n\n    def list(self, completed=None):\n        return [dict(task) for task in self._tasks if completed is None or task['completed'] == completed]\n"
+            }
+          ],
+          "preset_fault": false
+        },
+        "model_mode": "mock",
+        "model_calls": 0,
+        "duration_ms": 0,
+        "tool_calls": []
+      },
+      "id": 752
+    },
+    {
+      "timestamp": "2026-11-08T19:42:38.117524+08:00",
+      "type": "tool",
+      "node_id": "round-1/fix",
+      "message": "调用工具：candidate_diff",
+      "data": {
+        "tool": "candidate_diff",
+        "status": "running",
+        "input": {
+          "paths": [
+            "todo.py"
+          ]
+        }
+      },
+      "id": 753
+    },
+    {
+      "timestamp": "2026-11-08T19:42:38.136633+08:00",
+      "type": "tool",
+      "node_id": "round-1/fix",
+      "message": "工具返回：candidate_diff",
+      "data": {
+        "tool": "candidate_diff",
+        "status": "completed",
+        "outcome": null,
+        "source": "runtime",
+        "input": {
+          "paths": [
+            "todo.py"
+          ]
+        },
+        "output": {
+          "files": [
+            {
+              "path": "todo.py",
+              "before": "\"\"\"Small, deliberately incomplete example project; candidate edits go to copies.\"\"\"\n\n\nclass TodoStore:\n    def __init__(self):\n        self._tasks = []\n        self._next_id = 1\n\n    def add(self, title):\n        if not isinstance(title, str) or not title.strip():\n            raise ValueError(\"title must not be empty\")\n        task = {\"id\": self._next_id, \"title\": title.strip()}\n        self._next_id += 1\n        self._tasks.append(task)\n        return dict(task)\n\n    def list(self):\n        return [dict(task) for task in self._tasks]\n",
+              "after": "\"\"\"Candidate generated by the explicit deterministic mock adapter.\"\"\"\nclass TodoStore:\n    def __init__(self):\n        self._tasks = []\n        self._next_id = 1\n\n    def add(self, title):\n        if not isinstance(title, str) or not title.strip():\n            raise ValueError(\"title must not be empty\")\n        task = {\"id\": self._next_id, \"title\": title.strip(), \"completed\": False}\n        self._next_id += 1\n        self._tasks.append(task)\n        return dict(task)\n\n    def complete(self, task_id, completed=True):\n        for task in self._tasks:\n            if task[\"id\"] == task_id:\n                task[\"completed\"] = bool(completed)\n                return dict(task)\n        raise KeyError(task_id)\n\n    def list(self, completed=None):\n        return [dict(task) for task in self._tasks if completed is None or task['completed'] == completed]\n",
+              "diff": "--- a/todo.py\n+++ b/todo.py\n@@ -1,6 +1,4 @@\n-\"\"\"Small, deliberately incomplete example project; candidate edits go to copies.\"\"\"\n-\n-\n+\"\"\"Candidate generated by the explicit deterministic mock adapter.\"\"\"\n class TodoStore:\n     def __init__(self):\n         self._tasks = []\n@@ -9,10 +7,17 @@\n     def add(self, title):\n         if not isinstance(title, str) or not title.strip():\n             raise ValueError(\"title must not be empty\")\n-        task = {\"id\": self._next_id, \"title\": title.strip()}\n+        task = {\"id\": self._next_id, \"title\": title.strip(), \"completed\": False}\n         self._next_id += 1\n         self._tasks.append(task)\n         return dict(task)\n \n-    def list(self):\n-        return [dict(task) for task in self._tasks]\n+    def complete(self, task_id, completed=True):\n+        for task in self._tasks:\n+            if task[\"id\"] == task_id:\n+                task[\"completed\"] = bool(completed)\n+                return dict(task)\n+        raise KeyError(task_id)\n+\n+    def list(self, completed=None):\n+        return [dict(task) for task in self._tasks if completed is None or task['completed'] == completed]\n"
+            }
+          ],
+          "unified_diff": "--- a/todo.py\n+++ b/todo.py\n@@ -1,6 +1,4 @@\n-\"\"\"Small, deliberately incomplete example project; candidate edits go to copies.\"\"\"\n-\n-\n+\"\"\"Candidate generated by the explicit deterministic mock adapter.\"\"\"\n class TodoStore:\n     def __init__(self):\n         self._tasks = []\n@@ -9,10 +7,17 @@\n     def add(self, title):\n         if not isinstance(title, str) or not title.strip():\n             raise ValueError(\"title must not be empty\")\n-        task = {\"id\": self._next_id, \"title\": title.strip()}\n+        task = {\"id\": self._next_id, \"title\": title.strip(), \"completed\": False}\n         self._next_id += 1\n         self._tasks.append(task)\n         return dict(task)\n \n-    def list(self):\n-        return [dict(task) for task in self._tasks]\n+    def complete(self, task_id, completed=True):\n+        for task in self._tasks:\n+            if task[\"id\"] == task_id:\n+                task[\"completed\"] = bool(completed)\n+                return dict(task)\n+        raise KeyError(task_id)\n+\n+    def list(self, completed=None):\n+        return [dict(task) for task in self._tasks if completed is None or task['completed'] == completed]\n"
+        }
+      },
+      "id": 754
+    },
+    {
+      "timestamp": "2026-11-08T19:42:38.142921+08:00",
+      "type": "tool",
+      "node_id": "round-1/fix",
+      "message": "调用工具：read_project",
+      "data": {
+        "tool": "read_project",
+        "status": "running",
+        "input": {
+          "run_id": "fcf783c421194f3897ac0fca5eeabac7"
+        }
+      },
+      "id": 755
+    },
+    {
+      "timestamp": "2026-11-08T19:42:38.15013+08:00",
+      "type": "tool",
+      "node_id": "round-1/fix",
+      "message": "工具返回：read_project",
+      "data": {
+        "tool": "read_project",
+        "status": "completed",
+        "outcome": null,
+        "source": "runtime",
+        "input": {
+          "run_id": "fcf783c421194f3897ac0fca5eeabac7"
+        },
+        "output": {
+          "files": [
+            {
+              "path": "todo.py",
+              "content": "\"\"\"Candidate generated by the explicit deterministic mock adapter.\"\"\"\nclass TodoStore:\n    def __init__(self):\n        self._tasks = []\n        self._next_id = 1\n\n    def add(self, title):\n        if not isinstance(title, str) or not title.strip():\n            raise ValueError(\"title must not be empty\")\n        task = {\"id\": self._next_id, \"title\": title.strip(), \"completed\": False}\n        self._next_id += 1\n        self._tasks.append(task)\n        return dict(task)\n\n    def complete(self, task_id, completed=True):\n        for task in self._tasks:\n            if task[\"id\"] == task_id:\n                task[\"completed\"] = bool(completed)\n                return dict(task)\n        raise KeyError(task_id)\n\n    def list(self, completed=None):\n        return [dict(task) for task in self._tasks if completed is None or task['completed'] == completed]\n"
+            }
+          ]
+        }
+      },
+      "id": 756
+    },
+    {
+      "timestamp": "2026-11-08T19:42:38.159933+08:00",
+      "type": "snapshot",
+      "node_id": "round-1/fix",
+      "message": "节点和恢复上下文已原子保存",
+      "data": {
+        "snapshot_id": 97
+      },
+      "id": 757
+    },
+    {
+      "timestamp": "2026-11-08T19:42:38.19552+08:00",
+      "type": "status",
+      "node_id": "round-1/verify",
+      "message": "开始：验证子工作流",
+      "data": {},
+      "id": 758
+    },
+    {
+      "timestamp": "2026-11-08T19:42:38.201369+08:00",
+      "type": "status",
+      "node_id": "round-1/verify",
+      "message": "进入验证子工作流：测试与初步审查并行，随后汇总审查。",
+      "data": {
+        "children": [
+          "test",
+          "inspect",
+          "review"
+        ],
+        "parallel": [
+          "test",
+          "inspect"
+        ]
+      },
+      "id": 759
+    },
+    {
+      "timestamp": "2026-11-08T19:42:38.219606+08:00",
+      "type": "status",
+      "node_id": "round-1/verify/test",
+      "message": "开始：独立验收测试",
+      "data": {},
+      "id": 760
+    },
+    {
+      "timestamp": "2026-11-08T19:42:38.224959+08:00",
+      "type": "schedule",
+      "node_id": "round-1/verify/test",
+      "message": "分配给 测试 Agent：能力 test 匹配；优先选择低负载和专用能力 Agent。",
+      "data": {
+        "selected": "tester",
+        "version": 2,
+        "priority": 90,
+        "dependencies": [],
+        "dependencies_satisfied": true,
+        "candidates": [
+          {
+            "id": "tester",
+            "load": 0,
+            "capability_count": 1,
+            "version": 2
+          }
+        ],
+        "required_tools": [
+          "run_acceptance"
+        ],
+        "excluded_after_failure": []
+      },
+      "id": 761
+    },
+    {
+      "timestamp": "2026-11-08T19:42:38.236057+08:00",
+      "type": "tool",
+      "node_id": "round-1/verify/test",
+      "message": "调用工具：run_acceptance",
+      "data": {
+        "tool": "run_acceptance",
+        "status": "running",
+        "input": {
+          "run_id": "fcf783c421194f3897ac0fca5eeabac7",
+          "independent_tests": true
+        }
+      },
+      "id": 762
+    },
+    {
+      "timestamp": "2026-11-08T19:42:38.265073+08:00",
+      "type": "status",
+      "node_id": "round-1/verify/inspect",
+      "message": "开始：需求与差异检查",
+      "data": {},
+      "id": 763
+    },
+    {
+      "timestamp": "2026-11-08T19:42:38.271523+08:00",
+      "type": "schedule",
+      "node_id": "round-1/verify/inspect",
+      "message": "分配给 审查 Agent：能力 review 匹配；优先选择低负载和专用能力 Agent。",
+      "data": {
+        "selected": "reviewer",
+        "version": 1,
+        "priority": 70,
+        "dependencies": [],
+        "dependencies_satisfied": true,
+        "candidates": [
+          {
+            "id": "reviewer",
+            "load": 0,
+            "capability_count": 1,
+            "version": 1
+          }
+        ],
+        "required_tools": [],
+        "excluded_after_failure": []
+      },
+      "id": 764
+    },
+    {
+      "timestamp": "2026-11-08T19:42:38.298336+08:00",
+      "type": "agent",
+      "node_id": "round-1/verify/inspect",
+      "message": "模拟规则审查（文本检查，不是 LLM 或运行测试）。",
+      "data": {
+        "agent_id": "reviewer",
+        "agent_version": 1,
+        "output": {
+          "summary": "模拟规则审查（文本检查，不是 LLM 或运行测试）。",
+          "passed": true,
+          "issues": [],
+          "citations": [
+            "knowledge/requirements.md"
+          ]
+        },
+        "model_mode": "mock",
+        "model_calls": 0,
+        "duration_ms": 0,
+        "tool_calls": []
+      },
+      "id": 765
+    },
+    {
+      "timestamp": "2026-11-08T19:42:38.308095+08:00",
+      "type": "snapshot",
+      "node_id": "round-1/verify/inspect",
+      "message": "节点和恢复上下文已原子保存",
+      "data": {
+        "snapshot_id": 98
+      },
+      "id": 766
+    },
+    {
+      "timestamp": "2026-11-08T19:42:41.222875+08:00",
+      "type": "tool",
+      "node_id": "round-1/verify/test",
+      "message": "工具返回：run_acceptance · passed",
+      "data": {
+        "tool": "run_acceptance",
+        "status": "completed",
+        "outcome": "passed",
+        "source": "runtime",
+        "input": {
+          "run_id": "fcf783c421194f3897ac0fca5eeabac7",
+          "independent_tests": true
+        },
+        "output": {
+          "status": "passed",
+          "exit_code": 0,
+          "stdout": "AGENTFORGE_ACCEPTANCE={\"tests\": 10, \"passed\": true}\n",
+          "stderr": "test_complete_and_reopen (test_todo.TodoAcceptance.test_complete_and_reopen) ... ok\ntest_filter_completed (test_todo.TodoAcceptance.test_filter_completed) ... ok\ntest_filter_incomplete (test_todo.TodoAcceptance.test_filter_incomplete) ... ok\ntest_ids_are_unique (test_todo.TodoAcceptance.test_ids_are_unique) ... ok\ntest_instances_are_independent (test_todo.TodoAcceptance.test_instances_are_independent) ... ok\ntest_invalid_and_trimmed_title (test_todo.TodoAcceptance.test_invalid_and_trimmed_title) ... ok\ntest_new_tasks_are_incomplete (test_todo.TodoAcceptance.test_new_tasks_are_incomplete) ... ok\ntest_returned_values_are_copies (test_todo.TodoAcceptance.test_returned_values_are_copies) ... ok\ntest_unfiltered_list (test_todo.TodoAcceptance.test_unfiltered_list) ... ok\ntest_unknown_id (test_todo.TodoAcceptance.test_unknown_id) ... ok\n\n----------------------------------------------------------------------\nRan 10 tests in 0.794s\n\nOK\n",
+          "isolated": true,
+          "reason": "",
+          "duration_ms": 2981,
+          "acceptance_sha256": "cce34e17462fc2c0cfd256c81fa6011191930165fc07b565ea6ce323154e67af",
+          "task_id": "completion",
+          "expected_tests": 10
+        }
+      },
+      "id": 767
+    },
+    {
+      "timestamp": "2026-11-08T19:42:41.239248+08:00",
+      "type": "agent",
+      "node_id": "round-1/verify/test",
+      "message": "模拟测试建议：用独立验收覆盖默认状态、筛选、恢复和兼容性。",
+      "data": {
+        "agent_id": "tester",
+        "agent_version": 2,
+        "output": {
+          "summary": "模拟测试建议：用独立验收覆盖默认状态、筛选、恢复和兼容性。",
+          "tests": [
+            "acceptance/test_todo.py"
+          ]
+        },
+        "model_mode": "mock",
+        "model_calls": 0,
+        "duration_ms": 0,
+        "tool_calls": []
+      },
+      "id": 768
+    },
+    {
+      "timestamp": "2026-11-08T19:42:41.249675+08:00",
+      "type": "snapshot",
+      "node_id": "round-1/verify/test",
+      "message": "节点和恢复上下文已原子保存",
+      "data": {
+        "snapshot_id": 99
+      },
+      "id": 769
+    },
+    {
+      "timestamp": "2026-11-08T19:42:41.262865+08:00",
+      "type": "status",
+      "node_id": "round-1/verify/review",
+      "message": "开始：验证结果审查",
+      "data": {},
+      "id": 770
+    },
+    {
+      "timestamp": "2026-11-08T19:42:41.268752+08:00",
+      "type": "schedule",
+      "node_id": "round-1/verify/review",
+      "message": "分配给 审查 Agent：能力 review 匹配；优先选择低负载和专用能力 Agent。",
+      "data": {
+        "selected": "reviewer",
+        "version": 1,
+        "priority": 80,
+        "dependencies": [
+          "test",
+          "inspect"
+        ],
+        "dependencies_satisfied": true,
+        "candidates": [
+          {
+            "id": "reviewer",
+            "load": 0,
+            "capability_count": 1,
+            "version": 1
+          }
+        ],
+        "required_tools": [],
+        "excluded_after_failure": []
+      },
+      "id": 771
+    },
+    {
+      "timestamp": "2026-11-08T19:42:41.292943+08:00",
+      "type": "agent",
+      "node_id": "round-1/verify/review",
+      "message": "模拟规则审查（文本检查，不是 LLM 或运行测试）。",
+      "data": {
+        "agent_id": "reviewer",
+        "agent_version": 1,
+        "output": {
+          "summary": "模拟规则审查（文本检查，不是 LLM 或运行测试）。",
+          "passed": true,
+          "issues": [],
+          "citations": [
+            "knowledge/requirements.md"
+          ]
+        },
+        "model_mode": "mock",
+        "model_calls": 0,
+        "duration_ms": 0,
+        "tool_calls": []
+      },
+      "id": 772
+    },
+    {
+      "timestamp": "2026-11-08T19:42:41.301846+08:00",
+      "type": "snapshot",
+      "node_id": "round-1/verify/review",
+      "message": "节点和恢复上下文已原子保存",
+      "data": {
+        "snapshot_id": 100
+      },
+      "id": 773
+    },
+    {
+      "timestamp": "2026-11-08T19:42:41.309273+08:00",
+      "type": "snapshot",
+      "node_id": "round-1/verify",
+      "message": "节点和恢复上下文已原子保存",
+      "data": {
+        "snapshot_id": 101
+      },
+      "id": 774
+    },
+    {
+      "timestamp": "2026-11-08T19:42:41.318258+08:00",
+      "type": "validation",
+      "node_id": "round-1/gate",
+      "message": "全部验收条件满足",
+      "data": {
+        "passed": true,
+        "test": {
+          "status": "passed",
+          "exit_code": 0,
+          "stdout": "AGENTFORGE_ACCEPTANCE={\"tests\": 10, \"passed\": true}\n",
+          "stderr": "test_complete_and_reopen (test_todo.TodoAcceptance.test_complete_and_reopen) ... ok\ntest_filter_completed (test_todo.TodoAcceptance.test_filter_completed) ... ok\ntest_filter_incomplete (test_todo.TodoAcceptance.test_filter_incomplete) ... ok\ntest_ids_are_unique (test_todo.TodoAcceptance.test_ids_are_unique) ... ok\ntest_instances_are_independent (test_todo.TodoAcceptance.test_instances_are_independent) ... ok\ntest_invalid_and_trimmed_title (test_todo.TodoAcceptance.test_invalid_and_trimmed_title) ... ok\ntest_new_tasks_are_incomplete (test_todo.TodoAcceptance.test_new_tasks_are_incomplete) ... ok\ntest_returned_values_are_copies (test_todo.TodoAcceptance.test_returned_values_are_copies) ... ok\ntest_unfiltered_list (test_todo.TodoAcceptance.test_unfiltered_list) ... ok\ntest_unknown_id (test_todo.TodoAcceptance.test_unknown_id) ... ok\n\n----------------------------------------------------------------------\nRan 10 tests in 0.794s\n\nOK\n",
+          "isolated": true,
+          "reason": "",
+          "duration_ms": 2981,
+          "acceptance_sha256": "cce34e17462fc2c0cfd256c81fa6011191930165fc07b565ea6ce323154e67af",
+          "task_id": "completion",
+          "expected_tests": 10,
+          "evidence_scope": {
+            "id": "round-1/verify",
+            "attempt": 1,
+            "candidate_hash": "f4f50dfd09603ddbf38e209e45474e637f6b91b066c3f2de70cab41eb76dca52"
+          }
+        },
+        "review": {
+          "summary": "模拟规则审查（文本检查，不是 LLM 或运行测试）。",
+          "passed": true,
+          "issues": [],
+          "citations": [
+            "knowledge/requirements.md"
+          ],
+          "evidence_scope": {
+            "id": "round-1/verify",
+            "attempt": 1,
+            "candidate_hash": "f4f50dfd09603ddbf38e209e45474e637f6b91b066c3f2de70cab41eb76dca52"
+          }
+        },
+        "attempt": 1
+      },
+      "id": 775
+    },
+    {
+      "timestamp": "2026-11-08T19:42:41.336647+08:00",
+      "type": "status",
+      "node_id": null,
+      "message": "模拟模型运行：独立隔离测试及审查均通过；候选修改尚未应用。",
+      "data": {},
+      "id": 776
+    }
+  ],
+  "steps": [
+    {
+      "id": "prepare",
+      "node_id": "prepare",
+      "label": "读取项目与知识",
+      "status": "succeeded",
+      "attempt": 0,
+      "started_at": "2026-11-08T19:42:33.450864+08:00",
+      "output": {
+        "files": [
+          "todo.py"
+        ],
+        "references": {
+          "matches": [
+            {
+              "path": "knowledge/requirements.md",
+              "excerpt": "# Todo 演示需求与验收契约\n\n主演示任务：增加任务完成状态，并支持按照完成状态筛选任务。\n\n受控目标只有 `todo.py`，类名为 `TodoStore`。\n- `add(title)` 创建任务，id 单调递增，title 去除首尾空格，空标题抛出 ValueError。\n- 新任务 `completed` 默认为 False。\n- `complete(task_id, completed=True)` 标记完成/恢复未完成并返回任务副本，未知 id 抛出 KeyError。\n- `list(completed=None)` 返回所有任务；True/False 分别只返回完成/未完成任务。\n- 外部修改返回字典不能改写内部任务，多个实例不能共享任务。\n\n新增任意功能需求可交给真实模型，但第一版独立验收仅覆盖上述契约，其他需求不得据此宣称验收通过。\n",
+              "score": 10000,
+              "sha256": "1b419de4e9107dc518479daafaf98f352141e60e8a59cd38304bbe4f26bac07f",
+              "source": "frozen_task_contract"
+            },
+            {
+              "path": "knowledge/testing.md",
+              "excerpt": "# 独立验收与执行边界\n\n完成状态任务的验收位于 acceptance/test_todo.py；扩展任务位于 benchmarks/tasks/<task_id>/test_todo.py，每项固定10个测试。它们仅由平台维护，不接受 Agent 修改。运行时冻结所选任务的需求与验收，再只读挂载；当前 task_contract 是当前任务的完整契约，不把另一任务的约束混入。\n候选代码只能在通过预检的 Docker Linux 容器内执行；网络关闭、只读挂载、非 root 用户、资源上限、超时回收。\n没有 Docker、镜像或容器运行权限时返回 blocked；不会调用宿主 Python 执行候选。\n模拟模型首轮故意漏掉筛选实现，用来演示失败反馈；该故障属于预设演示，不是模型自主犯错的实证。\n平台单元测试中的 stub 仅证明编排逻辑，不能作为真实 LLM 或真实容器测试证据。\n",
+              "score": 57
+            },
+            {
+              "path": "knowledge/development.md",
+              "excerpt": "# 开发规范\n\n只修改候选副本中的 todo.py；不得修改验收测试，不得访问网络、系统环境变量或外部文件。\n保留 TodoStore.add/list 接口和 id 语义。使用 Python 标准库，避免不必要依赖。\n返回纯 JSON 对象，包含 summary 与 files（每项 path/content）。无法完成时解释问题，不要虚构测试结果。\n知识检索为本地关键词检索；引用使用实际文件名，不代表向量 RAG 或长期学习。\n",
+              "score": 32
+            }
+          ],
+          "method": "local_keyword"
+        }
+      },
+      "finished_at": "2026-11-08T19:42:33.524779+08:00"
+    },
+    {
+      "id": "plan",
+      "node_id": "plan",
+      "label": "任务规划",
+      "status": "succeeded",
+      "attempt": 0,
+      "started_at": "2026-11-08T19:42:33.53825+08:00",
+      "output": {
+        "summary": "模拟规划：实现完成状态、筛选并独立验证。",
+        "tasks": [
+          {
+            "id": "implement",
+            "capability": "code",
+            "priority": 10
+          },
+          {
+            "id": "validate",
+            "capability": "test",
+            "depends_on": [
+              "implement"
+            ]
+          }
+        ],
+        "citations": [
+          "knowledge/requirements.md"
+        ]
+      },
+      "agent_id": "planner",
+      "agent_name": "规划 Agent",
+      "agent_version": 1,
+      "finished_at": "2026-11-08T19:42:33.583807+08:00"
+    },
+    {
+      "id": "develop",
+      "node_id": "develop",
+      "label": "候选代码开发",
+      "status": "succeeded",
+      "attempt": 0,
+      "started_at": "2026-11-08T19:42:33.594654+08:00",
+      "output": {
+        "summary": "模拟首轮：预设遗漏状态筛选，用于演示反馈循环。",
+        "files": [
+          {
+            "path": "todo.py",
+            "content": "\"\"\"Candidate generated by the explicit deterministic mock adapter.\"\"\"\nclass TodoStore:\n    def __init__(self):\n        self._tasks = []\n        self._next_id = 1\n\n    def add(self, title):\n        if not isinstance(title, str) or not title.strip():\n            raise ValueError(\"title must not be empty\")\n        task = {\"id\": self._next_id, \"title\": title.strip(), \"completed\": False}\n        self._next_id += 1\n        self._tasks.append(task)\n        return dict(task)\n\n    def complete(self, task_id, completed=True):\n        for task in self._tasks:\n            if task[\"id\"] == task_id:\n                task[\"completed\"] = bool(completed)\n                return dict(task)\n        raise KeyError(task_id)\n\n    def list(self, completed=None):\n        return [dict(task) for task in self._tasks]\n"
+          }
+        ],
+        "preset_fault": true
+      },
+      "agent_id": "developer",
+      "agent_name": "开发 Agent",
+      "agent_version": 1,
+      "finished_at": "2026-11-08T19:42:33.671149+08:00"
+    },
+    {
+      "id": "round-0/verify/inspect",
+      "node_id": "inspect",
+      "label": "需求与差异检查",
+      "status": "succeeded",
+      "attempt": 0,
+      "started_at": "2026-11-08T19:42:33.797521+08:00",
+      "output": {
+        "summary": "模拟规则审查（文本检查，不是 LLM 或运行测试）。",
+        "passed": false,
+        "issues": [
+          "完成状态筛选尚未实现；需要 list(completed=None) 的过滤逻辑。"
+        ],
+        "citations": [
+          "knowledge/requirements.md"
+        ],
+        "evidence_scope": {
+          "id": "round-0/verify",
+          "attempt": 0,
+          "candidate_hash": "15a331ad8776c7aae753f99d1154c739a4ced67f97a958aa7f5ecb1968394d04"
+        }
+      },
+      "agent_id": "reviewer",
+      "agent_name": "审查 Agent",
+      "agent_version": 1,
+      "finished_at": "2026-11-08T19:42:33.840521+08:00"
+    },
+    {
+      "id": "round-0/verify/test",
+      "node_id": "test",
+      "label": "独立验收测试",
+      "status": "succeeded",
+      "attempt": 0,
+      "started_at": "2026-11-08T19:42:33.738605+08:00",
+      "output": {
+        "test": {
+          "status": "failed",
+          "exit_code": 1,
+          "stdout": "AGENTFORGE_ACCEPTANCE={\"tests\": 10, \"passed\": false}\n",
+          "stderr": "test_complete_and_reopen (test_todo.TodoAcceptance.test_complete_and_reopen) ... ok\ntest_filter_completed (test_todo.TodoAcceptance.test_filter_completed) ... FAIL\ntest_filter_incomplete (test_todo.TodoAcceptance.test_filter_incomplete) ... FAIL\ntest_ids_are_unique (test_todo.TodoAcceptance.test_ids_are_unique) ... ok\ntest_instances_are_independent (test_todo.TodoAcceptance.test_instances_are_independent) ... ok\ntest_invalid_and_trimmed_title (test_todo.TodoAcceptance.test_invalid_and_trimmed_title) ... ok\ntest_new_tasks_are_incomplete (test_todo.TodoAcceptance.test_new_tasks_are_incomplete) ... ok\ntest_returned_values_are_copies (test_todo.TodoAcceptance.test_returned_values_are_copies) ... ok\ntest_unfiltered_list (test_todo.TodoAcceptance.test_unfiltered_list) ... ok\ntest_unknown_id (test_todo.TodoAcceptance.test_unknown_id) ... ok\n\n======================================================================\nFAIL: test_filter_completed (test_todo.TodoAcceptance.test_filter_completed)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/task_acceptance/test_todo.py\", line 26, in test_filter_completed\n    self.assertEqual([t['title'] for t in store.list(True)], ['first'])\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Lists differ: ['first', 'second'] != ['first']\n\nFirst list contains 1 additional elements.\nFirst extra element 1:\n'second'\n\n- ['first', 'second']\n+ ['first']\n\n======================================================================\nFAIL: test_filter_incomplete (test_todo.TodoAcceptance.test_filter_incomplete)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/task_acceptance/test_todo.py\", line 32, in test_filter_incomplete\n    self.assertEqual([t['title'] for t in store.list(False)], ['second'])\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Lists differ: ['first', 'second'] != ['second']\n\nFirst differing element 0:\n'first'\n'second'\n\nFirst list contains 1 additional elements.\nFirst extra element 1:\n'second'\n\n- ['first', 'second']\n+ ['second']\n\n----------------------------------------------------------------------\nRan 10 tests in 0.784s\n\nFAILED (failures=2)\n",
+          "isolated": true,
+          "reason": "",
+          "duration_ms": 4193,
+          "acceptance_sha256": "cce34e17462fc2c0cfd256c81fa6011191930165fc07b565ea6ce323154e67af",
+          "task_id": "completion",
+          "expected_tests": 10,
+          "evidence_scope": {
+            "id": "round-0/verify",
+            "attempt": 0,
+            "candidate_hash": "15a331ad8776c7aae753f99d1154c739a4ced67f97a958aa7f5ecb1968394d04"
+          }
+        },
+        "assessment": {
+          "summary": "模拟测试建议：用独立验收覆盖默认状态、筛选、恢复和兼容性。",
+          "tests": [
+            "acceptance/test_todo.py"
+          ]
+        }
+      },
+      "agent_id": "tester",
+      "agent_name": "测试 Agent",
+      "agent_version": 2,
+      "finished_at": "2026-11-08T19:42:37.982976+08:00"
+    },
+    {
+      "id": "round-0/verify/review",
+      "node_id": "review",
+      "label": "验证结果审查",
+      "status": "succeeded",
+      "attempt": 0,
+      "started_at": "2026-11-08T19:42:37.99423+08:00",
+      "output": {
+        "summary": "模拟规则审查（文本检查，不是 LLM 或运行测试）。",
+        "passed": false,
+        "issues": [
+          "完成状态筛选尚未实现；需要 list(completed=None) 的过滤逻辑。"
+        ],
+        "citations": [
+          "knowledge/requirements.md"
+        ],
+        "evidence_scope": {
+          "id": "round-0/verify",
+          "attempt": 0,
+          "candidate_hash": "15a331ad8776c7aae753f99d1154c739a4ced67f97a958aa7f5ecb1968394d04"
+        }
+      },
+      "agent_id": "reviewer",
+      "agent_name": "审查 Agent",
+      "agent_version": 1,
+      "finished_at": "2026-11-08T19:42:38.03605+08:00"
+    },
+    {
+      "id": "round-0/verify",
+      "node_id": "verify",
+      "label": "验证子工作流",
+      "status": "succeeded",
+      "attempt": 0,
+      "started_at": "2026-11-08T19:42:33.715268+08:00",
+      "output": {
+        "test": {
+          "status": "failed",
+          "exit_code": 1,
+          "stdout": "AGENTFORGE_ACCEPTANCE={\"tests\": 10, \"passed\": false}\n",
+          "stderr": "test_complete_and_reopen (test_todo.TodoAcceptance.test_complete_and_reopen) ... ok\ntest_filter_completed (test_todo.TodoAcceptance.test_filter_completed) ... FAIL\ntest_filter_incomplete (test_todo.TodoAcceptance.test_filter_incomplete) ... FAIL\ntest_ids_are_unique (test_todo.TodoAcceptance.test_ids_are_unique) ... ok\ntest_instances_are_independent (test_todo.TodoAcceptance.test_instances_are_independent) ... ok\ntest_invalid_and_trimmed_title (test_todo.TodoAcceptance.test_invalid_and_trimmed_title) ... ok\ntest_new_tasks_are_incomplete (test_todo.TodoAcceptance.test_new_tasks_are_incomplete) ... ok\ntest_returned_values_are_copies (test_todo.TodoAcceptance.test_returned_values_are_copies) ... ok\ntest_unfiltered_list (test_todo.TodoAcceptance.test_unfiltered_list) ... ok\ntest_unknown_id (test_todo.TodoAcceptance.test_unknown_id) ... ok\n\n======================================================================\nFAIL: test_filter_completed (test_todo.TodoAcceptance.test_filter_completed)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/task_acceptance/test_todo.py\", line 26, in test_filter_completed\n    self.assertEqual([t['title'] for t in store.list(True)], ['first'])\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Lists differ: ['first', 'second'] != ['first']\n\nFirst list contains 1 additional elements.\nFirst extra element 1:\n'second'\n\n- ['first', 'second']\n+ ['first']\n\n======================================================================\nFAIL: test_filter_incomplete (test_todo.TodoAcceptance.test_filter_incomplete)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/task_acceptance/test_todo.py\", line 32, in test_filter_incomplete\n    self.assertEqual([t['title'] for t in store.list(False)], ['second'])\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Lists differ: ['first', 'second'] != ['second']\n\nFirst differing element 0:\n'first'\n'second'\n\nFirst list contains 1 additional elements.\nFirst extra element 1:\n'second'\n\n- ['first', 'second']\n+ ['second']\n\n----------------------------------------------------------------------\nRan 10 tests in 0.784s\n\nFAILED (failures=2)\n",
+          "isolated": true,
+          "reason": "",
+          "duration_ms": 4193,
+          "acceptance_sha256": "cce34e17462fc2c0cfd256c81fa6011191930165fc07b565ea6ce323154e67af",
+          "task_id": "completion",
+          "expected_tests": 10,
+          "evidence_scope": {
+            "id": "round-0/verify",
+            "attempt": 0,
+            "candidate_hash": "15a331ad8776c7aae753f99d1154c739a4ced67f97a958aa7f5ecb1968394d04"
+          }
+        },
+        "inspect": {
+          "summary": "模拟规则审查（文本检查，不是 LLM 或运行测试）。",
+          "passed": false,
+          "issues": [
+            "完成状态筛选尚未实现；需要 list(completed=None) 的过滤逻辑。"
+          ],
+          "citations": [
+            "knowledge/requirements.md"
+          ],
+          "evidence_scope": {
+            "id": "round-0/verify",
+            "attempt": 0,
+            "candidate_hash": "15a331ad8776c7aae753f99d1154c739a4ced67f97a958aa7f5ecb1968394d04"
+          }
+        },
+        "review": {
+          "summary": "模拟规则审查（文本检查，不是 LLM 或运行测试）。",
+          "passed": false,
+          "issues": [
+            "完成状态筛选尚未实现；需要 list(completed=None) 的过滤逻辑。"
+          ],
+          "citations": [
+            "knowledge/requirements.md"
+          ],
+          "evidence_scope": {
+            "id": "round-0/verify",
+            "attempt": 0,
+            "candidate_hash": "15a331ad8776c7aae753f99d1154c739a4ced67f97a958aa7f5ecb1968394d04"
+          }
+        },
+        "validation_scope": {
+          "id": "round-0/verify",
+          "attempt": 0,
+          "candidate_hash": "15a331ad8776c7aae753f99d1154c739a4ced67f97a958aa7f5ecb1968394d04"
+        }
+      },
+      "finished_at": "2026-11-08T19:42:38.043334+08:00"
+    },
+    {
+      "id": "round-0/gate",
+      "label": "验收条件判断",
+      "status": "succeeded",
+      "attempt": 0,
+      "output": {
+        "passed": false,
+        "test_status": "failed",
+        "issues": [
+          "完成状态筛选尚未实现；需要 list(completed=None) 的过滤逻辑。"
+        ]
+      }
+    },
+    {
+      "id": "round-1/fix",
+      "node_id": "fix",
+      "label": "反馈修正 · 最多两轮",
+      "status": "succeeded",
+      "attempt": 1,
+      "started_at": "2026-11-08T19:42:38.07431+08:00",
+      "output": {
+        "summary": "模拟修正：实现状态筛选。",
+        "files": [
+          {
+            "path": "todo.py",
+            "content": "\"\"\"Candidate generated by the explicit deterministic mock adapter.\"\"\"\nclass TodoStore:\n    def __init__(self):\n        self._tasks = []\n        self._next_id = 1\n\n    def add(self, title):\n        if not isinstance(title, str) or not title.strip():\n            raise ValueError(\"title must not be empty\")\n        task = {\"id\": self._next_id, \"title\": title.strip(), \"completed\": False}\n        self._next_id += 1\n        self._tasks.append(task)\n        return dict(task)\n\n    def complete(self, task_id, completed=True):\n        for task in self._tasks:\n            if task[\"id\"] == task_id:\n                task[\"completed\"] = bool(completed)\n                return dict(task)\n        raise KeyError(task_id)\n\n    def list(self, completed=None):\n        return [dict(task) for task in self._tasks if completed is None or task['completed'] == completed]\n"
+          }
+        ],
+        "preset_fault": false
+      },
+      "agent_id": "fixer",
+      "agent_name": "修正 Agent",
+      "agent_version": 1,
+      "finished_at": "2026-11-08T19:42:38.156211+08:00"
+    },
+    {
+      "id": "round-1/verify/inspect",
+      "node_id": "inspect",
+      "label": "需求与差异检查",
+      "status": "succeeded",
+      "attempt": 1,
+      "started_at": "2026-11-08T19:42:38.258965+08:00",
+      "output": {
+        "summary": "模拟规则审查（文本检查，不是 LLM 或运行测试）。",
+        "passed": true,
+        "issues": [],
+        "citations": [
+          "knowledge/requirements.md"
+        ],
+        "evidence_scope": {
+          "id": "round-1/verify",
+          "attempt": 1,
+          "candidate_hash": "f4f50dfd09603ddbf38e209e45474e637f6b91b066c3f2de70cab41eb76dca52"
+        }
+      },
+      "agent_id": "reviewer",
+      "agent_name": "审查 Agent",
+      "agent_version": 1,
+      "finished_at": "2026-11-08T19:42:38.304417+08:00"
+    },
+    {
+      "id": "round-1/verify/test",
+      "node_id": "test",
+      "label": "独立验收测试",
+      "status": "succeeded",
+      "attempt": 1,
+      "started_at": "2026-11-08T19:42:38.214654+08:00",
+      "output": {
+        "test": {
+          "status": "passed",
+          "exit_code": 0,
+          "stdout": "AGENTFORGE_ACCEPTANCE={\"tests\": 10, \"passed\": true}\n",
+          "stderr": "test_complete_and_reopen (test_todo.TodoAcceptance.test_complete_and_reopen) ... ok\ntest_filter_completed (test_todo.TodoAcceptance.test_filter_completed) ... ok\ntest_filter_incomplete (test_todo.TodoAcceptance.test_filter_incomplete) ... ok\ntest_ids_are_unique (test_todo.TodoAcceptance.test_ids_are_unique) ... ok\ntest_instances_are_independent (test_todo.TodoAcceptance.test_instances_are_independent) ... ok\ntest_invalid_and_trimmed_title (test_todo.TodoAcceptance.test_invalid_and_trimmed_title) ... ok\ntest_new_tasks_are_incomplete (test_todo.TodoAcceptance.test_new_tasks_are_incomplete) ... ok\ntest_returned_values_are_copies (test_todo.TodoAcceptance.test_returned_values_are_copies) ... ok\ntest_unfiltered_list (test_todo.TodoAcceptance.test_unfiltered_list) ... ok\ntest_unknown_id (test_todo.TodoAcceptance.test_unknown_id) ... ok\n\n----------------------------------------------------------------------\nRan 10 tests in 0.794s\n\nOK\n",
+          "isolated": true,
+          "reason": "",
+          "duration_ms": 2981,
+          "acceptance_sha256": "cce34e17462fc2c0cfd256c81fa6011191930165fc07b565ea6ce323154e67af",
+          "task_id": "completion",
+          "expected_tests": 10,
+          "evidence_scope": {
+            "id": "round-1/verify",
+            "attempt": 1,
+            "candidate_hash": "f4f50dfd09603ddbf38e209e45474e637f6b91b066c3f2de70cab41eb76dca52"
+          }
+        },
+        "assessment": {
+          "summary": "模拟测试建议：用独立验收覆盖默认状态、筛选、恢复和兼容性。",
+          "tests": [
+            "acceptance/test_todo.py"
+          ]
+        }
+      },
+      "agent_id": "tester",
+      "agent_name": "测试 Agent",
+      "agent_version": 2,
+      "finished_at": "2026-11-08T19:42:41.245676+08:00"
+    },
+    {
+      "id": "round-1/verify/review",
+      "node_id": "review",
+      "label": "验证结果审查",
+      "status": "succeeded",
+      "attempt": 1,
+      "started_at": "2026-11-08T19:42:41.257797+08:00",
+      "output": {
+        "summary": "模拟规则审查（文本检查，不是 LLM 或运行测试）。",
+        "passed": true,
+        "issues": [],
+        "citations": [
+          "knowledge/requirements.md"
+        ],
+        "evidence_scope": {
+          "id": "round-1/verify",
+          "attempt": 1,
+          "candidate_hash": "f4f50dfd09603ddbf38e209e45474e637f6b91b066c3f2de70cab41eb76dca52"
+        }
+      },
+      "agent_id": "reviewer",
+      "agent_name": "审查 Agent",
+      "agent_version": 1,
+      "finished_at": "2026-11-08T19:42:41.298464+08:00"
+    },
+    {
+      "id": "round-1/verify",
+      "node_id": "verify",
+      "label": "验证子工作流",
+      "status": "succeeded",
+      "attempt": 1,
+      "started_at": "2026-11-08T19:42:38.190253+08:00",
+      "output": {
+        "test": {
+          "status": "passed",
+          "exit_code": 0,
+          "stdout": "AGENTFORGE_ACCEPTANCE={\"tests\": 10, \"passed\": true}\n",
+          "stderr": "test_complete_and_reopen (test_todo.TodoAcceptance.test_complete_and_reopen) ... ok\ntest_filter_completed (test_todo.TodoAcceptance.test_filter_completed) ... ok\ntest_filter_incomplete (test_todo.TodoAcceptance.test_filter_incomplete) ... ok\ntest_ids_are_unique (test_todo.TodoAcceptance.test_ids_are_unique) ... ok\ntest_instances_are_independent (test_todo.TodoAcceptance.test_instances_are_independent) ... ok\ntest_invalid_and_trimmed_title (test_todo.TodoAcceptance.test_invalid_and_trimmed_title) ... ok\ntest_new_tasks_are_incomplete (test_todo.TodoAcceptance.test_new_tasks_are_incomplete) ... ok\ntest_returned_values_are_copies (test_todo.TodoAcceptance.test_returned_values_are_copies) ... ok\ntest_unfiltered_list (test_todo.TodoAcceptance.test_unfiltered_list) ... ok\ntest_unknown_id (test_todo.TodoAcceptance.test_unknown_id) ... ok\n\n----------------------------------------------------------------------\nRan 10 tests in 0.794s\n\nOK\n",
+          "isolated": true,
+          "reason": "",
+          "duration_ms": 2981,
+          "acceptance_sha256": "cce34e17462fc2c0cfd256c81fa6011191930165fc07b565ea6ce323154e67af",
+          "task_id": "completion",
+          "expected_tests": 10,
+          "evidence_scope": {
+            "id": "round-1/verify",
+            "attempt": 1,
+            "candidate_hash": "f4f50dfd09603ddbf38e209e45474e637f6b91b066c3f2de70cab41eb76dca52"
+          }
+        },
+        "inspect": {
+          "summary": "模拟规则审查（文本检查，不是 LLM 或运行测试）。",
+          "passed": true,
+          "issues": [],
+          "citations": [
+            "knowledge/requirements.md"
+          ],
+          "evidence_scope": {
+            "id": "round-1/verify",
+            "attempt": 1,
+            "candidate_hash": "f4f50dfd09603ddbf38e209e45474e637f6b91b066c3f2de70cab41eb76dca52"
+          }
+        },
+        "review": {
+          "summary": "模拟规则审查（文本检查，不是 LLM 或运行测试）。",
+          "passed": true,
+          "issues": [],
+          "citations": [
+            "knowledge/requirements.md"
+          ],
+          "evidence_scope": {
+            "id": "round-1/verify",
+            "attempt": 1,
+            "candidate_hash": "f4f50dfd09603ddbf38e209e45474e637f6b91b066c3f2de70cab41eb76dca52"
+          }
+        },
+        "validation_scope": {
+          "id": "round-1/verify",
+          "attempt": 1,
+          "candidate_hash": "f4f50dfd09603ddbf38e209e45474e637f6b91b066c3f2de70cab41eb76dca52"
+        }
+      },
+      "finished_at": "2026-11-08T19:42:41.305722+08:00"
+    },
+    {
+      "id": "round-1/gate",
+      "label": "验收条件判断",
+      "status": "succeeded",
+      "attempt": 1,
+      "output": {
+        "passed": true,
+        "test_status": "passed",
+        "issues": []
+      }
+    }
+  ],
+  "snapshots": [
+    {
+      "timestamp": "2026-11-08T19:42:33.529245+08:00",
+      "node_id": "prepare",
+      "id": 90
+    },
+    {
+      "timestamp": "2026-11-08T19:42:33.587007+08:00",
+      "node_id": "plan",
+      "id": 91
+    },
+    {
+      "timestamp": "2026-11-08T19:42:33.674484+08:00",
+      "node_id": "develop",
+      "id": 92
+    },
+    {
+      "timestamp": "2026-11-08T19:42:33.844138+08:00",
+      "node_id": "round-0/verify/inspect",
+      "id": 93
+    },
+    {
+      "timestamp": "2026-11-08T19:42:37.986343+08:00",
+      "node_id": "round-0/verify/test",
+      "id": 94
+    },
+    {
+      "timestamp": "2026-11-08T19:42:38.03952+08:00",
+      "node_id": "round-0/verify/review",
+      "id": 95
+    },
+    {
+      "timestamp": "2026-11-08T19:42:38.046653+08:00",
+      "node_id": "round-0/verify",
+      "id": 96
+    },
+    {
+      "timestamp": "2026-11-08T19:42:38.159776+08:00",
+      "node_id": "round-1/fix",
+      "id": 97
+    },
+    {
+      "timestamp": "2026-11-08T19:42:38.307938+08:00",
+      "node_id": "round-1/verify/inspect",
+      "id": 98
+    },
+    {
+      "timestamp": "2026-11-08T19:42:41.249495+08:00",
+      "node_id": "round-1/verify/test",
+      "id": 99
+    },
+    {
+      "timestamp": "2026-11-08T19:42:41.301679+08:00",
+      "node_id": "round-1/verify/review",
+      "id": 100
+    },
+    {
+      "timestamp": "2026-11-08T19:42:41.309117+08:00",
+      "node_id": "round-1/verify",
+      "id": 101
+    }
+  ],
+  "diff": {
+    "files": [
+      {
+        "path": "todo.py",
+        "before": "\"\"\"Small, deliberately incomplete example project; candidate edits go to copies.\"\"\"\n\n\nclass TodoStore:\n    def __init__(self):\n        self._tasks = []\n        self._next_id = 1\n\n    def add(self, title):\n        if not isinstance(title, str) or not title.strip():\n            raise ValueError(\"title must not be empty\")\n        task = {\"id\": self._next_id, \"title\": title.strip()}\n        self._next_id += 1\n        self._tasks.append(task)\n        return dict(task)\n\n    def list(self):\n        return [dict(task) for task in self._tasks]\n",
+        "after": "\"\"\"Candidate generated by the explicit deterministic mock adapter.\"\"\"\nclass TodoStore:\n    def __init__(self):\n        self._tasks = []\n        self._next_id = 1\n\n    def add(self, title):\n        if not isinstance(title, str) or not title.strip():\n            raise ValueError(\"title must not be empty\")\n        task = {\"id\": self._next_id, \"title\": title.strip(), \"completed\": False}\n        self._next_id += 1\n        self._tasks.append(task)\n        return dict(task)\n\n    def complete(self, task_id, completed=True):\n        for task in self._tasks:\n            if task[\"id\"] == task_id:\n                task[\"completed\"] = bool(completed)\n                return dict(task)\n        raise KeyError(task_id)\n\n    def list(self, completed=None):\n        return [dict(task) for task in self._tasks if completed is None or task['completed'] == completed]\n",
+        "diff": "--- a/todo.py\n+++ b/todo.py\n@@ -1,6 +1,4 @@\n-\"\"\"Small, deliberately incomplete example project; candidate edits go to copies.\"\"\"\n-\n-\n+\"\"\"Candidate generated by the explicit deterministic mock adapter.\"\"\"\n class TodoStore:\n     def __init__(self):\n         self._tasks = []\n@@ -9,10 +7,17 @@\n     def add(self, title):\n         if not isinstance(title, str) or not title.strip():\n             raise ValueError(\"title must not be empty\")\n-        task = {\"id\": self._next_id, \"title\": title.strip()}\n+        task = {\"id\": self._next_id, \"title\": title.strip(), \"completed\": False}\n         self._next_id += 1\n         self._tasks.append(task)\n         return dict(task)\n \n-    def list(self):\n-        return [dict(task) for task in self._tasks]\n+    def complete(self, task_id, completed=True):\n+        for task in self._tasks:\n+            if task[\"id\"] == task_id:\n+                task[\"completed\"] = bool(completed)\n+                return dict(task)\n+        raise KeyError(task_id)\n+\n+    def list(self, completed=None):\n+        return [dict(task) for task in self._tasks if completed is None or task['completed'] == completed]\n"
+      }
+    ],
+    "unified_diff": "--- a/todo.py\n+++ b/todo.py\n@@ -1,6 +1,4 @@\n-\"\"\"Small, deliberately incomplete example project; candidate edits go to copies.\"\"\"\n-\n-\n+\"\"\"Candidate generated by the explicit deterministic mock adapter.\"\"\"\n class TodoStore:\n     def __init__(self):\n         self._tasks = []\n@@ -9,10 +7,17 @@\n     def add(self, title):\n         if not isinstance(title, str) or not title.strip():\n             raise ValueError(\"title must not be empty\")\n-        task = {\"id\": self._next_id, \"title\": title.strip()}\n+        task = {\"id\": self._next_id, \"title\": title.strip(), \"completed\": False}\n         self._next_id += 1\n         self._tasks.append(task)\n         return dict(task)\n \n-    def list(self):\n-        return [dict(task) for task in self._tasks]\n+    def complete(self, task_id, completed=True):\n+        for task in self._tasks:\n+            if task[\"id\"] == task_id:\n+                task[\"completed\"] = bool(completed)\n+                return dict(task)\n+        raise KeyError(task_id)\n+\n+    def list(self, completed=None):\n+        return [dict(task) for task in self._tasks if completed is None or task['completed'] == completed]\n"
+  },
+  "agent_versions": [
+    {
+      "id": "developer",
+      "name": "开发 Agent",
+      "role": "developer",
+      "capabilities": [
+        "develop",
+        "fix"
+      ],
+      "prompt": "依据需求和规划生成 todo.py 的完整候选内容，保持兼容。仅返回 JSON files 列表和 summary，不修改验收测试。",
+      "tools": [
+        "read_project",
+        "knowledge_search",
+        "candidate_diff"
+      ],
+      "enabled": true,
+      "model": "default",
+      "version": 1
+    },
+    {
+      "id": "fixer",
+      "name": "修正 Agent",
+      "role": "fixer",
+      "capabilities": [
+        "fix"
+      ],
+      "prompt": "根据具体验收失败和审查问题修复 todo.py，返回完整 JSON files 列表与 summary。不得修改独立验收测试。",
+      "tools": [
+        "read_project",
+        "knowledge_search",
+        "candidate_diff"
+      ],
+      "enabled": true,
+      "model": "default",
+      "version": 1
+    },
+    {
+      "id": "planner",
+      "name": "规划 Agent",
+      "role": "planner",
+      "capabilities": [
+        "plan"
+      ],
+      "prompt": "读取项目与引用资料。将需求拆成可验证的开发、测试和审查任务。返回 JSON tasks 和 summary。",
+      "tools": [
+        "read_project",
+        "knowledge_search"
+      ],
+      "enabled": true,
+      "model": "default",
+      "version": 1
+    },
+    {
+      "id": "reviewer",
+      "name": "审查 Agent",
+      "role": "reviewer",
+      "capabilities": [
+        "review"
+      ],
+      "prompt": "对照需求、候选差异、资料和已有测试结果审查。返回 JSON passed 布尔值、issues 数组、summary；证据不足则不通过。",
+      "tools": [
+        "read_project",
+        "knowledge_search",
+        "candidate_diff"
+      ],
+      "enabled": true,
+      "model": "default",
+      "version": 1
+    },
+    {
+      "id": "tester",
+      "name": "测试 Agent",
+      "role": "tester",
+      "capabilities": [
+        "test"
+      ],
+      "enabled": true,
+      "prompt": "解读受控容器独立验收测试的真实结果，指出覆盖缺口。不得把 blocked 或模拟结果当作真实通过。",
+      "model": "default",
+      "tools": [
+        "run_acceptance",
+        "read_project"
+      ],
+      "version": 2
+    }
+  ],
+  "workflow": {
+    "id": "development",
+    "name": "软件需求实现",
+    "version": 1,
+    "description": "规划 → 候选开发 → 并行验证子工作流 → 条件判断 → 最多两轮修正。",
+    "max_repairs": 2,
+    "nodes": [
+      {
+        "id": "prepare",
+        "label": "读取项目与知识",
+        "capability": null,
+        "operation": "prepare",
+        "kind": "prepare",
+        "depends_on": [],
+        "priority": 100
+      },
+      {
+        "id": "plan",
+        "label": "任务规划",
+        "capability": "plan",
+        "operation": "agent",
+        "kind": "agent",
+        "depends_on": [
+          "prepare"
+        ],
+        "priority": 90
+      },
+      {
+        "id": "develop",
+        "label": "候选代码开发",
+        "capability": "develop",
+        "operation": "edit",
+        "kind": "edit",
+        "depends_on": [
+          "plan"
+        ],
+        "priority": 80
+      },
+      {
+        "id": "verify",
+        "label": "验证子工作流",
+        "capability": null,
+        "operation": "subworkflow",
+        "kind": "subworkflow",
+        "depends_on": [
+          "develop"
+        ],
+        "priority": 70,
+        "children": [
+          {
+            "id": "test",
+            "label": "独立验收测试",
+            "capability": "test",
+            "operation": "test",
+            "kind": "test",
+            "depends_on": [],
+            "priority": 90
+          },
+          {
+            "id": "inspect",
+            "label": "需求与差异检查",
+            "capability": "review",
+            "operation": "agent",
+            "kind": "agent",
+            "depends_on": [],
+            "priority": 70
+          },
+          {
+            "id": "review",
+            "label": "验证结果审查",
+            "capability": "review",
+            "operation": "agent",
+            "kind": "agent",
+            "depends_on": [
+              "test",
+              "inspect"
+            ],
+            "priority": 80
+          }
+        ]
+      },
+      {
+        "id": "gate",
+        "label": "验收条件判断",
+        "capability": null,
+        "operation": "condition",
+        "kind": "condition",
+        "depends_on": [
+          "verify"
+        ],
+        "priority": 60
+      },
+      {
+        "id": "fix",
+        "label": "反馈修正 · 最多两轮",
+        "capability": "fix",
+        "operation": "edit",
+        "kind": "loop",
+        "depends_on": [
+          "gate"
+        ],
+        "priority": 50,
+        "conditional": true
+      }
+    ]
+  }
+}

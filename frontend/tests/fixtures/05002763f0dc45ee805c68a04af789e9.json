@@ -1,0 +1,637 @@
+{
+  "fixture_provenance": {
+    "source_run_id": "05002763f0dc45ee805c68a04af789e9",
+    "source_evidence_sha256": "b6aae7aa6f71a19feaf1dc29efe541f21b7c14c82bc01925e0088f3debda6223",
+    "retained": "Selected final run metadata and task identifiers; all original events retained unchanged.",
+    "omitted": "Model configuration, frozen source/test bundle, full final task outputs and context snapshots are unnecessary for replay tests.",
+    "source_event_count": 34
+  },
+  "run": {
+    "id": "05002763f0dc45ee805c68a04af789e9",
+    "engine": "model-directed-v1",
+    "mode": "live",
+    "status": "succeeded",
+    "requirement": "帮我做一个标准库 Python 的 CSV 支出汇总库，分成 csv_reader.py 和 report.py。\n\ncsv_reader.parse_expenses(text) 读取包含 category、amount 两列的 CSV，返回 [{\"category\": \"餐饮\", \"amount_cents\": 1250}] 这样的列表。类别去除两端空格且不能为空；金额可为负数，使用十进制精确换算为整数分，最多两位小数，不接受 NaN、Infinity 或非法文本。忽略全空行，保留带引号的逗号类别；缺列、额外列或非法行抛 ValueError。只有表头时返回空列表。\n\nreport.summarize(items) 按类别汇总整数分，返回按 category 字符串升序的 [{\"category\": \"餐饮\", \"total_cents\": 1250, \"count\": 1}]。空列表返回空列表，不修改传入列表或字典。\n\nreport.build_report(text) 组合 CSV 解析和汇总。例如 category,amount 换行 餐饮,12.50 换行 交通,3.00 换行 餐饮,-2.50，应得到交通 300 分、餐饮 1000 分。\n\n请根据这些要求建立验收标准，自行拆分任务、分配子 Agent，运行 Docker 测试；发现问题时依据实际反馈修正。不要预设错误来演示修复。",
+    "created_at": "2026-11-08T13:25:41.619795+00:00",
+    "updated_at": "2026-11-08T13:26:28.393831+00:00",
+    "summary": "已完成标准库 Python CSV 支出汇总库：csv_reader.py 实现 parse_expenses（表头按列名匹配且必须恰好为 category、amount 两列；跳过全空行；类别去两端空格且非空；金额用 Decimal 精确换算整数分，支持负数、最多两位小数，拒绝 NaN/Infinity/非法文本；缺列、额外列、非法行抛 ValueError；保留带引号逗号类别；仅表头返回空列表），report.py 实现 summarize（按类别汇总 total_cents 与 count，按 category 升序，空列表返回 []，不修改输入）与 build_report（组合解析与汇总，示例得到交通 300 分、餐饮 1000 分）。独立 Docker 验证针对当前候选哈希 b2cf8b79… 运行 12 项冻结验收测试，全部通过（failures=0，errors=0，container_invoked=true）。无待处理任务，无已知限制。",
+    "task_graph": [
+      {
+        "id": "impl-csv-reader",
+        "title": "实现 csv_reader.parse_expenses",
+        "status": "succeeded"
+      },
+      {
+        "id": "impl-report",
+        "title": "实现 report.summarize 与 build_report",
+        "status": "succeeded"
+      }
+    ]
+  },
+  "events": [
+    {
+      "timestamp": "2026-11-08T13:25:41.626070+00:00",
+      "type": "created",
+      "node_id": null,
+      "message": "已保存需求，等待真实模型整理接口与验收",
+      "data": {
+        "engine": "model-directed-v1",
+        "input_origin": "requirement",
+        "acceptance_origin": "model_generated",
+        "budget": {
+          "max_calls": 40,
+          "max_tokens": 300000,
+          "max_output_tokens": 8192,
+          "max_steps": 24,
+          "max_tasks": 32,
+          "max_parallel": 3,
+          "max_verifications": 8,
+          "wall_seconds": 900
+        }
+      },
+      "id": 113
+    },
+    {
+      "timestamp": "2026-11-08T13:25:41.681124+00:00",
+      "type": "intake_started",
+      "node_id": null,
+      "message": "真实模型正在理解需求；尚未创建执行任务",
+      "data": {},
+      "id": 114
+    },
+    {
+      "timestamp": "2026-11-08T13:25:41.702091+00:00",
+      "type": "model_request",
+      "node_id": null,
+      "message": "Real model request started",
+      "data": {
+        "sequence": 1,
+        "role": "intake",
+        "format_retry": false,
+        "evidence": "model_requests/0001-c866c22b39da.json"
+      },
+      "id": 115
+    },
+    {
+      "timestamp": "2026-11-08T13:25:48.602065+00:00",
+      "type": "model_response",
+      "node_id": null,
+      "message": "Real model request completed",
+      "data": {
+        "sequence": 1,
+        "status": "responded",
+        "usage_known": true,
+        "tokens": 3027,
+        "format_retry": false
+      },
+      "id": 116
+    },
+    {
+      "timestamp": "2026-11-08T13:25:48.625199+00:00",
+      "type": "contract_review_started",
+      "node_id": null,
+      "message": "检查具体预期值、排序边界和函数组合一致性",
+      "data": {
+        "proposal_index": 1
+      },
+      "id": 117
+    },
+    {
+      "timestamp": "2026-11-08T13:25:48.647960+00:00",
+      "type": "model_request",
+      "node_id": null,
+      "message": "Real model request started",
+      "data": {
+        "sequence": 2,
+        "role": "contract_review",
+        "format_retry": false,
+        "evidence": "model_requests/0002-1b97988d3ea4.json"
+      },
+      "id": 118
+    },
+    {
+      "timestamp": "2026-11-08T13:25:51.972232+00:00",
+      "type": "model_response",
+      "node_id": null,
+      "message": "Real model request completed",
+      "data": {
+        "sequence": 2,
+        "status": "responded",
+        "usage_known": true,
+        "tokens": 4544,
+        "format_retry": false
+      },
+      "id": 119
+    },
+    {
+      "timestamp": "2026-11-08T13:25:51.991475+00:00",
+      "type": "contract_review",
+      "node_id": null,
+      "message": "AI 验收契约一致性审查已记录",
+      "data": {
+        "passed": true,
+        "issues": [],
+        "summary": "契约与原始需求一致：parse_expenses 按表头名匹配 category/amount、去空格校验类别、Decimal 精确换算整数分、拒绝 NaN/Infinity/非法文本/超过两位小数、忽略全空行、保留带引号逗号类别、缺列/额外列/非法行抛 ValueError、仅表头返回空列表；summarize 按类别汇总并按 Unicode 码点升序排序（交通 U+4EA4 < 餐饮 U+9910，测试期望顺序正确），空列表返回空列表且不修改输入；build_report 等价于 summarize(parse_expenses(text))，示例期望交通 300 分、餐饮 1000 分与需求一致，错误传播测试合理。测试断言逐条核对无矛盾。限制：测试经 JSON 进程边界运行，父进程侧快照无法真正证明进程内不修改输入，仅能作为弱覆盖；文件为 NotImplementedError 占位，实际实现尚未验证。",
+        "index": 1,
+        "timestamp": "2026-11-08T13:25:51.981538+00:00",
+        "origin": "model_contract_review",
+        "proposal_sha256": "60fa8346f535f227aff7fdbe369cec69d0aaeef621cf05f76a1ba4707d89db90"
+      },
+      "id": 120
+    },
+    {
+      "timestamp": "2026-11-08T13:25:52.004627+00:00",
+      "type": "intake_completed",
+      "node_id": null,
+      "message": "接口与 AI 生成验收已冻结",
+      "data": {
+        "status": "completed",
+        "summary": "标准库 CSV 支出汇总库，含 csv_reader.parse_expenses 解析与校验、report.summarize 按类别汇总、report.build_report 组合两者。",
+        "specification": "模块 csv_reader：函数 parse_expenses(text) -> list[dict]。text 为 CSV 文本，首行为表头，必须恰好包含 category、amount 两列（顺序按表头名匹配）。逐行解析：忽略全空行；category 去除两端空格后不能为空，否则 ValueError；amount 用 decimal.Decimal 精确解析，最多两位小数，可为负数，不接受 NaN、Infinity 或非法文本，否则 ValueError；缺列、额外列或非法行抛 ValueError。带引号的逗号类别需正确保留。返回 [{\"category\": str, \"amount_cents\": int}]，仅表头时返回 []。\n\n模块 report：函数 summarize(items) -> list[dict]。items 为 [{\"category\": str, \"amount_cents\": int}]。按 category 汇总 total_cents 与 count，返回按 category 字符串升序的 [{\"category\": str, \"total_cents\": int, \"count\": int}]。空列表返回 []，不修改传入列表或字典。\n\n函数 build_report(text) -> list[dict]。等价于 summarize(parse_expenses(text))，解析错误按 parse_expenses 规则抛 ValueError。示例：category,amount\\n餐饮,12.50\\n交通,3.00\\n餐饮,-2.50 得到 [{\"category\": \"交通\", \"total_cents\": 300, \"count\": 1}, {\"category\": \"餐饮\", \"total_cents\": 1000, \"count\": 2}]。",
+        "assumptions": [
+          "表头按列名匹配，category 与 amount 两列必须存在且无额外列。",
+          "金额最多两位小数，超过两位小数视为非法文本抛 ValueError。",
+          "全空行指所有字段去除空白后均为空的行。",
+          "summarize 假定输入项 category 为字符串、amount_cents 为整数，不做额外校验。"
+        ],
+        "acceptance_origin": "model_generated",
+        "coverage_notice": "AI 生成的验收已冻结；通过这些测试不等于所有需求均经人工验证。",
+        "bundle_sha256": "6be9ff74901d8c1509d9c05769c3e977778d78340d64fb868c7f1cb523179f4c"
+      },
+      "id": 121
+    },
+    {
+      "timestamp": "2026-11-08T13:25:57.343694+00:00",
+      "type": "verification",
+      "node_id": null,
+      "message": "独立 Docker 验收已记录",
+      "data": {
+        "status": "failed",
+        "exit_code": 1,
+        "isolated": true,
+        "stdout": "AGENTFORGE_AUTONOMOUS={\"discovered\": 12, \"errors\": 12, \"expected_failures\": 0, \"failures\": 0, \"nonce\": \"eb5d46560d794125bb52aa0373d74809\", \"passed\": false, \"skipped\": 0, \"tests\": 12}\n",
+        "stderr": "test_build_report_example (frozen_acceptance.TestBuildReport.test_build_report_example) ... ERROR\ntest_build_report_propagates_error (frozen_acceptance.TestBuildReport.test_build_report_propagates_error) ... ERROR\ntest_basic_parse (frozen_acceptance.TestParseExpenses.test_basic_parse) ... ERROR\ntest_empty_category_raises (frozen_acceptance.TestParseExpenses.test_empty_category_raises) ... ERROR\ntest_header_only (frozen_acceptance.TestParseExpenses.test_header_only) ... ERROR\ntest_ignore_blank_lines (frozen_acceptance.TestParseExpenses.test_ignore_blank_lines) ... ERROR\ntest_invalid_amount_raises (frozen_acceptance.TestParseExpenses.test_invalid_amount_raises) ... ERROR\ntest_missing_or_extra_column_raises (frozen_acceptance.TestParseExpenses.test_missing_or_extra_column_raises) ... ERROR\ntest_negative_and_trim_and_quoted_comma (frozen_acceptance.TestParseExpenses.test_negative_and_trim_and_quoted_comma) ... ERROR\ntest_summarize_does_not_mutate (frozen_acceptance.TestSummarize.test_summarize_does_not_mutate) ... ERROR\ntest_summarize_empty (frozen_acceptance.TestSummarize.test_summarize_empty) ... ERROR\ntest_summarize_sorted (frozen_acceptance.TestSummarize.test_summarize_sorted) ... ERROR\n\n======================================================================\nERROR: test_build_report_example (frozen_acceptance.TestBuildReport.test_build_report_example)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/trusted/test_acceptance.py\", line 75, in test_build_report_example\n    result = call(\"report\", \"build_report\", text)\n  File \"/runner/bridge.py\", line 37, in call\n    raise exception(str(response.get(\"message\", \"Candidate failed\")))\nNotImplementedError\n\n======================================================================\nERROR: test_build_report_propagates_error (frozen_acceptance.TestBuildReport.test_build_report_propagates_error)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/trusted/test_acceptance.py\", line 83, in test_build_report_propagates_error\n    call(\"report\", \"build_report\", \"category,amount\\n餐饮,NaN\\n\")\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/runner/bridge.py\", line 37, in call\n    raise exception(str(response.get(\"message\", \"Candidate failed\")))\nNotImplementedError\n\n======================================================================\nERROR: test_basic_parse (frozen_acceptance.TestParseExpenses.test_basic_parse)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/trusted/test_acceptance.py\", line 8, in test_basic_parse\n    result = call(\"csv_reader\", \"parse_expenses\", text)\n  File \"/runner/bridge.py\", line 37, in call\n    raise exception(str(response.get(\"message\", \"Candidate failed\")))\nNotImplementedError\n\n======================================================================\nERROR: test_empty_category_raises (frozen_acceptance.TestParseExpenses.test_empty_category_raises)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/trusted/test_acceptance.py\", line 36, in test_empty_category_raises\n    call(\"csv_reader\", \"parse_expenses\", \"category,amount\\n   ,1.00\\n\")\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/runner/bridge.py\", line 37, in call\n    raise exception(str(response.get(\"message\", \"Candidate failed\")))\nNotImplementedError\n\n======================================================================\nERROR: test_header_only (frozen_acceptance.TestParseExpenses.test_header_only)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/trusted/test_acceptance.py\", line 15, in test_header_only\n    result = call(\"csv_reader\", \"parse_expenses\", \"category,amount\\n\")\n  File \"/runner/bridge.py\", line 37, in call\n    raise exception(str(response.get(\"message\", \"Candidate failed\")))\nNotImplementedError\n\n======================================================================\nERROR: test_ignore_blank_lines (frozen_acceptance.TestParseExpenses.test_ignore_blank_lines)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/trusted/test_acceptance.py\", line 28, in test_ignore_blank_lines\n    result = call(\"csv_reader\", \"parse_expenses\", text)\n  File \"/runner/bridge.py\", line 37, in call\n    raise exception(str(response.get(\"message\", \"Candidate failed\")))\nNotImplementedError\n\n======================================================================\nERROR: test_invalid_amount_raises (frozen_acceptance.TestParseExpenses.test_invalid_amount_raises)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/trusted/test_acceptance.py\", line 41, in test_invalid_amount_raises\n    call(\"csv_reader\", \"parse_expenses\", \"category,amount\\n餐饮,\" + bad + \"\\n\")\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/runner/bridge.py\", line 37, in call\n    raise exception(str(response.get(\"message\", \"Candidate failed\")))\nNotImplementedError\n\n======================================================================\nERROR: test_missing_or_extra_column_raises (frozen_acceptance.TestParseExpenses.test_missing_or_extra_column_raises)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/trusted/test_acceptance.py\", line 45, in test_missing_or_extra_column_raises\n    call(\"csv_reader\", \"parse_expenses\", \"category,amount\\n餐饮\\n\")\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/runner/bridge.py\", line 37, in call\n    raise exception(str(response.get(\"message\", \"Candidate failed\")))\nNotImplementedError\n\n======================================================================\nERROR: test_negative_and_trim_and_quoted_comma (frozen_acceptance.TestParseExpenses.test_negative_and_trim_and_quoted_comma)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/trusted/test_acceptance.py\", line 20, in test_negative_and_trim_and_quoted_comma\n    result = call(\"csv_reader\", \"parse_expenses\", text)\n  File \"/runner/bridge.py\", line 37, in call\n    raise exception(str(response.get(\"message\", \"Candidate failed\")))\nNotImplementedError\n\n======================================================================\nERROR: test_summarize_does_not_mutate (frozen_acceptance.TestSummarize.test_summarize_does_not_mutate)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/trusted/test_acceptance.py\", line 68, in test_summarize_does_not_mutate\n    call(\"report\", \"summarize\", items)\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/runner/bridge.py\", line 37, in call\n    raise exception(str(response.get(\"message\", \"Candidate failed\")))\nNotImplementedError\n\n======================================================================\nERROR: test_summarize_empty (frozen_acceptance.TestSummarize.test_summarize_empty)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/trusted/test_acceptance.py\", line 64, in test_summarize_empty\n    self.assertEqual(call(\"report\", \"summarize\", []), [])\n                     ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/runner/bridge.py\", line 37, in call\n    raise exception(str(response.get(\"message\", \"Candidate failed\")))\nNotImplementedError\n\n======================================================================\nERROR: test_summarize_sorted (frozen_acceptance.TestSummarize.test_summarize_sorted)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/trusted/test_acceptance.py\", line 57, in test_summarize_sorted\n    result = call(\"report\", \"summarize\", items)\n  File \"/runner/bridge.py\", line 37, in call\n    raise exception(str(response.get(\"message\", \"Candidate failed\")))\nNotImplementedError\n\n----------------------------------------------------------------------\nRan 12 tests in 1.026s\n\nFAILED (errors=12)\n",
+        "test_count": 12,
+        "candidate_sha256": "5e8ddb285d811a1ba5b2ccb5c47ce7537dc1ebff98fdc00ac6c67565ca3b571c",
+        "hash": "5e8ddb285d811a1ba5b2ccb5c47ce7537dc1ebff98fdc00ac6c67565ca3b571c",
+        "acceptance_sha256": "a6c20f35a671082d1ec7e8d6babec51937c1782cc2684963c3a5913c2e78a255",
+        "runner_sha256": {
+          "bridge.py": "a3ca372afe34353ef78ba27270a7c82bf88bd5a1ea93f93a7d19bd0f15911021",
+          "runner.py": "5094b1ee0fc9bd4d0dbfa2242504400d00926ea64f2f243d05f9f0ab5eb15843",
+          "worker.py": "b871a015587c9f6a904e15f6db01f431d915ec746478b06ea9a3ca130e57a840"
+        },
+        "image": "sha256:1edc3cba75dd1917bb78226e897fdb801a0272ea2e02319345de0bd3b8cae225",
+        "container_invoked": true,
+        "reason": "",
+        "snapshot": "evidence/1794144352248904100-validation-start-7fb2136c.json",
+        "attestation": {
+          "discovered": 12,
+          "errors": 12,
+          "expected_failures": 0,
+          "failures": 0,
+          "nonce": "eb5d46560d794125bb52aa0373d74809",
+          "passed": false,
+          "skipped": 0,
+          "tests": 12
+        },
+        "duration_ms": 5097,
+        "result_record": "evidence/1794144357293708800-validation-result-402e5a91.json",
+        "candidate_hash": "5e8ddb285d811a1ba5b2ccb5c47ce7537dc1ebff98fdc00ac6c67565ca3b571c",
+        "candidate_origin": "baseline",
+        "classification": "input_baseline",
+        "index": 1,
+        "timestamp": "2026-11-08T13:25:57.337280+00:00",
+        "acceptance_origin": "model_generated"
+      },
+      "id": 122
+    },
+    {
+      "timestamp": "2026-11-08T13:25:57.479882+00:00",
+      "type": "model_request",
+      "node_id": null,
+      "message": "Real model request started",
+      "data": {
+        "sequence": 3,
+        "role": "main",
+        "format_retry": false,
+        "evidence": "model_requests/0003-e78e329b34a8.json"
+      },
+      "id": 123
+    },
+    {
+      "timestamp": "2026-11-08T13:26:01.987931+00:00",
+      "type": "model_response",
+      "node_id": null,
+      "message": "Real model request completed",
+      "data": {
+        "sequence": 3,
+        "status": "responded",
+        "usage_known": true,
+        "tokens": 8409,
+        "format_retry": false
+      },
+      "id": 124
+    },
+    {
+      "timestamp": "2026-11-08T13:26:02.002250+00:00",
+      "type": "controller_decision",
+      "node_id": null,
+      "message": "主 Agent 决策",
+      "data": {
+        "index": 1,
+        "timestamp": "2026-11-08T13:26:01.995733+00:00",
+        "action": "dispatch",
+        "summary": "当前两个模块均为未实现的脚手架，独立验证 12 项全部因 NotImplementedError 失败。按模块拆分两个互不重叠的写入任务：csv_reader.py 负责 CSV 解析与金额精确换算，report.py 负责汇总与组合函数；两者接口已由主 Agent 约定，可并行实现，随后统一运行 Docker 验收。",
+        "tasks": [
+          {
+            "id": "impl-csv-reader",
+            "title": "实现 csv_reader.parse_expenses",
+            "instructions": "在 csv_reader.py 中实现 parse_expenses(text)，仅使用标准库（csv、io、decimal）。要求：1) 用 csv.reader 解析文本（建议 io.StringIO(text, newline='')），首行为表头；表头按列名匹配，必须恰好包含 category 与 amount 两列（顺序可不同），缺列或存在额外列抛 ValueError。2) 逐行处理：所有字段 strip 后均为空的行视为全空行并跳过；字段数不等于表头列数（缺列/额外列）抛 ValueError。3) category 去除两端空格后不能为空，否则 ValueError；带引号的逗号类别由 csv 模块正确保留。4) amount 去除两端空格后用 decimal.Decimal 解析，拒绝 NaN、Infinity、非法文本（捕获 InvalidOperation，并检查 is_finite()），小数位数超过两位抛 ValueError，可为负数；用 Decimal 精确换算为整数分（如乘以 100 后取整，确保 12.50 -> 1250、-2.50 -> -250），不得使用 float。5) 返回 [{\"category\": str, \"amount_cents\": int}]，仅表头时返回 []。所有错误统一抛 ValueError 并给出清晰信息。保持模块文档字符串，不修改 report.py。",
+            "depends_on": [],
+            "write_paths": [
+              "csv_reader.py"
+            ]
+          },
+          {
+            "id": "impl-report",
+            "title": "实现 report.summarize 与 build_report",
+            "instructions": "在 report.py 中实现两个函数，仅使用标准库。summarize(items)：遍历 items，按 category 累加 amount_cents 与 count，返回按 category 字符串升序（sorted 默认 Unicode 码点顺序）的 [{\"category\": str, \"total_cents\": int, \"count\": int}]；空列表返回 []；不得修改传入列表或其中的字典（只读取，构造新字典）。build_report(text)：等价于 summarize(parse_expenses(text))，通过 from csv_reader import parse_expenses 组合，解析错误自然以 ValueError 传播。示例 category,amount\\n餐饮,12.50\\n交通,3.00\\n餐饮,-2.50 应得到 [{\"category\": \"交通\", \"total_cents\": 300, \"count\": 1}, {\"category\": \"餐饮\", \"total_cents\": 1000, \"count\": 2}]。保持模块文档字符串，不修改 csv_reader.py。",
+            "depends_on": [],
+            "write_paths": [
+              "report.py"
+            ]
+          }
+        ]
+      },
+      "id": 125
+    },
+    {
+      "timestamp": "2026-11-08T13:26:02.018458+00:00",
+      "type": "plan_revision",
+      "node_id": null,
+      "message": "主 Agent 增加实际执行任务",
+      "data": {
+        "added": [
+          {
+            "id": "impl-csv-reader",
+            "title": "实现 csv_reader.parse_expenses",
+            "instructions": "在 csv_reader.py 中实现 parse_expenses(text)，仅使用标准库（csv、io、decimal）。要求：1) 用 csv.reader 解析文本（建议 io.StringIO(text, newline='')），首行为表头；表头按列名匹配，必须恰好包含 category 与 amount 两列（顺序可不同），缺列或存在额外列抛 ValueError。2) 逐行处理：所有字段 strip 后均为空的行视为全空行并跳过；字段数不等于表头列数（缺列/额外列）抛 ValueError。3) category 去除两端空格后不能为空，否则 ValueError；带引号的逗号类别由 csv 模块正确保留。4) amount 去除两端空格后用 decimal.Decimal 解析，拒绝 NaN、Infinity、非法文本（捕获 InvalidOperation，并检查 is_finite()），小数位数超过两位抛 ValueError，可为负数；用 Decimal 精确换算为整数分（如乘以 100 后取整，确保 12.50 -> 1250、-2.50 -> -250），不得使用 float。5) 返回 [{\"category\": str, \"amount_cents\": int}]，仅表头时返回 []。所有错误统一抛 ValueError 并给出清晰信息。保持模块文档字符串，不修改 report.py。",
+            "depends_on": [],
+            "write_paths": [
+              "csv_reader.py"
+            ]
+          },
+          {
+            "id": "impl-report",
+            "title": "实现 report.summarize 与 build_report",
+            "instructions": "在 report.py 中实现两个函数，仅使用标准库。summarize(items)：遍历 items，按 category 累加 amount_cents 与 count，返回按 category 字符串升序（sorted 默认 Unicode 码点顺序）的 [{\"category\": str, \"total_cents\": int, \"count\": int}]；空列表返回 []；不得修改传入列表或其中的字典（只读取，构造新字典）。build_report(text)：等价于 summarize(parse_expenses(text))，通过 from csv_reader import parse_expenses 组合，解析错误自然以 ValueError 传播。示例 category,amount\\n餐饮,12.50\\n交通,3.00\\n餐饮,-2.50 应得到 [{\"category\": \"交通\", \"total_cents\": 300, \"count\": 1}, {\"category\": \"餐饮\", \"total_cents\": 1000, \"count\": 2}]。保持模块文档字符串，不修改 csv_reader.py。",
+            "depends_on": [],
+            "write_paths": [
+              "report.py"
+            ]
+          }
+        ],
+        "summary": "当前两个模块均为未实现的脚手架，独立验证 12 项全部因 NotImplementedError 失败。按模块拆分两个互不重叠的写入任务：csv_reader.py 负责 CSV 解析与金额精确换算，report.py 负责汇总与组合函数；两者接口已由主 Agent 约定，可并行实现，随后统一运行 Docker 验收。"
+      },
+      "id": 126
+    },
+    {
+      "timestamp": "2026-11-08T13:26:02.113592+00:00",
+      "type": "dispatch",
+      "node_id": null,
+      "message": "向本次任务创建的子 Agent 分配就绪任务",
+      "data": {
+        "tasks": [
+          {
+            "id": "impl-csv-reader",
+            "agent_id": "worker-b97aa40ee35a",
+            "write_paths": [
+              "csv_reader.py"
+            ]
+          },
+          {
+            "id": "impl-report",
+            "agent_id": "worker-6aaeb27b8a81",
+            "write_paths": [
+              "report.py"
+            ]
+          }
+        ]
+      },
+      "id": 127
+    },
+    {
+      "timestamp": "2026-11-08T13:26:02.134426+00:00",
+      "type": "model_request",
+      "node_id": "impl-csv-reader",
+      "message": "Real model request started",
+      "data": {
+        "sequence": 4,
+        "role": "worker",
+        "format_retry": false,
+        "evidence": "model_requests/0004-ea31860d3a36.json"
+      },
+      "id": 128
+    },
+    {
+      "timestamp": "2026-11-08T13:26:02.185219+00:00",
+      "type": "model_request",
+      "node_id": "impl-report",
+      "message": "Real model request started",
+      "data": {
+        "sequence": 5,
+        "role": "worker",
+        "format_retry": false,
+        "evidence": "model_requests/0005-0d0e24e2e034.json"
+      },
+      "id": 129
+    },
+    {
+      "timestamp": "2026-11-08T13:26:06.267565+00:00",
+      "type": "model_response",
+      "node_id": "impl-csv-reader",
+      "message": "Real model request completed",
+      "data": {
+        "sequence": 4,
+        "status": "responded",
+        "usage_known": true,
+        "tokens": 9937,
+        "format_retry": false
+      },
+      "id": 130
+    },
+    {
+      "timestamp": "2026-11-08T13:26:08.622060+00:00",
+      "type": "model_response",
+      "node_id": "impl-report",
+      "message": "Real model request completed",
+      "data": {
+        "sequence": 5,
+        "status": "responded",
+        "usage_known": true,
+        "tokens": 9433,
+        "format_retry": false
+      },
+      "id": 131
+    },
+    {
+      "timestamp": "2026-11-08T13:26:08.810886+00:00",
+      "type": "task_result",
+      "node_id": "impl-csv-reader",
+      "message": "子 Agent 结果已保存",
+      "data": {
+        "id": "impl-csv-reader",
+        "title": "实现 csv_reader.parse_expenses",
+        "instructions": "在 csv_reader.py 中实现 parse_expenses(text)，仅使用标准库（csv、io、decimal）。要求：1) 用 csv.reader 解析文本（建议 io.StringIO(text, newline='')），首行为表头；表头按列名匹配，必须恰好包含 category 与 amount 两列（顺序可不同），缺列或存在额外列抛 ValueError。2) 逐行处理：所有字段 strip 后均为空的行视为全空行并跳过；字段数不等于表头列数（缺列/额外列）抛 ValueError。3) category 去除两端空格后不能为空，否则 ValueError；带引号的逗号类别由 csv 模块正确保留。4) amount 去除两端空格后用 decimal.Decimal 解析，拒绝 NaN、Infinity、非法文本（捕获 InvalidOperation，并检查 is_finite()），小数位数超过两位抛 ValueError，可为负数；用 Decimal 精确换算为整数分（如乘以 100 后取整，确保 12.50 -> 1250、-2.50 -> -250），不得使用 float。5) 返回 [{\"category\": str, \"amount_cents\": int}]，仅表头时返回 []。所有错误统一抛 ValueError 并给出清晰信息。保持模块文档字符串，不修改 report.py。",
+        "depends_on": [],
+        "write_paths": [
+          "csv_reader.py"
+        ],
+        "status": "succeeded",
+        "agent_id": "worker-b97aa40ee35a",
+        "started_at": "2026-11-08T13:26:02.094718+00:00",
+        "result": {
+          "summary": "实现 csv_reader.parse_expenses：用 csv.reader 解析，表头按列名匹配且必须恰好为 category、amount 两列；跳过全空行；字段数不符、类别为空、金额非法/非有限/超过两位小数均抛 ValueError；用 Decimal 精确换算整数分（12.50→1250，-2.50→-250），不使用 float。未修改 report.py。未运行测试，等待主 Agent 统一 Docker 验收。",
+          "changed_paths": [
+            "csv_reader.py"
+          ],
+          "patch": {
+            "candidate_sha256": "04896760f3e935d9e275779533be6e9e3fd0680f3afd20641fbeccb0787d37cc",
+            "snapshot": "evidence/1794144368784736800-applied-2e6dadca.json"
+          }
+        },
+        "finished_at": "2026-11-08T13:26:08.796644+00:00"
+      },
+      "id": 132
+    },
+    {
+      "timestamp": "2026-11-08T13:26:08.978386+00:00",
+      "type": "task_result",
+      "node_id": "impl-report",
+      "message": "子 Agent 结果已保存",
+      "data": {
+        "id": "impl-report",
+        "title": "实现 report.summarize 与 build_report",
+        "instructions": "在 report.py 中实现两个函数，仅使用标准库。summarize(items)：遍历 items，按 category 累加 amount_cents 与 count，返回按 category 字符串升序（sorted 默认 Unicode 码点顺序）的 [{\"category\": str, \"total_cents\": int, \"count\": int}]；空列表返回 []；不得修改传入列表或其中的字典（只读取，构造新字典）。build_report(text)：等价于 summarize(parse_expenses(text))，通过 from csv_reader import parse_expenses 组合，解析错误自然以 ValueError 传播。示例 category,amount\\n餐饮,12.50\\n交通,3.00\\n餐饮,-2.50 应得到 [{\"category\": \"交通\", \"total_cents\": 300, \"count\": 1}, {\"category\": \"餐饮\", \"total_cents\": 1000, \"count\": 2}]。保持模块文档字符串，不修改 csv_reader.py。",
+        "depends_on": [],
+        "write_paths": [
+          "report.py"
+        ],
+        "status": "succeeded",
+        "agent_id": "worker-6aaeb27b8a81",
+        "started_at": "2026-11-08T13:26:02.100926+00:00",
+        "result": {
+          "summary": "在 report.py 中实现了 summarize 与 build_report：summarize 只读取输入项，按 category 累加 total_cents 与 count，构造新字典并按 category 字符串升序（sorted 默认码点顺序）返回；空列表返回 []，不修改传入列表或字典。build_report 通过 from csv_reader import parse_expenses 组合调用，解析错误自然以 ValueError 传播。保持模块文档字符串，未修改 csv_reader.py。未运行测试，需主 Agent 在 csv_reader 实现后统一 Docker 验收。",
+          "changed_paths": [
+            "report.py"
+          ],
+          "patch": {
+            "candidate_sha256": "b2cf8b79672c94d3327e4b4f1e060bf99c302c8f013641d9637b08586a714403",
+            "snapshot": "evidence/1794144368955197900-applied-01d4eac7.json"
+          }
+        },
+        "finished_at": "2026-11-08T13:26:08.966062+00:00"
+      },
+      "id": 133
+    },
+    {
+      "timestamp": "2026-11-08T13:26:09.031982+00:00",
+      "type": "snapshot",
+      "node_id": "wave",
+      "message": "节点快照已保存",
+      "data": {
+        "snapshot_id": 5
+      },
+      "id": 134
+    },
+    {
+      "timestamp": "2026-11-08T13:26:09.128465+00:00",
+      "type": "model_request",
+      "node_id": null,
+      "message": "Real model request started",
+      "data": {
+        "sequence": 6,
+        "role": "main",
+        "format_retry": false,
+        "evidence": "model_requests/0006-d0facc145528.json"
+      },
+      "id": 135
+    },
+    {
+      "timestamp": "2026-11-08T13:26:12.316141+00:00",
+      "type": "model_response",
+      "node_id": null,
+      "message": "Real model request completed",
+      "data": {
+        "sequence": 6,
+        "status": "responded",
+        "usage_known": true,
+        "tokens": 8192,
+        "format_retry": false
+      },
+      "id": 136
+    },
+    {
+      "timestamp": "2026-11-08T13:26:12.330748+00:00",
+      "type": "controller_decision",
+      "node_id": null,
+      "message": "主 Agent 决策",
+      "data": {
+        "index": 2,
+        "timestamp": "2026-11-08T13:26:12.324122+00:00",
+        "action": "verify",
+        "summary": "两个实现任务均已成功，当前候选哈希 b2cf8b79… 包含完整的 csv_reader.py 与 report.py 实现；上一次验证针对的是未实现的基线（NotImplementedError），尚未对当前候选运行独立 Docker 验收，因此现在请求验证。"
+      },
+      "id": 137
+    },
+    {
+      "timestamp": "2026-11-08T13:26:17.924727+00:00",
+      "type": "verification",
+      "node_id": null,
+      "message": "独立 Docker 验收已记录",
+      "data": {
+        "status": "passed",
+        "exit_code": 0,
+        "isolated": true,
+        "stdout": "AGENTFORGE_AUTONOMOUS={\"discovered\": 12, \"errors\": 0, \"expected_failures\": 0, \"failures\": 0, \"nonce\": \"36336ad3dce244a88e9e1ecaf33ad4ff\", \"passed\": true, \"skipped\": 0, \"tests\": 12}\n",
+        "stderr": "test_build_report_example (frozen_acceptance.TestBuildReport.test_build_report_example) ... ok\ntest_build_report_propagates_error (frozen_acceptance.TestBuildReport.test_build_report_propagates_error) ... ok\ntest_basic_parse (frozen_acceptance.TestParseExpenses.test_basic_parse) ... ok\ntest_empty_category_raises (frozen_acceptance.TestParseExpenses.test_empty_category_raises) ... ok\ntest_header_only (frozen_acceptance.TestParseExpenses.test_header_only) ... ok\ntest_ignore_blank_lines (frozen_acceptance.TestParseExpenses.test_ignore_blank_lines) ... ok\ntest_invalid_amount_raises (frozen_acceptance.TestParseExpenses.test_invalid_amount_raises) ... ok\ntest_missing_or_extra_column_raises (frozen_acceptance.TestParseExpenses.test_missing_or_extra_column_raises) ... ok\ntest_negative_and_trim_and_quoted_comma (frozen_acceptance.TestParseExpenses.test_negative_and_trim_and_quoted_comma) ... ok\ntest_summarize_does_not_mutate (frozen_acceptance.TestSummarize.test_summarize_does_not_mutate) ... ok\ntest_summarize_empty (frozen_acceptance.TestSummarize.test_summarize_empty) ... ok\ntest_summarize_sorted (frozen_acceptance.TestSummarize.test_summarize_sorted) ... ok\n\n----------------------------------------------------------------------\nRan 12 tests in 1.474s\n\nOK\n",
+        "test_count": 12,
+        "candidate_sha256": "b2cf8b79672c94d3327e4b4f1e060bf99c302c8f013641d9637b08586a714403",
+        "hash": "b2cf8b79672c94d3327e4b4f1e060bf99c302c8f013641d9637b08586a714403",
+        "acceptance_sha256": "a6c20f35a671082d1ec7e8d6babec51937c1782cc2684963c3a5913c2e78a255",
+        "runner_sha256": {
+          "bridge.py": "a3ca372afe34353ef78ba27270a7c82bf88bd5a1ea93f93a7d19bd0f15911021",
+          "runner.py": "5094b1ee0fc9bd4d0dbfa2242504400d00926ea64f2f243d05f9f0ab5eb15843",
+          "worker.py": "b871a015587c9f6a904e15f6db01f431d915ec746478b06ea9a3ca130e57a840"
+        },
+        "image": "sha256:1edc3cba75dd1917bb78226e897fdb801a0272ea2e02319345de0bd3b8cae225",
+        "container_invoked": true,
+        "reason": "",
+        "snapshot": "evidence/1794144372438050600-validation-start-a4563068.json",
+        "attestation": {
+          "discovered": 12,
+          "errors": 0,
+          "expected_failures": 0,
+          "failures": 0,
+          "nonce": "36336ad3dce244a88e9e1ecaf33ad4ff",
+          "passed": true,
+          "skipped": 0,
+          "tests": 12
+        },
+        "duration_ms": 5491,
+        "result_record": "evidence/1794144377877142300-validation-result-7fcd1cca.json",
+        "candidate_hash": "b2cf8b79672c94d3327e4b4f1e060bf99c302c8f013641d9637b08586a714403",
+        "candidate_origin": "model",
+        "classification": "natural_candidate",
+        "index": 2,
+        "timestamp": "2026-11-08T13:26:17.916978+00:00",
+        "acceptance_origin": "model_generated"
+      },
+      "id": 138
+    },
+    {
+      "timestamp": "2026-11-08T13:26:18.033013+00:00",
+      "type": "model_request",
+      "node_id": null,
+      "message": "Real model request started",
+      "data": {
+        "sequence": 7,
+        "role": "main",
+        "format_retry": false,
+        "evidence": "model_requests/0007-8f06196a5986.json"
+      },
+      "id": 139
+    },
+    {
+      "timestamp": "2026-11-08T13:26:23.584987+00:00",
+      "type": "model_response",
+      "node_id": null,
+      "message": "Real model request completed",
+      "data": {
+        "sequence": 7,
+        "status": "responded",
+        "usage_known": true,
+        "tokens": 7400,
+        "format_retry": false
+      },
+      "id": 140
+    },
+    {
+      "timestamp": "2026-11-08T13:26:23.599810+00:00",
+      "type": "controller_decision",
+      "node_id": null,
+      "message": "主 Agent 决策",
+      "data": {
+        "index": 3,
+        "timestamp": "2026-11-08T13:26:23.593005+00:00",
+        "action": "finish",
+        "summary": "已完成标准库 Python CSV 支出汇总库：csv_reader.py 实现 parse_expenses（表头按列名匹配且必须恰好为 category、amount 两列；跳过全空行；类别去两端空格且非空；金额用 Decimal 精确换算整数分，支持负数、最多两位小数，拒绝 NaN/Infinity/非法文本；缺列、额外列、非法行抛 ValueError；保留带引号逗号类别；仅表头返回空列表），report.py 实现 summarize（按类别汇总 total_cents 与 count，按 category 升序，空列表返回 []，不修改输入）与 build_report（组合解析与汇总，示例得到交通 300 分、餐饮 1000 分）。独立 Docker 验证针对当前候选哈希 b2cf8b79… 运行 12 项冻结验收测试，全部通过（failures=0，errors=0，container_invoked=true）。无待处理任务，无已知限制。"
+      },
+      "id": 141
+    },
+    {
+      "timestamp": "2026-11-08T13:26:23.651364+00:00",
+      "type": "quality_review_started",
+      "node_id": null,
+      "message": "测试通过后继续核查原始需求，不以测试结果代替语义正确性",
+      "data": {
+        "candidate_hash": "b2cf8b79672c94d3327e4b4f1e060bf99c302c8f013641d9637b08586a714403"
+      },
+      "id": 142
+    },
+    {
+      "timestamp": "2026-11-08T13:26:23.747342+00:00",
+      "type": "model_request",
+      "node_id": null,
+      "message": "Real model request started",
+      "data": {
+        "sequence": 8,
+        "role": "final_review",
+        "format_retry": false,
+        "evidence": "model_requests/0008-0159f20e028d.json"
+      },
+      "id": 143
+    },
+    {
+      "timestamp": "2026-11-08T13:26:28.314388+00:00",
+      "type": "model_response",
+      "node_id": null,
+      "message": "Real model request completed",
+      "data": {
+        "sequence": 8,
+        "status": "responded",
+        "usage_known": true,
+        "tokens": 10390,
+        "format_retry": false
+      },
+      "id": 144
+    },
+    {
+      "timestamp": "2026-11-08T13:26:28.329500+00:00",
+      "type": "quality_review",
+      "node_id": null,
+      "message": "对照原始需求的语义审查已记录",
+      "data": {
+        "passed": true,
+        "issues": [],
+        "summary": "已独立核对实现与原始需求：parse_expenses 用 csv.reader 解析、表头按列名匹配且必须恰好为 category/amount 两列（缺列或额外列抛 ValueError）；跳过全空行；类别 strip 后非空校验；金额用 Decimal 精确解析，拒绝 NaN/Infinity/非法文本，exponent < -2 拒绝超过两位小数，乘以 100 后校验整数并转 int，负数正确（-2.50→-250）；带引号逗号类别由 csv 模块保留；仅表头返回 []。summarize 只读取输入、构造新字典，按 category 累加 total_cents 与 count，用 sorted 默认 Unicode 码点升序，空列表返回 []，不修改传入列表或字典。build_report 等价于 summarize(parse_expenses(text))，解析错误以 ValueError 传播，示例结果交通 300/1、餐饮 1000/2 正确。Docker 12 项测试通过，但测试覆盖有限（未覆盖表头列顺序颠倒、空文本、正号/科学计数法金额等边界），这些属非阻塞的覆盖局限，不影响对已实现语义的判定。",
+        "candidate_hash": "b2cf8b79672c94d3327e4b4f1e060bf99c302c8f013641d9637b08586a714403",
+        "index": 1,
+        "origin": "model_semantic_review",
+        "timestamp": "2026-11-08T13:26:28.322794+00:00"
+      },
+      "id": 145
+    },
+    {
+      "timestamp": "2026-11-08T13:26:28.406801+00:00",
+      "type": "terminal",
+      "node_id": null,
+      "message": "动态编排运行结束",
+      "data": {
+        "status": "succeeded",
+        "summary": "已完成标准库 Python CSV 支出汇总库：csv_reader.py 实现 parse_expenses（表头按列名匹配且必须恰好为 category、amount 两列；跳过全空行；类别去两端空格且非空；金额用 Decimal 精确换算整数分，支持负数、最多两位小数，拒绝 NaN/Infinity/非法文本；缺列、额外列、非法行抛 ValueError；保留带引号逗号类别；仅表头返回空列表），report.py 实现 summarize（按类别汇总 total_cents 与 count，按 category 升序，空列表返回 []，不修改输入）与 build_report（组合解析与汇总，示例得到交通 300 分、餐饮 1000 分）。独立 Docker 验证针对当前候选哈希 b2cf8b79… 运行 12 项冻结验收测试，全部通过（failures=0，errors=0，container_invoked=true）。无待处理任务，无已知限制。"
+      },
+      "id": 146
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "checked_at": "2026-11-08T12:30:58.773079+00:00",
+  "paths": [
+    "/api/autonomous/runs",
+    "/api/autonomous/runs/{run_id}",
+    "/api/autonomous/runs/{run_id}/candidate"
+  ],
+  "legacy_runs": 17,
+  "autonomous_api_runs": 0,
+  "frontend_http": 200,
+  "model_calls": 0
+}

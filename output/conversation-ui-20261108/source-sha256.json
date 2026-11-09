@@ -1,0 +1,21 @@
+{
+  "DESIGN.md": "58a69626a886af66dd93d8efdd9ce3a6667afaced3750fc9caff75efbdd85411",
+  "docs/conversation-ui-verification.md": "074125d33546be05d98e2d1f52e191da61429404288453d6bcb003c706a04750",
+  "docs/implementation-status.md": "052c51447d9c53ed5cc3bd725affdda97c773c517f750058c9fb7e2037dd2446",
+  "frontend/index.html": "e63a29c018004b6610bdee929eb6da206a0fb0f0cfd083faa209c97e4cef6013",
+  "frontend/package-lock.json": "18c1bf1be9907ba6c2cbd0f3e7377f62f6a9fa377c0fde4c631ca2d67385d0c3",
+  "frontend/package.json": "b4fe3ceb5079bfe6593a88bbadd9b1bbfdf2baa8feffb2e2169a61c98668566d",
+  "frontend/src/api.ts": "2000afddd275bdced6066626502ede062ae47b45dc95a624a3cc7ee2831293cb",
+  "frontend/src/App.tsx": "f4800785e304a05ab6ff972f4861b264d059c07ef778b35bc07a147dde5d67c0",
+  "frontend/src/conversation.ts": "9fa7314471b5ec1aa7785a1dc8ed86f4f679d4ad542dc7203b3a1e2e62fa4e09",
+  "frontend/src/main.tsx": "449360d409ecbdd6aa7fb603226836ba7a6f3ed5cdcbb1a814397e7deb96a9bb",
+  "frontend/src/Management.tsx": "1855fd7f0f4eafcc9aa656a6e76db61a0baa39ac8c446cfab019f5c0d876e583",
+  "frontend/src/styles.css": "66bc5f7abed45f54ab580c1d35188ab5172dbc1bd077a537a0a2abda532e1b89",
+  "frontend/src/types.ts": "817bbce0722f406ae419805d47d53c1c50e7dc76c5d69f5f68feeaf06c912468",
+  "frontend/src/vite-env.d.ts": "65996936fbb042915f7b74a200fcdde7e410f32a669b1ab9597cfaa4b0faddb5",
+  "frontend/tests/conversation.test.ts": "dd85ca0b5fb84dca58e79d9a8526c3c7897eda564e699c0b21c048e7fb468af1",
+  "frontend/tsconfig.json": "bf34d95566f5a49b2b791208dbc0383b9129dd7646b46b4d9f9bd3125faefb5e",
+  "frontend/vite.config.ts": "80aa6dccfcb54b4fe9d045137f2db8cd240e4580a9ef125b325ac971d3336182",
+  "PRODUCT.md": "0b61006e4659be83ab10ecbdbcee45c34a2b8539e68621316768e4dbe0de2467",
+  "README.md": "5cba22ef9f20ea42c7a5c234562b242f3133783a73d728fe4b50b17796e55b80"
+}

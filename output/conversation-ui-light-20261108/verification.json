@@ -1,0 +1,19 @@
+{
+  "theme": "light",
+  "desktop_viewport": [
+    1440,
+    960
+  ],
+  "mobile_viewport": [
+    390,
+    844
+  ],
+  "mobile_document_width": 390,
+  "color_contrast_pairs": 79,
+  "minimum_contrast": 5.1,
+  "runs_after_theme_change": 17,
+  "new_model_calls": 0,
+  "applied": false,
+  "console_errors_observed": 0,
+  "temporary_viewport_restored": true
+}

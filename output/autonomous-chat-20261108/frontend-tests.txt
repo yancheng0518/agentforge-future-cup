@@ -1,0 +1,60 @@
+
+> agentforge-workbench@0.1.0 test
+> node --experimental-strip-types --test tests/*.test.ts
+
+✔ unrestricted requirement is posted verbatim without legacy task or role routing (3.1914ms)
+✔ empty and oversized input are rejected before submission (0.3986ms)
+✔ same raw ID in legacy and new stores keeps both history items (10.376ms)
+✔ legacy deep links retain their API; new deep links use autonomous API (0.1695ms)
+✔ normalization retains actual tasks and raw backend ID (0.1738ms)
+✔ only current candidate with actual nonempty isolated verification can be called passed (0.4828ms)
+✔ later failure and unverified candidate mutation invalidate displayed completion evidence (0.3506ms)
+✔ model summary alone cannot turn an unsuccessful run into success (0.2878ms)
+✔ intake pending and clarification have explicit progress (0.3426ms)
+✔ actual arbitrary active task names become progress without fixed stages (0.3451ms)
+✔ verification in flight is derived from controller timestamps (0.1824ms)
+✔ input scaffold failure is shown as baseline, not natural model repair (0.2735ms)
+✔ natural candidate failure gets an actual feedback progress label (0.1348ms)
+✔ seeded and blocked verification remain distinct (0.1015ms)
+✔ AI-generated acceptance is attributed only when provenance says so (0.1116ms)
+✔ new freeform task titles do not fall back to the legacy Todo catalog (0.1632ms)
+✔ a failed quality review overrides a succeeded status without rewriting raw evidence (0.3109ms)
+✔ posthoc contradiction takes precedence over a passing AI quality review (0.1732ms)
+✔ AI-generated acceptance requires a passing quality check for the same candidate (0.2301ms)
+✔ failed AI acceptance does not assert that a natural code defect has been confirmed (0.0837ms)
+✔ contract review records are surfaced and unknown pass values stay unconfirmed (0.1209ms)
+✔ failed review during active worker revision retains real execution progress and history status (0.1273ms)
+✔ ongoing contract revision uses actual backend summary rather than implying a manual pause (0.1488ms)
+✔ protocol termination remains the primary outcome after an earlier rejected contract (0.2974ms)
+✔ transport and blocked execution causes are not masked by a previous contract problem (0.2618ms)
+✔ supported requests resolve to their bounded task (3.9682ms)
+✔ unknown and multiple tasks do not silently become completion (0.3873ms)
+✔ review routes explicitly, while requested edits remain development (0.7961ms)
+✔ explicit read-only intent takes precedence over descriptions or repair advice (0.234ms)
+✔ reviewing already added or repaired code does not request another edit (0.1157ms)
+✔ positive repair requests are not mistaken for read-only constraints (0.1095ms)
+✔ request format preserves arbitrary user text and unchanged contract (0.2557ms)
+✔ request rejects empty or oversized combined input before API submission (0.3959ms)
+✔ legacy and malformed request strings stay intact (0.148ms)
+✔ titles use user words, with task names for historical long contracts (0.4673ms)
+✔ current trusted test result survives a later tester model failure (1.0558ms)
+✔ model claims and wrong-scope or wrong-suite evidence are rejected (0.2597ms)
+✔ candidate changes or a new test start invalidate the previous displayed result (0.1697ms)
+✔ review uses its frozen read baseline and does not need a fabricated edit (0.2402ms)
+✔ failed tests report counts from actual unittest output (0.274ms)
+✔ expected count never fills in missing actual counts or fabricates success (0.1698ms)
+✔ inconsistent attestation and unittest counts remain unconfirmed (0.2674ms)
+✔ blocked isolation never reuses claimed pass counts (0.1264ms)
+✔ an incomplete timeout can report failure without manufacturing test counts (0.1379ms)
+✔ successful output distinguishes application and simulation from model development (0.4141ms)
+✔ a historical succeeded status cannot certify a changed or unverified current candidate (0.2536ms)
+✔ failure summaries retain actual service and sandbox reasons (0.1307ms)
+✔ running summary reflects actual leaf steps rather than a fabricated percent (0.1594ms)
+ℹ tests 48
+ℹ suites 0
+ℹ pass 48
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 276.4091

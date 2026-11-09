@@ -1,0 +1,32 @@
+{
+  "existing_records": 16,
+  "current_records": 17,
+  "prior_statuses_preserved": true,
+  "new_run_ids": [
+    "fcf783c421194f3897ac0fca5eeabac7"
+  ],
+  "mode": "mock",
+  "status": "succeeded",
+  "model_calls": 0,
+  "model_tokens": 0,
+  "applied": false,
+  "repairs": 1,
+  "events": 69,
+  "export_matches_candidate": true,
+  "preserved_files": [
+    {
+      "path": "D:\\未来杯\\examples\\todo\\todo.py",
+      "sha256": "952a45c6a05ce00ab3bda2c94fad38b82c1cc52cd2a7e5e93af84f803f5d240b",
+      "unchanged": true
+    },
+    {
+      "path": "D:\\未来杯\\output\\agentforge-comparison-reproduction-20261108.zip",
+      "sha256": "8af3a8c2f68f9a336f290fdba1dd11799c7fd71fcee1a329d5dbf51ec50603b7",
+      "unchanged": true
+    }
+  ],
+  "health": {
+    "model_configured": true,
+    "sandbox_available": true
+  }
+}

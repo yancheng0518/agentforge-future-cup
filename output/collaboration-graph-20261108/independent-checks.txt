@@ -1,0 +1,1 @@
+{"evidence": "D:\\\u672a\u6765\u676f\\.agentforge\\collaboration-graph-checks-20261108\\20261108T140701Z\\evidence.json", "status": "passed", "test_count": 8, "attestation": {"discovered": 8, "errors": 0, "expected_failures": 0, "failures": 0, "nonce": "7e5dca55fe564f1c825d5fa357268322", "passed": true, "skipped": 0, "tests": 8}, "isolated": true, "source_unchanged": true}

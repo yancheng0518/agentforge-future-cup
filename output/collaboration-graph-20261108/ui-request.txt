@@ -1,0 +1,9 @@
+请创建一个标准库 Python 文本词频统计库，分为 text_tools.py 和 word_report.py。
+
+text_tools.tokenize(text)：把连续的 ASCII 字母 A-Z 或 a-z 作为单词，统一转小写。数字、标点、空白和非 ASCII 字符都是分隔符。例如 "Hi, HI! a2B 中文 cafe" 得到 ["hi", "hi", "a", "b", "cafe"]；空文本返回 []。text 输入保证是字符串。
+
+word_report.summarize(text, limit=None)：使用 tokenize 的分词规则，返回 [{"word": "hi", "count": 2}] 这样的列表，按次数从多到少排序，次数相同按单词字符串升序。limit=None 返回全部；非负整数 limit 只返回前 limit 项，0 返回 []；负数、布尔值和非整数 limit 必须抛 ValueError。
+
+word_report.build_report(text, limit=None)：返回 {"total_words": 总单词数, "unique_words": 不同单词数, "items": summarize 的结果}。total_words 和 unique_words 根据全部文本计算，不受 limit 截断影响。示例 "red blue red green blue", limit=1，返回 {"total_words": 5, "unique_words": 3, "items": [{"word": "blue", "count": 2}]}。空文本得到两个计数为 0、items 为 []；limit 的校验规则与 summarize 一致。
+
+请按这些要求建立验收，动态安排需要的子 Agent，实现并运行 Docker 验证。有实际问题再根据反馈修正，不注入预设缺陷。
