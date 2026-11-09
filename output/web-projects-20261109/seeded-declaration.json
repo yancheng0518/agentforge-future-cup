@@ -1,0 +1,11 @@
+{
+  "kind": "seeded_defect",
+  "base_run_id": "4af425ca8a1e44beb8b5cb2110e5edb0",
+  "base_sha256": "1e2318b774ee750fb80c6660e0a9e5cef893ba78c7ff3e7a9c74b2815881376e",
+  "seeded_sha256": "9d4e25418ab504331931a956de24e6e537170a8850d31fdd44085084efb8c18f",
+  "changed_file": "app.py",
+  "removed": "    if done_filter == 'true':\n        items = [t for t in items if t['done']]\n    elif done_filter == 'false':\n        items = [t for t in items if not t['done']]\n",
+  "inserted": "    # SEEDED DEFECT: completion filtering deliberately disabled for this control.\n",
+  "purpose": "Explicit control: ignore valid done=true/false filters. Must fail frozen HTTP baseline before any repair. Not natural code failure.",
+  "acceptance_sha256": "55a14fe57edc41fcca24d5b3b55928156101e319ddfa6a0e6ac94b35b1800e79"
+}

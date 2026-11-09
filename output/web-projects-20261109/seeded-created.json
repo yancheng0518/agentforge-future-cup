@@ -1,0 +1,51 @@
+{
+  "id": "1ea0bc86900e4113809f82c22f66a9b5",
+  "engine": "model-directed-v1",
+  "mode": "live",
+  "status": "queued",
+  "requirement": "这是一项明确预设缺陷的独立修正实验，不是自然失败。工作项看板的完成状态筛选被故意移除；请依据冻结HTTP验收的真实失败修正 GET /api/tasks?done=true|false，同时保留既有API校验、排序、健康接口和前端功能。先读失败证据，自主拆分或直接安排合适的子任务，运行Docker验收并仅在通过后完成。不得把预设缺陷描述为自然产生。",
+  "budget": {
+    "max_calls": 40,
+    "max_tokens": 300000,
+    "max_output_tokens": 8192,
+    "max_steps": 24,
+    "max_tasks": 32,
+    "max_parallel": 3,
+    "max_verifications": 8,
+    "wall_seconds": 900
+  },
+  "created_at": "2026-11-09T08:19:51.732099+00:00",
+  "updated_at": "2026-11-09T08:19:51.732108+00:00",
+  "applied": false,
+  "summary": "等待主 Agent 分解任务",
+  "model_config": {
+    "model": "deepseek-v4.1-flash",
+    "base_url": "https://aigw.omniedu.com/v1",
+    "temperature": 0.1,
+    "max_output_tokens": 8192,
+    "adapter_revision": "autonomous-7-web-projects",
+    "contract_retries": 1,
+    "provider_options": {
+      "thinking": {
+        "type": "disabled"
+      }
+    },
+    "min_request_interval": 4.2,
+    "timeout_seconds": 120
+  },
+  "controller_decisions": [],
+  "task_graph": [],
+  "verifications": [],
+  "feedback": null,
+  "candidate_origin": "baseline",
+  "verified_hash": null,
+  "model_metrics": {
+    "model_calls": 0,
+    "tokens": 0,
+    "metrics_complete": true,
+    "contract_retries": 0,
+    "in_flight": 0,
+    "reserved_tokens": 0
+  },
+  "bundle_sha256": "d06dd22e85e95f50e3f671bad9eff33256b733580da12d1c0fe137e3fb9e6943"
+}

@@ -1,0 +1,15 @@
+{
+  "schema": "agentforge-web-live-ids-v1",
+  "runs": [
+    {
+      "run_id": "4af425ca8a1e44beb8b5cb2110e5edb0",
+      "data_dir": ".agentforge/autonomous",
+      "kind": "natural"
+    },
+    {
+      "run_id": "1ea0bc86900e4113809f82c22f66a9b5",
+      "data_dir": ".agentforge/autonomous",
+      "kind": "seeded_defect"
+    }
+  ]
+}

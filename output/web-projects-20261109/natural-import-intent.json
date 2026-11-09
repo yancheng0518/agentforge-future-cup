@@ -1,0 +1,11 @@
+{
+  "name": "Flask 工作项看板 · 真实 Web 验证",
+  "files": {
+    "app.py": "\"\"\"Maintainer-written import baseline; run only in AgentForge Docker.\"\"\"\nimport os\nfrom flask import Flask, jsonify\n\napp = Flask(__name__)\n\n\n@app.get('/health')\ndef health():\n    return jsonify({'status': 'ok'})\n\n\n@app.get('/')\ndef index():\n    return '<!doctype html><html lang=\"zh-CN\"><meta charset=\"utf-8\"><title>工作项看板</title><h1>等待开发工作项看板</h1></html>'\n\n\nif __name__ == '__main__':\n    app.run(host='127.0.0.1', port=int(os.environ.get('PORT', '8080')), debug=False, use_reloader=False)\n"
+  },
+  "acceptance": "import unittest\nfrom web_bridge import request\n\nclass ExistingWebTests(unittest.TestCase):\n    def test_health(self):\n        response = request('GET', '/health')\n        self.assertEqual(response['status'], 200)\n        self.assertEqual(response['json'], {'status': 'ok'})\n\n    def test_home(self):\n        response = request('GET', '/')\n        self.assertEqual(response['status'], 200)\n        self.assertIn('工作项看板', response['text'])\n\n    def test_health_content_type(self):\n        response = request('GET', '/health')\n        self.assertIn('application/json', response['headers'].get('content-type', ''))\n",
+  "web": {
+    "dependency_id": "5fc859cd0e2673e5f6b69410ee3c325ce5e1158034a31e08c1815bf11a92b9aa",
+    "entrypoint": "app.py"
+  }
+}

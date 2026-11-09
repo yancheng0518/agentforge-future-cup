@@ -1,0 +1,29 @@
+{
+  "classification": "platform_preview_lifecycle_failure",
+  "preview_id": "939d7c59167d469b972a7c29f05390aa",
+  "source_run": "4af425ca8a1e44beb8b5cb2110e5edb0",
+  "initial_http_and_assets": "passed",
+  "browser_CRUD": "not_executed",
+  "transport_failure_event": "1794212517321250700-ef61578b.json",
+  "docker_inspect_observed": {
+    "Status": "exited",
+    "Running": false,
+    "OOMKilled": false,
+    "ExitCode": 255,
+    "StartedAt": "2026-11-09T08:20:18.326582796Z",
+    "FinishedAt": "2026-11-09T08:21:54.835015263Z"
+  },
+  "wsl_observation": {
+    "at_local": "2026-11-09 16:22:45",
+    "uptime_seconds": 56.09,
+    "boot_id": "a4ba0b63-a0d2-44b5-9182-8a8e5ca0ec25"
+  },
+  "inference": "WSL instance restarted while Docker container was detached and no WSL foreground command held the instance alive. Exit 255 is not a Python application exception; no OOM reported.",
+  "ui_automation_failures": [
+    "Existing tab iframe click target no longer available",
+    "Existing tab keyboard focus root no longer available"
+  ],
+  "ui_automation_boundary": "Form fields filled, no POST/PATCH emitted; these tool failures are not candidate test failures. New tab host controls responded; independently revealed exited Docker container.",
+  "cleanup": "Stopped through UI; old events retained",
+  "proposed_fix": "Bounded WSL lifetime lease per preview; detect exited container on transport failure and mark failed; no automatic POST retry."
+}

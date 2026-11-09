@@ -35,6 +35,17 @@ def test_cli_interruption_exports_known_state(tmp_path, monkeypatch, phase):
     class FakeEngine:
         def __init__(self, store, runtime):
             self.store = store
+            self.runtime = runtime
+
+        def _snapshot_implementation(self, run_id):
+            # Explicit fake snapshot for this lifecycle-only simulation.
+            import hashlib
+            path = self.runtime._run_dir(run_id)
+            source = path / "implementation/backend/agentforge/fake.py"
+            source.parent.mkdir(parents=True)
+            source.write_bytes(b"# simulated implementation, never executed\n")
+            (path / "implementation-manifest.json").write_text(json.dumps({
+                "backend/agentforge/fake.py": hashlib.sha256(source.read_bytes()).hexdigest()}))
 
         def create_run(self, bundle, budget):
             run = {"id": "cli_interrupt_unit", "status": "queued", "summary": "unit simulation",

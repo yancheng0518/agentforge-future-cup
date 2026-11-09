@@ -15,6 +15,8 @@ import json
 from pathlib import Path, PurePosixPath
 import re
 import secrets
+import subprocess
+import sys
 import time
 from urllib.parse import unquote, urlsplit
 from uuid import uuid4
@@ -26,6 +28,7 @@ from .storage import now
 MAX_REQUEST_BYTES = 16384
 MAX_RESPONSE_BYTES = 65536
 MAX_HTTP_REQUESTS = 128
+WSL_LEASE_STARTUP_SECONDS = 180
 TERMINAL = {'stopped', 'expired', 'failed', 'interrupted'}
 METHODS = {'GET', 'HEAD', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'}
 CSP = ("default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; "
@@ -162,9 +165,10 @@ class WebPreviewManager:
         self._event(record, 'start_requested')
         session = {'record': record, 'files': files, 'token': token, 'server': None, 'timer': None,
                    'deadline': time.monotonic() + ttl_seconds, 'lock': asyncio.Lock(),
-                   'requests': asyncio.Semaphore(4), 'browser_clients': 0}
+                   'requests': asyncio.Semaphore(4), 'browser_clients': 0, 'lease': None, 'lease_watcher': None}
         self.sessions[identity] = session
         try:
+            await self._acquire_lease(session, ttl_seconds)
             for path, content in files.items():
                 target = base / 'candidate' / path
                 AutonomousSandbox._check(target, self.directory)
@@ -213,14 +217,22 @@ class WebPreviewManager:
                 if ready.get('ok'):
                     break
                 state = await self._state(session)
-                if not state.get('Running'):
+                if state.get('Running') is False:
                     record['failure_kind'] = 'application_failed'
                     record['application_exit_code'] = state.get('ExitCode')
+                    record['container_state'] = state
                     raise RuntimeErrorSafe('Web 应用启动后退出；请查看该次应用日志。')
+                if state.get('Running') is not True:
+                    record['failure_kind'] = 'container_state_unknown'
+                    record['container_state'] = state
+                    raise RuntimeErrorSafe('无法确认 Web 容器运行状态；未建立预览。')
                 await asyncio.sleep(0.3)
             if not ready or not ready.get('ok'):
                 record['failure_kind'] = 'application_not_ready'
                 raise RuntimeErrorSafe('Web 应用未在期限内监听 127.0.0.1:8080。')
+            if session['lease'] is not None and session['lease'].returncode is not None:
+                record['failure_kind'] = 'wsl_lease_lost'
+                raise RuntimeErrorSafe('WSL 预览保活进程提前退出；未建立预览。')
             server = await asyncio.start_server(lambda reader, writer: self._browser(session, reader, writer),
                                                 host='127.0.0.1', port=0, limit=8192)
             session['server'] = server
@@ -231,19 +243,121 @@ class WebPreviewManager:
             session['deadline'] = time.monotonic() + ttl_seconds
             self._event(record, 'ready')
             session['timer'] = asyncio.create_task(self._expire(identity, ttl_seconds))
+            if session['lease'] is not None:
+                session['lease_watcher'] = asyncio.create_task(self._watch_lease(session))
         except asyncio.CancelledError:
             record.update(status='interrupted', reason='预览启动被取消。', failure_kind='cancelled')
-            await self._cleanup(session)
-            self._event(record, 'interrupted')
-            self.sessions.pop(identity, None)
+            try:
+                await self._cleanup(session)
+            finally:
+                self._event(record, 'interrupted')
+                self.sessions.pop(identity, None)
             raise
         except (OSError, RuntimeErrorSafe, TimeoutError, ValueError, KeyError) as error:
             record.update(status='failed', reason=str(error) if isinstance(error, RuntimeErrorSafe) else type(error).__name__)
             record['failure_kind'] = record['failure_kind'] or 'preview_platform_error'
-            await self._cleanup(session)
-            self._event(record, 'failed')
-            self.sessions.pop(identity, None)
+            try:
+                await self._cleanup(session)
+            finally:
+                self._event(record, 'failed')
+                self.sessions.pop(identity, None)
         return json.loads(_json(record))
+
+    async def _acquire_lease(self, session, ttl_seconds):
+        """A bounded trusted WSL client keeps systemd's Docker VM from idling out."""
+        prefix = self.runtime._docker_command()
+        if prefix == ['docker']:
+            return
+        # Runtime validates the configured distro. Still require the exact
+        # supported argv shape; never turn a generic Docker command into shell.
+        if (len(prefix) != 7 or prefix[:2] != ['wsl', '--distribution']
+                or prefix[3:] != ['--user', 'root', '--exec', 'docker']
+                or not re.fullmatch(r'[A-Za-z0-9_.-]{1,80}', prefix[2])):
+            raise RuntimeErrorSafe('无法建立受控 WSL 预览保活进程。')
+        duration = ttl_seconds + WSL_LEASE_STARTUP_SECONDS
+        argv = [*prefix[:-1], 'sleep', str(duration)]
+        record = session['record']
+        record['wsl_lease'] = {'distro': prefix[2], 'seconds': duration, 'status': 'starting',
+                               'command': argv, 'candidate_executed': False}
+        self._event(record, 'wsl_lease_requested')
+        options = {'stdin': asyncio.subprocess.DEVNULL, 'stdout': asyncio.subprocess.DEVNULL,
+                   'stderr': asyncio.subprocess.DEVNULL}
+        if sys.platform == 'win32':
+            options['creationflags'] = subprocess.CREATE_NO_WINDOW
+        # If cancellation occurs during process creation, obtain the handle
+        # before propagating it so start() can always kill and reap the client.
+        pending = asyncio.create_task(asyncio.create_subprocess_exec(*argv, **options))
+        try:
+            process = await asyncio.shield(pending)
+        except asyncio.CancelledError:
+            try:
+                session['lease'] = await pending
+            except OSError as error:
+                record['wsl_lease'].update(status='start_failed', error=type(error).__name__)
+            else:
+                record['wsl_lease'].update(status='acquired', pid=session['lease'].pid)
+            raise
+        session['lease'] = process
+        record['wsl_lease'].update(status='acquired', pid=process.pid)
+        self._event(record, 'wsl_lease_acquired')
+        if process.returncode is not None:
+            record['failure_kind'] = 'wsl_lease_lost'
+            raise RuntimeErrorSafe('WSL 预览保活进程未能持续运行。')
+
+    async def _release_lease(self, session):
+        process = session.pop('lease', None)
+        if process is None:
+            return
+        lease = session['record']['wsl_lease']
+        try:
+            if process.returncode is None:
+                try:
+                    process.kill()
+                except ProcessLookupError:
+                    pass
+            pending = asyncio.create_task(asyncio.wait_for(process.wait(), 5))
+            cancelled = False
+            try:
+                code = await asyncio.shield(pending)
+            except asyncio.CancelledError:
+                cancelled = True
+                code = await pending
+            lease.update(status='released', exit_code=code, client_reaped=True, released_at=now())
+            if cancelled:
+                raise asyncio.CancelledError()
+        except (OSError, TimeoutError) as error:
+            lease.update(status='release_failed', client_reaped=False, error=type(error).__name__)
+
+    async def _watch_lease(self, session):
+        try:
+            code = await session['lease'].wait()
+            session['record']['wsl_lease']['unexpected_exit_code'] = code
+            await self._fail_session(session, 'wsl_lease_lost', 'WSL 预览保活进程提前退出；预览已停止。')
+        except asyncio.CancelledError:
+            pass
+
+    def _cancel_lifecycle(self, session):
+        for key in ('timer', 'lease_watcher'):
+            task = session.get(key)
+            if task and task is not asyncio.current_task():
+                task.cancel()
+
+    async def _fail_session(self, session, kind, reason, state=None):
+        """Own the lifecycle lock once; request callers must not call stop in it."""
+        async with session['lock']:
+            record = session['record']
+            if self.sessions.get(record['id']) is not session or record['status'] in TERMINAL:
+                return
+            record.update(status='failed', failure_kind=kind, reason=reason, url=None)
+            if state is not None:
+                record.update(container_state=state, application_exit_code=state.get('ExitCode'))
+            self._cancel_lifecycle(session)
+            self._event(record, 'failure_detected')
+            try:
+                await self._cleanup(session)
+            finally:
+                self._event(record, 'failed')
+                self.sessions.pop(record['id'], None)
 
     async def _inspect(self, session):
         record = session['record']
@@ -270,9 +384,15 @@ class WebPreviewManager:
                                'mounts_readonly': True, 'resource_limits_verified': True}
 
     async def _state(self, session):
-        code, value, _ = await self.runtime._command(self.runtime._docker_command('inspect', '--format',
+        code, value, error = await self.runtime._command(self.runtime._docker_command('inspect', '--format',
             '{{json .State}}', session['record']['container_name']), timeout=10)
-        return json.loads(value) if not code else {'Running': False, 'ExitCode': None}
+        if code:
+            return {'Running': None, 'ExitCode': None, 'inspection_exit_code': code,
+                    'inspection_stderr': error[-2000:]}
+        state = json.loads(value)
+        if not isinstance(state, dict) or type(state.get('Running')) is not bool:
+            raise RuntimeErrorSafe('Docker 未返回有效的容器运行状态。')
+        return state
 
     async def _probe(self, session, method, path, body, headers, *, origin):
         record = session['record']
@@ -329,6 +449,8 @@ class WebPreviewManager:
             await self.stop(identity, reason='expired')
             raise RuntimeErrorSafe('预览已到期。')
         async with session['requests']:
+            if self.sessions.get(identity) is not session or session['record']['status'] != 'ready':
+                raise RuntimeErrorSafe('预览未运行或已经到期。')
             if session['record']['request_count'] >= MAX_HTTP_REQUESTS:
                 await self.stop(identity, reason='request_limit')
                 raise RuntimeErrorSafe('预览 HTTP 请求达到 128 次上限，已停止服务。')
@@ -339,6 +461,19 @@ class WebPreviewManager:
             if not self._frozen_files_match(session):
                 await self.stop(identity, reason='source_changed')
                 raise RuntimeErrorSafe('HTTP 请求期间冻结源码或执行器变化，结果不可用。')
+            if not result.get('ok'):
+                try:
+                    state = await self._state(session)
+                except (OSError, TimeoutError, ValueError, RuntimeErrorSafe) as error:
+                    state = {'Running': None, 'ExitCode': None, 'inspection_error': type(error).__name__}
+                self._event(session['record'], 'container_state_after_http_failure',
+                            {'request_id': result['id'], 'state': state})
+                if state.get('Running') is False:
+                    await self._fail_session(session, 'application_exited',
+                        'HTTP 请求失败后确认 Web 容器已经退出；原始请求和应用日志已保留。', state)
+                elif state.get('Running') is not True:
+                    await self._fail_session(session, 'container_state_unknown',
+                        'HTTP 请求失败且无法确认容器状态；预览已停止，运行状态未知。', state)
             return result
 
     def _frozen_files_match(self, session):
@@ -350,7 +485,10 @@ class WebPreviewManager:
                 AutonomousSandbox._check(path, self.directory)
                 if path.stat().st_size > 65536:
                     return False
-                current[name] = path.read_text(encoding='utf-8')
+                # The frozen hash covers the original text, including CRLF.
+                # Text-mode universal newline conversion would reject an
+                # unchanged Windows source or hide a newline-only edit.
+                current[name] = path.read_bytes().decode('utf-8')
             for name, expected in session['record']['runner_sha256'].items():
                 path = base / 'runner' / name
                 AutonomousSandbox._check(path, self.directory)
@@ -403,7 +541,8 @@ class WebPreviewManager:
                 status, content = 403, b'Open this preview from the workbench first.'
             else:
                 selected = {k: v for k, v in headers.items() if k in ('accept', 'content-type')}
-                reply = await asyncio.wait_for(self.request(record['id'], method, path, body, selected, origin='browser'), 18)
+                # 12s probe + 10s inspect + bounded logs/removal/reap on failure.
+                reply = await asyncio.wait_for(self.request(record['id'], method, path, body, selected, origin='browser'), 50)
                 if not reply['ok']:
                     status, content = 502, ('Application transport failed: ' + reply['error']).encode('utf-8')
                 else:
@@ -453,24 +592,32 @@ class WebPreviewManager:
 
     async def _cleanup(self, session):
         record = session['record']
-        server = session.get('server')
-        if server:
-            server.close()
-            await server.wait_closed()
-        if record.get('container_invoked'):
-            try:
-                code, stdout, stderr = await self.runtime._command(self.runtime._docker_command(
-                    'logs', '--tail', '40', record['container_name']), timeout=10)
-                record['application_stdout'], record['application_stderr'] = stdout[-12000:], stderr[-12000:]
-                record['log_capture_exit_code'] = code
-            except (OSError, RuntimeErrorSafe, TimeoutError) as error:
-                record['log_capture_error'] = type(error).__name__
-            try:
-                code, _, _ = await self.runtime._command(self.runtime._docker_command('rm', '-f', record['container_name']), timeout=10)
-                record['container_removed'] = code == 0
-            except (OSError, RuntimeErrorSafe, TimeoutError) as error:
-                record.update(container_removed=False, cleanup_error=type(error).__name__)
-        record['stopped_at'] = now()
+        try:
+            server = session.get('server')
+            if server:
+                server.close()
+                await server.wait_closed()
+            if record.get('container_invoked'):
+                try:
+                    code, stdout, stderr = await self.runtime._command(self.runtime._docker_command(
+                        'logs', '--tail', '40', record['container_name']), timeout=10)
+                    record['application_stdout'], record['application_stderr'] = stdout[-12000:], stderr[-12000:]
+                    record['log_capture_exit_code'] = code
+                except (OSError, RuntimeErrorSafe, TimeoutError) as error:
+                    record['log_capture_error'] = type(error).__name__
+                try:
+                    code, _, _ = await self.runtime._command(self.runtime._docker_command('rm', '-f', record['container_name']), timeout=10)
+                    record['container_removed'] = code == 0
+                except (OSError, RuntimeErrorSafe, TimeoutError) as error:
+                    record.update(container_removed=False, cleanup_error=type(error).__name__)
+        except asyncio.CancelledError:
+            record['cleanup_completion_unknown'] = True
+            if record.get('container_invoked') and 'container_removed' not in record:
+                record['container_removed'] = False
+            raise
+        finally:
+            await self._release_lease(session)
+            record['stopped_at'] = now()
 
     async def stop(self, identity, reason='user'):
         session = self.sessions.get(identity)
@@ -480,14 +627,16 @@ class WebPreviewManager:
                 raise ValueError('预览不存在。')
             return previous
         async with session['lock']:
-            timer = session.get('timer')
-            if timer and timer is not asyncio.current_task():
-                timer.cancel()
+            if self.sessions.get(identity) is not session:
+                return self.get(identity)
+            self._cancel_lifecycle(session)
             record = session['record']
             record.update(status='expired' if reason == 'expired' else 'stopped', stop_reason=reason)
-            await self._cleanup(session)
-            self._event(record, record['status'])
-            self.sessions.pop(identity, None)
+            try:
+                await self._cleanup(session)
+            finally:
+                self._event(record, record['status'])
+                self.sessions.pop(identity, None)
             return json.loads(_json(record))
 
     async def recover(self):

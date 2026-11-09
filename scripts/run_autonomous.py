@@ -17,6 +17,44 @@ from agentforge.runtime import Runtime
 from agentforge.storage import Store
 
 
+def snapshot_cli_implementation(engine, run_id):
+    """Reuse the engine's frozen sources; add only this CLI's own receipt."""
+    path = engine.runtime._run_dir(run_id)
+    manifest_path = path / "implementation-manifest.json"
+    if not manifest_path.exists():
+        # Legacy non-Web create_run does not create a source snapshot itself.
+        # Use the same complete source inventory as API and Web runs.
+        engine._snapshot_implementation(run_id)
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    if not isinstance(manifest, dict) or not manifest:
+        raise RuntimeError("The frozen implementation manifest is invalid")
+    implementation = (path / "implementation").resolve()
+    for name, expected in manifest.items():
+        if (not isinstance(name, str) or not name or "\\" in name or ":" in name
+                or name.startswith("/") or any(part in ("", ".", "..") for part in name.split("/"))):
+            raise RuntimeError("The frozen implementation path is invalid")
+        source = (implementation / name).resolve()
+        if (not source.is_relative_to(implementation) or not isinstance(expected, str)
+                or len(expected) != 64 or any(char not in "0123456789abcdef" for char in expected)
+                or hashlib.sha256(source.read_bytes()).hexdigest() != expected):
+            raise RuntimeError("The frozen implementation copy changed")
+    name = "scripts/run_autonomous.py"
+    if name in manifest:
+        return
+    content = (ROOT / name).read_bytes()
+    target = implementation / name
+    target.parent.mkdir(parents=True, exist_ok=True)
+    with target.open("xb") as stream:
+        stream.write(content)
+    manifest[name] = hashlib.sha256(content).hexdigest()
+    # Replace only the manifest, preserving every existing frozen source/hash.
+    # An interrupted append leaves its evidence instead of overwriting it.
+    pending = path / "implementation-manifest.cli.pending.json"
+    with pending.open("x", encoding="utf-8") as stream:
+        json.dump(manifest, stream, indent=2)
+    pending.replace(manifest_path)
+
+
 async def main(args):
     bundle = json.loads(Path(args.bundle).read_text(encoding="utf-8-sig"))
     data_dir = Path(args.data_dir).resolve()
@@ -29,17 +67,7 @@ async def main(args):
     path = runtime._run_dir(run["id"])
     print(json.dumps({"run_id": run["id"], "evidence_dir": str(path)}, ensure_ascii=True), flush=True)
     try:
-        source_files = [*sorted((ROOT / "backend/agentforge").glob("*.py")),
-                        *sorted((ROOT / "sandbox/autonomous").glob("*.py")),
-                        ROOT / "scripts/run_autonomous.py"]
-        manifest = {}
-        for source in source_files:
-            relative = source.relative_to(ROOT)
-            target = path / "implementation" / relative
-            target.parent.mkdir(parents=True, exist_ok=True)
-            target.write_bytes(source.read_bytes())
-            manifest[relative.as_posix()] = hashlib.sha256(source.read_bytes()).hexdigest()
-        (path / "implementation-manifest.json").write_text(json.dumps(manifest, indent=2), encoding="utf-8")
+        snapshot_cli_implementation(engine, run["id"])
         health = await runtime.health()
         store.event(run["id"], "preflight", "启动前环境检查（尚未证明模型请求成功）", data=health)
         if health["model"]["configured"] and health["sandbox"]["available"]:

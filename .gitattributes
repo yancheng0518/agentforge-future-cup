@@ -1,0 +1,4 @@
+# Frozen Web evidence must keep its original bytes across Windows checkouts.
+output/web-projects-20261109/** -text
+output/web-preview-platform-20261109/** -text
+benchmarks/web-projects/** -text

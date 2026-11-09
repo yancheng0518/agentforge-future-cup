@@ -1,0 +1,17 @@
+{
+  "classification": "platform_preview_idle_regression",
+  "model_calls": 0,
+  "source_sha256": "1e2318b774ee750fb80c6660e0a9e5cef893ba78c7ff3e7a9c74b2815881376e",
+  "web": {
+    "dependency_id": "5fc859cd0e2673e5f6b69410ee3c325ce5e1158034a31e08c1815bf11a92b9aa",
+    "entrypoint": "app.py",
+    "image_id": "sha256:294f32c3bce20f4fe2d863d327a0ac5a782fb55c845851353525eca7f13a185c",
+    "lock_sha256": "ca796c951c27f2f4f994917034756adf4859920d2bb01aabcfb2d37794a7ed12",
+    "requirements": [
+      "flask==3.1.3"
+    ],
+    "schema": "python-web-v1"
+  },
+  "idle_seconds": 105,
+  "implementation_sha256": "0b782a3481d18e484bc419df2ee9d047b36a7fa5dd1a59a153b56b605d1f06cb"
+}

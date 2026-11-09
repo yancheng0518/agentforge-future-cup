@@ -2,6 +2,8 @@
 
 未来杯赛题一的本地原型。按已确认的《项目策划案.md》实施，React + FastAPI + SQLite。暂定项目名称，不代表最终参赛名称。
 
+**2026-11-09 Web 项目扩展**：项目入口现支持 Python Web 源码、HTML/CSS/JavaScript 资产和固定版本 PyPI wheel 依赖。真实模型已从 Flask 健康页开发工作项看板，通过 14 项生成 HTTP 验收及 12 项事前冻结的独立复核；另一独立预设缺陷实验完成失败→修正→12 项通过。本批没有自然代码失败，2 次格式重试单独统计。完整记录与范围见 [Web 验证](docs/web-projects-validation.md)，逐阶段提交见 [Web 提交记录](docs/github-web-progress-20261109.md)。
+
 **2026-11-09 项目持续开发**：新增“项目”入口，导入现有标准库 Python 源码后，在同一项目继续提出需求、保留回归验收和不可变版本。主 Agent 可直接编辑、读文件、搜索及在 Docker 运行应用，也可按需要委派子 Agent。配置与项目资料按版本冻结并真实进入模型请求。机制与边界见 [项目工作区](docs/project-workspaces.md)，逐阶段上传与验证见 [提交记录](docs/github-progress-20261109.md)。
 
 本轮同一记账项目经两次真实模型迭代保存到版本 3：13/13、20/20 Docker 验收通过，18 次请求、136,769 tokens、1 次格式重试、0 次自然代码失败或修复。第二轮主 Agent 自行运行 5 次 Docker 应用工具。详细证据与复现见 [连续开发验证](docs/project-workspaces-verification.md) 和 [归档恢复](docs/project-workspaces-restore.md)。
@@ -51,7 +53,7 @@ powershell -ExecutionPolicy Bypass -File .\scripts\workbench.ps1
 
 访问 <http://127.0.0.1:8000>，界面与 API 使用同一端口，API 文档在 <http://127.0.0.1:8000/docs>；按 Ctrl+C 停止。仅监听本机，没有部署公网，也不是多人服务。该方式避开 Windows/WSL 可能保留的 `5173` 端口，不修改系统端口保留或防火墙策略。
 
-**本轮已启动的最终服务是 <http://127.0.0.1:8002>**，旧端口服务仍保留。需要自行重新启动同一端口时，先在该服务所属终端按 Ctrl+C，再执行 `powershell -ExecutionPolicy Bypass -File .\scripts\workbench.ps1 -Port 8002`。默认脚本仍使用 8000；不要重复启动占用同一端口。
+**Web 阶段当前服务是 <http://127.0.0.1:8004>**，旧端口服务仍保留。需要自行重新启动同一端口时，先在该服务所属终端按 Ctrl+C，再执行 `powershell -ExecutionPolicy Bypass -File .\scripts\workbench.ps1 -Port 8004`。默认脚本仍使用 8000；不要重复启动占用同一端口。
 
 前端开发时仍可分别运行 `scripts/backend.ps1` 和 `scripts/frontend.ps1`，使用 `http://127.0.0.1:5173` 的热更新界面；若该端口报告 EACCES，请使用上方单端口方式。UI 代码更新后重新运行 `npm run build` 即可更新构建界面。
 
@@ -59,7 +61,9 @@ Linux 复现可用 `python3 -m venv .venv`、`.venv/bin/python -m pip install -r
 
 ## 在界面里使用
 
-继续已有软件：打开左侧“项目”→“导入项目”→选择 Python 文件或文件夹→输入改进需求。运行结束后回到项目查看新版本、代码、测试与运行历史。“运行程序”选择入口和逐行参数，在 Docker 中使用该项目的独立持久数据。当前运行限制 15 秒、32 个数据文件/64 KiB；不支持常驻服务。版本和应用回执均可检查，不把模型总结当作测试结果。
+继续已有软件：打开左侧“项目”→“导入项目”→选择 Python 文件或文件夹→输入改进需求。运行结束后回到项目查看新版本、代码、测试与运行历史。标准库模式的“运行程序”选择入口和逐行参数，在 Docker 中使用该项目的独立持久数据；每次限制 15 秒、32 个数据文件/64 KiB。
+
+Web 项目可先选择 `examples/web_board` 文件夹：确认 Web 模式、`app.py` 入口和 `requirements.txt` 中固定版本的依赖，点击准备依赖，完成后导入。输入需求并开发成功后回到项目，点击“启动预览”，直接在隔离 iframe 中操作实际页面。预览最多 10 分钟或 128 次 HTTP 请求，进程内状态和 `/data` 都是临时数据，停止或重新启动后不保留。当前只支持 wheel 依赖的 Python Web 应用，没有 npm 构建或外部网络服务能力；浏览器预览成功不替代 Docker 验收。
 
 1. 打开工作台，直接描述需要的标准库 Python 功能、输入输出和边界要求。例如“制作 CSV 支出解析与分类汇总库，金额精确到分，非法数据报错”。
 2. 点击发送或按 Ctrl+Enter；Enter 换行。新入口使用真实模型与 Docker，缺少配置或隔离环境时会明确阻塞。
@@ -69,7 +73,7 @@ Linux 复现可用 `python3 -m venv .venv`、`.venv/bin/python -m pip install -r
 
 左侧“新任务”开始独立需求，“搜索任务”或 Ctrl+K 查找新旧历史。“历史 Agent 设置”仅供旧工作流使用，不决定新任务的子 Agent。原有恢复、导出及应用功能保留在旧记录中。
 
-当前支持标准库 Python 多模块项目和 JSON 可传递的函数输入输出，不是通用网页或任意仓库开发器。范围不清或超出能力时会请求补充说明。AI 生成验收、语义审查均可能出错，测试通过不等于全部业务正确；界面标注验收来源及待复核原因。“新任务”使用独立工作区；“项目 → 继续开发”继承选定基线源码和原有回归验收。旧界面实测留存在 [历史交互验证](docs/conversation-ui-verification.md)。
+“新任务”入口支持标准库 Python 多模块项目和 JSON 可传递的函数输入输出；Python Web 工程通过“项目”入口导入。当前不是任意仓库或生产级通用开发器。AI 生成验收、语义审查均可能出错，测试通过不等于全部业务正确；界面标注验收来源及待复核原因。“新任务”使用独立工作区；“项目 → 继续开发”继承选定基线源码和原有回归验收。旧界面实测留存在 [历史交互验证](docs/conversation-ui-verification.md)。
 
 ## 模型配置与实测
 

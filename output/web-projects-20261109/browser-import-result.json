@@ -1,0 +1,75 @@
+{
+  "passed": true,
+  "classification": "browser_import_cached_web_dependency",
+  "model_calls": 0,
+  "candidate_executed": false,
+  "project": {
+    "id": "ad542621ac494031bdaaa4ce47b12ad0",
+    "name": "Web 界面导入检查 · 未调用模型",
+    "head_revision_id": "9ed7a0605d5b4131b3d28fff5406ad68",
+    "created_at": "2026-11-09T08:42:40.473647+00:00",
+    "revisions": [
+      {
+        "acceptance": "",
+        "created_at": "2026-11-09T08:42:40.473647+00:00",
+        "files": {
+          "app.py": "\"\"\"Maintainer-written import baseline; run only in AgentForge Docker.\"\"\"\nimport os\nfrom flask import Flask, jsonify\n\napp = Flask(__name__)\n\n\n@app.get('/health')\ndef health():\n    return jsonify({'status': 'ok'})\n\n\n@app.get('/')\ndef index():\n    return '<!doctype html><html lang=\"zh-CN\"><meta charset=\"utf-8\"><title>工作项看板</title><h1>等待开发工作项看板</h1></html>'\n\n\nif __name__ == '__main__':\n    app.run(host='127.0.0.1', port=int(os.environ.get('PORT', '8080')), debug=False, use_reloader=False)\n"
+        },
+        "id": "9ed7a0605d5b4131b3d28fff5406ad68",
+        "number": 1,
+        "parent_id": null,
+        "project_id": "ad542621ac494031bdaaa4ce47b12ad0",
+        "run_id": null,
+        "source_sha256": "4bc693d3ff01b604916f5ab5b776aeffc7e7f630331b660a07144fe7739982b2",
+        "verification": {
+          "status": "unverified"
+        },
+        "web": {
+          "dependency_id": "5fc859cd0e2673e5f6b69410ee3c325ce5e1158034a31e08c1815bf11a92b9aa",
+          "entrypoint": "app.py",
+          "image_id": "sha256:294f32c3bce20f4fe2d863d327a0ac5a782fb55c845851353525eca7f13a185c",
+          "lock_sha256": "ca796c951c27f2f4f994917034756adf4859920d2bb01aabcfb2d37794a7ed12",
+          "requirements": [
+            "flask==3.1.3"
+          ],
+          "schema": "python-web-v1"
+        }
+      }
+    ],
+    "knowledge": [],
+    "executions": [],
+    "runs": [],
+    "previews": []
+  },
+  "revision": {
+    "acceptance": "",
+    "created_at": "2026-11-09T08:42:40.473647+00:00",
+    "files": {
+      "app.py": "\"\"\"Maintainer-written import baseline; run only in AgentForge Docker.\"\"\"\nimport os\nfrom flask import Flask, jsonify\n\napp = Flask(__name__)\n\n\n@app.get('/health')\ndef health():\n    return jsonify({'status': 'ok'})\n\n\n@app.get('/')\ndef index():\n    return '<!doctype html><html lang=\"zh-CN\"><meta charset=\"utf-8\"><title>工作项看板</title><h1>等待开发工作项看板</h1></html>'\n\n\nif __name__ == '__main__':\n    app.run(host='127.0.0.1', port=int(os.environ.get('PORT', '8080')), debug=False, use_reloader=False)\n"
+    },
+    "id": "9ed7a0605d5b4131b3d28fff5406ad68",
+    "number": 1,
+    "parent_id": null,
+    "project_id": "ad542621ac494031bdaaa4ce47b12ad0",
+    "run_id": null,
+    "source_sha256": "4bc693d3ff01b604916f5ab5b776aeffc7e7f630331b660a07144fe7739982b2",
+    "verification": {
+      "status": "unverified"
+    },
+    "web": {
+      "dependency_id": "5fc859cd0e2673e5f6b69410ee3c325ce5e1158034a31e08c1815bf11a92b9aa",
+      "entrypoint": "app.py",
+      "image_id": "sha256:294f32c3bce20f4fe2d863d327a0ac5a782fb55c845851353525eca7f13a185c",
+      "lock_sha256": "ca796c951c27f2f4f994917034756adf4859920d2bb01aabcfb2d37794a7ed12",
+      "requirements": [
+        "flask==3.1.3"
+      ],
+      "schema": "python-web-v1"
+    }
+  },
+  "screenshots": [
+    "browser-import-ready.png",
+    "browser-import-saved.png"
+  ],
+  "notes": "Selected app.py and requirements.txt through the file chooser; automatic Web mode; reused actual cached dependency bundle; requirements.txt excluded from editable source. No new download job requested."
+}
