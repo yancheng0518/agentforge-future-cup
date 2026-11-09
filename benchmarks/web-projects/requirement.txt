@@ -1,0 +1,11 @@
+在当前 Flask 项目实现一个可以真实操作的中文工作项看板，保留 GET /health 的 {"status":"ok"} 和页面入口 /。
+
+后端契约：
+- POST /api/tasks，JSON {"title":字符串,"priority":整数}。title去除两端空白后1至80字符；priority仅接受1/2/3且拒绝布尔值。缺字段、额外字段、错误类型或JSON不是对象返回400与JSON error。成功201返回 {"id":单调递增正整数,"title":去空白标题,"priority":整数,"done":false}。
+- GET /api/tasks 返回 JSON 数组，priority高的在前，同priority按id升序。可选 done=all|true|false（默认all），非法值返回400。返回的done必须是布尔值。状态在当前服务进程内保存，不要求跨重启持久化。
+- PATCH /api/tasks/<id>，只接受JSON {"done":布尔值}，多余/缺少/非法字段400，不存在id404；成功200返回更新后的完整工作项。不改变其他项。
+- 接口错误返回JSON对象含error，不返回HTML错误页。GET/POST/PATCH以外的未实现API无需新增功能。
+
+界面：使用本地HTML/CSS/JavaScript资产，浅色、中文、简洁。在/提供标题输入、优先级选择、新增按钮、全部/未完成/已完成筛选、条目完成切换、清楚的验证错误。显示真实API数据和保存状态。用户标题通过textContent等安全方式渲染，不把用户输入当HTML。不得引用CDN、网络资源或安装新包。页面可在390px宽度使用。
+
+已有依赖和入口由宿主冻结。你可以直接修改或按需要分派子Agent；用http_request工具检查真实HTTP结果，并执行独立Docker验收。没有被执行的检查不要声称完成。工具应用成功不能替代独立验收；保留全部失败和修正记录。

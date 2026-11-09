@@ -1,0 +1,17 @@
+import unittest
+from web_bridge import request
+
+class ExistingWebTests(unittest.TestCase):
+    def test_health(self):
+        response = request('GET', '/health')
+        self.assertEqual(response['status'], 200)
+        self.assertEqual(response['json'], {'status': 'ok'})
+
+    def test_home(self):
+        response = request('GET', '/')
+        self.assertEqual(response['status'], 200)
+        self.assertIn('工作项看板', response['text'])
+
+    def test_health_content_type(self):
+        response = request('GET', '/health')
+        self.assertIn('application/json', response['headers'].get('content-type', ''))

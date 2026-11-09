@@ -68,7 +68,7 @@ def check_preservation(root, manifest_path):
 
     reports = {}
     for relative, original in before["databases"].items():
-        append_allowed = relative == APPEND_ONLY_DATABASE
+        append_allowed = relative == APPEND_ONLY_DATABASE or original.get("allow_additions") is True
         report = {"policy": "original_rows_retained_additions_allowed" if append_allowed else "exact_original_rows",
                   "backup": original["backup"], "tables": {}, "passed": True}
         try:
