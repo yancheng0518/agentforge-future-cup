@@ -11,6 +11,7 @@ from pydantic import BaseModel, ConfigDict, Field
 
 from .autonomous import AutonomousEngine
 from .runtime import Runtime
+from .autonomous_sandbox import _sources
 from .storage import Store
 
 
@@ -64,6 +65,9 @@ def mount_autonomous(app, root, data_dir):
             if sum(not task.done() for task in engine.tasks.values()) >= 2:
                 raise HTTPException(429, "最多并发 2 个动态运行")
             try:
+                web = (body.bundle.get('provenance') or {}).get('web')
+                if web:
+                    await app.state.validate_web_runtime(web)
                 run = engine.create_run(body.bundle, body.budget)
             except (ValueError, RuntimeError) as exc:
                 raise HTTPException(422, str(exc)) from None
@@ -97,10 +101,7 @@ def mount_autonomous(app, root, data_dir):
             files = await engine.sandbox.read(run_id)
             # The sandbox already bounds and validates files. Keep ZIP paths safe
             # independently so a future sandbox adapter cannot create Zip Slip.
-            if (not isinstance(files, dict) or not files or any(
-                    not isinstance(path, str)
-                    or not re.fullmatch(r"(?:[A-Za-z_][A-Za-z0-9_]*/)*[A-Za-z_][A-Za-z0-9_]*\.py", path)
-                    or not isinstance(content, str) for path, content in files.items())):
+            if _sources(files) != files:
                 raise HTTPException(409, "候选文件不符合安全导出路径约束")
             fingerprint = hashlib.sha256(json.dumps(files, ensure_ascii=False, sort_keys=True,
                                                       separators=(",", ":")).encode("utf-8")).hexdigest()
@@ -129,11 +130,16 @@ def mount_autonomous(app, root, data_dir):
                     "quality_review": quality_review or None, "posthoc_review": posthoc_review or None,
                     "business_verification": business_verification,
                     "notice": "状态和 Docker 测试通过不等于业务语义正确；模型审查也不是人工验证。"}
+        if provenance.get('web'):
+            manifest.update(web=provenance['web'], verified_runtime_sha256=run.get('verified_runtime_sha256'))
         buffer = io.BytesIO()
         with zipfile.ZipFile(buffer, "w", zipfile.ZIP_DEFLATED) as archive:
             for path, content in sorted(files.items()):
                 archive.writestr(path, content.encode("utf-8"))
-            archive.writestr("manifest.json", json.dumps(manifest, ensure_ascii=False, indent=2).encode("utf-8"))
+            metadata_name = 'manifest.json'
+            while metadata_name in files:
+                metadata_name = '_' + metadata_name
+            archive.writestr(metadata_name, json.dumps(manifest, ensure_ascii=False, indent=2).encode("utf-8"))
         filename = (re.sub(r"[^A-Za-z0-9_-]", "", run_id)[:80] or "candidate") + "-candidate.zip"
         return Response(buffer.getvalue(), media_type="application/zip",
                         headers={"Content-Disposition": f'attachment; filename="{filename}"', "Cache-Control": "no-store"})

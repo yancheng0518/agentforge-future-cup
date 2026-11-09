@@ -1,0 +1,74 @@
+{
+  "schema": "agentforge-web-dependencies-v1",
+  "dependency_id": "5fc859cd0e2673e5f6b69410ee3c325ce5e1158034a31e08c1815bf11a92b9aa",
+  "requirements": [
+    "flask==3.1.3"
+  ],
+  "base_image_id": "sha256:1edc3cba75dd1917bb78226e897fdb801a0272ea2e02319345de0bd3b8cae225",
+  "image_id": "sha256:294f32c3bce20f4fe2d863d327a0ac5a782fb55c845851353525eca7f13a185c",
+  "image_tag": "agentforge-web:5fc859cd0e2673e5f6b69410",
+  "lock_sha256": "ca796c951c27f2f4f994917034756adf4859920d2bb01aabcfb2d37794a7ed12",
+  "wheels": [
+    {
+      "name": "blinker",
+      "version": "1.9.0",
+      "file": "blinker-1.9.0-py3-none-any.whl",
+      "sha256": "ba0efaa9080b619ff2f3459d1d500c57bddea4a6b424b60a91141db6fd2f08bc",
+      "bytes": 8458
+    },
+    {
+      "name": "click",
+      "version": "8.5.1",
+      "file": "click-8.5.1-py3-none-any.whl",
+      "sha256": "8bb5376d2006950386f8c6427613334a2acadc5f559cb80e638d00b4df957e37",
+      "bytes": 126163
+    },
+    {
+      "name": "flask",
+      "version": "3.1.3",
+      "file": "flask-3.1.3-py3-none-any.whl",
+      "sha256": "f4bcbefc124291925f1a26446da31a5178f9483862233b23c0c96a20701f670c",
+      "bytes": 103424
+    },
+    {
+      "name": "itsdangerous",
+      "version": "2.2.0",
+      "file": "itsdangerous-2.2.0-py3-none-any.whl",
+      "sha256": "c6242fc49e35958c8b15141343aa660db5fc54d4f13a1db01a3f5891b98700ef",
+      "bytes": 16234
+    },
+    {
+      "name": "jinja2",
+      "version": "3.1.6",
+      "file": "jinja2-3.1.6-py3-none-any.whl",
+      "sha256": "85ece4451f492d0c13c5dd7c13a64681a86afae63a5f347908daf103ce6d2f67",
+      "bytes": 134899
+    },
+    {
+      "name": "markupsafe",
+      "version": "3.0.4",
+      "file": "markupsafe-3.0.4-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl",
+      "sha256": "434139499bb20b502ed3baa1f169e618f924a97e7a777fea1a49446d80106cf6",
+      "bytes": 23017
+    },
+    {
+      "name": "werkzeug",
+      "version": "3.1.9",
+      "file": "werkzeug-3.1.9-py3-none-any.whl",
+      "sha256": "6392e50c78460ba618e5b21f08a71f59c99ce99cdc6cf6e3dd7e6ccca8754fab",
+      "bytes": 228700
+    }
+  ],
+  "source_policy": "pip-requests-https-host-allowlist-v1",
+  "observed_hosts": [
+    "files.pythonhosted.org",
+    "pypi.org"
+  ],
+  "created_at": "2026-11-09T07:55:47.355759+00:00",
+  "prepared_by_attempt": "c4c52f18dcb241c3b0b3c90bfd77f37c",
+  "downloader_sha256": "78036ae2a974c18648e703d4321d880ab47e4af5a41501fa985bc827f2c46055",
+  "dockerfile_sha256": "d5d2776f91061bc130603d823c9411d5cbb85602fd8db03fcbd68b8a9def2be4",
+  "offline_install": true,
+  "candidate_source_mounted": false,
+  "host_installation": false
+}

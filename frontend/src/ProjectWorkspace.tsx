@@ -2,8 +2,9 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import type { FormEvent } from 'react'
 import { api, post } from './api'
 import type { DynamicRecord } from './autonomous'
-import { buildExecutionRequest, buildProjectRunRequest, executionSummary, parseExecutionArgs, profileCapabilities, readProjectSources, retainRequestIntent } from './projects'
-import type { ProjectDetail, ProjectExecution, ProjectKnowledge, ProjectProfile, ProjectRevision, ProjectSummary, SourceSelection } from './projects'
+import { buildExecutionRequest, buildProjectRunRequest, buildWebImport, executionSummary, parseExecutionArgs, profileCapabilities, readProjectSources, retainRequestIntent, sameRequirements } from './projects'
+import type { ProjectDetail, ProjectExecution, ProjectKnowledge, ProjectProfile, ProjectRevision, ProjectSummary, SourceSelection, WebDependency } from './projects'
+import { DependencyPreparation, WebProjectPanel } from './WebProjectPanel'
 import './projects.css'
 
 type Props = {
@@ -39,7 +40,7 @@ function ProjectList({ onSelectProject }: { onSelectProject: (id: string) => voi
   }, [refresh])
   return <div className="project-workspace">
     <header className="pw-heading"><div><h1>项目</h1><p>导入代码，在同一个项目中逐版改进。</p></div><button className="primary-button" onClick={() => setShowImport(value => !value)}>{showImport ? '收起导入' : '导入项目'}</button></header>
-    <p className="pw-scope">当前支持小型 Python 标准库项目。每次修改保存为新版本，原始磁盘文件保持原样。</p>
+    <p className="pw-scope">支持小型 Python 工具和带固定依赖的 Web 项目。每次修改保存为新版本，原始磁盘文件保持原样。</p>
     {error && <div className="pw-error" role="alert"><p>{error}</p><button className="text-button" onClick={() => setRefresh(value => value + 1)}>重新读取</button></div>}
     {(showImport || (!loading && !projects.length && !error)) && <ProjectImport onImported={project => onSelectProject(project.id)} />}
     {loading ? <div className="skeleton pw-skeleton" aria-label="正在读取项目"><i /><i /><i /></div> : projects.length > 0 && <section className="pw-project-list" aria-label="已导入项目">{projects.map(project => <button key={project.id} onClick={() => onSelectProject(project.id)}><span><strong>{project.name}</strong><small>更新于 {date(project.updated_at || project.created_at)}</small></span><span aria-hidden="true">→</span></button>)}</section>}
@@ -49,15 +50,20 @@ function ProjectList({ onSelectProject }: { onSelectProject: (id: string) => voi
 function ProjectImport({ onImported }: { onImported: (project: ProjectSummary) => void }) {
   const [name, setName] = useState(''), [selection, setSelection] = useState<SourceSelection | null>(null)
   const [reading, setReading] = useState(false), [saving, setSaving] = useState(false), [error, setError] = useState('')
+  const [web, setWeb] = useState(false), [requirements, setRequirements] = useState(''), [entrypoint, setEntrypoint] = useState('')
+  const [prepared, setPrepared] = useState<WebDependency | null>(null), [selectionVersion, setSelectionVersion] = useState(0)
   const generation = useRef(0), alive = useRef(true), submitting = useRef(false)
   useEffect(() => { alive.current = true; return () => { alive.current = false; generation.current++ } }, [])
   async function choose(files: File[]) {
     const token = ++generation.current
-    setReading(true); setError(''); setSelection(null)
+    setReading(true); setError(''); setSelection(null); setPrepared(null); setSelectionVersion(token)
     try {
-      const result = await readProjectSources(files)
+      const result = await readProjectSources(files, { web: true })
       if (!alive.current || token !== generation.current) return
       setSelection(result); setName(previous => previous || result.suggestedName)
+      setRequirements(result.requirements || ''); setWeb(!!result.requirements || !!result.hasWebAssets)
+      const paths = Object.keys(result.files).filter(path => path.endsWith('.py'))
+      setEntrypoint(paths.includes('app.py') ? 'app.py' : paths.includes('main.py') ? 'main.py' : paths[0] || '')
     } catch (exception) { if (alive.current && token === generation.current) setError(errorText(exception)) }
     finally { if (alive.current && token === generation.current) setReading(false) }
   }
@@ -66,20 +72,27 @@ function ProjectImport({ onImported }: { onImported: (project: ProjectSummary) =
     if (!selection || !name.trim() || submitting.current) return
     submitting.current = true; setSaving(true); setError('')
     try {
-      const project = await post<ProjectSummary>('/projects/import', { name: name.trim(), files: selection.files })
+      if (!web && selection.hasWebAssets) throw new Error('所选项目包含网页文件，请选择 Web 项目并准备依赖。')
+      if (web && !prepared) throw new Error('请先准备项目的第三方依赖。')
+      const webConfig = web ? buildWebImport(selection, prepared!, entrypoint, requirements) : undefined
+      const project = await post<ProjectSummary>('/projects/import', { name: name.trim(), files: selection.files, ...(webConfig ? { web: webConfig } : {}) })
       if (alive.current) onImported(project)
     } catch (exception) { if (alive.current) setError(errorText(exception)) }
     finally { submitting.current = false; if (alive.current) setSaving(false) }
   }
   return <section className="pw-import"><h2>从你的代码开始</h2><p>选择文件后先检查清单。导入只保存版本 1，不执行代码，也不调用模型。</p>
     <form onSubmit={save}>
-      <div className="pw-file-choices"><label>选择 Python 文件<input type="file" accept=".py" multiple disabled={saving} onChange={event => void choose([...event.currentTarget.files || []])} /></label><label>或选择项目文件夹<input type="file" multiple ref={element => element?.setAttribute('webkitdirectory', '')} disabled={saving} onChange={event => void choose([...event.currentTarget.files || []])} /></label></div>
-      <p className="pw-help">最多 32 个 .py 文件，单文件 64 KiB、合计 256 KiB。依赖、缓存、隐藏目录和其他文件不导入。</p>
+      <div className="pw-file-choices"><label>选择项目文件<input type="file" accept=".py,.html,.css,.js,.json,.txt" multiple disabled={saving} onChange={event => void choose([...event.currentTarget.files || []])} /></label><label>或选择项目文件夹<input type="file" multiple ref={element => element?.setAttribute('webkitdirectory', '')} disabled={saving} onChange={event => void choose([...event.currentTarget.files || []])} /></label></div>
+      <p className="pw-help">最多 32 个 .py / .html / .css / .js / .json 源文件，单文件 64 KiB、合计 256 KiB。根目录 requirements.txt 单独作为依赖清单；缓存、隐藏目录和凭据文件不读取。</p>
       {reading && <p role="status">正在读取所选源码…</p>}
       {selection && <div className="pw-import-review"><p>{Object.keys(selection.files).length} 个源文件 · {(selection.bytes / 1024).toFixed(1)} KiB</p><ul>{Object.keys(selection.files).map(path => <li key={path}><code>{path}</code></li>)}</ul>{selection.excluded.length > 0 && <details><summary>未导入 {selection.excluded.length} 个其他文件</summary><ul>{selection.excluded.slice(0, 100).map((path, index) => <li key={`${path}-${index}`}><code>{path}</code></li>)}</ul>{selection.excluded.length > 100 && <p>其余文件也已忽略。</p>}</details>}</div>}
       <label className="pw-field">项目名称<input value={name} onChange={event => setName(event.target.value)} maxLength={100} required disabled={saving} placeholder="例如：我的文本处理工具" /></label>
+      {selection && <><label className="pw-field">项目运行方式<select value={web ? 'web' : 'python'} disabled={saving} onChange={event => { setWeb(event.target.value === 'web'); setError('') }}><option value="python">Python 标准库工具</option><option value="web">Web 项目 · 第三方依赖与预览</option></select></label>
+        {web && <><label className="pw-field">Web 入口文件<select value={entrypoint} disabled={saving} onChange={event => setEntrypoint(event.target.value)}>{Object.keys(selection.files).filter(path => path.endsWith('.py')).map(path => <option key={path}>{path}</option>)}</select></label>
+          <DependencyPreparation key={selectionVersion} value={requirements} onChange={setRequirements} prepared={prepared} onPrepared={setPrepared} disabled={saving} /></>}
+        {!web && selection.hasWebAssets && <p className="pw-help warning-text">所选文件包含网页资源，请选择 Web 项目运行方式。</p>}</>}
       {error && <p className="pw-error" role="alert">{error}</p>}
-      <button className="primary-button" disabled={reading || saving || !selection || !name.trim()}>{saving ? '正在导入…' : '导入为版本 1'}</button>
+      <button className="primary-button" disabled={reading || saving || !selection || !name.trim() || (!web && !!selection?.hasWebAssets) || (web && (!prepared || !sameRequirements(requirements, prepared) || !entrypoint))}>{saving ? '正在导入…' : '导入为版本 1'}</button>
     </form>
   </section>
 }
@@ -196,11 +209,12 @@ function ProjectSession({ projectId, initialRequirement = '', onSelectProject, o
       <form onSubmit={start}><label className="sr-only" htmlFor="project-request">描述项目的新需求</label><textarea id="project-request" value={requirement} onChange={event => setRequirement(event.target.value)} rows={4} maxLength={8000} placeholder="例如：保留现有功能，增加导出报告，并检查边界情况…" disabled={submitting} onKeyDown={event => { if ((event.ctrlKey || event.metaKey) && event.key === 'Enter' && !event.nativeEvent.isComposing) { event.preventDefault(); event.currentTarget.form?.requestSubmit() } }} /><div className="pw-form-footer"><span>真实模型 · Docker 验收 · 配置与资料冻结</span><button className="primary-button" disabled={!atHead || !revision || !requirement.trim() || !canDevelop || submitting}>{submitting ? '正在创建任务…' : '继续开发'}</button></div></form>
       {!canDevelop && <p className="pw-help warning-text">{environmentReason || '请先连接真实模型和 Docker 环境。'}</p>}
     </section>
+    {revision?.web && <WebProjectPanel key={revision.id} projectId={projectId} revision={revision} previews={project.previews || []} canExecute={canExecute} />}
     <details className="pw-section"><summary>查看版本 {revisionNumber ?? '…'} 的源码</summary>{revisionLoading && <p role="status">正在读取冻结源码…</p>}{revisionError && <p className="pw-error" role="alert">{revisionError}</p>}{revision && <><div className="pw-source-toolbar"><label>文件<select value={file} onChange={event => setFile(event.target.value)}>{Object.keys(revision.files || {}).map(path => <option key={path}>{path}</option>)}</select></label><span>{Object.keys(revision.files || {}).length} 个文件</span></div><div className="pw-source" tabIndex={0} aria-label="不可变版本源码"><pre><code>{revision.files?.[file] ?? '此版本没有可显示的源码。'}</code></pre></div><p className="pw-hash">源码 SHA-256：{revision.source_sha256}</p><details><summary>版本与验收记录</summary><pre className="pw-json">{JSON.stringify({ id: revision.id, parent_id: revision.parent_id, created_at: revision.created_at, run_id: revision.run_id, verification: revision.verification, acceptance: revision.acceptance }, null, 2)}</pre></details></>}</details>
     <CollaborationSettings projectId={projectId} documents={project.knowledge || []} onKnowledgeSaved={document => { readVersion.current++; setLoading(false); setProject(previous => previous ? { ...previous, knowledge: [document, ...previous.knowledge.filter(item => item.id !== document.id)] } : previous) }} />
-    <details className="pw-section"><summary>运行这个版本的程序</summary><p>在真实 Docker 中运行 Python 入口，最长 15 秒；此操作不调用模型。程序退出成功不代表已通过开发验收。</p><p className="pw-help">应用可在 /data 保存最多 64 KiB 的数据。仅成功运行后保存，后续版本共享；验收测试不读取这份应用数据。</p><form onSubmit={execute}><div className="pw-execution-inputs"><label>入口文件<select value={entrypoint} onChange={event => setEntrypoint(event.target.value)} disabled={!revision || executing}>{Object.keys(revision?.files || {}).map(path => <option key={path}>{path}</option>)}</select></label><label>程序参数<textarea value={args} onChange={event => setArgs(event.target.value)} rows={3} disabled={executing} placeholder={'每行一个参数，例如：\n--name\n我的报告'} /></label></div><p className="pw-help">参数逐行原样传入，不需要加引号；留空表示无参数。</p><button className="secondary-button" disabled={!canExecute || !revision || !entrypoint || executing}>{executing ? '等待 Docker 运行回执…' : `运行版本 ${revisionNumber ?? ''}`}</button>{!canExecute && <p className="pw-help warning-text">Docker 当前不可用，请先检查运行环境。</p>}</form></details>
+    {!revision?.web && <details className="pw-section"><summary>运行这个版本的程序</summary><p>在真实 Docker 中运行 Python 入口，最长 15 秒；此操作不调用模型。程序退出成功不代表已通过开发验收。</p><p className="pw-help">应用可在 /data 保存最多 64 KiB 的数据。仅成功运行后保存，后续版本共享；验收测试不读取这份应用数据。</p><form onSubmit={execute}><div className="pw-execution-inputs"><label>入口文件<select value={entrypoint} onChange={event => setEntrypoint(event.target.value)} disabled={!revision || executing}>{Object.keys(revision?.files || {}).filter(path => path.endsWith('.py')).map(path => <option key={path}>{path}</option>)}</select></label><label>程序参数<textarea value={args} onChange={event => setArgs(event.target.value)} rows={3} disabled={executing} placeholder={'每行一个参数，例如：\n--name\n我的报告'} /></label></div><p className="pw-help">参数逐行原样传入，不需要加引号；留空表示无参数。</p><button className="secondary-button" disabled={!canExecute || !revision || !entrypoint || executing}>{executing ? '等待 Docker 运行回执…' : `运行版本 ${revisionNumber ?? ''}`}</button>{!canExecute && <p className="pw-help warning-text">Docker 当前不可用，请先检查运行环境。</p>}</form></details>}
     <section className="pw-section"><h2>开发记录</h2>{project.runs?.length ? <ol className="pw-history">{project.runs.map(item => { const publication = object(item.publication); return <li key={item.id}><div><strong title={item.requirement}>{preview(item.requirement.trim().split(/\r?\n/)[0] || '项目开发任务', 80)}</strong><small>{date(item.created_at)} · {stateNames[item.status] || item.status}{publication.status === 'saved' ? ` · 已保存版本 ${publication.number ?? ''}` : publication.status === 'conflict' ? ' · 版本存在冲突，未合入' : ''}</small>{item.summary && <><p>{preview(item.summary, 140)}</p>{Array.from(item.summary.trim()).length > 140 && <details><summary>展开完整结论</summary><p>{item.summary}</p></details>}</>}</div><button className="text-button" onClick={() => onOpenRun(item.id)}>查看过程</button></li> })}</ol> : <p className="pw-help">第一条需求会从当前版本开始，完整保存成功、失败与受阻记录。</p>}</section>
-    <section className="pw-section"><h2>程序运行记录</h2>{project.executions?.length ? <div className="pw-executions">{project.executions.map(record => <ExecutionRecord key={record.id} record={record} number={project.revisions.find(item => item.id === record.revision_id)?.number} />)}</div> : <p className="pw-help">尚未运行程序。上方可选择版本入口，在 Docker 中查看真实输出。</p>}</section>
+    {(!revision?.web || !!project.executions?.length) && <section className="pw-section"><h2>程序运行记录</h2>{project.executions?.length ? <div className="pw-executions">{project.executions.map(record => <ExecutionRecord key={record.id} record={record} number={project.revisions.find(item => item.id === record.revision_id)?.number} />)}</div> : <p className="pw-help">尚未运行程序。上方可选择版本入口，在 Docker 中查看真实输出。</p>}</section>}
   </div>
 }
 

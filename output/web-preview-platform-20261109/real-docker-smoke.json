@@ -1,0 +1,142 @@
+{
+  "model_calls": 0,
+  "seeded_defect": false,
+  "classification": "maintainer_fixture_platform_smoke",
+  "start": {
+    "application_data_persistent": false,
+    "container_id": "354ea339275a30892bc1a263d260be3e68ba97b2e46c857f3feae4f0141da344",
+    "container_invoked": true,
+    "container_name": "agentforge-web-29a2dcfd19fc47ffb7edd63dc336e90c",
+    "created_at": "2026-11-09T07:53:02.443466+00:00",
+    "entrypoint": "app.py",
+    "failure_kind": null,
+    "id": "29a2dcfd19fc47ffb7edd63dc336e90c",
+    "image_id": "sha256:1edc3cba75dd1917bb78226e897fdb801a0272ea2e02319345de0bd3b8cae225",
+    "initial_http_status": 200,
+    "isolated": true,
+    "isolation": {
+      "capabilities_dropped": true,
+      "host_ports_published": false,
+      "mounts_readonly": true,
+      "network": "none",
+      "nonroot": true,
+      "resource_limits_verified": true,
+      "root_readonly": true
+    },
+    "origin": "http://127.0.0.1:4407",
+    "owner": {
+      "kind": "declared_platform_smoke",
+      "model_calls": 0,
+      "seeded_defect": false
+    },
+    "port": 4407,
+    "ready_at": "2026-11-09T07:53:07.517021+00:00",
+    "reason": "",
+    "request_count": 1,
+    "request_transport": "docker_exec_loopback_only",
+    "runner_sha256": {
+      "http_probe.py": "88bb33892d098360b74cbd93bb6a3e7c1cec8c5478e9af888a68b888355a3d60",
+      "serve.py": "d73d90101f318caede26edfddada88ed376feff885f5179b447a2bdef326c921"
+    },
+    "source_sha256": "23a50bc3c7636e8612b9251c58c4828d67346e686deda909e09cb145768d7f96",
+    "status": "ready",
+    "test_claim": false,
+    "ttl_seconds": 120,
+    "url": "http://127.0.0.1:4407/_agentforge/50691653124b657b3a1f7dbc2f83a9d10c9ba843a9b4a84d/"
+  },
+  "passed": true,
+  "http_success": {
+    "id": "dd304ca0a62345c29ba90dc2a55d4e59",
+    "preview_id": "29a2dcfd19fc47ffb7edd63dc336e90c",
+    "method": "GET",
+    "path": "/",
+    "origin": "agent_tool",
+    "source_sha256": "23a50bc3c7636e8612b9251c58c4828d67346e686deda909e09cb145768d7f96",
+    "image_id": "sha256:1edc3cba75dd1917bb78226e897fdb801a0272ea2e02319345de0bd3b8cae225",
+    "isolated": true,
+    "test_claim": false,
+    "ok": true,
+    "status": 200,
+    "headers": {
+      "content-type": "application/json"
+    },
+    "body_base64": "eyJtZXNzYWdlIjogIkRlY2xhcmVkIHBsdW1iaW5nIGZpeHR1cmUiLCAicGF0aCI6ICIvIn0=",
+    "body_text": "{\"message\": \"Declared plumbing fixture\", \"path\": \"/\"}",
+    "duration_ms": 624
+  },
+  "http_expected_missing": {
+    "id": "918ba6fa1efa45b7853e225980332362",
+    "preview_id": "29a2dcfd19fc47ffb7edd63dc336e90c",
+    "method": "GET",
+    "path": "/missing",
+    "origin": "agent_tool",
+    "source_sha256": "23a50bc3c7636e8612b9251c58c4828d67346e686deda909e09cb145768d7f96",
+    "image_id": "sha256:1edc3cba75dd1917bb78226e897fdb801a0272ea2e02319345de0bd3b8cae225",
+    "isolated": true,
+    "test_claim": false,
+    "ok": true,
+    "status": 404,
+    "headers": {
+      "content-type": "application/json"
+    },
+    "body_base64": "eyJtZXNzYWdlIjogIkRlY2xhcmVkIHBsdW1iaW5nIGZpeHR1cmUiLCAicGF0aCI6ICIvbWlzc2luZyJ9",
+    "body_text": "{\"message\": \"Declared plumbing fixture\", \"path\": \"/missing\"}",
+    "duration_ms": 661
+  },
+  "browser_proxy_transport": {
+    "unauthorized_status": "HTTP/1.1 403 Preview",
+    "bootstrap_status": "HTTP/1.1 302 Preview",
+    "authorized_status": "HTTP/1.1 200 Preview",
+    "csp_present": true,
+    "fixture_present": true,
+    "method": "raw HTTP transport check; not a browser rendering claim"
+  },
+  "stop": {
+    "application_data_persistent": false,
+    "application_stderr": "127.0.0.1 - - [09/Nov/2026 07:53:07] \"GET / HTTP/1.1\" 200 -\n127.0.0.1 - - [09/Nov/2026 07:53:08] \"GET / HTTP/1.1\" 200 -\n127.0.0.1 - - [09/Nov/2026 07:53:09] \"GET /missing HTTP/1.1\" 404 -\n127.0.0.1 - - [09/Nov/2026 07:53:09] \"GET / HTTP/1.1\" 200 -\n",
+    "application_stdout": "",
+    "container_id": "354ea339275a30892bc1a263d260be3e68ba97b2e46c857f3feae4f0141da344",
+    "container_invoked": true,
+    "container_name": "agentforge-web-29a2dcfd19fc47ffb7edd63dc336e90c",
+    "container_removed": true,
+    "created_at": "2026-11-09T07:53:02.443466+00:00",
+    "entrypoint": "app.py",
+    "failure_kind": null,
+    "id": "29a2dcfd19fc47ffb7edd63dc336e90c",
+    "image_id": "sha256:1edc3cba75dd1917bb78226e897fdb801a0272ea2e02319345de0bd3b8cae225",
+    "initial_http_status": 200,
+    "isolated": true,
+    "isolation": {
+      "capabilities_dropped": true,
+      "host_ports_published": false,
+      "mounts_readonly": true,
+      "network": "none",
+      "nonroot": true,
+      "resource_limits_verified": true,
+      "root_readonly": true
+    },
+    "log_capture_exit_code": 0,
+    "origin": "http://127.0.0.1:4407",
+    "owner": {
+      "kind": "declared_platform_smoke",
+      "model_calls": 0,
+      "seeded_defect": false
+    },
+    "port": 4407,
+    "ready_at": "2026-11-09T07:53:07.517021+00:00",
+    "reason": "",
+    "request_count": 4,
+    "request_transport": "docker_exec_loopback_only",
+    "runner_sha256": {
+      "http_probe.py": "88bb33892d098360b74cbd93bb6a3e7c1cec8c5478e9af888a68b888355a3d60",
+      "serve.py": "d73d90101f318caede26edfddada88ed376feff885f5179b447a2bdef326c921"
+    },
+    "source_sha256": "23a50bc3c7636e8612b9251c58c4828d67346e686deda909e09cb145768d7f96",
+    "status": "stopped",
+    "stop_reason": "user",
+    "stopped_at": "2026-11-09T07:53:11.871555+00:00",
+    "test_claim": false,
+    "ttl_seconds": 120,
+    "url": "http://127.0.0.1:4407/_agentforge/50691653124b657b3a1f7dbc2f83a9d10c9ba843a9b4a84d/"
+  }
+}

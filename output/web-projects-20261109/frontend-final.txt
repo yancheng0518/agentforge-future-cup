@@ -1,0 +1,131 @@
+AgentForge Web frontend final validation
+Started UTC: 2026-11-09T08:17:42.7717171Z
+Working directory: D:\未来杯\frontend
+Command: npm.cmd test
+
+> agentforge-workbench@0.1.0 test
+> node --experimental-strip-types --test tests/*.test.ts
+
+✔ unrestricted requirement is posted verbatim without legacy task or role routing (1.6044ms)
+✔ empty and oversized input are rejected before submission (0.5965ms)
+✔ same raw ID in legacy and new stores keeps both history items (12.5095ms)
+✔ legacy deep links retain their API; new deep links use autonomous API (0.2359ms)
+✔ normalization retains actual tasks and raw backend ID (0.3121ms)
+✔ only current candidate with actual nonempty isolated verification can be called passed (0.6032ms)
+✔ later failure and unverified candidate mutation invalidate displayed completion evidence (0.5036ms)
+✔ model summary alone cannot turn an unsuccessful run into success (0.3656ms)
+✔ intake pending and clarification have explicit progress (0.4453ms)
+✔ actual arbitrary active task names become progress without fixed stages (0.3701ms)
+✔ verification in flight is derived from controller timestamps (0.2335ms)
+✔ input scaffold failure is shown as baseline, not natural model repair (0.2761ms)
+✔ natural candidate failure gets an actual feedback progress label (0.1348ms)
+✔ seeded and blocked verification remain distinct (0.1064ms)
+✔ AI-generated acceptance is attributed only when provenance says so (0.0946ms)
+✔ new freeform task titles do not fall back to the legacy Todo catalog (0.1494ms)
+✔ a failed quality review overrides a succeeded status without rewriting raw evidence (0.3047ms)
+✔ posthoc contradiction takes precedence over a passing AI quality review (0.1834ms)
+✔ AI-generated acceptance requires a passing quality check for the same candidate (0.2202ms)
+✔ failed AI acceptance does not assert that a natural code defect has been confirmed (0.0818ms)
+✔ contract review records are surfaced and unknown pass values stay unconfirmed (0.0945ms)
+✔ failed review during active worker revision retains real execution progress and history status (0.1303ms)
+✔ ongoing contract revision uses actual backend summary rather than implying a manual pause (0.1634ms)
+✔ protocol termination remains the primary outcome after an earlier rejected contract (0.2275ms)
+✔ transport and blocked execution causes are not masked by a previous contract problem (0.1858ms)
+✔ HTTP scope comes from frozen Web context or explicit intake metadata, never requirement wording (0.1514ms)
+✔ Web acceptance identifies HTTP and separates it from browser preview without altering old scope (0.2166ms)
+✔ HTTP metadata labels verification progress but cannot establish successful execution (0.1697ms)
+✔ direct edit intent is not applied output; only main_edit records actual changed source (4.9857ms)
+✔ project tool nodes appear on actual requests and never claim exit zero means tests pass (12.9925ms)
+✔ tool cancellation, integrity failure and missing receipts remain visibly unconfirmed (0.5704ms)
+✔ read and search results stay distinct from Docker test evidence (0.2764ms)
+✔ event prefixes never expose final tasks, results, summary, metrics or later tests (1.1902ms)
+✔ numeric event ids determine stable ordering; duplicates do not replay twice and global gaps are normal (0.5191ms)
+✔ conflicting duplicate ids and missing lifecycle evidence become a labelled read-only snapshot (0.4345ms)
+✔ legacy records have no invented chronological replay or communication edges (0.1706ms)
+✔ rejected dispatch and cancel decisions never instantiate or cancel execution nodes (0.5968ms)
+✔ arbitrary task nodes carry real assignment and dependency edges, not fabricated Agent conversation (0.3903ms)
+✔ HTTP response is not task completion; format retry and transport failure are distinct (0.9885ms)
+✔ Docker is a tool: requested start never asserts container execution or later test counts (0.4733ms)
+✔ old completed Docker records do not invent a start timestamp; interruption stays unconfirmed (0.3092ms)
+✔ baseline, seeded defect and generated-test failures are visibly separate; feedback never claims repair success (0.5149ms)
+✔ post-hoc rejection only appears at its actual event and preserves the original terminal status (0.932ms)
+✔ cancelled or recovered running tasks are never projected as successfully completed (0.4295ms)
+✔ terminal stops unfinished review and tool nodes without inventing successful completion (0.5343ms)
+✔ review start and result use real proposal indexes and candidate hashes for stable identity (0.3509ms)
+✔ limited snapshots require a confirmed runtime receipt and retain unknown posthoc conclusions (0.2641ms)
+✔ projection is pure and supports empty prefix without touching frozen run data (0.239ms)
+✔ real successful run replays arbitrary tasks and Docker results solely from event prefixes (9.781ms)
+✔ real historically test-passing but invalid run only becomes rejected at post-hoc event (10.1062ms)
+✔ supported requests resolve to their bounded task (4.0037ms)
+✔ unknown and multiple tasks do not silently become completion (0.5741ms)
+✔ review routes explicitly, while requested edits remain development (1.18ms)
+✔ explicit read-only intent takes precedence over descriptions or repair advice (0.3859ms)
+✔ reviewing already added or repaired code does not request another edit (0.1782ms)
+✔ positive repair requests are not mistaken for read-only constraints (0.1818ms)
+✔ request format preserves arbitrary user text and unchanged contract (0.3582ms)
+✔ request rejects empty or oversized combined input before API submission (0.5978ms)
+✔ legacy and malformed request strings stay intact (0.2513ms)
+✔ titles use user words, with task names for historical long contracts (0.4686ms)
+✔ current trusted test result survives a later tester model failure (1.1224ms)
+✔ model claims and wrong-scope or wrong-suite evidence are rejected (0.3937ms)
+✔ candidate changes or a new test start invalidate the previous displayed result (0.2538ms)
+✔ review uses its frozen read baseline and does not need a fabricated edit (0.3061ms)
+✔ failed tests report counts from actual unittest output (0.2868ms)
+✔ expected count never fills in missing actual counts or fabricates success (0.1561ms)
+✔ inconsistent attestation and unittest counts remain unconfirmed (0.2461ms)
+✔ blocked isolation never reuses claimed pass counts (0.1446ms)
+✔ an incomplete timeout can report failure without manufacturing test counts (0.134ms)
+✔ successful output distinguishes application and simulation from model development (0.3152ms)
+✔ a historical succeeded status cannot certify a changed or unverified current candidate (0.2068ms)
+✔ failure summaries retain actual service and sandbox reasons (0.1227ms)
+✔ running summary reflects actual leaf steps rather than a fabricated percent (0.1522ms)
+✔ folder import preserves package paths and source bytes including BOM and CRLF (1.4625ms)
+✔ dependency, hidden, non-Python and credential files are reported but never opened (0.7889ms)
+✔ multiple selected files retain names without inventing a server filesystem path (0.2453ms)
+✔ unsafe paths and Windows reserved names are rejected before reading files (0.6565ms)
+✔ case collisions and duplicate paths cannot silently replace imported source (0.5183ms)
+✔ import limits are checked before reading large selections (0.9407ms)
+✔ invalid UTF-8, NUL and understated actual file sizes are rejected (0.8172ms)
+✔ empty, ignored-only and multiple-root selections do not create misleading projects (0.3102ms)
+✔ project continuation carries the exact base, shared budget and stable caller idempotency key (0.3294ms)
+✔ invalid continuation input cannot produce a request (0.4256ms)
+✔ execution arguments are literal lines with no shell expansion or quote processing (0.3096ms)
+✔ uncertain execution retry retains its key; changed input and completed intent receive new keys (0.247ms)
+✔ controlled program exit zero is never presented as test or business verification (0.2439ms)
+✔ collaboration capabilities are free descriptions, not a fixed role catalog (0.2185ms)
+✔ imported baseline is distinct from scaffold and candidate failure in thread and replay (2.4923ms)
+✔ a successful run with a publication conflict does not claim the project version was updated (0.2362ms)
+✔ project polling continues through successful execution until publication and terminal evidence arrive (0.1505ms)
+✔ Web import preserves source bytes, extracts root requirements and never reads private or dependency folders (3.7272ms)
+✔ Web source selection rejects invalid paths, collision and dependency limits before reading (1.368ms)
+✔ pinned requirements cannot smuggle resolver options, local paths, ranges or Direct URLs (8.5874ms)
+✔ Web import sends only a prepared dependency reference and chosen source entrypoint (0.7237ms)
+✔ iframe URL must be a ready isolated capability on a separate loopback origin (2.5124ms)
+✔ an expired preview is hidden without claiming the backend container has stopped (0.2198ms)
+✔ preview reload selects the newest record belonging to the selected immutable revision (0.2054ms)
+ℹ tests 97
+ℹ suites 0
+ℹ pass 97
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 392.8418
+Test exit code: 0
+Command: npm.cmd run build
+
+> agentforge-workbench@0.1.0 build
+> tsc --noEmit && vite build
+
+vite v8.3.6 building client environment for production...
+transforming...
+✓ 29 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   0.56 kB │ gzip:   0.37 kB
+dist/assets/index-BZc8XO8j.css   50.35 kB │ gzip:   9.78 kB
+dist/assets/index-uIBUWFID.js   379.41 kB │ gzip: 116.36 kB
+
+✓ built in 162ms
+Build exit code: 0
+Finished UTC: 2026-11-09T08:17:45.3352214Z

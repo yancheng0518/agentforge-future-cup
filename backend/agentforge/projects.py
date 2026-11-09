@@ -17,6 +17,7 @@ from uuid import uuid4
 
 from .autonomous_sandbox import _digest, _json, _sources
 from .runtime import RuntimeErrorSafe
+from .web_config import validate_web_config, web_runtime_sha256
 
 MAX_JSON_BYTES = 2 * 1024 * 1024
 MAX_KNOWLEDGE_BYTES = 65536
@@ -205,7 +206,7 @@ class ProjectStore:
             raise KeyError(project_id)
         return project
 
-    def import_project(self, name, files, acceptance=""):
+    def import_project(self, name, files, acceptance="", web=None):
         name = _text(name, "项目名称", 512, strip=True)
         if len(name) > 120:
             raise ProjectValidationError("项目名称最多 120 字符。")
@@ -216,6 +217,8 @@ class ProjectStore:
         revision = {"id": revision_id, "project_id": project_id, "number": 1, "parent_id": None,
                     "files": files, "source_sha256": _digest(_json(files)), "acceptance": acceptance,
                     "verification": {"status": "unverified"}, "created_at": created, "run_id": None}
+        if web is not None:
+            revision['web'] = validate_web_config(web, files)
         with self._connect(write=True) as db:
             db.execute("INSERT INTO projects VALUES(?,?,?,?)", (project_id, name, revision_id, created))
             db.execute("INSERT INTO revisions VALUES(?,?,?,?,?,?)", (revision_id, project_id, 1, None, None, _json(revision)))
@@ -252,6 +255,19 @@ class ProjectStore:
         source_sha256 = _digest(_json(files))
         with self._connect(write=True) as db:
             project = self._require_project(db, project_id)
+            base = db.execute("SELECT number,body FROM revisions WHERE id=? AND project_id=?", (base_revision_id, project_id)).fetchone()
+            if base is None:
+                raise KeyError(base_revision_id)
+            web = json.loads(base['body']).get('web')
+            if web is not None:
+                web = validate_web_config(web, files)
+                digest = web_runtime_sha256(web)
+                test, review = verification['test'], verification['review']
+                if (test.get('web_runtime_sha256') != digest or test.get('image') != web['image_id']
+                        or test.get('dependency_id') != web['dependency_id']
+                        or test.get('lock_sha256') != web['lock_sha256']
+                        or review.get('web_runtime_sha256') != digest):
+                    raise ProjectValidationError('Web 验收和审查必须绑定当前冻结依赖环境。')
             existing = db.execute("SELECT body FROM revisions WHERE run_id=?", (run_id,)).fetchone()
             if existing:
                 revision = json.loads(existing[0])
@@ -259,14 +275,13 @@ class ProjectStore:
                         or revision["files"] != files or revision["acceptance"] != acceptance or revision["verification"] != verification):
                     raise ProjectConflictError("该 run_id 已用于不同的版本推进请求。")
                 return {"project": project, "revision": revision, "idempotent": True}
-            base = db.execute("SELECT number FROM revisions WHERE id=? AND project_id=?", (base_revision_id, project_id)).fetchone()
-            if base is None:
-                raise KeyError(base_revision_id)
             if project["head_revision_id"] != base_revision_id:
                 raise ProjectConflictError("项目版本已推进；过期运行不能覆盖当前版本。")
             revision = {"id": uuid4().hex, "project_id": project_id, "number": base["number"] + 1,
                         "parent_id": base_revision_id, "files": files, "source_sha256": source_sha256,
                         "acceptance": acceptance, "verification": verification, "created_at": _now(), "run_id": run_id}
+            if web is not None:
+                revision['web'] = web
             db.execute("INSERT INTO revisions VALUES(?,?,?,?,?,?)", (revision["id"], project_id, revision["number"], base_revision_id, run_id, _json(revision)))
             changed = db.execute("UPDATE projects SET head_revision_id=? WHERE id=? AND head_revision_id=?",
                                  (revision["id"], project_id, base_revision_id)).rowcount

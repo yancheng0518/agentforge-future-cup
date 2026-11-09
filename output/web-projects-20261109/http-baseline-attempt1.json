@@ -1,0 +1,48 @@
+{
+  "run_id": "baseline-ff35dab9ccb94ee3b6bfb8f95f4e3190",
+  "result": {
+    "status": "passed",
+    "exit_code": 0,
+    "isolated": true,
+    "stdout": "AGENTFORGE_AUTONOMOUS={\"discovered\": 3, \"errors\": 0, \"expected_failures\": 0, \"failures\": 0, \"http_requests\": 3, \"log_tail\": \"\", \"nonce\": \"c136a2086dfb4d93a9af59a45579b5fa\", \"passed\": true, \"server_exit_code\": null, \"skipped\": 0, \"startup_error\": null, \"tests\": 3, \"verification_kind\": \"http\"}\n",
+    "stderr": "test_health (frozen_web_acceptance.ExistingWebTests.test_health) ... ok\ntest_health_content_type (frozen_web_acceptance.ExistingWebTests.test_health_content_type) ... ok\ntest_home (frozen_web_acceptance.ExistingWebTests.test_home) ... ok\n\n----------------------------------------------------------------------\nRan 3 tests in 0.004s\n\nOK\n",
+    "test_count": 3,
+    "candidate_sha256": "4bc693d3ff01b604916f5ab5b776aeffc7e7f630331b660a07144fe7739982b2",
+    "hash": "4bc693d3ff01b604916f5ab5b776aeffc7e7f630331b660a07144fe7739982b2",
+    "acceptance_sha256": "70ac719c0d3cea72a37c5b8262bd10d3d7955076c38aadfb3e0e0abae7c87694",
+    "runner_sha256": {
+      "runner.py": "9478ec2e3be03ad9d56c6e812cf001ef6329fb94b1534ebc30d56d620dbdb7d0",
+      "serve.py": "d73d90101f318caede26edfddada88ed376feff885f5179b447a2bdef326c921",
+      "web_bridge.py": "30a88ed84c21fd51197d5e1772ff7a9013b38969b72fb03c2bc907ab690a730f"
+    },
+    "image": "sha256:294f32c3bce20f4fe2d863d327a0ac5a782fb55c845851353525eca7f13a185c",
+    "container_invoked": true,
+    "reason": "",
+    "snapshot": "evidence/1794211321146726800-validation-start-882f924f.json",
+    "web_runtime_sha256": "0a67ae95bd0b0878db8c3cf512d5e6f3884ce9af764aad37806ee0f390a0df1a",
+    "dependency_id": "5fc859cd0e2673e5f6b69410ee3c325ce5e1158034a31e08c1815bf11a92b9aa",
+    "lock_sha256": "ca796c951c27f2f4f994917034756adf4859920d2bb01aabcfb2d37794a7ed12",
+    "entrypoint": "app.py",
+    "verification_kind": "http",
+    "attestation": {
+      "discovered": 3,
+      "errors": 0,
+      "expected_failures": 0,
+      "failures": 0,
+      "http_requests": 3,
+      "log_tail": "",
+      "nonce": "c136a2086dfb4d93a9af59a45579b5fa",
+      "passed": true,
+      "server_exit_code": null,
+      "skipped": 0,
+      "startup_error": null,
+      "tests": 3,
+      "verification_kind": "http"
+    },
+    "duration_ms": 15799,
+    "result_record": "evidence/1794211336901919700-validation-result-7a2a5898.json"
+  },
+  "model_calls": 0,
+  "classification": "platform_http_baseline_validation",
+  "passed": true
+}

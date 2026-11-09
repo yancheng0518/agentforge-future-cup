@@ -1,0 +1,25 @@
+.web-dependency-preparation{width:100%;max-width:740px;border-block:1px solid var(--line-subtle);padding:20px 0;display:flex;flex-direction:column;gap:14px}
+.web-dependency-preparation>h3{font-size:14px;font-weight:600}
+.web-dependency-preparation textarea{font-family:var(--mono);font-size:12px;min-height:90px;width:100%;resize:vertical}
+.web-dependency-preparation>label{max-width:620px;width:100%}
+.web-dependency-action{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.web-dependency-action>span{font-size:12px;color:var(--muted)}
+.web-dependency-details{font-size:12px;margin-top:14px;width:100%}
+.web-dependency-details>summary{font-size:12px;color:var(--muted)}
+.web-dependency-details ul,.web-dependency-details ol{padding-left:22px;margin-top:12px}
+.web-dependency-details li{padding:4px 0;overflow-wrap:anywhere}
+.web-dependency-details p{margin:8px 0;font-size:12px}
+.web-preview-heading{display:flex;justify-content:space-between;align-items:flex-start;gap:20px}
+.web-preview-heading p{font-size:12px;color:var(--muted);margin-top:6px}
+.web-preview-status{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;margin:14px 0;color:var(--ink)}
+.web-preview-status>p{flex-basis:100%;color:var(--muted)}
+.web-preview-frame{border:1px solid var(--line);border-radius:8px;overflow:hidden;margin-top:16px;background:var(--bg)}
+.web-preview-toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px 12px;background:var(--surface);border-bottom:1px solid var(--line);font-size:12px;color:var(--muted)}
+.web-preview-frame iframe{display:block;width:100%;height:560px;border:0;background:var(--bg)}
+.web-preview-empty{padding:32px 16px;border:1px dashed var(--line);border-radius:8px;margin-top:16px;text-align:center;font-size:13px;color:var(--muted)}
+.web-preview-history{list-style:none;padding:0!important}
+.web-preview-history>li{padding:13px 0;border-bottom:1px solid var(--line-subtle)}
+.web-preview-history strong{font-weight:500;font-size:13px}
+.web-preview-history small{display:block;margin-top:4px;color:var(--muted);font-size:11px}
+.web-preview-history details{margin-top:8px}
+@media(max-width:760px){.web-preview-heading{flex-direction:column;gap:12px}.web-preview-frame iframe{height:500px}.web-preview-toolbar{align-items:flex-start}.web-dependency-action{align-items:flex-start;flex-direction:column}}

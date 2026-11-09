@@ -113,6 +113,46 @@ def _request_context(record):
     return json.loads(record["request"]["messages"][1]["content"])["context"]
 
 
+def _web_runtime(run, bundle, records, check):
+    """Inspect a frozen runtime as data; no dependency/preview code is imported."""
+    project = run.get("project_context") or {}
+    declared = project.get("web") if isinstance(project, dict) else None
+    bundled = bundle.get("provenance", {}).get("web")
+    if declared is not None and bundle:
+        check(declared == bundled, "Web project runtime differs from frozen bundle provenance")
+    web = declared if declared is not None else bundled
+    if web is None:
+        return None
+    fields = {"schema", "entrypoint", "dependency_id", "image_id", "lock_sha256", "requirements"}
+    valid = isinstance(web, dict) and set(web) == fields and web.get("schema") == "python-web-v1"
+    check(valid, "Web runtime has an unsupported or incomplete schema")
+    if not valid:
+        return None
+    valid_entry = (isinstance(web["entrypoint"], str) and bool(re.fullmatch(r"[A-Za-z_][A-Za-z0-9_/]*\.py", web["entrypoint"]))
+                   and all(part not in ("", ".", "..") for part in web["entrypoint"].split("/")))
+    check(valid_entry, "Web entrypoint is not a bounded Python project path")
+    check(all(isinstance(web[k], str) and bool(re.fullmatch(r"[a-f0-9]{64}", web[k])) for k in ("dependency_id", "lock_sha256")),
+          "Web dependency or lock digest is malformed")
+    check(isinstance(web["image_id"], str) and bool(re.fullmatch(r"sha256:[a-f0-9]{64}", web["image_id"])), "Web runtime has no pinned Docker image")
+    requirements = web["requirements"]
+    check(isinstance(requirements, list) and 1 <= len(requirements) <= 16 and all(
+        isinstance(item, str) and len(item) <= 160 and bool(re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9_.-]*==[A-Za-z0-9][A-Za-z0-9_.+-]*", item))
+        for item in requirements), "Web direct dependencies are not exact bounded package pins")
+    files = (bundle or project).get("files", {})
+    check(valid_entry and web["entrypoint"] in files, "Frozen Web entrypoint is absent from the imported source")
+    expected_hash = digest(canonical(web))
+    for record in records:
+        try:
+            check(_request_context(record).get("web") == web, "Web model request did not receive the frozen runtime")
+        except (KeyError, ValueError, TypeError, IndexError):
+            check(False, "Web model request has no readable runtime context")
+    for review in run.get("quality_reviews", []):
+        check(review.get("web_runtime_sha256") == expected_hash, "Web semantic review used a different dependency/runtime context")
+    if run.get("verified_hash"):
+        check(run.get("verified_runtime_sha256") == expected_hash, "Web verified source is not bound to the frozen runtime")
+    return web
+
+
 def _project_contract(run, output, check):
     """Compare a project bundle with its imported revision plus accepted additions."""
     revision, bundle = run["project_context"], run["bundle"]
@@ -154,6 +194,8 @@ def _project_configuration(run, records, events, check):
                 "source_sha256": revision["source_sha256"], "configuration_sha256": run.get("configuration_sha256"),
                 "profiles": [{k: p[k] for k in ("id", "version", "sha256", "enabled")} for p in profiles],
                 "knowledge": [{k: d[k] for k in ("id", "version", "sha256")} for d in documents]}
+    if revision.get("web"):
+        expected.update(web_runtime_sha256=digest(canonical(revision["web"])), dependency_id=revision["web"]["dependency_id"])
     check(frozen == [expected], "Frozen project/configuration event differs from run snapshot")
     tasks = {t["id"]: t for t in run.get("task_graph", [])}
     for record in records:
@@ -198,7 +240,9 @@ def _project_actions(run, records, events, base, counts, check, warning):
     origin, source_history_complete = "imported_baseline", True
     outcomes = set()
     workers = {r.get("task_id"): r.get("output", {}) for r in records if r.get("role") == "worker" and r.get("status") == "accepted"}
-    allowed = {"read_file", "search_project", "run_application"}
+    web = run["project_context"].get("web")
+    allowed = {"read_file", "search_project", "http_request" if web else "run_application"}
+    seeded = (run.get("bundle") or {}).get("provenance", {}).get("kind") == "seeded_defect"
 
     def applied(patch, proposal, label):
         nonlocal current, current_hash
@@ -251,7 +295,8 @@ def _project_actions(run, records, events, base, counts, check, warning):
                 origin = "natural_candidate"
         elif kind == "verification":
             check(data.get("candidate_hash") == current_hash, "Verification is not bound to the candidate reconstructed from edits")
-            check(data.get("candidate_origin") == data.get("classification") == origin,
+            expected_class = "imported_baseline" if origin == "imported_baseline" else "seeded_experiment_candidate" if seeded else "natural_candidate"
+            check(data.get("candidate_origin") == origin and data.get("classification") == expected_class,
                   "Project verification origin differs from committed source-edit history")
             verified = current_hash if data.get("status") == "passed" else None
         elif kind == "tool_started":
@@ -297,6 +342,23 @@ def _project_actions(run, records, events, base, counts, check, warning):
                             counts["successful_application_tools"] += 1
                             check(result.get("isolated") is True and result.get("container_invoked") is True,
                                   "Successful application tool lacks actual isolated execution evidence")
+                        if start.get("tool") == "http_request":
+                            counts["http_tools_completed"] += 1
+                            check(bool(web) and result.get("web_runtime_sha256") == digest(canonical(web))
+                                  and result.get("dependency_id") == web.get("dependency_id")
+                                  and result.get("lock_sha256") == web.get("lock_sha256")
+                                  and result.get("image_id") == web.get("image_id"),
+                                  "HTTP tool receipt used a different frozen runtime")
+                            check(result.get("test_claim") is False, "HTTP tool receipt claims independent acceptance authority")
+                            if result.get("ok") is True:
+                                counts["http_responses_received"] += 1
+                                status = result.get("status")
+                                check(result.get("isolated") is True and type(status) is int and 100 <= status <= 599,
+                                      "HTTP response lacks actual isolated HTTP evidence")
+                                counts["http_error_responses"] += int(type(status) is int and status >= 400)
+                            else:
+                                counts["http_transport_failures"] += 1
+                                check(result.get("ok") is False and bool(result.get("error")), "HTTP transport failure lacks its failure evidence")
                 else:
                     check(data.get("status") == "failed" and bool(data.get("error")), "Project tool result lacks output or an explicit error")
             if decision:
@@ -331,6 +393,10 @@ def _project_actions(run, records, events, base, counts, check, warning):
     publication = run.get("publication") or {}
     if publication.get("status") == "saved":
         check(publication.get("source_sha256") == current_hash, "Published project source hash differs from final candidate")
+        if web:
+            check(publication.get("web_runtime_sha256") == digest(canonical(web))
+                  and publication.get("dependency_id") == web.get("dependency_id"),
+                  "Published Web version is not bound to the verified dependency/runtime")
     if publication.get("status") == "failed":
         check(any(e.get("type") == "publication_failed" and e.get("data") == publication for e in events),
               "Failed publication lacks its retained failure event")
@@ -359,6 +425,7 @@ def audit(data_dir, secret=""):
                       "imported_baseline_verifications", "imported_baseline_failures", "main_edits",
                       "project_tools_started", "project_tools_completed", "project_tools_failed",
                       "project_tools_interrupted", "project_tools_unknown", "successful_application_tools",
+                      "web_runs", "http_tools_completed", "http_responses_received", "http_error_responses", "http_transport_failures",
                       "unlinked_validation_results")
     aggregate.update({key: 0 for key in aggregate_keys})
 
@@ -479,6 +546,8 @@ def audit(data_dir, secret=""):
         hashes = {}
         manifest = None
         bundle = run.get("bundle") if isinstance(run.get("bundle"), dict) else {}
+        web = _web_runtime(run, bundle, records, lambda condition, label: check(run_id, condition, label))
+        counts["web_runs"] = int(web is not None)
         intake = run.get("intake") if isinstance(run.get("intake"), dict) else None
         unprepared_intake = (intake is not None and not bundle and not graph and not decisions
                              and not run.get("verifications"))
@@ -568,6 +637,14 @@ def audit(data_dir, secret=""):
                 check(run_id, digest(suite) == manifest["acceptance_sha256"], "Frozen acceptance suite hash mismatch")
                 check(run_id, suite == frozen["acceptance"], "Acceptance suite differs from frozen task bundle")
                 check(run_id, digest(canonical(frozen["files"])) == manifest["baseline_sha256"], "Baseline source hash mismatch")
+                if web:
+                    check(run_id, manifest.get("schema") == "autonomous-python-web-v1" and manifest.get("web") == web
+                          and manifest.get("web_runtime_sha256") == digest(canonical(web)), "Web sandbox manifest runtime binding differs from the run")
+                    check(run_id, set(manifest.get("runner_sha256", {})) == {"runner.py", "web_bridge.py", "serve.py"},
+                          "Web sandbox manifest omits its trusted HTTP runner/bridge/server launcher")
+                    hashes.update(web_runtime_sha256=digest(canonical(web)), dependency_id=web["dependency_id"], lock_sha256=web["lock_sha256"])
+                else:
+                    check(run_id, not manifest.get("web") and not manifest.get("web_runtime_sha256"), "Non-Web run acquired an unexplained Web runtime")
                 for filename, expected in manifest["runner_sha256"].items():
                     runner = _contained(base, "runner/" + filename)
                     check(run_id, digest(runner.read_text(encoding="utf-8")) == expected, "Frozen runner hash mismatch: " + filename)
@@ -595,8 +672,13 @@ def audit(data_dir, secret=""):
                           "Frozen implementation copy hash mismatch: " + filename)
                 hashes["implementation_manifest_sha256"] = digest(implementation_path.read_bytes())
                 hashes["implementation_files"] = len(implementation)
+                if web:
+                    required_web_sources = {"sandbox/web/runner.py", "sandbox/web/web_bridge.py", "sandbox/web/serve.py",
+                                            "sandbox/web/http_probe.py", "sandbox/web/download_wheels.py", "sandbox/web/Dockerfile",
+                                            "backend/agentforge/web_dependencies.py", "backend/agentforge/web_preview.py", "backend/agentforge/web_config.py"}
+                    check(run_id, required_web_sources <= set(implementation), "Web implementation snapshot omits its runtime/dependency execution sources")
             else:
-                issue(run_id, "No implementation snapshot; API runs require separate source archiving", "warning")
+                issue(run_id, "No implementation snapshot; API runs require separate source archiving", "error" if web else "warning")
         except (ValueError, OSError, KeyError, TypeError):
             issue(run_id, "Frozen source/runner/manifest evidence is missing or unreadable")
 
@@ -644,6 +726,27 @@ def audit(data_dir, secret=""):
             if manifest:
                 check(run_id, verification.get("acceptance_sha256") == manifest["acceptance_sha256"], "Verification used a different acceptance suite")
                 check(run_id, verification.get("runner_sha256") == manifest["runner_sha256"], "Verification used a different runner")
+            if web:
+                check(run_id, verification.get("web_runtime_sha256") == digest(canonical(web))
+                      and verification.get("dependency_id") == web["dependency_id"]
+                      and verification.get("lock_sha256") == web["lock_sha256"]
+                      and verification.get("entrypoint") == web["entrypoint"]
+                      and verification.get("verification_kind") == "http", "Web verification used a different frozen runtime")
+                if verification.get("container_invoked") or verification.get("image"):
+                    check(run_id, verification.get("image") == web["image_id"], "Web verification ran outside its pinned dependency image")
+                if status == "failed":
+                    receipt = verification.get("attestation", {})
+                    check(run_id, verification.get("isolated") is True and verification.get("container_invoked") is True
+                          and type(verification.get("test_count")) is int and verification["test_count"] > 0
+                          and receipt.get("passed") is False
+                          and receipt.get("tests") == receipt.get("discovered") == verification["test_count"],
+                          "Failed Web verification lacks actual isolated nonempty test evidence")
+                if status == "passed":
+                    receipt = verification.get("attestation", {})
+                    check(run_id, receipt.get("verification_kind") == "http" and type(receipt.get("http_requests")) is int
+                          and 0 < receipt["http_requests"] <= 64 and "startup_error" in receipt
+                          and "server_exit_code" in receipt and receipt["startup_error"] is None
+                          and receipt["server_exit_code"] is None, "Passed Web verification has no healthy real-HTTP server attestation")
             try:
                 relative = verification["result_record"]
                 stored_result = _read_json(_contained(base, relative))
@@ -663,6 +766,12 @@ def audit(data_dir, secret=""):
             check(run_id, any(v.get("status") == "passed" and v.get("candidate_hash") == run.get("verified_hash") for v in verifications), "Successful run has no matching passed verification record")
             check(run_id, not any(t.get("status") in {"pending", "running"} for t in graph), "Successful run has unfinished tasks")
             check(run_id, bool(decisions) and decisions[-1].get("action") == "finish", "Successful run lacks a final main-Agent finish decision")
+            if web and seeded:
+                baseline = verifications[0] if verifications else {}
+                check(run_id, baseline.get("status") == "failed" and baseline.get("classification") == "seeded_defect_baseline"
+                      and any(v.get("status") == "passed" and v.get("classification") == "seeded_experiment_candidate"
+                              and v.get("candidate_hash") != baseline.get("candidate_hash") for v in verifications[1:]),
+                      "Successful seeded Web control lacks a failed baseline followed by an edited passing candidate")
         for earlier_index, earlier in enumerate(verifications):
             if earlier.get("status") != "failed":
                 continue
@@ -714,16 +823,17 @@ def audit(data_dir, secret=""):
                         "model_config": run.get("model_config"), "budget": run.get("budget"), "model_metrics": metrics,
                         "project_id": run.get("project_id"), "base_revision_id": run.get("base_revision_id"),
                         "project_evidence": project_evidence,
+                        "web_runtime": web,
                         "recomputed_metrics": expected_metrics, "counts": dict(counts), "hashes": hashes,
                         "controller_actions": [d.get("action") for d in decisions],
                         "tasks": [{key: t.get(key) for key in ("id", "title", "agent_id", "status", "depends_on", "write_paths")} for t in graph],
-                        "verification_results": [{key: v.get(key) for key in ("index", "status", "test_count", "classification", "candidate_hash", "image")} for v in verifications],
+                        "verification_results": [{key: v.get(key) for key in ("index", "status", "test_count", "classification", "candidate_hash", "image", "verification_kind", "web_runtime_sha256", "dependency_id", "lock_sha256")} for v in verifications],
                         "request_records": record_files, "unlinked_validation_results": unlinked,
                         "events": len(events), "steps": len(steps), "snapshots": len(snapshots),
                         "passed": not any(i["severity"] == "error" for i in issues[run_issue_start:])})
     if secret_hits:
         issue(None, "Local configured credential detected in evidence; report does not disclose its value")
-    report = {"schema": "agentforge-autonomous-audit-v1", "audit_revision": "project-actions-v2", "data_dir": str(data_dir),
+    report = {"schema": "agentforge-autonomous-audit-v1", "audit_revision": "web-runtime-v3", "data_dir": str(data_dir),
             "read_only_inputs": True, "models_invoked": False, "docker_invoked": False,
             "secret_scan": {"configured_key_available": bool(secret), "passed": not secret_hits,
                             "locations": secret_hits},

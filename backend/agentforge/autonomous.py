@@ -13,11 +13,12 @@ import re
 import time
 from uuid import uuid4
 
-from .autonomous_model import (AutonomousModel, ModelBudgetExceeded, validate_intake, validate_review,
+from .autonomous_model import (AutonomousModel, ModelBudgetExceeded, validate_intake, validate_web_intake, validate_review,
                                canonical_sha256, freeze_configuration, merge_acceptance, validate_project_tool)
-from .autonomous_sandbox import AutonomousSandbox, SandboxIntegrityError, _sources
+from .autonomous_sandbox import AutonomousSandbox, SandboxIntegrityError, _sources, _path
 from .runtime import RuntimeErrorSafe
 from .storage import now
+from .web_config import validate_web_config, web_runtime_sha256
 
 
 DEFAULT_BUDGET = dict(max_calls=40, max_tokens=200000, max_output_tokens=4096,
@@ -45,11 +46,10 @@ class DecisionRejected(ValueError):
 
 
 def safe_path(path):
-    if (not isinstance(path, str) or len(path) > 180 or
-            not re.fullmatch(r"[A-Za-z_][A-Za-z0-9_/]*\.py", path) or
-            any(x in ("", ".", "..") for x in path.split("/"))):
-        raise DecisionRejected("write_paths must be relative Python source paths")
-    return path
+    try:
+        return _path(path)
+    except RuntimeErrorSafe as exc:
+        raise DecisionRejected(str(exc)) from None
 
 
 class AutonomousEngine:
@@ -63,6 +63,7 @@ class AutonomousEngine:
         self.running = set()
         self.completion_callback = None
         self.project_tool_callback = None
+        self.project_cleanup_callback = None
 
     def create_run(self, bundle, budget=None):
         frozen = self.sandbox.validate_bundle(bundle)
@@ -82,6 +83,8 @@ class AutonomousEngine:
         self.store.event(run["id"], "created", "建立独立的动态编排运行", data={
             "engine": self.revision, "bundle_sha256": run["bundle_sha256"],
             "provenance": frozen["provenance"], "budget": limits})
+        if frozen['provenance'].get('web'):
+            self._snapshot_implementation(run['id'])
         return run
 
     def create_run_from_requirement(self, requirement, budget=None):
@@ -131,6 +134,8 @@ class AutonomousEngine:
         if not isinstance(acceptance, str) or len(acceptance.encode()) > 65536:
             raise ValueError("Project regression acceptance exceeds 64 KiB or is invalid")
         frozen.update(files=files, acceptance=acceptance)
+        if frozen.get('web') is not None:
+            frozen['web'] = validate_web_config(frozen['web'], files)
         profile_snapshot, knowledge_snapshot = freeze_configuration(profiles, knowledge)
         run = self.create_run_from_requirement(requirement, budget)
         configuration_sha256 = canonical_sha256({"profiles": profile_snapshot, "knowledge": knowledge_snapshot})
@@ -142,14 +147,17 @@ class AutonomousEngine:
                          data={"project_id": frozen["project_id"], "revision_id": frozen["id"], "number": frozen["number"],
                                "source_sha256": frozen["source_sha256"], "configuration_sha256": configuration_sha256,
                                "profiles": [{k: p[k] for k in ("id", "version", "sha256", "enabled")} for p in profile_snapshot],
-                               "knowledge": [{k: d[k] for k in ("id", "version", "sha256")} for d in knowledge_snapshot]})
+                               "knowledge": [{k: d[k] for k in ("id", "version", "sha256")} for d in knowledge_snapshot],
+                               **({'web_runtime_sha256': web_runtime_sha256(frozen['web']),
+                                   'dependency_id': frozen['web']['dependency_id']} if frozen.get('web') else {})})
         return self.store.run(run["id"])
 
     def _snapshot_implementation(self, run_id):
         root, base = self.runtime.root, self.runtime._run_dir(run_id)
         manifest = {}
         files = [*sorted((root / "backend/agentforge").glob("*.py")),
-                 *sorted((root / "sandbox/autonomous").glob("*.py"))]
+                 *sorted((root / "sandbox/autonomous").glob("*.py")),
+                 *sorted(path for path in (root / "sandbox/web").glob('*') if path.is_file())]
         for source in files:
             relative = source.relative_to(root)
             target = base / "implementation" / relative
@@ -203,13 +211,14 @@ class AutonomousEngine:
                     project_revision=({k: run["project_context"][k] for k in ("id", "project_id", "number", "source_sha256")}
                                       if run.get("project_context") else None),
                     project_actions={"edit": run.get("project_context") is not None,
-                                     "tools": ["read_file", "search_project", "run_application"]
+                                     "tools": ["read_file", "search_project", "http_request" if (run.get('project_context') or {}).get('web') else "run_application"]
                                      if run.get("project_context") is not None and callable(self.project_tool_callback) else []},
                     candidate_hash=await self.sandbox.fingerprint(run_id))
 
     async def _prepare_requirement(self, run_id):
         run = self.store.run(run_id)
         revision = run.get("project_context")
+        web = (revision or {}).get('web')
         self._save(run_id, summary="主 Agent 正在整理接口和 AI 生成验收标准")
         self.store.event(run_id, "intake_started", "真实模型正在理解需求；尚未创建执行任务")
         review_feedback = None
@@ -217,7 +226,7 @@ class AutonomousEngine:
             current = self.store.run(run_id)
             proposed = (await self.model.prepare(current) if review_feedback is None
                         else await self.model.prepare(current, feedback=review_feedback))
-            result = validate_intake(proposed, baseline_files=revision["files"] if revision is not None else None)
+            result = (validate_web_intake if web else validate_intake)(proposed, baseline_files=revision["files"] if revision is not None else None)
             proposals = current.get("intake_proposals", []) + [{"index": proposal_index, "timestamp": now(), **deepcopy(result)}]
             self._save(run_id, intake_proposals=proposals)
             if result["status"] == "needs_input":
@@ -253,11 +262,13 @@ class AutonomousEngine:
         acceptance, suite_manifest = (merge_acceptance(revision.get("acceptance", ""), result["acceptance"])
                                       if revision is not None else (result["acceptance"], None))
         files = {**revision["files"], **result["files"]} if revision is not None else result["files"]
-        frozen = self.sandbox.validate_bundle({"requirement": requirement, "files": files,
-                    "acceptance": acceptance, "provenance": {
+        provenance = {
                         "kind": "natural", "input_origin": "project_revision" if revision else "requirement", "acceptance_origin": "model_generated",
                         "description": "冻结项目源码与回归验收；新增AI函数验收不证明CLI或持久化交付" if revision else
-                                       "真实模型根据用户需求生成的未实现脚手架与冻结验收；测试覆盖未经人工独立审定"}})
+                                       "真实模型根据用户需求生成的未实现脚手架与冻结验收；测试覆盖未经人工独立审定"}
+        if web:
+            provenance.update(web=deepcopy(web), description='冻结 Web 源码、依赖环境和真实 HTTP 验收；浏览器交互另行核验')
+        frozen = self.sandbox.validate_bundle({'requirement': requirement, 'files': files, 'acceptance': acceptance, 'provenance': provenance})
         bundle_hash = hashlib.sha256(json.dumps(frozen, ensure_ascii=False, sort_keys=True).encode()).hexdigest()
         intake = {"status": "completed", "summary": result["summary"], "specification": result["specification"],
                   "assumptions": result["assumptions"], "acceptance_origin": "model_generated",
@@ -265,6 +276,9 @@ class AutonomousEngine:
         if revision is not None:
             intake.update(coverage_notice="新增 AI 验收通过 JSON 函数接口执行，保留旧验收作为回归；CLI与/data持久化需单独受控交付验证。",
                           regression_manifest=suite_manifest, imported_source_sha256=revision["source_sha256"])
+        if web:
+            intake.update(coverage_notice='新增 AI HTTP 验收与旧回归在冻结依赖 Docker 内执行；浏览器交互和安全范围需另行验证。',
+                          verification_kind='http', web_runtime_sha256=web_runtime_sha256(web))
         self._save(run_id, bundle=frozen, bundle_sha256=bundle_hash, intake=intake,
                    acceptance_manifest=suite_manifest,
                    summary="接口与验收已冻结，正在用 Docker 检查导入基线" if revision else "接口与验收已冻结，正在用 Docker 检查未实现基线")
@@ -307,6 +321,9 @@ class AutonomousEngine:
         review = validate_review(await self.model.review_final(self.store.run(run_id), context))
         record = {**review, "candidate_hash": fingerprint, "index": len(reviews) + 1,
                   "origin": "model_semantic_review", "timestamp": now()}
+        web = run['bundle']['provenance'].get('web')
+        if web:
+            record['web_runtime_sha256'] = web_runtime_sha256(web)
         self._save(run_id, quality_review=record, quality_reviews=reviews + [record],
                    feedback={"kind": "quality_review", "review": record})
         self.store.event(run_id, "quality_review", "对照原始需求的语义审查已记录", data=record)
@@ -475,6 +492,11 @@ class AutonomousEngine:
         result = {**result, "candidate_hash": before, "candidate_origin": run["candidate_origin"],
                   "classification": classification, "index": len(run["verifications"]) + 1,
                   "timestamp": now()}
+        web = run['bundle']['provenance'].get('web')
+        if web and (result.get('web_runtime_sha256') != web_runtime_sha256(web)
+                    or result.get('image') != web['image_id'] or result.get('dependency_id') != web['dependency_id']
+                    or result.get('lock_sha256') != web['lock_sha256']):
+            result.update(status='blocked', reason='Web 验收依赖环境与冻结配置不一致。')
         expected_tests = (run.get("acceptance_manifest") or {}).get("total_test_count")
         if expected_tests is not None:
             result["expected_test_count"] = expected_tests
@@ -488,6 +510,8 @@ class AutonomousEngine:
                   and result["exit_code"] == 0 and result.get("test_count", 0) > 0)
         self._save(run_id, verifications=verifications, verified_hash=before if passed else None,
                    feedback={"kind": "verification", "result": result})
+        if web:
+            self._save(run_id, verified_runtime_sha256=web_runtime_sha256(web) if passed else None)
         self.store.event(run_id, "verification", "独立 Docker 验收已记录", data=result)
         if result["status"] == "blocked":
             raise RuntimeErrorSafe("Docker verification blocked; no host fallback")
@@ -524,6 +548,9 @@ class AutonomousEngine:
             fingerprint = await self.sandbox.fingerprint(run_id)
             if not run["verified_hash"] or fingerprint != run["verified_hash"]:
                 raise DecisionRejected("Finish requires current candidate to pass independent Docker verification")
+            web = run['bundle']['provenance'].get('web')
+            if web and run.get('verified_runtime_sha256') != web_runtime_sha256(web):
+                raise DecisionRejected('Finish requires verification of the current frozen Web dependency runtime')
             if run.get("intake") and not await self._review_quality(run_id, fingerprint):
                 return
             self._save(run_id, status="succeeded", summary=decision["summary"])
@@ -629,6 +656,12 @@ class AutonomousEngine:
                 return
             run = self.store.run(run_id)
         await self.sandbox.prepare(run_id, run["bundle"])
+        if (run['bundle']['provenance'].get('web') and run['bundle']['provenance']['kind'] == 'seeded_defect'
+                and not run['verifications']):
+            await self._verify(run_id)
+            if self.store.run(run_id)['verifications'][-1]['status'] != 'failed':
+                self._save(run_id, status='needs_human', summary='预设 Web 缺陷未触发冻结验收失败，不能继续作为修正控制。')
+                return
         for index in range(run["budget"]["max_steps"]):
             current = self.store.run(run_id)
             decision = await self.model.decide(current, await self._context(run_id))
@@ -671,6 +704,11 @@ class AutonomousEngine:
             self._save(run_id, status="failed", summary=summary)
         finally:
             self.running.discard(run_id)
+            if self.project_cleanup_callback is not None:
+                try:
+                    await self.project_cleanup_callback(run_id)
+                except Exception as exc:
+                    self.store.event(run_id, 'tool_cleanup_failed', '工具服务清理未确认，保留 TTL 清理和记录', data={'error_type': type(exc).__name__})
             final_run = self.store.run(run_id)
             interrupted = deepcopy(final_run["task_graph"])
             for task in interrupted:

@@ -28,6 +28,7 @@ class ImportInput(Input):
     name: str = Field(min_length=1, max_length=100)
     files: dict[str, str]
     acceptance: str = Field(default='', max_length=65536)
+    web: dict | None = None
 
 
 class Ref(Input):
@@ -133,6 +134,10 @@ def mount_projects(app, root, data_dir, engine):
                 revision = result['revision']
                 publication = {'status': 'saved', 'revision_id': revision['id'], 'number': revision['number'],
                                'source_sha256': revision['source_sha256'], 'original_files_untouched': True}
+                if revision.get('web'):
+                    from .web_config import web_runtime_sha256
+                    publication.update(web_runtime_sha256=web_runtime_sha256(revision['web']),
+                                       dependency_id=revision['web']['dependency_id'])
             engine.store.update_run(run_id, publication=publication)
             engine.store.event(run_id, 'project_revision', '项目版本保存结果', data=publication)
         except ProjectConflictError:
@@ -152,7 +157,12 @@ def mount_projects(app, root, data_dir, engine):
             await publish_locked(run_id)
 
     engine.completion_callback = publish
-    engine.project_tool_callback = ProjectTools(engine)
+    from .web_api import mount_web
+    from .web_tools import WebProjectTools
+    previews = mount_web(app, root, data_dir, engine, projects)
+    project_tools = WebProjectTools(engine, previews, app.state.validate_web_runtime)
+    engine.project_tool_callback = project_tools
+    engine.project_cleanup_callback = project_tools.close_run
 
     @router.get('')
     async def list_projects():
@@ -161,7 +171,12 @@ def mount_projects(app, root, data_dir, engine):
     @router.post('/import', status_code=201)
     async def import_project(body: ImportInput):
         try:
-            result = projects.import_project(body.name, body.files, body.acceptance)
+            web = None
+            if body.web is not None:
+                if set(body.web) != {'dependency_id', 'entrypoint'}:
+                    raise ValueError('Web 导入只接受已准备的 dependency_id 与 entrypoint')
+                web = app.state.web_configuration(body.web['dependency_id'], body.web['entrypoint'], body.files)
+            result = projects.import_project(body.name, body.files, body.acceptance, web=web)
             return {**result['project'], 'revision_id': result['revision']['id'],
                     'source_sha256': result['revision']['source_sha256']}
         except (ValueError, RuntimeErrorSafe) as exc:
@@ -191,7 +206,7 @@ def mount_projects(app, root, data_dir, engine):
     async def get_project(project_id: str):
         return {**project_or_404(project_id), 'revisions': projects.revisions(project_id),
                 'knowledge': projects.knowledge(project_id), 'executions': [item['record'] for item in projects.executions(project_id)],
-                'runs': project_runs(project_id)}
+                'runs': project_runs(project_id), 'previews': app.state.web_preview_records({'kind': 'project', 'project_id': project_id})}
 
     @router.get('/{project_id}/revisions')
     async def revisions(project_id: str):
@@ -209,9 +224,20 @@ def mount_projects(app, root, data_dir, engine):
         with zipfile.ZipFile(output, 'w', zipfile.ZIP_DEFLATED) as archive:
             for path, text in revision['files'].items():
                 archive.writestr(path, text.encode('utf-8'))
-            archive.writestr('PROJECT_REVISION.json', json.dumps(
+            metadata_name = 'PROJECT_REVISION.json'
+            while metadata_name in revision['files']:
+                metadata_name = '_' + metadata_name
+            archive.writestr(metadata_name, json.dumps(
                 {key: value for key, value in revision.items() if key != 'files'}, ensure_ascii=False, indent=2))
-            archive.writestr('RUNNING.txt', '标准库 Python 工程。入口与参数请参阅源码。平台 Docker 运行工作目录和 AGENTFORGE_DATA_DIR 均为 /data。\n导入版本未自动验证；验收状态见 PROJECT_REVISION.json。\n')
+            if revision.get('web'):
+                web = revision['web']
+                app.state.web_configuration(web['dependency_id'], web['entrypoint'], revision['files'])
+                lock_path = Path(data_dir) / 'web/dependencies/bundles' / web['dependency_id'] / 'requirements.lock'
+                archive.writestr('requirements.txt', '\n'.join(web['requirements']) + '\n')
+                archive.writestr('requirements.lock', lock_path.read_bytes())
+                archive.writestr('RUNNING.txt', 'Web 工程：通过 AgentForge 准备冻结依赖，再启动隔离预览。入口 '+web['entrypoint']+'，PORT=8080；不要在宿主机执行候选。\n版本与验收来源见 '+metadata_name+'。\n')
+            else:
+                archive.writestr('RUNNING.txt', '标准库 Python 工程。入口与参数请参阅源码。平台 Docker 运行工作目录和 AGENTFORGE_DATA_DIR 均为 /data。\n导入版本未自动验证；验收状态见 '+metadata_name+'。\n')
         return Response(output.getvalue(), media_type='application/zip', headers={
             'Content-Disposition': f'attachment; filename="project-{project_id}-v{revision["number"]}.zip"', 'Cache-Control': 'no-store'})
 
@@ -247,6 +273,11 @@ def mount_projects(app, root, data_dir, engine):
             if sum(not task.done() for task in engine.tasks.values()) >= 2:
                 raise HTTPException(429, '最多并发两个动态运行')
             revision = revision_or_404(project_id, body.base_revision_id)
+            if revision.get('web'):
+                try:
+                    await app.state.validate_web_runtime(revision['web'])
+                except (RuntimeErrorSafe, ValueError) as exc:
+                    raise HTTPException(409, str(exc)) from None
             if project_or_404(project_id)['head_revision_id'] != body.base_revision_id:
                 raise HTTPException(409, '项目版本已更新，请刷新后在当前版本上继续修改')
             try:
@@ -279,6 +310,8 @@ def mount_projects(app, root, data_dir, engine):
     @router.post('/{project_id}/execute', status_code=201)
     async def execute(project_id: str, body: ExecutionInput):
         revision = revision_or_404(project_id, body.revision_id)
+        if revision.get('web'):
+            raise HTTPException(422, 'Web 项目使用浏览器预览与 HTTP 工具，不使用短时 CLI 执行。')
         request_hash = hashlib.sha256(_json(body.model_dump()).encode()).hexdigest()
         with sqlite3.connect(request_path, timeout=15) as db:
             db.execute('BEGIN IMMEDIATE')

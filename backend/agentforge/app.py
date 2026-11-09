@@ -62,6 +62,7 @@ def create_app(root=None, data_dir=None, runtime=None):
     async def lifespan(app):
         store.recover_interrupted()
         app.state.autonomous_engine.recover_interrupted()
+        await app.state.web_recover()
         yield
         active = [t for runner in (engine, app.state.autonomous_engine)
                   for t in runner.tasks.values() if not t.done()]
@@ -69,6 +70,7 @@ def create_app(root=None, data_dir=None, runtime=None):
             task.cancel()
         if active:
             await asyncio.gather(*active, return_exceptions=True)
+        await app.state.web_close()
 
     app = FastAPI(title="AgentForge local workbench", version="0.1.0", lifespan=lifespan)
     app.state.store, app.state.engine, app.state.runtime = store, engine, runtime

@@ -238,7 +238,7 @@ def test_adapter_offers_direct_project_actions_in_actual_payload_without_changin
         assert "do not delegate every small change" in prompt
         assert '"action":"edit"' in prompt and '"action":"tool"' in prompt
         assert "CLI exit code 0 DOES NOT permit finish" in prompt
-        assert run["model_config"]["adapter_revision"] == "autonomous-6-project-revisions"
+        assert run["model_config"]["adapter_revision"] == "autonomous-7-web-projects"
         assert validate_decision(tool()) == tool()
     asyncio.run(scenario())
 

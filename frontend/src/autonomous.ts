@@ -14,11 +14,13 @@ export interface DynamicVerification {
   index: number; timestamp: string; status: string; isolated: boolean; exit_code: number | null;
   test_count: number; candidate_hash: string; candidate_origin: string; classification: string;
   stdout?: string; stderr?: string; reason?: string;
+  verification_kind?: string;
   attestation?: { failures?: number; errors?: number; skipped?: number; passed?: boolean };
   [key: string]: unknown;
 }
 export interface DynamicIntake {
   status: string; specification?: string; questions?: string[]; acceptance_origin?: string;
+  verification_kind?: string; coverage_notice?: string;
   [key: string]: unknown;
 }
 export interface ExecutionReview {
@@ -29,6 +31,7 @@ export interface DynamicRecord {
   id: string; engine: string; requirement: string; status: string; mode: 'live';
   created_at: string; updated_at?: string; summary?: string; verified_hash?: string | null;
   intake?: DynamicIntake;
+  project_context?: { web?: { schema?: string; [key: string]: unknown }; [key: string]: unknown };
   bundle?: { requirement: string; files: Record<string, string>; acceptance: string; provenance: Record<string, unknown> } | null;
   task_graph?: DynamicTask[]; controller_decisions?: DynamicDecision[]; verifications?: DynamicVerification[];
   model_metrics?: { model_calls?: number; tokens?: number; metrics_complete?: boolean; contract_retries?: number; unknown_usage_calls?: number; in_flight?: number };
@@ -78,6 +81,18 @@ export function currentVerification(run: Run): DynamicVerification | null {
 export function generatedAcceptance(run: Run): boolean {
   const value = dynamicData(run)
   return value.intake?.acceptance_origin === 'model_generated' || value.bundle?.provenance.acceptance_origin === 'model_generated'
+}
+export function isWebRun(run: Run): boolean {
+  const value = dynamicData(run)
+  const frozenWeb = value.project_context?.web ?? value.bundle?.provenance.web
+  return value.intake?.verification_kind === 'http'
+    || (!!frozenWeb && typeof frozenWeb === 'object' && !Array.isArray(frozenWeb)
+      && (frozenWeb as Record<string, unknown>).schema === 'python-web-v1')
+}
+export function acceptanceScope(run: Run): string {
+  return isWebRun(run)
+    ? 'HTTP 验收在冻结依赖的 Docker 中执行；浏览器预览和页面交互需另行检查。测试通过不代表所有需求均已验证。'
+    : '测试覆盖范围受本次验收标准限制，不等于已经证明所有需求正确。'
 }
 export function executionReviews(run: Run): ExecutionReview[] {
   const value = dynamicData(run)
@@ -141,7 +156,7 @@ export function dynamicProgress(run: Run): string {
   const lastActivity = [...(run.events ?? [])].reverse().find(event => ['main_edit', 'tool_started', 'tool_result', 'tool_interrupted'].includes(event.type))
   if (decision?.action === 'edit') return lastActivity?.type === 'main_edit' ? '主 Agent 已修改代码，正在判断下一步' : '主 Agent 正在准备直接修改代码'
   if (decision?.action === 'tool') return lastActivity?.type === 'tool_started' ? '已请求项目工具，等待实际结果' : '主 Agent 正在根据工具结果判断下一步'
-  if (decision?.action === 'verify' && (!lastVerification || lastVerification.timestamp < decision.timestamp)) return '正在 Docker 中执行验收测试'
+  if (decision?.action === 'verify' && (!lastVerification || lastVerification.timestamp < decision.timestamp)) return isWebRun(run) ? '正在 Docker 中执行 HTTP 验收测试' : '正在 Docker 中执行验收测试'
   if (lastVerification?.status === 'failed') {
     if (lastVerification.classification === 'imported_baseline' && !value.task_graph?.length) return '项目基线检查已记录，主 Agent 正在规划本次修改'
     if (lastVerification.classification === 'input_baseline' && !value.task_graph?.length && value.intake) return '脚手架验证已完成，主 Agent 正在拆分任务'

@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
-import { buildDynamicRequest, currentVerification, displayStatus, dynamicProgress, dynamicResult, dynamicTitle, executionReviews, generatedAcceptance, hasCandidateProject, isAutonomous, mergeHistory, needsReview, normalizeAutonomous, runEndpoint, verificationLabel } from '../src/autonomous.ts'
+import { acceptanceScope, buildDynamicRequest, currentVerification, displayStatus, dynamicProgress, dynamicResult, dynamicTitle, executionReviews, generatedAcceptance, hasCandidateProject, isAutonomous, isWebRun, mergeHistory, needsReview, normalizeAutonomous, runEndpoint, verificationLabel } from '../src/autonomous.ts'
 import type { DynamicRecord, DynamicVerification } from '../src/autonomous.ts'
 import type { Run } from '../src/types.ts'
 
@@ -157,4 +157,29 @@ test('transport and blocked execution causes are not masked by a previous contra
   const blocked = { ...failed, status: 'blocked', summary: 'Docker unavailable' }
   assert.equal(dynamicResult(blocked).title, '执行条件受阻，任务尚未完成')
   assert.equal(displayStatus(blocked), 'blocked')
+})
+
+test('HTTP scope comes from frozen Web context or explicit intake metadata, never requirement wording', () => {
+  assert.equal(isWebRun(normalized({ requirement: '创建 HTTP Web JSON 函数', project_context: {} })), false)
+  assert.equal(isWebRun(normalized({ project_context: { web: { schema: 'python-web-v1' } } })), true)
+  assert.equal(isWebRun(normalized({ bundle: { requirement: 'Web', files: {}, acceptance: '', provenance: { web: { schema: 'python-web-v1' } } } })), true)
+  assert.equal(isWebRun(normalized({ intake: { status: 'completed', verification_kind: 'http' } })), true)
+  assert.equal(isWebRun(normalized({ bundle: { requirement: '', files: {}, acceptance: '', provenance: { web: 'http' } } })), false)
+})
+
+test('Web acceptance identifies HTTP and separates it from browser preview without altering old scope', () => {
+  const web = normalized({ project_context: { web: { schema: 'python-web-v1' } } })
+  assert.match(acceptanceScope(web), /HTTP.*冻结依赖.*Docker/)
+  assert.match(acceptanceScope(web), /浏览器预览和页面交互需另行检查/)
+  assert.doesNotMatch(acceptanceScope(web), /JSON.*函数/)
+  assert.equal(acceptanceScope(normalized()), '测试覆盖范围受本次验收标准限制，不等于已经证明所有需求正确。')
+})
+
+test('HTTP metadata labels verification progress but cannot establish successful execution', () => {
+  const run = normalized({ project_context: { web: { schema: 'python-web-v1' } },
+    controller_decisions: [{ index: 1, action: 'verify', timestamp: '2026-11-09T10:02:00Z', summary: '验证 HTTP' }] })
+  assert.equal(dynamicProgress(run), '正在 Docker 中执行 HTTP 验收测试')
+  assert.equal(currentVerification(run), null)
+  assert.equal(currentVerification(normalized({ ...record(), verified_hash: 'hash-1',
+    verifications: [verification({ verification_kind: 'http', isolated: false })] })), null)
 })

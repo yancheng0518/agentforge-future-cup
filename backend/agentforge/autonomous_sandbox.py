@@ -22,6 +22,9 @@ MAX_FILES = 32
 MAX_FILE_BYTES = 65536
 MAX_PROJECT_BYTES = 262144
 RUNNER_FILES = ("runner.py", "bridge.py", "worker.py")
+WEB_RUNNER_FILES = ("runner.py", "web_bridge.py", "serve.py")
+WEB_SUFFIXES = {".html", ".css", ".js", ".json"}
+RESERVED_ASSETS = {"package.json", "package-lock.json", "npm-shrinkwrap.json", "pipfile.lock"}
 
 
 class SandboxIntegrityError(RuntimeErrorSafe):
@@ -40,17 +43,22 @@ def _path(value):
     if not isinstance(value, str) or not 1 <= len(value) <= 160:
         raise RuntimeErrorSafe("候选文件路径无效。")
     parts = value.split("/")
-    if ("\\" in value or not value.endswith(".py") or len(parts) > 8
-            or any(not re.fullmatch(r"[A-Za-z_][A-Za-z0-9_]*", part[:-3] if index == len(parts) - 1 else part)
-                   for index, part in enumerate(parts))
+    python = value.endswith(".py")
+    suffix = PurePosixPath(value).suffix
+    valid_part = (all(re.fullmatch(r"[A-Za-z_][A-Za-z0-9_]*", part[:-3] if index == len(parts) - 1 else part)
+                      for index, part in enumerate(parts)) if python else
+                  all(re.fullmatch(r"[A-Za-z_][A-Za-z0-9_-]*", part) for part in parts[:-1])
+                  and bool(re.fullmatch(r"[A-Za-z_][A-Za-z0-9_.-]*", parts[-1])))
+    if ("\\" in value or (not python and suffix not in WEB_SUFFIXES) or len(parts) > 8 or not valid_part
+            or parts[-1].casefold() in RESERVED_ASSETS
             or any(part.split(".")[0].upper() in {"CON", "PRN", "AUX", "NUL", *(f"COM{i}" for i in range(1, 10)), *(f"LPT{i}" for i in range(1, 10))} for part in parts)):
-        raise RuntimeErrorSafe("候选路径只支持项目内的 Python 模块和包。")
+        raise RuntimeErrorSafe("候选路径仅支持项目内 Python 模块与 HTML/CSS/JS/JSON 文本资源，不接受依赖清单。")
     return str(PurePosixPath(value))
 
 
 def _sources(value, *, allow_empty=False):
     if not isinstance(value, dict) or not (0 if allow_empty else 1) <= len(value) <= MAX_FILES:
-        raise RuntimeErrorSafe("候选项目需要 1 至 32 个 Python 源文件。")
+        raise RuntimeErrorSafe("候选项目需要 1 至 32 个受控源文件。")
     result, normalized = {}, set()
     for name, content in value.items():
         name = _path(name)
@@ -139,6 +147,14 @@ class AutonomousSandbox:
         frozen = json.loads(self._read_text(base / "bundle.json", base))
         if _digest(_json(frozen)) != manifest["bundle_sha256"]:
             raise RuntimeErrorSafe("冻结任务包已变化；停止运行。")
+        web = frozen.get("provenance", {}).get("web")
+        if web is not None:
+            from .web_config import validate_web_config
+            web = validate_web_config(web, frozen["files"])
+            if manifest.get("web") != web or manifest.get("web_runtime_sha256") != _digest(_json(web)):
+                raise RuntimeErrorSafe("冻结 Web 依赖或运行配置变化；停止运行。")
+        elif "web" in manifest or "web_runtime_sha256" in manifest:
+            raise RuntimeErrorSafe("运行清单的 Web 配置与冻结项目不一致。")
         if _digest(self._read_text(base / "trusted" / "test_acceptance.py", base)) != manifest["acceptance_sha256"]:
             raise RuntimeErrorSafe("冻结独立验收已变化；停止运行。")
         for filename, expected in manifest["runner_sha256"].items():
@@ -156,12 +172,18 @@ class AutonomousSandbox:
             return manifest
         if (base / "candidate").exists():
             raise RuntimeErrorSafe("候选目录已存在但缺少自主运行清单；拒绝覆盖。")
-        runner = self.runtime.root / "sandbox" / "autonomous"
-        runner_sources = {name: (runner / name).read_text(encoding="utf-8") for name in RUNNER_FILES}
+        web = bundle.get("provenance", {}).get("web")
+        if web is not None:
+            from .web_config import validate_web_config
+            web = validate_web_config(web, bundle["files"])
+        runner = self.runtime.root / "sandbox" / ("web" if web is not None else "autonomous")
+        runner_sources = {name: (runner / name).read_text(encoding="utf-8") for name in (WEB_RUNNER_FILES if web is not None else RUNNER_FILES)}
         manifest = {"schema": "autonomous-python-v1", "bundle_sha256": _digest(_json(bundle)),
                     "acceptance_sha256": _digest(bundle["acceptance"]),
                     "runner_sha256": {name: _digest(source) for name, source in runner_sources.items()},
                     "baseline_sha256": _digest(_json(bundle["files"])), "provenance": bundle["provenance"]}
+        if web is not None:
+            manifest.update(schema="autonomous-python-web-v1", web=web, web_runtime_sha256=_digest(_json(web)))
         self._write(base / "bundle.json", _json(bundle), base)
         self._write(base / "trusted" / "test_acceptance.py", bundle["acceptance"], base)
         for name, content in bundle["files"].items():
@@ -242,6 +264,10 @@ class AutonomousSandbox:
                   "candidate_sha256": snapshot["candidate_sha256"], "hash": snapshot["candidate_sha256"],
                   "acceptance_sha256": manifest["acceptance_sha256"], "runner_sha256": manifest["runner_sha256"],
                   "image": None, "container_invoked": False, "reason": "", "snapshot": snapshot["snapshot"]}
+        web = manifest.get("web")
+        if web is not None:
+            result.update(web_runtime_sha256=manifest["web_runtime_sha256"], dependency_id=web["dependency_id"],
+                          lock_sha256=web["lock_sha256"], entrypoint=web["entrypoint"], verification_kind="http")
         health = await self.runtime.health()
         if not health["sandbox"]["available"]:
             result["reason"] = health["sandbox"]["reason"]
@@ -250,20 +276,27 @@ class AutonomousSandbox:
         base = self._base(run_id)
         name, nonce = "agentforge-auto-" + uuid.uuid4().hex[:16], uuid.uuid4().hex
         try:
-            code, image_id, error = await self.runtime._command(self.runtime._docker_command("image", "inspect", "--format", "{{.Id}}", self.runtime.settings["image"]), timeout=15)
+            selected_image = web["image_id"] if web is not None else self.runtime.settings["image"]
+            code, image_id, error = await self.runtime._command(self.runtime._docker_command("image", "inspect", "--format", "{{.Id}}", selected_image), timeout=15)
             image_id = image_id.strip()
             if code or not re.fullmatch(r"sha256:[a-f0-9]{64}", image_id):
                 raise RuntimeErrorSafe("无法冻结 Docker 镜像 ID；未执行候选代码。")
+            if web is not None and image_id != selected_image:
+                raise RuntimeErrorSafe("Web 依赖镜像 ID 与冻结配置不符；未执行候选代码。")
             result["image"] = image_id
             args = self.runtime._docker_command("run", "--rm", "--name", name, "--network", "none", "--read-only", "--cap-drop", "ALL",
                        "--security-opt", "no-new-privileges", "--memory", "128m", "--memory-swap", "128m", "--cpus", "1", "--pids-limit", "64",
                        "--user", "65534:65534", "--workdir", "/tmp", "--tmpfs", "/tmp:rw,noexec,nosuid,size=16m")
+            if web is not None:
+                args.extend(["--tmpfs", "/data:rw,noexec,nosuid,size=1m,mode=1777", "--env", "AGENTFORGE_DATA_DIR=/data"])
             for source, target in ((base / "candidate", "/candidate"), (base / "trusted", "/trusted"), (base / "runner", "/runner")):
                 mount = await self.runtime._mount_path(source)
                 if "," in mount:
                     raise RuntimeErrorSafe("Docker 挂载路径含不支持的逗号。")
                 args.extend(["--mount", f"type=bind,source={mount},target={target},readonly"])
             args.extend([image_id, "python", "-I", "-B", "/runner/runner.py", nonce])
+            if web is not None:
+                args.append(web["entrypoint"])
             result["container_invoked"] = True
             code, out, err = await self.runtime._command(args, timeout=40)
             result.update(exit_code=code, stdout=out, stderr=err, isolated=code not in (125, 126, 127), status="failed")
@@ -276,10 +309,19 @@ class AutonomousSandbox:
                     except ValueError:
                         pass
             attestation = attestations[0] if len(attestations) == 1 else {}
+            if not isinstance(attestation, dict):
+                attestation = {}
             count = attestation.get("tests")
+            valid_web_receipt = web is None or (
+                attestation.get("verification_kind") == "http"
+                and type(attestation.get("http_requests")) is int and 0 <= attestation["http_requests"] <= 64
+                and "startup_error" in attestation and "server_exit_code" in attestation
+                and (attestation.get("passed") is not True or (
+                    attestation["http_requests"] > 0 and attestation["startup_error"] is None
+                    and attestation["server_exit_code"] is None)))
             if (attestation.get("nonce") == nonce and type(count) is int and count > 0
                     and type(attestation.get("discovered")) is int and attestation["discovered"] == count
-                    and type(attestation.get("passed")) is bool):
+                    and type(attestation.get("passed")) is bool and valid_web_receipt):
                 result["test_count"] = count
                 result["attestation"] = attestation
                 if code == 0 and attestation["passed"]:

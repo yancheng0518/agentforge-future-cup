@@ -26,7 +26,7 @@ def test_revision_has_original_request_and_previous_proposal_without_changing_bu
         assert context["context"]["review_feedback"] == feedback
         assert sent["max_tokens"] == 8192 and sent["thinking"] == {"type": "disabled"}
         assert store.run(run["id"])["budget"] == run["budget"]
-        assert run["model_config"]["adapter_revision"] == "autonomous-6-project-revisions"
+        assert run["model_config"]["adapter_revision"] == "autonomous-7-web-projects"
         assert feedback["previous_proposal"] == before
         assert "MINIMAL, internally consistent assumptions" in sent["messages"][0]["content"]
         assert "3 to 12 focused" in sent["messages"][0]["content"]
