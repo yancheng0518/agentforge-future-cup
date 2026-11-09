@@ -1,0 +1,87 @@
+{
+  "schema": "agentforge-post-archive-evidence-v1",
+  "recorded_at": "2026-11-09T09:14:51.809911+00:00",
+  "run_id": "external-cd1f6d4041894e13a7bf3f1286dd62ab",
+  "source_directory": ".agentforge/web-validation-20261109/runs/external-cd1f6d4041894e13a7bf3f1286dd62ab",
+  "sealed_archive": "output/agentforge-web-projects-20261109.zip",
+  "sealed_archive_sha256": "bc1cf826adf70522dc01c744cdcdf4a32e5e61c3ded5ee64b7c6605f29afeb90",
+  "included_in_sealed_archive": false,
+  "classification": "restored_archive_original_image_http_recheck",
+  "model_calls": 0,
+  "candidate_execution": "docker_only",
+  "restored_inputs": [
+    "output/web-projects-20261109/natural-candidate.json",
+    "output/web-projects-20261109/natural-revision.json",
+    "benchmarks/web-projects/acceptance_external.py.txt"
+  ],
+  "restored_input_root": "artifacts/private/web-restore-20261109",
+  "trusted_runtime_origin": "current_workspace",
+  "dependency_bundle_origin": "current_workspace",
+  "image_origin": "existing_original_machine_frozen_image",
+  "new_machine_runtime_verified": false,
+  "passed": true,
+  "tests": 12,
+  "http_requests": 38,
+  "files": [
+    {
+      "path": "autonomous_manifest.json",
+      "bytes": 1430,
+      "sha256": "567eb134fa3dfe0bbfa260de7465561618ad43dd42a45bd25179f13d16f467f8"
+    },
+    {
+      "path": "bundle.json",
+      "bytes": 22115,
+      "sha256": "fde7842d73e41a3f8e789dfb9f83886243f8fa1b2e9c78227f02e4c35b08543a"
+    },
+    {
+      "path": "candidate/app.py",
+      "bytes": 5082,
+      "sha256": "938be101c37064c5b9e3490852000f2a097db6b72c373b2bdae123836370afe2"
+    },
+    {
+      "path": "candidate/static/app.js",
+      "bytes": 7306,
+      "sha256": "fa468807d727c128bad85419241cd8ee49ca05db07a547228ad76cc4d0d43f28"
+    },
+    {
+      "path": "candidate/static/style.css",
+      "bytes": 3820,
+      "sha256": "ec3547f09ca72f3c9cd98299bc67a22d1f447a7d7454e6b882ee015e5aa3e094"
+    },
+    {
+      "path": "evidence/1794215360808334600-prepared-8182bf9e.json",
+      "bytes": 17168,
+      "sha256": "e71a0697d156ed52f69ded189147c693d003a1d3344abfe4bc290de0bd9f09e1"
+    },
+    {
+      "path": "evidence/1794215360876371600-validation-start-8d12f2d1.json",
+      "bytes": 17176,
+      "sha256": "1a6b1c3c5a642c09de24699b3b85a825b8a539aa3d65ce6f7e88a0f386a72385"
+    },
+    {
+      "path": "evidence/1794215376289219000-validation-result-39035f6d.json",
+      "bytes": 10506,
+      "sha256": "6df57c9b59b96c9e620352ce4f3ad36bda980b91116f398ddc2852d301dbd436"
+    },
+    {
+      "path": "runner/runner.py",
+      "bytes": 1693,
+      "sha256": "9478ec2e3be03ad9d56c6e812cf001ef6329fb94b1534ebc30d56d620dbdb7d0"
+    },
+    {
+      "path": "runner/serve.py",
+      "bytes": 1047,
+      "sha256": "d73d90101f318caede26edfddada88ed376feff885f5179b447a2bdef326c921"
+    },
+    {
+      "path": "runner/web_bridge.py",
+      "bytes": 5943,
+      "sha256": "30a88ed84c21fd51197d5e1772ff7a9013b38969b72fb03c2bc907ab690a730f"
+    },
+    {
+      "path": "trusted/test_acceptance.py",
+      "bytes": 4422,
+      "sha256": "55a14fe57edc41fcca24d5b3b55928156101e319ddfa6a0e6ac94b35b1800e79"
+    }
+  ]
+}

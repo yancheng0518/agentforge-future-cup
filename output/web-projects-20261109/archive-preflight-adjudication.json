@@ -1,0 +1,13 @@
+{
+  "at": "2026-11-09T08:53:09.772670+00:00",
+  "classification": "maintainer_evidence_annotation_correction",
+  "corrects": "output/web-projects-20261109/archive-preflight-cancelled.json",
+  "corrected_record_sha256": "c0756fa666be0ae7581afaf766cb9fb1b5b1ecb1934c29eff90670dfe4d31f15",
+  "actual_status": "completed_successfully_before_cancel_attempt",
+  "actual_result": "output/web-projects-20261109/archive-preflight-completed.json",
+  "stop_process_result": "Identity check refused; no process was stopped. The original exec session then returned exit_code=0 with passed=true.",
+  "reason": "Wrapper wrote a cancellation annotation without conditioning on the failed stop result. Keep that mistaken annotation and this correction, not a model/code failure or a cancelled preflight.",
+  "model_calls": 0,
+  "docker_calls": 0,
+  "candidate_execution": false
+}

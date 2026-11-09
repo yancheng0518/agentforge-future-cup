@@ -71,6 +71,15 @@ def checked_bytes(root, path, secrets):
     return ORIGINAL_CHECKED_BYTES(root, path, secrets, MAX_FILE_BYTES)
 
 
+def collect_source_files():
+    selected, skipped, roots = collect_files(ROOT, [])
+    attributes = checked_path(ROOT, ROOT / ".gitattributes")
+    if not attributes.is_file():
+        raise ExportError("The Web frozen-byte Git attributes file is missing.")
+    selected[".gitattributes"] = (attributes, "source")
+    return selected, skipped, roots
+
+
 def sha(data):
     return hashlib.sha256(data).hexdigest()
 
@@ -658,7 +667,7 @@ def platform_implementation_copies(selected, secrets):
 
 
 def ensure_inventory_unchanged(initial_names, initial_databases):
-    current, _, _ = collect_files(ROOT, [])
+    current, _, _ = collect_source_files()
     databases, _ = collect_evidence(current)
     if set(current) != initial_names or set(databases) != initial_databases:
         raise ExportError("Workspace evidence inventory changed during packaging; partial outputs remain unverified.")
@@ -674,7 +683,7 @@ def main():
     secrets = configured_secrets(ROOT)
     live_ids = load_live_ids()
     preserved_files = validate_preserved_files(secrets)
-    selected, skipped_source, _ = collect_files(ROOT, [])
+    selected, skipped_source, _ = collect_source_files()
     databases, skipped_evidence = collect_evidence(selected)
     initial_names, initial_databases = set(selected), set(databases)
     historical = frozen_backup_references()

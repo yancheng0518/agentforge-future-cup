@@ -1,0 +1,18 @@
+{
+  "at": "2026-11-09T09:07:40.405143+00:00",
+  "exit_code": 0,
+  "duration_seconds": 1.223,
+  "output": "output/web-projects-packaging-20261109/verify-attempt1.txt",
+  "report": "output/web-projects-packaging-20261109/verify-attempt1.json",
+  "command": [
+    "D:\\未来杯\\.venv\\Scripts\\python.exe",
+    "-B",
+    "output/web-projects-20261109/restore_reproduction.py",
+    "output/agentforge-web-projects-20261109.zip",
+    "--report",
+    "output\\web-projects-packaging-20261109\\verify-attempt1.json"
+  ],
+  "candidate_execution": false,
+  "model_calls": 0,
+  "docker_calls": 0
+}

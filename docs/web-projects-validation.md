@@ -126,4 +126,19 @@ Docker 使用 `--network none`；浏览器使用 CSP 将网络资产、连接和
 
 这是复核命令说明，不表示已经执行该 `NEW` 尝试。重新调用模型可能产生不同候选和费用，不保证与本次输出逐字相同。每次新尝试必须保留新运行 ID 和输出，不能覆盖本批记录。
 
-既有记录保持原位，初始历史保护检查见 [preservation-start-check.json](../output/web-projects-20261109/preservation-start-check.json)。真实模型运行后的 [preservation-after-live.json](../output/web-projects-20261109/preservation-after-live.json) 已确认原有 1,882 个文件及五套数据库保护检查通过，使用只读输入，0 模型调用、0 Docker 调用。该检查对应其记录时间，不代替后续归档时的最终核验。**本批新归档生成、完整性核验、隔离位置恢复与重新运行仍待执行**；不能仅凭打包或恢复脚本已存在就宣称复现成功，实际执行回执由后续阶段追加。
+既有记录保持原位，初始历史保护检查见 [preservation-start-check.json](../output/web-projects-20261109/preservation-start-check.json)。真实模型运行后的 [preservation-after-live.json](../output/web-projects-20261109/preservation-after-live.json) 已确认原有 1,882 个文件及五套数据库保护检查通过，使用只读输入，0 模型调用、0 Docker 调用。该检查对应其记录时间，不代替后续归档时的最终核验。本批随后已完成新归档、独立核验及本机独立目录恢复；归档与后验报告分开保留，见下文。
+
+最终历史核对：[preservation-final.json](../output/web-projects-20261109/preservation-final.json) 确认原有 1,882 个文件及五套数据库旧行完整。当前 27 条 UI 记录（17 旧主流程 + 10 动态）、4 个项目、7 个版本；新导入检查项目没有调用模型。
+
+
+## 归档、恢复与封包后复测
+
+新包 `output/agentforge-web-projects-20261109.zip` 实际为 30,231,457 字节，SHA-256 `bc1cf826adf70522dc01c744cdcdf4a32e5e61c3ded5ee64b7c6605f29afeb90`。清单列 1,245 个成员（另有 manifest），含 22 份 SQLite 副本（6 可恢复、16 历史快照）、成功和失败依赖/预览/模型证据、官方 wheel 与四个未改写旧归档。实际密钥字节和递归 ZIP/wheel 内容扫描通过；不包含 `.env`、WSL 磁盘、Docker 镜像或宿主环境。
+
+正式打包、独立核验及恢复第一次均成功。恢复到此前不存在的 `D:\未来杯\artifacts\private\web-restore-20261109`，全部成员和数据库摘要通过，详见 [独立核验](../output/web-projects-packaging-20261109/verify-attempt1.json)、[恢复报告](../output/web-projects-packaging-20261109/restore-attempt1.json) 和 [复现说明](web-projects-restore.md)。恢复脚本本身 0 模型、0 Docker、0 安装、0 候选执行，不恢复旧浏览器会话。
+
+封包后真实 Docker 复测 `external-cd1f6d4041894e13a7bf3f1286dd62ab` 使用恢复出来的候选、Web 配置和冻结维护者验收；执行器和依赖 bundle 来自当前工作区，Docker 使用本机原镜像。12/12 通过、38 次 HTTP 请求、0 模型调用，源码与验收哈希和封包前一致。它验证恢复后的输入可由现有环境重新执行，不是全新机器/从零安装，也不是在恢复目录启动整套工作台。见 [结果](../output/web-projects-20261109/restored-http-attempt1.json) 和 [12 份原始执行文件清单](../output/web-projects-20261109/post-archive-http-recheck/evidence-manifest.json)。这些后验结果与最终文档在 ZIP 之外追加；原 ZIP 哈希保持不变。
+
+另保留维护者预检注记更正：包装脚本曾在确认状态前写出“已取消”注记，实际预检已自然成功完成，进程身份检查拒绝停止，未终止任何进程。原错误注记、完成回执及 [更正依据](../output/web-projects-20261109/archive-preflight-adjudication.json) 并存；不把它算成取消的预检、模型失败或应用自然缺陷。
+
+恢复后最终只读保护核对也已通过：[preservation-after-restore.json](../output/web-projects-20261109/preservation-after-restore.json) 再次确认原有 1,882 个文件未变、五套数据库原行完整；此报告同样在封存包之外。

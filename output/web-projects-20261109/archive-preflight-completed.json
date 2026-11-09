@@ -1,0 +1,108 @@
+{
+  "passed": true,
+  "archive_created": false,
+  "database_snapshots_created": false,
+  "read_only": true,
+  "database_inputs_checked": 22,
+  "live_databases": {
+    ".agentforge/agentforge.sqlite3": {
+      "tables": {
+        "agents": 6,
+        "events": 776,
+        "runs": 17,
+        "snapshots": 101,
+        "steps": 125
+      },
+      "run_count": 17
+    },
+    ".agentforge/autonomous/agentforge.sqlite3": {
+      "tables": {
+        "agents": 5,
+        "events": 365,
+        "runs": 10,
+        "snapshots": 9,
+        "steps": 12
+      },
+      "run_count": 10
+    },
+    ".agentforge/projects/projects.sqlite3": {
+      "tables": {
+        "application_states": 1,
+        "executions": 10,
+        "knowledge_versions": 1,
+        "profiles": 1,
+        "projects": 4,
+        "revisions": 7
+      },
+      "run_count": 0
+    },
+    ".agentforge/projects/requests.sqlite3": {
+      "tables": {
+        "execution_requests": 7,
+        "requests": 3
+      },
+      "run_count": 0
+    },
+    ".agentforge/web/requests.sqlite3": {
+      "tables": {
+        "jobs": 0,
+        "preview_outcomes": 2,
+        "preview_requests": 2
+      },
+      "run_count": 0
+    }
+  },
+  "declared_live_ids": [
+    {
+      "run_id": "4af425ca8a1e44beb8b5cb2110e5edb0",
+      "data_dir": ".agentforge/autonomous",
+      "kind": "natural"
+    },
+    {
+      "run_id": "1ea0bc86900e4113809f82c22f66a9b5",
+      "data_dir": ".agentforge/autonomous",
+      "kind": "seeded_defect"
+    }
+  ],
+  "preserved_files": 1882,
+  "dependency_attempts": [
+    {
+      "attempt_id": "9a5e2027387549f4aa28cbf7e0d517f3",
+      "status": "failed",
+      "record": ".agentforge/web/dependencies/attempts/9a5e2027387549f4aa28cbf7e0d517f3/record.json"
+    },
+    {
+      "attempt_id": "c4c52f18dcb241c3b0b3c90bfd77f37c",
+      "status": "succeeded",
+      "record": ".agentforge/web/dependencies/attempts/c4c52f18dcb241c3b0b3c90bfd77f37c/record.json"
+    }
+  ],
+  "previews": [
+    {
+      "id": "29a2dcfd19fc47ffb7edd63dc336e90c",
+      "status": "stopped",
+      "source_hash_verified": true,
+      "container_removed": true
+    },
+    {
+      "id": "6a219043317842deb042b787008e400f",
+      "status": "stopped",
+      "source_hash_verified": true,
+      "container_removed": true
+    },
+    {
+      "id": "939d7c59167d469b972a7c29f05390aa",
+      "status": "stopped",
+      "source_hash_verified": true,
+      "container_removed": true
+    },
+    {
+      "id": "c9b4360f835c4cd09ae5c6f400be3f28",
+      "status": "stopped",
+      "source_hash_verified": true,
+      "container_removed": true
+    }
+  ],
+  "platform_implementation_copies": 1,
+  "real_run_implementation_snapshots": 2
+}

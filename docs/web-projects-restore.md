@@ -1,16 +1,22 @@
 # Web 项目复现包与恢复边界
 
-本批脚本已实现，**尚未运行真实打包或恢复**。目标新包为 `output/agentforge-web-projects-20261109.zip`；是否已生成、实际成员数和 SHA-256 必须以本批 `archive-manifest.json`、ZIP 边车及独立恢复报告为准。此文不把脚本准备完成写成已验证复现。
+本批已真实完成新包生成、独立完整性核验及新目录恢复。归档为 `output/agentforge-web-projects-20261109.zip`，30,231,457 字节，包含 1,245 个清单成员（另有 manifest 自身）和 22 份 SQLite 副本，其中 6 份可恢复数据库、16 份历史快照。ZIP SHA-256 为 `bc1cf826adf70522dc01c744cdcdf4a32e5e61c3ded5ee64b7c6605f29afeb90`。生成、核验及恢复的首次正式尝试均成功，没有覆盖失败产物。
+
+实际恢复目录为 `D:\未来杯\artifacts\private\web-restore-20261109`；全部成员哈希、数据库别名、完整性和表摘要核验通过。报告见 [归档清单](../output/web-projects-20261109/archive-manifest.json)、[生成回执](../output/web-projects-packaging-20261109/package-attempt1-result.json)、[独立核验](../output/web-projects-packaging-20261109/verify-attempt1.json)、[恢复报告](../output/web-projects-packaging-20261109/restore-attempt1.json)。这证明本机文件与历史恢复，不等于全新机器环境部署成功。
+
+封包之后，读取恢复目录中的候选 JSON、冻结 Web 配置和维护者验收，使用当前工作区的可信执行器、依赖 bundle 与本机仍保留的原镜像，另行实际执行 Docker HTTP 验收：**12/12 通过，38 次 HTTP 请求，0 次模型调用**。源码和验收 SHA 与原自然候选及事前套件一致。报告见 [恢复后 HTTP 复测](../output/web-projects-20261109/restored-http-attempt1.json)，12 份原始执行文件及哈希见 [封包后证据清单](../output/web-projects-20261109/post-archive-http-recheck/evidence-manifest.json)。本次没有从恢复目录启动整套工作台，也没有重建镜像。
+
+ZIP 保持封存：包内文档反映打包前状态，故仍可能标注“待归档”；本页及 `output/web-projects-packaging-20261109` 的核验/恢复报告和封包后 HTTP 复测是后续追加记录，**不在已封存 ZIP 内**。不能为把后验记录塞进原包而覆盖归档或旧报告。
 
 本批脚本不调用模型、Docker、安装器或候选代码，不改写源数据库。模型开发、HTTP 验收、平台预览和浏览器操作各有自己的证据；仅恢复历史不重复这些实验，也不产生模型费用。
 
 ## 停稳后生成独立归档
 
-等待真实运行全部终态，完成浏览器检查并停止全部预览、依赖准备和新请求后，才可执行：
+以下生成命令已于本批实际执行；当前归档已存在，重复生成会拒绝，不能删除它重跑。未来独立批次应使用新的明确输出位置。等待真实运行全部终态，完成浏览器检查并停止全部预览、依赖准备和新请求后，才可生成；核验命令可只读重跑：
 
 ```powershell
-python output/web-projects-20261109/package_reproduction.py
-python output/web-projects-20261109/restore_reproduction.py output/agentforge-web-projects-20261109.zip
+.\.venv\Scripts\python.exe output/web-projects-20261109/package_reproduction.py
+.\.venv\Scripts\python.exe output/web-projects-20261109/restore_reproduction.py output/agentforge-web-projects-20261109.zip
 ```
 
 第二条仅核验，不解压。不要用旧导出器的固定大小限制代替本批核验器。新包仍采用 `agentforge-local-reproduction-v1` 清单结构，`purpose` 为 `agentforge-web-projects-reproduction-v1`；增加的 Web 字段不会写入或迁移任何旧 ZIP。
@@ -28,7 +34,7 @@ ZIP、边车、归档报告及 `package-database-snapshots` 均独占创建；�
 ## 只恢复到尚不存在的目录
 
 ```powershell
-python output/web-projects-20261109/restore_reproduction.py output/agentforge-web-projects-20261109.zip --extract-to D:\AgentForge-Web-Restore-NEW --report D:\AgentForge-Web-Restore-check-NEW.json
+.\.venv\Scripts\python.exe output/web-projects-20261109/restore_reproduction.py output/agentforge-web-projects-20261109.zip --extract-to D:\AgentForge-Web-Restore-NEW --report D:\AgentForge-Web-Restore-check-NEW.json
 ```
 
 目标父目录需要已存在，目标目录与报告路径必须尚不存在。脚本先核验完整成员清单、边车与嵌套 ZIP/wheel，然后逐文件独占写入；核对每份 SQLite 别名、副本、完整性及逐表摘要。输入变动或任何失败均保留部分输出，不能在同一路径静默覆盖重跑。
