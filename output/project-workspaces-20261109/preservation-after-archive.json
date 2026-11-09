@@ -1,0 +1,194 @@
+{
+  "checked_at": "2026-11-09T06:44:36.868228+00:00",
+  "manifest": "output/project-workspaces-20261109/preservation-before.json",
+  "checked_files": 1647,
+  "file_problems": [
+    {
+      "path": ".agentforge/wsl/AgentForge/ext4.vhdx",
+      "reason": "sha256_changed"
+    }
+  ],
+  "databases": {
+    ".agentforge/agentforge.sqlite3": {
+      "policy": "exact_original_rows",
+      "backup": "output/project-workspaces-20261109/legacy-before.sqlite3",
+      "tables": {
+        "agents": {
+          "passed": true,
+          "backup_verified": true,
+          "columns_unchanged": true,
+          "original_rows": 6,
+          "current_rows": 6,
+          "missing_or_changed_original_rows": 0,
+          "additional_rows": 0,
+          "exact_original_rows": true
+        },
+        "events": {
+          "passed": true,
+          "backup_verified": true,
+          "columns_unchanged": true,
+          "original_rows": 776,
+          "current_rows": 776,
+          "missing_or_changed_original_rows": 0,
+          "additional_rows": 0,
+          "exact_original_rows": true
+        },
+        "runs": {
+          "passed": true,
+          "backup_verified": true,
+          "columns_unchanged": true,
+          "original_rows": 17,
+          "current_rows": 17,
+          "missing_or_changed_original_rows": 0,
+          "additional_rows": 0,
+          "exact_original_rows": true
+        },
+        "snapshots": {
+          "passed": true,
+          "backup_verified": true,
+          "columns_unchanged": true,
+          "original_rows": 101,
+          "current_rows": 101,
+          "missing_or_changed_original_rows": 0,
+          "additional_rows": 0,
+          "exact_original_rows": true
+        },
+        "steps": {
+          "passed": true,
+          "backup_verified": true,
+          "columns_unchanged": true,
+          "original_rows": 125,
+          "current_rows": 125,
+          "missing_or_changed_original_rows": 0,
+          "additional_rows": 0,
+          "exact_original_rows": true
+        }
+      },
+      "passed": true,
+      "added_tables": [],
+      "missing_tables": []
+    },
+    ".agentforge/autonomous/agentforge.sqlite3": {
+      "policy": "original_rows_retained_additions_allowed",
+      "backup": "output/project-workspaces-20261109/autonomous-before.sqlite3",
+      "tables": {
+        "agents": {
+          "passed": true,
+          "backup_verified": true,
+          "columns_unchanged": true,
+          "original_rows": 5,
+          "current_rows": 5,
+          "missing_or_changed_original_rows": 0,
+          "additional_rows": 0,
+          "exact_original_rows": true
+        },
+        "events": {
+          "passed": true,
+          "backup_verified": true,
+          "columns_unchanged": true,
+          "original_rows": 187,
+          "current_rows": 292,
+          "missing_or_changed_original_rows": 0,
+          "additional_rows": 105,
+          "exact_original_rows": false
+        },
+        "runs": {
+          "passed": true,
+          "backup_verified": true,
+          "columns_unchanged": true,
+          "original_rows": 6,
+          "current_rows": 8,
+          "missing_or_changed_original_rows": 0,
+          "additional_rows": 2,
+          "exact_original_rows": false
+        },
+        "snapshots": {
+          "passed": true,
+          "backup_verified": true,
+          "columns_unchanged": true,
+          "original_rows": 7,
+          "current_rows": 7,
+          "missing_or_changed_original_rows": 0,
+          "additional_rows": 0,
+          "exact_original_rows": true
+        },
+        "steps": {
+          "passed": true,
+          "backup_verified": true,
+          "columns_unchanged": true,
+          "original_rows": 9,
+          "current_rows": 9,
+          "missing_or_changed_original_rows": 0,
+          "additional_rows": 0,
+          "exact_original_rows": true
+        }
+      },
+      "passed": true,
+      "added_tables": [],
+      "missing_tables": []
+    },
+    ".agentforge/autonomous-validation-20261108/agentforge.sqlite3": {
+      "policy": "exact_original_rows",
+      "backup": "output/project-workspaces-20261109/validation-before.sqlite3",
+      "tables": {
+        "agents": {
+          "passed": true,
+          "backup_verified": true,
+          "columns_unchanged": true,
+          "original_rows": 5,
+          "current_rows": 5,
+          "missing_or_changed_original_rows": 0,
+          "additional_rows": 0,
+          "exact_original_rows": true
+        },
+        "events": {
+          "passed": true,
+          "backup_verified": true,
+          "columns_unchanged": true,
+          "original_rows": 79,
+          "current_rows": 79,
+          "missing_or_changed_original_rows": 0,
+          "additional_rows": 0,
+          "exact_original_rows": true
+        },
+        "runs": {
+          "passed": true,
+          "backup_verified": true,
+          "columns_unchanged": true,
+          "original_rows": 3,
+          "current_rows": 3,
+          "missing_or_changed_original_rows": 0,
+          "additional_rows": 0,
+          "exact_original_rows": true
+        },
+        "snapshots": {
+          "passed": true,
+          "backup_verified": true,
+          "columns_unchanged": true,
+          "original_rows": 4,
+          "current_rows": 4,
+          "missing_or_changed_original_rows": 0,
+          "additional_rows": 0,
+          "exact_original_rows": true
+        },
+        "steps": {
+          "passed": true,
+          "backup_verified": true,
+          "columns_unchanged": true,
+          "original_rows": 5,
+          "current_rows": 5,
+          "missing_or_changed_original_rows": 0,
+          "additional_rows": 0,
+          "exact_original_rows": true
+        }
+      },
+      "passed": true,
+      "added_tables": [],
+      "missing_tables": []
+    }
+  },
+  "read_only_inputs": true,
+  "model_calls": 0,
+  "docker_calls": 0,
+  "passed": false
+}

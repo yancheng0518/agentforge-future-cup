@@ -2,6 +2,8 @@
 
 本轮打包脚本是 `output/project-workspaces-20261109/package_reproduction.py`，目标是新建 `output/agentforge-project-workspaces-20261109.zip`。脚本准备完成不代表压缩包已经生成；以同目录的 `.zip.sha256` 和本轮 `archive-manifest.json` 的核验结果为准。它不调用模型、不运行 Docker、不执行候选、不上传文件，也不改写当前数据库。
 
+**2026-11-09 已生成并独立核验**：815 个清单成员、11,722,088 字节，ZIP SHA-256 为 `4a9b068243a7a2b12c95893e0f3278dc1700850b84ae91c962246a364b64b10c`。首次格式兼容错误及成功的最终 archive manifest 都保留。原机恢复检查报告在 `output/project-workspaces-20261109/restore-check.json`（封存后的独立报告）；它只说明四份当前数据库在新目录的恢复核验，不是换机安装或重新模型实验。
+
 本轮归档合同固定为旧工作台 17 条运行、动态 API 8 条运行，其中本轮同项目迭代 2 条。项目、版本、配置、资料和程序执行数量从打包时数据库的一致性快照取得，以 manifest 为准；额外导入但未调用模型的检查项目不会增加模型运行数。固定运行数量变化、仍有进行中的运行或待落库回执都会报错，需先核实变化，不能通过删除旧记录满足数量要求。
 
 ## 生成与核对
@@ -55,6 +57,8 @@ python scripts/export_reproduction.py --verify output/agentforge-project-workspa
 本轮两条真实模型运行是 `ce012be5a56e452c86805463b3ba65e6` 和 `c77677a111d641ebb743b7678d5546e4`。各自 `implementation-manifest.json` 和 `implementation/` 保存该次运行实际使用的宿主实现；打包时源码是工作区最终字节，不应冒称与两次运行时版本完全相同。候选实现、测试和代码配置快照另存于该运行目录及证据中。
 
 三个旧包 `agentforge-autonomous-core-20261108.zip`、`agentforge-autonomous-chat-20261108.zip`、`agentforge-collaboration-graph-20261108.zip` 与其 SHA-256 文件原样嵌入 `output/`，用于保留更早实验、对照和旧验证数据库，不会在本轮重写。不要把三个旧包再解压覆盖当前恢复目录；审阅时单独核验或解压到不同空目录。
+
+三个旧包采用不同清单格式，不能一律使用新版清单约定判断。脚本分别读取 core 包的 `output/autonomous-core-20261108/archive-manifest.json`（原始无版本号清单）、chat 包的 `CHAT_REPRODUCTION_MANIFEST.json`（`agentforge-autonomous-chat-reproduction-v1`）和协作图包的 `REPRODUCTION_MANIFEST.json`（`agentforge-local-reproduction-v1`）。每个旧包都核对原 SHA-256 边车、完整成员集合以及每个成员的原大小/哈希，并在新 manifest 的 `previous_archives` 中记录实际验证方法、原清单路径和原 schema；不会声称旧包使用新的统一 schema。
 
 旧 core 包原本含一个 32 KiB SHM 和一个空 WAL，旧协作图包含两份前端测试/构建日志。为不改写封存历史，这四个成员仅在原旧包内保留；脚本同时固定整包 SHA-256、成员路径和成员 SHA-256，作为 `sealed_legacy_archive_exceptions` 单列。它们不能作为当前数据库恢复来源，仍接受凭据、路径和大小扫描；本轮没有复制任何 live WAL/SHM。除此以外的新成员、未知归档或变化后的旧归档不享有此例外。
 

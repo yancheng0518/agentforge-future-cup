@@ -1,0 +1,15 @@
+{
+  "attempt": 1,
+  "command": ".venv/Scripts/python.exe output/project-workspaces-20261109/package_reproduction.py",
+  "status": "failed",
+  "exit_code": 1,
+  "message": "ZIP lacks a bounded reproduction manifest.",
+  "stage": "verifying prior sealed archives before creating new snapshots or ZIP",
+  "cause": "The new packager assumed earlier archives used the current REPRODUCTION_MANIFEST schema. They have historical archive schemas.",
+  "target_zip_created": false,
+  "snapshots_directory_created": false,
+  "old_archives_changed": false,
+  "model_calls": 0,
+  "docker_calls": 0,
+  "classification": "packaging_compatibility_error"
+}

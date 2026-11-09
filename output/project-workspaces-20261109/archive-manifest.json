@@ -1,0 +1,610 @@
+{
+  "verified": true,
+  "files": 815,
+  "zip_sha256": "4a9b068243a7a2b12c95893e0f3278dc1700850b84ae91c962246a364b64b10c",
+  "manifest_sha256": "c79505cab78b6b08edd031fd001d4366af47010b1f7f4c05e79fa1a56f5771d0",
+  "archive": "output/agentforge-project-workspaces-20261109.zip",
+  "bytes": 11722088,
+  "ui_history_runs": 25,
+  "database_snapshots": [
+    {
+      "source_database": ".agentforge/agentforge.sqlite3",
+      "source_read_only": true,
+      "archive_member": ".agentforge/agentforge.sqlite3",
+      "backup_member": "output/project-workspaces-20261109/package-database-snapshots/5269435d9065fee8-agentforge.sqlite3",
+      "role": "restorable_database",
+      "original_database": null,
+      "backup_sha256": "983b5726525529fd9190daa9cb4192da774e821981da5ec866c994a3f7aac7dd",
+      "bytes": 4702208,
+      "row_counts": {
+        "agents": 6,
+        "events": 776,
+        "runs": 17,
+        "snapshots": 101,
+        "steps": 125
+      },
+      "run_ids": [
+        "498280fc3f0b4c79b7f5224a6fdc5e2a",
+        "ea3ae9298c644c09877b2f29f29af542",
+        "e9c8badd6c5a4dfd9aad4e9710b5e6da",
+        "57585159b48a45e6b12e1ef0f69718db",
+        "dc97b4e792fb4f598babc99e092ce346",
+        "03ff43f5ed5b4452b6752d7e5eacd4c5",
+        "5fdba40548df4f1ea8568b0cae8f3348",
+        "b443d72687dc4f3cae2796d767daefd3",
+        "ba9e14dc97ec4c94b24dbfd10a24252e",
+        "1808536914e54cc6a977646af19ef15c",
+        "8902681fc64948f8a7d3ba12ad744c3c",
+        "2136073cc2e94afcac4fe3212f3e470a",
+        "7ff15e24e5af4e0a97167bef70c32956",
+        "a3e66b793e00417aaf2e2b6583ce4f44",
+        "4d016c52d9b546829973b21dca2eeee1",
+        "c1777cf1dca74b95bbb0a638f04ad395",
+        "fcf783c421194f3897ac0fca5eeabac7"
+      ],
+      "tables": {
+        "agents": {
+          "columns": [
+            "id",
+            "version",
+            "body"
+          ],
+          "rows": 6,
+          "sha256": "c67abbe5a11ea2dc5b73db63351d4f630a0bd76680c046c8f47771bc3a35a52c"
+        },
+        "events": {
+          "columns": [
+            "id",
+            "run_id",
+            "body"
+          ],
+          "rows": 776,
+          "sha256": "03da5566ab04e54b1a139e4e76e00bdb0c94b5411c129182d83cc0fe398e50c2"
+        },
+        "runs": {
+          "columns": [
+            "id",
+            "body"
+          ],
+          "rows": 17,
+          "sha256": "59310a51cb901d005861759cce7c8e6e759ee033b0c7041a87052a8eb3aa91fb"
+        },
+        "snapshots": {
+          "columns": [
+            "id",
+            "run_id",
+            "body"
+          ],
+          "rows": 101,
+          "sha256": "59ed6a70ff9175ae8ec0fc8c4b9b49d58f20352ca3eb909aa60812ceb432995d"
+        },
+        "steps": {
+          "columns": [
+            "run_id",
+            "id",
+            "body"
+          ],
+          "rows": 125,
+          "sha256": "7575d94638a6bf8a5602b6addc395f96c469fbbb147b50ebc9e787c8c7baded6"
+        }
+      }
+    },
+    {
+      "source_database": ".agentforge/autonomous/agentforge.sqlite3",
+      "source_read_only": true,
+      "archive_member": ".agentforge/autonomous/agentforge.sqlite3",
+      "backup_member": "output/project-workspaces-20261109/package-database-snapshots/0f5f4a5d27d9db08-agentforge.sqlite3",
+      "role": "restorable_database",
+      "original_database": null,
+      "backup_sha256": "54f64f90b72f538fe76e37c23e5cafccf5358119f1e877b1a2af8cf2215baaa3",
+      "bytes": 831488,
+      "row_counts": {
+        "agents": 5,
+        "events": 292,
+        "runs": 8,
+        "snapshots": 7,
+        "steps": 9
+      },
+      "run_ids": [
+        "d2b9e645213f41b8a56e706427f1a5ed",
+        "cd76099e00e74e29bc50ea80fea2bcee",
+        "1969d48bdbff45018a0bcaa606cff94c",
+        "2c3084087b514db59b7c36b840276996",
+        "05002763f0dc45ee805c68a04af789e9",
+        "9f25467d40074e0eb520e178b00b11e1",
+        "ce012be5a56e452c86805463b3ba65e6",
+        "c77677a111d641ebb743b7678d5546e4"
+      ],
+      "tables": {
+        "agents": {
+          "columns": [
+            "id",
+            "version",
+            "body"
+          ],
+          "rows": 5,
+          "sha256": "50ed43b73b5b90a9f9a0e668015130f1f22b90619302d9b170fda9b54963dd75"
+        },
+        "events": {
+          "columns": [
+            "id",
+            "run_id",
+            "body"
+          ],
+          "rows": 292,
+          "sha256": "d20c24713e5d46d2b7c2f10367cb167a9755100432dbc995a5ecc422951a9c13"
+        },
+        "runs": {
+          "columns": [
+            "id",
+            "body"
+          ],
+          "rows": 8,
+          "sha256": "8da9ff0326a2abaa7e883f3186a34615a792176eaf6cdcaa96ebee6ad595161b"
+        },
+        "snapshots": {
+          "columns": [
+            "id",
+            "run_id",
+            "body"
+          ],
+          "rows": 7,
+          "sha256": "4431fde8672066f6ebf0fb316fa7e894c90df56551a5abc8792986e3ea11e70a"
+        },
+        "steps": {
+          "columns": [
+            "run_id",
+            "id",
+            "body"
+          ],
+          "rows": 9,
+          "sha256": "5ece56bb3d11a25a24d49e87ebceab029e05569911cfab9aa358258815742262"
+        }
+      }
+    },
+    {
+      "source_database": ".agentforge/autonomous/runs/c77677a111d641ebb743b7678d5546e4/application-tools/scratch.sqlite3",
+      "source_read_only": true,
+      "archive_member": ".agentforge/autonomous/runs/c77677a111d641ebb743b7678d5546e4/application-tools/scratch.sqlite3",
+      "backup_member": "output/project-workspaces-20261109/package-database-snapshots/12f5ab4ff7c389e1-scratch.sqlite3",
+      "role": "restorable_database",
+      "original_database": null,
+      "backup_sha256": "ded401fdd794fda05021ae2662a4c14ec285e5a3e6b52934951301f4a733e4ec",
+      "bytes": 106496,
+      "row_counts": {
+        "application_states": 5,
+        "executions": 9,
+        "knowledge_versions": 0,
+        "profiles": 1,
+        "projects": 5,
+        "revisions": 5
+      },
+      "run_ids": [],
+      "tables": {
+        "application_states": {
+          "columns": [
+            "project_id",
+            "body",
+            "sha256",
+            "version"
+          ],
+          "rows": 5,
+          "sha256": "788cdea0b05f7d5feaad1a00e9c0fecd566af542d7ebd168b7365c2fb18091e4"
+        },
+        "executions": {
+          "columns": [
+            "id",
+            "project_id",
+            "body"
+          ],
+          "rows": 9,
+          "sha256": "c58181927b657f8cc0b8612b5eb97ddad4b7631e3459567b9b694af4e132a055"
+        },
+        "knowledge_versions": {
+          "columns": [
+            "id",
+            "project_id",
+            "version",
+            "body"
+          ],
+          "rows": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "profiles": {
+          "columns": [
+            "id",
+            "version",
+            "body"
+          ],
+          "rows": 1,
+          "sha256": "ddf1b5f311272510de339c507c8b32afa6b8cda54a5bd1c1aa3bbc61097492b0"
+        },
+        "projects": {
+          "columns": [
+            "id",
+            "name",
+            "head_revision_id",
+            "created_at"
+          ],
+          "rows": 5,
+          "sha256": "fe125b555bf88cc4f497c8e3ce24be6784e8d0378bf911efdb625dc862192696"
+        },
+        "revisions": {
+          "columns": [
+            "id",
+            "project_id",
+            "number",
+            "parent_id",
+            "run_id",
+            "body"
+          ],
+          "rows": 5,
+          "sha256": "4b32b900a1cbe6b2dca11210d7b7d5294c5d958816ae63ce398c78c7360aae30"
+        }
+      }
+    },
+    {
+      "source_database": ".agentforge/projects/projects.sqlite3",
+      "source_read_only": true,
+      "archive_member": ".agentforge/projects/projects.sqlite3",
+      "backup_member": "output/project-workspaces-20261109/package-database-snapshots/b0dd60ec4c0e8741-projects.sqlite3",
+      "role": "restorable_database",
+      "original_database": null,
+      "backup_sha256": "9a56d2c04262b1c72278a5fc1ebd3efbcf5367051eee905c870ec2b12459dd0d",
+      "bytes": 135168,
+      "row_counts": {
+        "application_states": 1,
+        "executions": 10,
+        "knowledge_versions": 1,
+        "profiles": 1,
+        "projects": 2,
+        "revisions": 4
+      },
+      "run_ids": [],
+      "tables": {
+        "application_states": {
+          "columns": [
+            "project_id",
+            "body",
+            "sha256",
+            "version"
+          ],
+          "rows": 1,
+          "sha256": "764de2497a3139c7aec58e054cdad4eb60795d6ae4d5d2df2d9dc7a2a161c42f"
+        },
+        "executions": {
+          "columns": [
+            "id",
+            "project_id",
+            "body"
+          ],
+          "rows": 10,
+          "sha256": "2972d0013a8e9dd03c202677834758a00770b300f1a8ea8409f32d898b567de4"
+        },
+        "knowledge_versions": {
+          "columns": [
+            "id",
+            "project_id",
+            "version",
+            "body"
+          ],
+          "rows": 1,
+          "sha256": "079449faa6818f1e8179a4f1c834a0d817969eea9a3d76ad67266b1566370b46"
+        },
+        "profiles": {
+          "columns": [
+            "id",
+            "version",
+            "body"
+          ],
+          "rows": 1,
+          "sha256": "4e69b0546c4cfd332681ebad75358a9504ddacd00128f9ffe357d2d0eff0c8fa"
+        },
+        "projects": {
+          "columns": [
+            "id",
+            "name",
+            "head_revision_id",
+            "created_at"
+          ],
+          "rows": 2,
+          "sha256": "aeeae2a79df41d4f3f5364e3315734738db545dd74975459ccd99afa9b6244e8"
+        },
+        "revisions": {
+          "columns": [
+            "id",
+            "project_id",
+            "number",
+            "parent_id",
+            "run_id",
+            "body"
+          ],
+          "rows": 4,
+          "sha256": "04e8a683b912b8399403f983b2ee276591d11457f7a0121cef7b836e681a97c9"
+        }
+      }
+    },
+    {
+      "source_database": ".agentforge/projects/requests.sqlite3",
+      "source_read_only": true,
+      "archive_member": ".agentforge/projects/requests.sqlite3",
+      "backup_member": "output/project-workspaces-20261109/package-database-snapshots/b5af8bfd5333c09e-requests.sqlite3",
+      "role": "restorable_database",
+      "original_database": null,
+      "backup_sha256": "061fe413b7ed4c2b0f76246acfe2a4efff38c0b4daef2b6a41bf2029f870d300",
+      "bytes": 40960,
+      "row_counts": {
+        "execution_requests": 7,
+        "requests": 2
+      },
+      "run_ids": [],
+      "tables": {
+        "execution_requests": {
+          "columns": [
+            "project_id",
+            "key",
+            "request_hash",
+            "response"
+          ],
+          "rows": 7,
+          "sha256": "5b2012fcbb545f2fbd85ff2b5f86c12605711f19127c4a58cc8782fcca192a28"
+        },
+        "requests": {
+          "columns": [
+            "project_id",
+            "key",
+            "request_hash",
+            "run_id",
+            "completed"
+          ],
+          "rows": 2,
+          "sha256": "5957197cd99cab3134494edceae02cf9f690c354f05417b6a7c3488b36fd0416"
+        }
+      }
+    },
+    {
+      "source_database": "output/project-workspaces-20261109/autonomous-before.sqlite3",
+      "source_read_only": true,
+      "archive_member": "output/project-workspaces-20261109/autonomous-before.sqlite3",
+      "backup_member": "output/project-workspaces-20261109/package-database-snapshots/2fedde3445d0f20c-autonomous-before.sqlite3",
+      "role": "historical_snapshot",
+      "original_database": ".agentforge/autonomous/agentforge.sqlite3",
+      "backup_sha256": "6f179c185909d309cdeb2353b04693aa021bff2c36c092122504280711f7eeb3",
+      "bytes": 581632,
+      "row_counts": {
+        "agents": 5,
+        "events": 187,
+        "runs": 6,
+        "snapshots": 7,
+        "steps": 9
+      },
+      "run_ids": [
+        "d2b9e645213f41b8a56e706427f1a5ed",
+        "cd76099e00e74e29bc50ea80fea2bcee",
+        "1969d48bdbff45018a0bcaa606cff94c",
+        "2c3084087b514db59b7c36b840276996",
+        "05002763f0dc45ee805c68a04af789e9",
+        "9f25467d40074e0eb520e178b00b11e1"
+      ],
+      "tables": {
+        "agents": {
+          "columns": [
+            "id",
+            "version",
+            "body"
+          ],
+          "rows": 5,
+          "sha256": "50ed43b73b5b90a9f9a0e668015130f1f22b90619302d9b170fda9b54963dd75"
+        },
+        "events": {
+          "columns": [
+            "id",
+            "run_id",
+            "body"
+          ],
+          "rows": 187,
+          "sha256": "dc8d25133dd5d8bb6de8ea2841462b5bfa3bf341c3c2fb19268693cdcd7609ff"
+        },
+        "runs": {
+          "columns": [
+            "id",
+            "body"
+          ],
+          "rows": 6,
+          "sha256": "ad645fe2994f919d91579906659e81ce2e7968ea33c88056e6d29c2ff9fc9deb"
+        },
+        "snapshots": {
+          "columns": [
+            "id",
+            "run_id",
+            "body"
+          ],
+          "rows": 7,
+          "sha256": "4431fde8672066f6ebf0fb316fa7e894c90df56551a5abc8792986e3ea11e70a"
+        },
+        "steps": {
+          "columns": [
+            "run_id",
+            "id",
+            "body"
+          ],
+          "rows": 9,
+          "sha256": "5ece56bb3d11a25a24d49e87ebceab029e05569911cfab9aa358258815742262"
+        }
+      }
+    },
+    {
+      "source_database": "output/project-workspaces-20261109/legacy-before.sqlite3",
+      "source_read_only": true,
+      "archive_member": "output/project-workspaces-20261109/legacy-before.sqlite3",
+      "backup_member": "output/project-workspaces-20261109/package-database-snapshots/08b567d6e196173a-legacy-before.sqlite3",
+      "role": "historical_snapshot",
+      "original_database": ".agentforge/agentforge.sqlite3",
+      "backup_sha256": "983b5726525529fd9190daa9cb4192da774e821981da5ec866c994a3f7aac7dd",
+      "bytes": 4702208,
+      "row_counts": {
+        "agents": 6,
+        "events": 776,
+        "runs": 17,
+        "snapshots": 101,
+        "steps": 125
+      },
+      "run_ids": [
+        "498280fc3f0b4c79b7f5224a6fdc5e2a",
+        "ea3ae9298c644c09877b2f29f29af542",
+        "e9c8badd6c5a4dfd9aad4e9710b5e6da",
+        "57585159b48a45e6b12e1ef0f69718db",
+        "dc97b4e792fb4f598babc99e092ce346",
+        "03ff43f5ed5b4452b6752d7e5eacd4c5",
+        "5fdba40548df4f1ea8568b0cae8f3348",
+        "b443d72687dc4f3cae2796d767daefd3",
+        "ba9e14dc97ec4c94b24dbfd10a24252e",
+        "1808536914e54cc6a977646af19ef15c",
+        "8902681fc64948f8a7d3ba12ad744c3c",
+        "2136073cc2e94afcac4fe3212f3e470a",
+        "7ff15e24e5af4e0a97167bef70c32956",
+        "a3e66b793e00417aaf2e2b6583ce4f44",
+        "4d016c52d9b546829973b21dca2eeee1",
+        "c1777cf1dca74b95bbb0a638f04ad395",
+        "fcf783c421194f3897ac0fca5eeabac7"
+      ],
+      "tables": {
+        "agents": {
+          "columns": [
+            "id",
+            "version",
+            "body"
+          ],
+          "rows": 6,
+          "sha256": "c67abbe5a11ea2dc5b73db63351d4f630a0bd76680c046c8f47771bc3a35a52c"
+        },
+        "events": {
+          "columns": [
+            "id",
+            "run_id",
+            "body"
+          ],
+          "rows": 776,
+          "sha256": "03da5566ab04e54b1a139e4e76e00bdb0c94b5411c129182d83cc0fe398e50c2"
+        },
+        "runs": {
+          "columns": [
+            "id",
+            "body"
+          ],
+          "rows": 17,
+          "sha256": "59310a51cb901d005861759cce7c8e6e759ee033b0c7041a87052a8eb3aa91fb"
+        },
+        "snapshots": {
+          "columns": [
+            "id",
+            "run_id",
+            "body"
+          ],
+          "rows": 101,
+          "sha256": "59ed6a70ff9175ae8ec0fc8c4b9b49d58f20352ca3eb909aa60812ceb432995d"
+        },
+        "steps": {
+          "columns": [
+            "run_id",
+            "id",
+            "body"
+          ],
+          "rows": 125,
+          "sha256": "7575d94638a6bf8a5602b6addc395f96c469fbbb147b50ebc9e787c8c7baded6"
+        }
+      }
+    },
+    {
+      "source_database": "output/project-workspaces-20261109/validation-before.sqlite3",
+      "source_read_only": true,
+      "archive_member": "output/project-workspaces-20261109/validation-before.sqlite3",
+      "backup_member": "output/project-workspaces-20261109/package-database-snapshots/a58aea465bf17a51-validation-before.sqlite3",
+      "role": "historical_snapshot",
+      "original_database": ".agentforge/autonomous-validation-20261108/agentforge.sqlite3",
+      "backup_sha256": "cb1f0433d76dee0f97e93ddf509765aa065973c988ef00c6bd0c5eb153e62840",
+      "bytes": 245760,
+      "row_counts": {
+        "agents": 5,
+        "events": 79,
+        "runs": 3,
+        "snapshots": 4,
+        "steps": 5
+      },
+      "run_ids": [
+        "3f64240036f443ec9300d6ea14d6ea9e",
+        "82b877460dce442486120909087ce608",
+        "738f6262c2044c5cb69b91739d3f2cd5"
+      ],
+      "tables": {
+        "agents": {
+          "columns": [
+            "id",
+            "version",
+            "body"
+          ],
+          "rows": 5,
+          "sha256": "50ed43b73b5b90a9f9a0e668015130f1f22b90619302d9b170fda9b54963dd75"
+        },
+        "events": {
+          "columns": [
+            "id",
+            "run_id",
+            "body"
+          ],
+          "rows": 79,
+          "sha256": "9bc0c6c733d08123756be4b58ac91a35ac4afefb6fc11e422a52d442eefa9565"
+        },
+        "runs": {
+          "columns": [
+            "id",
+            "body"
+          ],
+          "rows": 3,
+          "sha256": "4f6cdc8d6822ce21c0fa66d7d31495852c31a88df62d5b18ebbd02b5a9036aab"
+        },
+        "snapshots": {
+          "columns": [
+            "id",
+            "run_id",
+            "body"
+          ],
+          "rows": 4,
+          "sha256": "bb9246eead7342cf11fea4c57314c7b57b3fbf158869857249fe79701e539768"
+        },
+        "steps": {
+          "columns": [
+            "run_id",
+            "id",
+            "body"
+          ],
+          "rows": 5,
+          "sha256": "5d2639c8fdd8290e6a3e9d90ddfb44e276268b3f4d5c00619d8cd03a2b1b3d31"
+        }
+      }
+    }
+  ],
+  "actual_implementation_snapshots": [
+    {
+      "run_id": "ce012be5a56e452c86805463b3ba65e6",
+      "manifest": ".agentforge/autonomous/runs/ce012be5a56e452c86805463b3ba65e6/implementation-manifest.json",
+      "manifest_sha256": "08c33a5d08a7341388cdfc865450449037876a8985a78e5297eb1de991fb6c05",
+      "implementation_root": ".agentforge/autonomous/runs/ce012be5a56e452c86805463b3ba65e6/implementation",
+      "files": 19,
+      "meaning": "Host implementation frozen for this actual run; candidate and acceptance are separate evidence members."
+    },
+    {
+      "run_id": "c77677a111d641ebb743b7678d5546e4",
+      "manifest": ".agentforge/autonomous/runs/c77677a111d641ebb743b7678d5546e4/implementation-manifest.json",
+      "manifest_sha256": "08c33a5d08a7341388cdfc865450449037876a8985a78e5297eb1de991fb6c05",
+      "implementation_root": ".agentforge/autonomous/runs/c77677a111d641ebb743b7678d5546e4/implementation",
+      "files": 19,
+      "meaning": "Host implementation frozen for this actual run; candidate and acceptance are separate evidence members."
+    }
+  ],
+  "source_databases_read_only": true,
+  "nested_zip_scan": {
+    "entries": 1258,
+    "bytes": 41041233
+  }
+}

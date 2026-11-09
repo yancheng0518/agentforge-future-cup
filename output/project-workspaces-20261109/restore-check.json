@@ -1,0 +1,274 @@
+{
+  "schema": "agentforge-local-four-database-restore-check-v1",
+  "created_at": "2026-11-09T06:44:55.404054+00:00",
+  "status": "passed",
+  "scope": "Same-machine extraction and read-only SQLite snapshot verification only; not a clean-machine installation or service/model/Docker reproduction.",
+  "archive": "output/agentforge-project-workspaces-20261109.zip",
+  "archive_sha256": "4a9b068243a7a2b12c95893e0f3278dc1700850b84ae91c962246a364b64b10c",
+  "archive_bytes": 11722088,
+  "restore_directory": "output/project-workspaces-20261109/restore-check",
+  "fresh_directory": true,
+  "source_databases_modified": false,
+  "candidate_execution": false,
+  "model_calls": 0,
+  "docker_calls": 0,
+  "services_started": false,
+  "databases": [
+    {
+      "archive_member": ".agentforge/agentforge.sqlite3",
+      "restored_file": "output/project-workspaces-20261109/restore-check/.agentforge/agentforge.sqlite3",
+      "bytes": 4702208,
+      "sha256": "983b5726525529fd9190daa9cb4192da774e821981da5ec866c994a3f7aac7dd",
+      "manifest_hash_match": true,
+      "snapshot_hash_match": true,
+      "sqlite_connection_mode": "ro",
+      "integrity_check": "ok",
+      "table_metadata_match": true,
+      "row_counts": {
+        "agents": 6,
+        "events": 776,
+        "runs": 17,
+        "snapshots": 101,
+        "steps": 125
+      },
+      "tables": {
+        "agents": {
+          "columns": [
+            "id",
+            "version",
+            "body"
+          ],
+          "rows": 6,
+          "sha256": "c67abbe5a11ea2dc5b73db63351d4f630a0bd76680c046c8f47771bc3a35a52c"
+        },
+        "events": {
+          "columns": [
+            "id",
+            "run_id",
+            "body"
+          ],
+          "rows": 776,
+          "sha256": "03da5566ab04e54b1a139e4e76e00bdb0c94b5411c129182d83cc0fe398e50c2"
+        },
+        "runs": {
+          "columns": [
+            "id",
+            "body"
+          ],
+          "rows": 17,
+          "sha256": "59310a51cb901d005861759cce7c8e6e759ee033b0c7041a87052a8eb3aa91fb"
+        },
+        "snapshots": {
+          "columns": [
+            "id",
+            "run_id",
+            "body"
+          ],
+          "rows": 101,
+          "sha256": "59ed6a70ff9175ae8ec0fc8c4b9b49d58f20352ca3eb909aa60812ceb432995d"
+        },
+        "steps": {
+          "columns": [
+            "run_id",
+            "id",
+            "body"
+          ],
+          "rows": 125,
+          "sha256": "7575d94638a6bf8a5602b6addc395f96c469fbbb147b50ebc9e787c8c7baded6"
+        }
+      },
+      "unchanged_after_read_only_check": true
+    },
+    {
+      "archive_member": ".agentforge/autonomous/agentforge.sqlite3",
+      "restored_file": "output/project-workspaces-20261109/restore-check/.agentforge/autonomous/agentforge.sqlite3",
+      "bytes": 831488,
+      "sha256": "54f64f90b72f538fe76e37c23e5cafccf5358119f1e877b1a2af8cf2215baaa3",
+      "manifest_hash_match": true,
+      "snapshot_hash_match": true,
+      "sqlite_connection_mode": "ro",
+      "integrity_check": "ok",
+      "table_metadata_match": true,
+      "row_counts": {
+        "agents": 5,
+        "events": 292,
+        "runs": 8,
+        "snapshots": 7,
+        "steps": 9
+      },
+      "tables": {
+        "agents": {
+          "columns": [
+            "id",
+            "version",
+            "body"
+          ],
+          "rows": 5,
+          "sha256": "50ed43b73b5b90a9f9a0e668015130f1f22b90619302d9b170fda9b54963dd75"
+        },
+        "events": {
+          "columns": [
+            "id",
+            "run_id",
+            "body"
+          ],
+          "rows": 292,
+          "sha256": "d20c24713e5d46d2b7c2f10367cb167a9755100432dbc995a5ecc422951a9c13"
+        },
+        "runs": {
+          "columns": [
+            "id",
+            "body"
+          ],
+          "rows": 8,
+          "sha256": "8da9ff0326a2abaa7e883f3186a34615a792176eaf6cdcaa96ebee6ad595161b"
+        },
+        "snapshots": {
+          "columns": [
+            "id",
+            "run_id",
+            "body"
+          ],
+          "rows": 7,
+          "sha256": "4431fde8672066f6ebf0fb316fa7e894c90df56551a5abc8792986e3ea11e70a"
+        },
+        "steps": {
+          "columns": [
+            "run_id",
+            "id",
+            "body"
+          ],
+          "rows": 9,
+          "sha256": "5ece56bb3d11a25a24d49e87ebceab029e05569911cfab9aa358258815742262"
+        }
+      },
+      "unchanged_after_read_only_check": true
+    },
+    {
+      "archive_member": ".agentforge/projects/projects.sqlite3",
+      "restored_file": "output/project-workspaces-20261109/restore-check/.agentforge/projects/projects.sqlite3",
+      "bytes": 135168,
+      "sha256": "9a56d2c04262b1c72278a5fc1ebd3efbcf5367051eee905c870ec2b12459dd0d",
+      "manifest_hash_match": true,
+      "snapshot_hash_match": true,
+      "sqlite_connection_mode": "ro",
+      "integrity_check": "ok",
+      "table_metadata_match": true,
+      "row_counts": {
+        "application_states": 1,
+        "executions": 10,
+        "knowledge_versions": 1,
+        "profiles": 1,
+        "projects": 2,
+        "revisions": 4
+      },
+      "tables": {
+        "application_states": {
+          "columns": [
+            "project_id",
+            "body",
+            "sha256",
+            "version"
+          ],
+          "rows": 1,
+          "sha256": "764de2497a3139c7aec58e054cdad4eb60795d6ae4d5d2df2d9dc7a2a161c42f"
+        },
+        "executions": {
+          "columns": [
+            "id",
+            "project_id",
+            "body"
+          ],
+          "rows": 10,
+          "sha256": "2972d0013a8e9dd03c202677834758a00770b300f1a8ea8409f32d898b567de4"
+        },
+        "knowledge_versions": {
+          "columns": [
+            "id",
+            "project_id",
+            "version",
+            "body"
+          ],
+          "rows": 1,
+          "sha256": "079449faa6818f1e8179a4f1c834a0d817969eea9a3d76ad67266b1566370b46"
+        },
+        "profiles": {
+          "columns": [
+            "id",
+            "version",
+            "body"
+          ],
+          "rows": 1,
+          "sha256": "4e69b0546c4cfd332681ebad75358a9504ddacd00128f9ffe357d2d0eff0c8fa"
+        },
+        "projects": {
+          "columns": [
+            "id",
+            "name",
+            "head_revision_id",
+            "created_at"
+          ],
+          "rows": 2,
+          "sha256": "aeeae2a79df41d4f3f5364e3315734738db545dd74975459ccd99afa9b6244e8"
+        },
+        "revisions": {
+          "columns": [
+            "id",
+            "project_id",
+            "number",
+            "parent_id",
+            "run_id",
+            "body"
+          ],
+          "rows": 4,
+          "sha256": "04e8a683b912b8399403f983b2ee276591d11457f7a0121cef7b836e681a97c9"
+        }
+      },
+      "unchanged_after_read_only_check": true
+    },
+    {
+      "archive_member": ".agentforge/projects/requests.sqlite3",
+      "restored_file": "output/project-workspaces-20261109/restore-check/.agentforge/projects/requests.sqlite3",
+      "bytes": 40960,
+      "sha256": "061fe413b7ed4c2b0f76246acfe2a4efff38c0b4daef2b6a41bf2029f870d300",
+      "manifest_hash_match": true,
+      "snapshot_hash_match": true,
+      "sqlite_connection_mode": "ro",
+      "integrity_check": "ok",
+      "table_metadata_match": true,
+      "row_counts": {
+        "execution_requests": 7,
+        "requests": 2
+      },
+      "tables": {
+        "execution_requests": {
+          "columns": [
+            "project_id",
+            "key",
+            "request_hash",
+            "response"
+          ],
+          "rows": 7,
+          "sha256": "5b2012fcbb545f2fbd85ff2b5f86c12605711f19127c4a58cc8782fcca192a28"
+        },
+        "requests": {
+          "columns": [
+            "project_id",
+            "key",
+            "request_hash",
+            "run_id",
+            "completed"
+          ],
+          "rows": 2,
+          "sha256": "5957197cd99cab3134494edceae02cf9f690c354f05417b6a7c3488b36fd0416"
+        }
+      },
+      "unchanged_after_read_only_check": true
+    }
+  ],
+  "manifest_sha256": "c79505cab78b6b08edd031fd001d4366af47010b1f7f4c05e79fa1a56f5771d0",
+  "manifest_files": 815,
+  "manifest_database_snapshots": 8,
+  "extracted_database_count": 4,
+  "only_declared_four_databases_extracted": true
+}

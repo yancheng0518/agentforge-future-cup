@@ -47,6 +47,11 @@ LIVE_DATABASES = {
 NEW_RUNS = ("ce012be5a56e452c86805463b3ba65e6", "c77677a111d641ebb743b7678d5546e4")
 PREVIOUS_ARCHIVES = tuple("output/agentforge-" + name + "-20261108.zip"
                           for name in ("autonomous-core", "autonomous-chat", "collaboration-graph"))
+PREVIOUS_MANIFESTS = {
+    PREVIOUS_ARCHIVES[0]: ("output/autonomous-core-20261108/archive-manifest.json", None),
+    PREVIOUS_ARCHIVES[1]: ("CHAT_REPRODUCTION_MANIFEST.json", "agentforge-autonomous-chat-reproduction-v1"),
+    PREVIOUS_ARCHIVES[2]: ("REPRODUCTION_MANIFEST.json", "agentforge-local-reproduction-v1"),
+}
 DATABASE_SUFFIXES = {".sqlite", ".sqlite3", ".db"}
 PRIVATE_NAME = re.compile(r"^(?:credentials?|secrets?|tokens?)(?:[._-]|$)|\.(?:pem|p12|pfx|key)$", re.I)
 SQLITE_HEADER = b"SQLite format 3\x00"
@@ -156,6 +161,49 @@ def scan_nested_zip(data, secrets, budget, depth=0):
                 raise ExportError("A sealed historical archive exception changed.")
             if name.casefold().endswith(".zip") or zipfile.is_zipfile(io.BytesIO(content)):
                 scan_nested_zip(content, secrets, budget, depth + 1)
+
+
+def verify_previous_archive(path, secrets):
+    """Verify each sealed archive's ACTUAL historical manifest, not a new schema.
+
+The core batch has an unversioned inventory inside output/, the chat batch has
+its own named manifest and schema, and only the graph batch uses the current
+exporter's manifest convention. All three have a complete member inventory.
+"""
+    path = checked_path(ROOT, path)
+    relative = path.relative_to(ROOT).as_posix()
+    if relative not in PREVIOUS_MANIFESTS:
+        raise ExportError("No reviewed historical manifest contract exists for this archive.")
+    manifest_name, expected_schema = PREVIOUS_MANIFESTS[relative]
+    content = checked_bytes(ROOT, path, secrets)
+    digest_file = checked_path(ROOT, Path(str(path) + ".sha256"))
+    recorded = checked_bytes(ROOT, digest_file, secrets).decode("ascii").split()
+    if len(recorded) != 2 or recorded[0] != sha(content) or recorded[1] != path.name:
+        raise ExportError("A prior archive does not match its historical SHA-256 sidecar.")
+    nested_scan = {"entries": 0, "bytes": 0}
+    scan_nested_zip(content, secrets, nested_scan)
+    with zipfile.ZipFile(io.BytesIO(content)) as archive:
+        names = archive.namelist()
+        if manifest_name not in names or archive.getinfo(manifest_name).file_size > 2 * 1024 * 1024:
+            raise ExportError("The declared historical member manifest is missing or oversized.")
+        metadata = archive.read(manifest_name)
+        manifest = json.loads(metadata)
+        if not isinstance(manifest, dict) or manifest.get("schema") != expected_schema:
+            raise ExportError("A historical manifest's original schema changed.")
+        records = manifest.get("files")
+        if not isinstance(records, dict) or set(names) != set(records) | {manifest_name}:
+            raise ExportError("A historical archive differs from its complete original inventory.")
+        for name, record in records.items():
+            if not isinstance(record, dict):
+                raise ExportError("A historical member hash record is malformed.")
+            data = archive.read(name)
+            if len(data) != record.get("bytes") or sha(data) != record.get("sha256"):
+                raise ExportError("A historical member failed its original byte-count or SHA-256 check.")
+    return {"verified": True, "verification_method": "original_member_manifest_and_sha256_sidecar",
+        "original_manifest": manifest_name, "original_schema": expected_schema,
+        "original_schema_note": "unversioned original inventory" if expected_schema is None else "original declared schema",
+        "files": len(records), "zip_sha256": sha(content), "manifest_sha256": sha(metadata),
+        "nested_zip_scan": nested_scan}
 
 
 def table_metadata(path):
@@ -364,7 +412,7 @@ def main():
     for relative in PREVIOUS_ARCHIVES:
         path = checked_path(ROOT, ROOT / relative)
         content = checked_bytes(ROOT, path, secrets)
-        verified = verify_archive(path)
+        verified = verify_previous_archive(path, secrets)
         digest_file = checked_path(ROOT, Path(str(path) + ".sha256"))
         if checked_bytes(ROOT, digest_file, secrets).decode("ascii").split()[0] != sha(content):
             raise ExportError("A prior archive does not match its historical SHA-256 sidecar.")
