@@ -1,0 +1,18 @@
+{
+  "declared_before_live_execution": true,
+  "fixture": "examples/expense_cli",
+  "input_origin": "maintainer_written_working_project",
+  "seeded_defect": false,
+  "rounds": ["benchmarks/project-workspaces/round1.txt", "benchmarks/project-workspaces/round2.txt"],
+  "baseline_acceptance": "benchmarks/project-workspaces/acceptance_v1.py.txt",
+  "expected_persistence_sequence": [
+    {"command": ["add", "--title", "Lunch", "--cents", "1200", "--category", "food"], "expect": {"id": 1, "title": "Lunch", "cents": 1200, "category": "food"}},
+    {"command": ["add", "--title", "Bus", "--cents", "300", "--category", "travel"], "expect": {"id": 2, "title": "Bus", "cents": 300, "category": "travel"}},
+    {"after_round": 1, "command": ["report"], "expect": {"total_cents": 1500, "categories": [{"category": "food", "total_cents": 1200, "count": 1}, {"category": "travel", "total_cents": 300, "count": 1}]}},
+    {"after_round": 2, "command": ["delete", "--id", "1"], "expect": {"deleted_id": 1, "remaining_count": 1}},
+    {"after_round": 2, "command": ["report"], "expect": {"total_cents": 300, "categories": [{"category": "travel", "total_cents": 300, "count": 1}]}},
+    {"after_round": 2, "command": ["delete", "--id", "999"], "expect_nonzero": true, "data_must_remain": true},
+    {"after_round": 2, "command": ["list"], "expect": [{"id": 2, "title": "Bus", "cents": 300, "category": "travel"}]}
+  ],
+  "classification_rule": "Imported feature gaps are imported_baseline; only failures of model-produced candidates are natural candidate failures. Format retries and decision rejections are separate. All attempts, including failed attempts, are retained."
+}

@@ -1,0 +1,4 @@
+继续修改当前记账项目，保留已有 add/list/report 和分类汇总行为，新增删除单条记录。
+在 ledger.py 实现 delete_expense(entries, expense_id)：expense_id 必须是正整数，布尔值、非整数或非正数抛 ValueError；ID不存在抛 KeyError；存在时返回删除该条后的新列表，其他记录保持原顺序与全部字段，不修改输入。
+在 main.py 增加 delete --id <整数> 命令，成功时把返回的新列表保存到同一 expenses.json，打印 {"deleted_id":ID,"remaining_count":余下条数}；失败应退出非零并保留原文件，不得吞掉错误假装成功。
+只用标准库。AI验收检验函数行为，另行实际Docker运行验证CLI和原项目数据是否保留。

@@ -1,0 +1,21 @@
+import unittest
+from bridge import call
+
+class ExistingExpenseTests(unittest.TestCase):
+    def test_add(self):
+        self.assertEqual(call('ledger', 'add_expense', [], ' Lunch ', 1200, ' food '),
+                         [{'id': 1, 'title': 'Lunch', 'cents': 1200, 'category': 'food'}])
+    def test_keep_old_fields(self):
+        previous = [{'id': 8, 'title': 'Old', 'cents': 100, 'category': 'other', 'note': 'retain'}]
+        self.assertEqual(call('ledger', 'add_expense', previous, 'New', 200, 'other')[0], previous[0])
+    def test_invalid_cents(self):
+        with self.assertRaises(ValueError):
+            call('ledger', 'add_expense', [], 'x', True, 'food')
+    def test_invalid_title(self):
+        with self.assertRaises(ValueError):
+            call('ledger', 'add_expense', [], ' ', 100, 'food')
+    def test_list_sorted(self):
+        entries = [{'id': 2, 'title': 'b', 'cents': 200, 'category': 'x'}, {'id': 1, 'title': 'a', 'cents': 100, 'category': 'x'}]
+        self.assertEqual(call('ledger', 'list_expenses', entries), list(reversed(entries)))
+    def test_list_empty(self):
+        self.assertEqual(call('ledger', 'list_expenses', []), [])

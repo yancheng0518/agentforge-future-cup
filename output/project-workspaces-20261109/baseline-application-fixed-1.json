@@ -1,0 +1,47 @@
+{
+  "execution": {
+    "id": "c18d4a11bc1341ea92d8b844845c50c5",
+    "project_id": "4da12061fc7c43fe965b630637b86a2c",
+    "revision_id": "ef3c6a152cd4460a80e6e225fb0e366c",
+    "created_at": "2026-11-09T06:03:45.279971+00:00",
+    "source_sha256": "b371a318a8e22ff013ce2a739b62a1526c8963bdcc93c54189c0d3c4acacb282",
+    "entrypoint": "main.py",
+    "args": [
+      "add",
+      "--title",
+      "Lunch",
+      "--cents",
+      "1200",
+      "--category",
+      "food"
+    ],
+    "kind": "application_execution",
+    "status": "succeeded",
+    "isolated": true,
+    "container_invoked": true,
+    "exit_code": 0,
+    "stdout": "{\"id\": 1, \"title\": \"Lunch\", \"cents\": 1200, \"category\": \"food\"}\n",
+    "stderr": "",
+    "image": "sha256:1edc3cba75dd1917bb78226e897fdb801a0272ea2e02319345de0bd3b8cae225",
+    "data_before_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "data_after_sha256": "3999bfcc97d55550c287f50eaf2eead1e83aed5b4d06225dbbd72b34d8a260af",
+    "data_saved": true,
+    "reason": "",
+    "test_claim": false,
+    "runner_sha256": "4b15a3bb509d9d52428f2ac332d3aab8c3b365bf940f67294c23e6d9093e6f92",
+    "request_sha256": "e3bfdb0b57c8daca7b5e7279ba3835105aae8ab6950837f07c56f2cd4d7542da",
+    "container_exit_code": 0,
+    "stdout_truncated": false,
+    "stderr_truncated": false,
+    "duration_ms": 14833
+  },
+  "expected": {
+    "id": 1,
+    "title": "Lunch",
+    "cents": 1200,
+    "category": "food"
+  },
+  "matched": true,
+  "model_calls": 0,
+  "previous_failure": "fdd0d86613f24b08938df82bf5bb04af"
+}

@@ -1,0 +1,35 @@
+{
+  "project": {
+    "id": "4da12061fc7c43fe965b630637b86a2c",
+    "name": "个人记账 · 连续开发验证",
+    "head_revision_id": "ef3c6a152cd4460a80e6e225fb0e366c",
+    "created_at": "2026-11-09T05:58:47.791103+00:00"
+  },
+  "initial_revision": {
+    "id": "ef3c6a152cd4460a80e6e225fb0e366c",
+    "project_id": "4da12061fc7c43fe965b630637b86a2c",
+    "number": 1,
+    "parent_id": null,
+    "files": {
+      "ledger.py": "\"\"\"Initial working project for a declared project-continuation experiment.\"\"\"\n\n\ndef add_expense(entries, title, cents, category):\n    if not isinstance(title, str) or not title.strip():\n        raise ValueError('title must not be empty')\n    if type(cents) is not int or cents <= 0:\n        raise ValueError('cents must be a positive integer')\n    if not isinstance(category, str) or not category.strip():\n        raise ValueError('category must not be empty')\n    result = [dict(item) for item in entries]\n    result.append({'id': max((item['id'] for item in result), default=0) + 1,\n                   'title': title.strip(), 'cents': cents, 'category': category.strip()})\n    return result\n\n\ndef list_expenses(entries):\n    return sorted((dict(item) for item in entries), key=lambda item: item['id'])\n",
+      "main.py": "\"\"\"Run inside the workbench's Docker application runner.\"\"\"\nimport argparse\nimport json\nimport os\nfrom pathlib import Path\n\nfrom ledger import add_expense, list_expenses\n\n\ndef main():\n    parser = argparse.ArgumentParser(description='A small persistent expense ledger')\n    commands = parser.add_subparsers(dest='command', required=True)\n    add = commands.add_parser('add')\n    add.add_argument('--title', required=True)\n    add.add_argument('--cents', required=True, type=int)\n    add.add_argument('--category', required=True)\n    commands.add_parser('list')\n    args = parser.parse_args()\n    path = Path(os.environ.get('AGENTFORGE_DATA_DIR', '.')) / 'expenses.json'\n    entries = json.loads(path.read_text(encoding='utf-8')) if path.exists() else []\n    if args.command == 'add':\n        entries = add_expense(entries, args.title, args.cents, args.category)\n        path.parent.mkdir(parents=True, exist_ok=True)\n        path.write_text(json.dumps(entries, ensure_ascii=False), encoding='utf-8')\n        result = entries[-1]\n    else:\n        result = list_expenses(entries)\n    print(json.dumps(result, ensure_ascii=False))\n\n\nif __name__ == '__main__':\n    main()\n"
+    },
+    "source_sha256": "b371a318a8e22ff013ce2a739b62a1526c8963bdcc93c54189c0d3c4acacb282",
+    "acceptance": "import unittest\nfrom bridge import call\n\nclass ExistingExpenseTests(unittest.TestCase):\n    def test_add(self):\n        self.assertEqual(call('ledger', 'add_expense', [], ' Lunch ', 1200, ' food '),\n                         [{'id': 1, 'title': 'Lunch', 'cents': 1200, 'category': 'food'}])\n    def test_keep_old_fields(self):\n        previous = [{'id': 8, 'title': 'Old', 'cents': 100, 'category': 'other', 'note': 'retain'}]\n        self.assertEqual(call('ledger', 'add_expense', previous, 'New', 200, 'other')[0], previous[0])\n    def test_invalid_cents(self):\n        with self.assertRaises(ValueError):\n            call('ledger', 'add_expense', [], 'x', True, 'food')\n    def test_invalid_title(self):\n        with self.assertRaises(ValueError):\n            call('ledger', 'add_expense', [], ' ', 100, 'food')\n    def test_list_sorted(self):\n        entries = [{'id': 2, 'title': 'b', 'cents': 200, 'category': 'x'}, {'id': 1, 'title': 'a', 'cents': 100, 'category': 'x'}]\n        self.assertEqual(call('ledger', 'list_expenses', entries), list(reversed(entries)))\n    def test_list_empty(self):\n        self.assertEqual(call('ledger', 'list_expenses', []), [])\n",
+    "verification": {
+      "status": "unverified"
+    },
+    "created_at": "2026-11-09T05:58:47.791103+00:00",
+    "run_id": null
+  },
+  "knowledge": {
+    "id": "b64f2b6f94e048eb83be72ffa454a887",
+    "project_id": "4da12061fc7c43fe965b630637b86a2c",
+    "version": 1,
+    "title": "记账项目约定",
+    "content": "记账项目约定：金额始终使用整数分，不能浮点换算；用户数据存于 AGENTFORGE_DATA_DIR 指定目录里的 expenses.json；Docker 应用运行将该目录设为 /data。已有 JSON 记录可能携带 note 等额外字段，继续修改时应保留。main.py 是命令行入口，ledger.py 保存便于独立验收的函数逻辑。验收测试与真实应用持久数据分离。\n",
+    "sha256": "c840f845dc61ea2235084ce430769f934bd6dcdeb3882c1eefd6b63bf6303bd0",
+    "content_sha256": "86f25b03a2cafd18e59368a1ba4217141a3da94a126104815882b9da6649d4f5",
+    "created_at": "2026-11-09T05:58:47.800002+00:00"
+  }
+}

@@ -141,4 +141,6 @@ def mount_autonomous(app, root, data_dir):
     app.include_router(router)
     app.state.autonomous_engine = engine
     app.state.autonomous_store = store
+    from .projects_api import mount_projects
+    mount_projects(app, root, data_dir.parent, engine)
     return engine

@@ -1,0 +1,46 @@
+{
+  "execution": {
+    "id": "fdd0d86613f24b08938df82bf5bb04af",
+    "project_id": "4da12061fc7c43fe965b630637b86a2c",
+    "revision_id": "ef3c6a152cd4460a80e6e225fb0e366c",
+    "created_at": "2026-11-09T05:58:47.811028+00:00",
+    "source_sha256": "b371a318a8e22ff013ce2a739b62a1526c8963bdcc93c54189c0d3c4acacb282",
+    "entrypoint": "main.py",
+    "args": [
+      "add",
+      "--title",
+      "Lunch",
+      "--cents",
+      "1200",
+      "--category",
+      "food"
+    ],
+    "kind": "application_execution",
+    "status": "failed",
+    "isolated": true,
+    "container_invoked": true,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n    import runpy,sys;sys.path.insert(0,'/candidate');p=sys.argv[1];sys.argv=sys.argv[1:];runpy.run_path(p,run_name='__main__')\n                                                                                         ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<frozen runpy>\", line 294, in run_path\n  File \"<frozen runpy>\", line 98, in _run_module_code\n  File \"<frozen runpy>\", line 88, in _run_code\n  File \"/candidate/main.py\", line 32, in <module>\n    main()\n    ~~~~^^\n  File \"/candidate/main.py\", line 24, in main\n    path.write_text(json.dumps(entries, ensure_ascii=False), encoding='utf-8')\n    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.13/pathlib/_local.py\", line 555, in write_text\n    return PathBase.write_text(self, data, encoding, errors, newline)\n           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.13/pathlib/_abc.py\", line 651, in write_text\n    with self.open(mode='w', encoding=encoding, errors=errors, newline=newline) as f:\n         ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.13/pathlib/_local.py\", line 537, in open\n    return io.open(self, mode, buffering, encoding, errors, newline)\n           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nPermissionError: [Errno 13] Permission denied: '/data/expenses.json'\n",
+    "image": "sha256:1edc3cba75dd1917bb78226e897fdb801a0272ea2e02319345de0bd3b8cae225",
+    "data_before_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "data_after_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "data_saved": false,
+    "reason": "",
+    "test_claim": false,
+    "runner_sha256": "88054f5c6f6ce927f5ef2570f7b21cfbf207b96ab930cc6d2859266a4ddbc968",
+    "request_sha256": "8a12409be9fc0a5131f5dcecf55db2cba1bc32175ea913fa4eac4578e538d86b",
+    "container_exit_code": 0,
+    "stdout_truncated": false,
+    "stderr_truncated": false,
+    "duration_ms": 13807
+  },
+  "expected": {
+    "id": 1,
+    "title": "Lunch",
+    "cents": 1200,
+    "category": "food"
+  },
+  "matched": false,
+  "model_calls": 0
+}

@@ -1,0 +1,1 @@
+记账项目约定：金额始终使用整数分，不能浮点换算；用户数据存于 AGENTFORGE_DATA_DIR 指定目录里的 expenses.json；Docker 应用运行将该目录设为 /data。已有 JSON 记录可能携带 note 等额外字段，继续修改时应保留。main.py 是命令行入口，ledger.py 保存便于独立验收的函数逻辑。验收测试与真实应用持久数据分离。

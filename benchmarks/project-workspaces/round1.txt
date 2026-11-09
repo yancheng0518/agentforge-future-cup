@@ -1,0 +1,6 @@
+在现有记账项目上增加按分类汇总，保留已有 add/list 命令、JSON持久化格式及旧记录的所有字段。
+在 ledger.py 增加 summarize_expenses(entries)，返回 {"total_cents":所有金额整数之和,"categories":[{"category":分类名,"total_cents":该类整数之和,"count":记录数}]}。
+categories 按分类名 Unicode 码点升序排列；空输入返回 total_cents=0 和空列表。金额单位始终是分，不转换浮点元。
+在 main.py 增加 report 命令，读取同一个 expenses.json，打印 summarize_expenses 的 JSON 返回值，不能修改文件。
+保留 add_expense、list_expenses 的既有行为；只用标准库，不引入网络或外部依赖。
+验收通过 JSON 函数接口验证核心逻辑；CLI和跨进程持久化将另用实际 Docker 应用运行验证，请明确这个验收范围。
