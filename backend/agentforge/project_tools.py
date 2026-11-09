@@ -66,6 +66,8 @@ class ProjectTools:
                                       state=prior['state'], expected_state_sha256=digest({}))
         runner = ProjectRunner(self.engine.runtime, base, registry)
         result = await runner.execute(project_id, imported['revision'], arguments['entrypoint'], arguments['args'])
+        if result.get('source_sha256') != fingerprint or result.get('candidate_sha256', fingerprint) != fingerprint:
+            raise RuntimeErrorSafe('应用工具回执源码哈希不匹配；不能贴上当前候选哈希。')
         # Even a failed application has a registered unchanged state. The next
         # tool call continues from that state, not from user's actual /data.
         marker.write_text(_json({'project_id': project_id}), encoding='utf-8')

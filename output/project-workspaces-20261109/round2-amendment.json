@@ -1,0 +1,9 @@
+{
+  "declared_before_round2_submission": true,
+  "reason": "User requested a Codex-like processing strategy during implementation. Add explicit autonomous CLI tool verification to the second round without changing feature semantics or expected application outputs.",
+  "original_requirement": "benchmarks/project-workspaces/round2.txt",
+  "additional_instruction": "完成前，请自行使用可用的 run_application 工具在本次运行的临时数据区检验 CLI：先 add 一条记录，再 report、delete --id 1、list，并检验 delete --id 999 应失败。根据真实工具返回决定是否修正；这些临时数据不得影响项目实际已有的 Lunch 和 Bus 两条数据。自由决定直接修改或是否委派子 Agent，不要求为了展示分工而创建子 Agent。",
+  "feature_expectations_unchanged": true,
+  "seeded_defect": false,
+  "test_classification": "User-requested tool checks of CLI behavior; these do not replace the frozen acceptance tests or the separate real application data checks."
+}

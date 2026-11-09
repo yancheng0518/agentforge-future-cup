@@ -22,6 +22,55 @@ const verification = (index: number, status: 'passed' | 'failed', extra = {}) =>
   candidate_hash: `hash-${index}`, candidate_origin: 'model', classification: 'natural_candidate',
   isolated: true, container_invoked: true, exit_code: status === 'passed' ? 0 : 1, ...extra })
 
+test('direct edit intent is not applied output; only main_edit records actual changed source', () => {
+  const value = run([event(1, 'created'), event(2, 'controller_decision', { index: 1, action: 'edit', summary: 'Proposed change', files: { 'main.py': 'proposed' } }),
+    event(3, 'main_edit', { changed_paths: ['main.py'], before_sha256: 'before', after_sha256: 'AFTER_ACTUAL', patch: { observed: true } })])
+  assert.deepEqual(at(value, 2).nodes[0].writePaths, [])
+  assert.equal(JSON.stringify(at(value, 2)).includes('AFTER_ACTUAL'), false)
+  assert.deepEqual(at(value, 3).nodes[0].writePaths, ['main.py'])
+  assert.match(at(value, 3).nodes[0].summary!, /尚需后续验收/)
+  assert.equal(at(value, 3).nodes.length, 1)
+})
+
+test('project tool nodes appear on actual requests and never claim exit zero means tests pass', () => {
+  const scope = { tool: 'run_application', arguments: { entrypoint: 'main.py', args: ['list'] }, candidate_sha256: 'candidate', verification_evidence: false }
+  const value = run([event(1, 'created'), event(2, 'controller_decision', { index: 1, action: 'tool', ...scope }),
+    event(3, 'tool_started', scope), event(4, 'tool_result', { ...scope, status: 'completed', result: { isolated: true, container_invoked: true, exit_code: 0, stdout: 'FUTURE_OUTPUT' } }),
+    event(5, 'tool_started', scope), event(6, 'tool_result', { ...scope, status: 'failed', error: 'Second failed' })])
+  assert.equal(at(value, 2).nodes.length, 1)
+  const pending = at(value, 3).nodes.find(node => node.id === 'tool:3')!
+  assert.equal(pending.status, 'requested'); assert.equal(pending.details.isolationConfirmed, false)
+  assert.equal(JSON.stringify(at(value, 3)).includes('FUTURE_OUTPUT'), false)
+  const complete = at(value, 4).nodes.find(node => node.id === 'tool:3')!
+  assert.equal(complete.status, 'completed'); assert.equal(complete.details.verification_evidence, false)
+  assert.match(complete.summary!, /退出码 0.*不等于验收通过/)
+  assert.equal(at(value, 4).edges.some(edge => edge.kind === 'verification'), false)
+  const both = at(value, 6).nodes.filter(node => node.kind === 'tool')
+  assert.deepEqual(both.map(node => [node.id, node.status]), [['tool:3', 'completed'], ['tool:5', 'failed']])
+})
+
+test('tool cancellation, integrity failure and missing receipts remain visibly unconfirmed', () => {
+  const scope = { tool: 'run_application', arguments: { entrypoint: 'main.py', args: [] }, candidate_sha256: 'hash' }
+  for (const ending of ['tool_interrupted', 'integrity_failure']) {
+    const value = run([event(1, 'created'), event(2, 'tool_started', scope), event(3, ending, scope), event(4, 'terminal', { status: 'blocked' })], { status: 'blocked' })
+    assert.equal(at(value, 4).nodes.find(node => node.id === 'tool:2')?.status, 'interrupted')
+  }
+  const missing = run([event(1, 'created'), event(2, 'tool_started', scope), event(3, 'terminal', { status: 'failed' })], { status: 'failed' })
+  assert.equal(at(missing, 3).nodes.find(node => node.id === 'tool:2')?.status, 'interrupted')
+  const unconfirmed = run([event(1, 'created'), event(2, 'tool_result', { ...scope, status: 'completed', result: { exit_code: 0, isolated: false } })])
+  const result = at(unconfirmed, 2).nodes.find(node => node.kind === 'tool')!
+  assert.equal(result.status, 'unconfirmed'); assert.equal(result.details.startObserved, false)
+})
+
+test('read and search results stay distinct from Docker test evidence', () => {
+  const scope = { tool: 'search_project', arguments: { query: 'foo' }, candidate_sha256: 'hash' }
+  const value = run([event(1, 'created'), event(2, 'tool_started', scope), event(3, 'tool_result', { ...scope, status: 'completed', result: { matches: [], executed_code: false } })])
+  const node = at(value, 3).nodes.find(node => node.kind === 'tool')!
+  assert.equal(node.status, 'completed'); assert.equal(node.details.isolationConfirmed, false)
+  assert.match(node.summary!, /只读查询.*未运行候选代码/)
+  assert.equal(node.details.category, 'project_tool')
+})
+
 test('event prefixes never expose final tasks, results, summary, metrics or later tests', () => {
   const value = run([
     event(1, 'created'), event(2, 'controller_decision', { index: 1, action: 'dispatch', tasks: [task('alpha')], summary: 'Plan A' }),

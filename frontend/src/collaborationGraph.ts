@@ -1,4 +1,5 @@
 import type { Event, Run } from './types'
+import { projectActivity, projectToolLabel } from './autonomous.ts'
 
 /** Every replay frame is an observed event, except an explicitly limited snapshot. */
 export interface ReplayFrame {
@@ -13,7 +14,7 @@ export interface GraphNode {
 }
 export interface GraphEdge {
   id: string; source: string; target: string;
-  kind: 'dispatch' | 'dependency' | 'verification' | 'feedback' | 'review';
+  kind: 'dispatch' | 'dependency' | 'verification' | 'feedback' | 'review' | 'tool';
   label: string; eventIds: string[];
 }
 export interface GraphSnapshot {
@@ -35,6 +36,7 @@ const count = (value: unknown) => typeof value === 'number' && Number.isSafeInte
 const terminalStates = new Set(['succeeded', 'failed', 'blocked', 'needs_human'])
 
 function validationCategory(data: Record<string, unknown>) {
+  if (data.classification === 'imported_baseline') return { category: 'imported_baseline', label: '导入项目基线' }
   if (data.classification === 'input_baseline') return { category: 'baseline', label: '初始项目基线' }
   if (data.classification === 'seeded_defect_baseline' || data.classification === 'seeded_experiment_candidate') return { category: 'seeded_defect', label: '预设缺陷实验' }
   if (data.acceptance_origin === 'model_generated') return { category: 'generated_acceptance', label: 'AI 生成验收的候选检查' }
@@ -42,6 +44,8 @@ function validationCategory(data: Record<string, unknown>) {
 }
 function describe(event: Event): { label: string; category: string } {
   const data = object(event.data)
+  const activity = projectActivity(event)
+  if (activity) return { label: activity.label + (event.type === 'tool_started' ? ' · 已请求' : event.type === 'tool_interrupted' ? ' · 中断' : event.type === 'tool_result' ? ` · ${['failed', 'blocked'].includes(string(data.status)) ? '未完成' : '已返回'}` : ''), category: event.type === 'main_edit' ? 'direct_edit' : 'project_tool' }
   if (event.type.startsWith('verification')) {
     const value = validationCategory(data)
     return { ...value, label: `${value.label} · ${event.type === 'verification_started' ? '已请求' : event.type === 'verification_interrupted' ? '中断' : data.status === 'passed' ? '通过' : data.status === 'failed' ? '未通过' : '未确认'}` }
@@ -95,7 +99,7 @@ export function buildReplay(run: Run): { frames: ReplayFrame[]; limited: boolean
     const data = object(event.data)
     if (event.type === 'plan_revision') for (const item of list(data.added)) established.add(string(object(item).id))
     if (event.type === 'dispatch') for (const item of list(data.tasks)) established.add(string(object(item).id))
-    if (['task_result', 'task_interrupted', 'integrity_failure'].includes(event.type) && !established.has(string(data.id) || string(event.node_id))) {
+    if ((['task_result', 'task_interrupted'].includes(event.type) || event.type === 'integrity_failure' && !data.tool) && !established.has(string(data.id) || string(event.node_id))) {
       return limitedReplay(run, '任务结果缺少先前的建任务或派发记录，只能查看最终记录。')
     }
   }
@@ -119,6 +123,7 @@ export function projectFrame(run: Run, frames: ReplayFrame[], cursor: number): G
   if (frames[position]?.snapshot) return finalSnapshot(run, frames[position], position)
   const nodes = new Map<string, GraphNode>(), edges = new Map<string, GraphEdge>()
   const requests = new Map<number, { nodeId: string; role: string }>()
+  const activeTools = new Map<string, string[]>()
   let lastDecision: Record<string, unknown> | null = null
   let activeContract = '', activeQuality = ''
   const ensure = (id: string, kind: GraphNode['kind'], label: string): GraphNode => {
@@ -171,6 +176,33 @@ export function projectFrame(run: Run, frames: ReplayFrame[], cursor: number): G
       if (lastDecision && lastDecision.index === decision.index) { lastDecision.rejected = true; main.details.decision = copy(lastDecision) }
       main.details.rejectedDecision = data; main.summary = string(data.reason) || event.message
       snapshot.summary = main.summary
+    }
+    if (event.type === 'main_edit') {
+      main.details.edits = [...list(main.details.edits), { ...data, eventId: String(event.id) }]
+      main.writePaths = [...new Set([...main.writePaths, ...strings(data.changed_paths)])]
+      main.summary = projectActivity(event)?.summary || event.message
+      snapshot.summary = main.summary
+    }
+    if (['tool_started', 'tool_result', 'tool_interrupted'].includes(event.type) || event.type === 'integrity_failure' && data.tool) {
+      const scope = stable({ tool: data.tool, arguments: data.arguments, candidate_sha256: data.candidate_sha256 })
+      const pending = activeTools.get(scope) ?? []
+      const started = event.type === 'tool_started'
+      const id = started ? `tool:${event.id}` : pending.pop() || `tool:result:${event.id}`
+      const node = ensure(id, 'tool', projectToolLabel(data.tool))
+      if (started) pending.push(id)
+      activeTools.set(scope, pending)
+      const result = object(data.result)
+      const confirmed = result.isolated === true && result.container_invoked === true
+      node.details = { ...data, category: 'project_tool', startObserved: started || node.details.startObserved === true,
+        isolationConfirmed: confirmed, verification_evidence: false }
+      node.status = started ? 'requested' : event.type !== 'tool_result' ? 'interrupted'
+        : ['failed', 'blocked'].includes(string(data.status)) ? string(data.status)
+          : data.tool === 'run_application' && !confirmed ? 'unconfirmed' : 'completed'
+      node.summary = projectActivity(event)?.summary || event.message
+      mark(node, event)
+      edge('main', node.id, 'tool', '请求受控项目工具', event)
+      if (!started) edge(node.id, 'main', 'feedback', '工具结果 · 非验收结论', event)
+      main.details.lastProjectTool = data
     }
     if (event.type === 'plan_revision') {
       for (const item of list(data.added)) {
@@ -274,14 +306,14 @@ export function projectFrame(run: Run, frames: ReplayFrame[], cursor: number): G
     if (event.type === 'terminal') {
       snapshot.status = string(data.status) || 'unknown'; snapshot.summary = string(data.summary) || event.message
       main.status = snapshot.status; main.summary = snapshot.summary
-      for (const node of nodes.values()) if (node.id !== 'main' && ['running', 'preparing'].includes(node.status)) {
+      for (const node of nodes.values()) if (node.id !== 'main' && ['running', 'preparing', 'requested'].includes(node.status)) {
         node.status = 'interrupted'; node.summary = '运行已结束，此节点未获完成确认'
         node.details.completionUnknown = true; mark(node, event)
       }
     }
     if (event.type === 'interrupted_recovery') {
       snapshot.status = 'blocked'; snapshot.summary = event.message; main.status = 'blocked'; main.summary = event.message
-      for (const node of nodes.values()) if (node.id !== 'main' && ['running', 'preparing'].includes(node.status)) { node.status = 'interrupted'; node.summary = '进程中断，完成情况未确认'; mark(node, event) }
+      for (const node of nodes.values()) if (node.id !== 'main' && ['running', 'preparing', 'requested'].includes(node.status)) { node.status = 'interrupted'; node.summary = '进程中断，完成情况未确认'; mark(node, event) }
     }
   }
   snapshot.nodes = [...nodes.values()]; snapshot.edges = [...edges.values()]

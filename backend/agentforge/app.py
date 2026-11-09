@@ -8,7 +8,8 @@ from typing import Literal
 
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
+from fastapi.responses import FileResponse, JSONResponse
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, ConfigDict, Field, StrictBool
 from starlette.middleware.trustedhost import TrustedHostMiddleware
 
@@ -73,6 +74,10 @@ def create_app(root=None, data_dir=None, runtime=None):
     app.state.store, app.state.engine, app.state.runtime = store, engine, runtime
     mount_autonomous(app, root, data_dir)
     origins = ["http://127.0.0.1:5173", "http://localhost:5173", "http://127.0.0.1:8000", "http://localhost:8000"]
+    ui_port = int(os.environ.get("AGENTFORGE_UI_PORT", "8000"))
+    if not 1024 <= ui_port <= 65535:
+        raise ValueError("AGENTFORGE_UI_PORT must be between 1024 and 65535")
+    origins.extend([f"http://127.0.0.1:{ui_port}", f"http://localhost:{ui_port}"])
     app.add_middleware(CORSMiddleware, allow_origins=origins, allow_methods=["GET", "POST", "PUT"], allow_headers=["Content-Type"])
     app.add_middleware(TrustedHostMiddleware, allowed_hosts=["127.0.0.1", "localhost", "testserver"])
 
@@ -212,6 +217,16 @@ def create_app(root=None, data_dir=None, runtime=None):
             store.event(run_id, "tool", "用户确认后应用候选修改", data={"tool": "apply_candidate_to_target", "output": result})
             return result
 
+    # A built UI can share the API's localhost port. This avoids Windows/WSL
+    # reserved Vite ports without widening origins or binding to the LAN.
+    frontend = root / "frontend" / "dist"
+    if (frontend / "index.html").is_file():
+        @app.get("/", include_in_schema=False)
+        async def workbench():
+            return FileResponse(frontend / "index.html", headers={"Cache-Control": "no-store"})
+
+        if (frontend / "assets").is_dir():
+            app.mount("/assets", StaticFiles(directory=frontend / "assets"), name="workbench-assets")
     return app
 
 

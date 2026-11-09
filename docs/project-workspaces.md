@@ -32,4 +32,6 @@
 
 依据 [Codex 长任务说明](https://developers.openai.com/blog/run-long-horizon-tasks-with-codex)，采用读项目、计划、编辑、执行工具、检查反馈、修正与更新记录的循环；依据[多 Agent 说明](https://developers.openai.com/api/docs/guides/agents-api/multi-agent)，独立任务可委派，短任务可由主 Agent 直接完成。
 
-项目的持久状态、真实工具反馈、可审查版本和按需分工是本次架构方向。比赛平台模型与本地 Docker 仍负责推理和执行；这不是 Codex 内部实现或能力等同声明。主 Agent 直接编辑和工具调用扩展将在下一独立提交完成并验证。
+项目的持久状态、真实工具反馈、可审查版本和按需分工是本次架构方向。比赛平台模型与本地 Docker 仍负责推理和执行；这不是 Codex 内部实现或能力等同声明。
+
+主 Agent 现可直接编辑候选、读取文件、搜索源码或调用 `run_application`，也可自行委派子 Agent。工具的 `/data` 属于本次运行专用临时状态，跨同一次运行的工具调用保留，但不会读取或更改项目真实应用数据。工具输出和修改记录进入下一轮决策与事件图；应用退出 0 不能替代冻结验收或授予完成状态。第一轮真实项目修改已观察到主 Agent 自主选择 `edit → verify → finish`，无需为了展示分工创建子 Agent。

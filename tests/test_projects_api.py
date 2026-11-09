@@ -125,3 +125,20 @@ def test_application_request_retry_returns_original_receipt_without_reexecution(
             conflict = await client.post(url, json={**body,'args':['different']})
             assert conflict.status_code == 409
     asyncio.run(scenario())
+
+
+def test_built_ui_shares_local_api_port_without_exposing_source_or_shadowing_api(tmp_path):
+    async def scenario():
+        frontend = tmp_path / 'frontend/dist'
+        (frontend / 'assets').mkdir(parents=True)
+        (frontend / 'index.html').write_text('<h1>Unit UI</h1>')
+        (frontend / 'assets/app.js').write_text('console.log("unit")')
+        (tmp_path / '.env').write_text('PRIVATE=never-serve')
+        app = create_app(tmp_path, tmp_path / 'data', StubRuntime())
+        async with httpx.AsyncClient(transport=httpx.ASGITransport(app=app), base_url='http://testserver') as client:
+            assert (await client.get('/')).text == '<h1>Unit UI</h1>'
+            assert (await client.get('/assets/app.js')).status_code == 200
+            assert (await client.get('/.env')).status_code == 404
+            assert (await client.post('/api/unknown', json={})).status_code == 404
+            assert (await client.get('/api/projects')).json() == []
+    asyncio.run(scenario())

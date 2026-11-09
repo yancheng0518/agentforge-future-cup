@@ -14,7 +14,7 @@ import time
 from uuid import uuid4
 
 from .autonomous_model import (AutonomousModel, ModelBudgetExceeded, validate_intake, validate_review,
-                               canonical_sha256, freeze_configuration, merge_acceptance)
+                               canonical_sha256, freeze_configuration, merge_acceptance, validate_project_tool)
 from .autonomous_sandbox import AutonomousSandbox, SandboxIntegrityError, _sources
 from .runtime import RuntimeErrorSafe
 from .storage import now
@@ -62,6 +62,7 @@ class AutonomousEngine:
         self.tasks = {}
         self.running = set()
         self.completion_callback = None
+        self.project_tool_callback = None
 
     def create_run(self, bundle, budget=None):
         frozen = self.sandbox.validate_bundle(bundle)
@@ -201,6 +202,9 @@ class AutonomousEngine:
                     usage=run["model_metrics"], provenance=run["bundle"]["provenance"],
                     project_revision=({k: run["project_context"][k] for k in ("id", "project_id", "number", "source_sha256")}
                                       if run.get("project_context") else None),
+                    project_actions={"edit": run.get("project_context") is not None,
+                                     "tools": ["read_file", "search_project", "run_application"]
+                                     if run.get("project_context") is not None and callable(self.project_tool_callback) else []},
                     candidate_hash=await self.sandbox.fingerprint(run_id))
 
     async def _prepare_requirement(self, run_id):
@@ -491,7 +495,11 @@ class AutonomousEngine:
     async def _action(self, run_id, decision):
         run = self.store.run(run_id)
         action = decision["action"]
-        if action == "dispatch":
+        if action == "edit":
+            await self._main_edit(run, decision)
+        elif action == "tool":
+            await self._project_tool(run, decision)
+        elif action == "dispatch":
             self._dispatch(run, decision)
             await self._wave(run_id)
         elif action == "continue":
@@ -523,6 +531,96 @@ class AutonomousEngine:
             self._save(run_id, status="needs_human", summary=decision["summary"])
         else:
             raise DecisionRejected("Unknown controller action")
+
+    async def _main_edit(self, run, decision):
+        if run.get("project_context") is None:
+            raise DecisionRejected("Direct main-Agent edits are available only for project runs")
+        if any(task["status"] in ("pending", "running") for task in run["task_graph"]):
+            raise DecisionRejected("Complete or cancel all active delegated tasks before a direct edit")
+        try:
+            files = _sources(decision.get("files"))
+            for path in files:
+                safe_path(path)
+        except (RuntimeErrorSafe, ValueError) as exc:
+            raise DecisionRejected(str(exc)) from None
+        original = await self.sandbox.read(run["id"])
+        try:
+            _sources({**original, **files})
+        except RuntimeErrorSafe as exc:
+            raise DecisionRejected(str(exc)) from None
+        before = await self.sandbox.fingerprint(run["id"])
+        changed = sorted(path for path in files if files[path] != original.get(path))
+        if changed:
+            # Invalidate before mutation so a cancelled/failed apply cannot retain
+            # evidence for the bytes that existed before the attempted edit.
+            self._save(run["id"], verified_hash=None)
+        patch = await self.sandbox.apply(run["id"], files, list(files))
+        after = await self.sandbox.fingerprint(run["id"])
+        # Apply returns trusted evidence; model summaries cannot set verification state.
+        feedback = {"kind": "main_edit", "summary": decision["summary"], "changed_paths": changed,
+                    "before_sha256": before, "after_sha256": after, "patch": deepcopy(patch)}
+        updates = {"feedback": feedback}
+        if before != after:
+            updates.update(candidate_origin="natural_candidate", verified_hash=None)
+        self._save(run["id"], **updates)
+        self.store.event(run["id"], "main_edit", "主 Agent 已直接修改候选源码", data=deepcopy(feedback))
+
+    async def _project_tool(self, run, decision):
+        if run.get("project_context") is None or not callable(self.project_tool_callback):
+            raise DecisionRejected("Project tools require a project run and an installed host callback")
+        try:
+            arguments = validate_project_tool(decision.get("tool"), decision.get("arguments"))
+        except ValueError as exc:
+            raise DecisionRejected(str(exc)) from None
+        name, run_id = decision["tool"], run["id"]
+        before = await self.sandbox.fingerprint(run_id)
+        scope = {"tool": name, "arguments": deepcopy(arguments), "candidate_sha256": before,
+                 "verification_evidence": False}
+        self.store.event(run_id, "tool_started", "主 Agent 请求受控项目工具", data={**scope, "status": "running"})
+        try:
+            returned = await self.project_tool_callback(run_id, name, deepcopy(arguments))
+            if not isinstance(returned, dict):
+                raise RuntimeErrorSafe("Project tool callback must return a result object")
+            # Detach callback-owned objects and reject oversized/unserializable output.
+            encoded = json.dumps(returned, ensure_ascii=False, allow_nan=False)
+            if len(encoded.encode()) > 65536:
+                raise RuntimeErrorSafe("Project tool result exceeds 64 KiB")
+            result = json.loads(encoded)
+            if result.get("cancelled") is True or result.get("status") == "cancelled":
+                raise asyncio.CancelledError("Project tool reported cancellation")
+            if result.get("timed_out") is True or result.get("status") in ("timeout", "timed_out"):
+                raise TimeoutError("Project tool exceeded its execution deadline")
+            if "candidate_sha256" in result and result["candidate_sha256"] != before:
+                raise RuntimeErrorSafe("Project tool result belongs to a different candidate hash")
+            after = await self.sandbox.fingerprint(run_id)
+            if after != before:
+                self._save(run_id, verified_hash=None)
+                raise SandboxIntegrityError("Project observation tool changed candidate source; verification was invalidated")
+            outcome = result.get("status")
+            feedback = {"kind": "tool_result", **scope,
+                        "status": outcome if outcome in ("blocked", "failed") else "completed", "result": result}
+            if outcome in ("blocked", "failed"):
+                feedback["recoverable"] = True
+            self._save(run_id, feedback=feedback)
+            self.store.event(run_id, "tool_result", "主 Agent 工具结果已记录，等待下一步判断", data=deepcopy(feedback))
+        except (asyncio.CancelledError, TimeoutError, ModelBudgetExceeded) as exc:
+            self._save(run_id, verified_hash=None)
+            self.store.event(run_id, "tool_interrupted", "项目工具被中断，未作为普通失败继续执行",
+                             data={**scope, "status": "blocked", "error_type": type(exc).__name__, "completion_unknown": True})
+            raise
+        except SandboxIntegrityError:
+            self.store.event(run_id, "integrity_failure", "项目工具改变了候选源码，停止运行", data=scope)
+            raise
+        except Exception as exc:
+            # Read/search/CLI failures can guide a new decision; budget/cancel cannot.
+            if await self.sandbox.fingerprint(run_id) != before:
+                self._save(run_id, verified_hash=None)
+                self.store.event(run_id, "integrity_failure", "失败的项目工具改变了候选源码，停止运行", data=scope)
+                raise SandboxIntegrityError("Failed project tool changed candidate source") from None
+            message = str(exc) if isinstance(exc, (RuntimeErrorSafe, ValueError, FileNotFoundError)) else type(exc).__name__
+            feedback = {"kind": "tool_result", **scope, "status": "failed", "error": message, "recoverable": True}
+            self._save(run_id, feedback=feedback)
+            self.store.event(run_id, "tool_result", "项目工具失败，错误已反馈给主 Agent", data=deepcopy(feedback))
 
     async def _loop(self, run_id):
         run = self.store.run(run_id)

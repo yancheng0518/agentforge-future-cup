@@ -6,13 +6,15 @@ import { Management } from './Management'
 import { getRunSummary, getTestEvidence, runTitle, runUserMessage } from './conversation'
 import { AutonomousDetails, AutonomousThread } from './AutonomousRun'
 import { CollaborationGraph } from './CollaborationGraphView'
+import { ProjectWorkspace } from './ProjectWorkspace'
+import { awaitsProjectPublication } from './projects'
 import { buildDynamicRequest, displayStatus, dynamicData, dynamicTitle, isAutonomous, mergeHistory, needsReview, normalizeAutonomous, runEndpoint } from './autonomous'
 import type { DynamicExport, DynamicRecord } from './autonomous'
 
-type View = 'tasks' | 'agents' | 'knowledge'
+type View = 'tasks' | 'projects' | 'agents' | 'knowledge'
 type Panel = 'changes' | 'validation' | 'activity' | 'project' | 'graph' | null
 const stateNames: Record<string, string> = { queued: '等待开始', running: '进行中', succeeded: '已完成', failed: '执行失败', blocked: '执行受阻', needs_human: '需要处理', pending: '待执行', skipped: '已跳过', cancelled: '已撤销' }
-const eventNames: Record<string, string> = { schedule: '分工', tool: '工具', agent: 'Agent 输出', validation: '验证', feedback: '修正反馈', status: '状态', error: '错误', snapshot: '快照', controller_decision: '主 Agent 决策', plan_revision: '计划调整', dispatch: '子 Agent 分工', task_result: '子 Agent 结果', verification: 'Docker 验收', verification_started: '准备验收', verification_interrupted: '验收中断', model_request: '模型请求', model_response: '模型响应', format_error: '格式重试', intake_started: '整理需求', intake_completed: '需求与验收已冻结', terminal: '执行结束', created: '建立任务', decision_rejected: '决定未执行', integrity_failure: '完整性检查失败', contract_review: '验收契约检查', contract_review_started: '检查验收契约', quality_review: '交付质量检查', quality_review_started: '检查交付质量', posthoc_review: '事后复核' }
+const eventNames: Record<string, string> = { schedule: '分工', tool: '工具', agent: 'Agent 输出', validation: '验证', feedback: '修正反馈', status: '状态', error: '错误', snapshot: '快照', controller_decision: '主 Agent 决策', plan_revision: '计划调整', dispatch: '子 Agent 分工', task_result: '子 Agent 结果', verification: 'Docker 验收', verification_started: '准备验收', verification_interrupted: '验收中断', model_request: '模型请求', model_response: '模型响应', format_error: '格式重试', intake_started: '整理需求', intake_completed: '需求与验收已冻结', terminal: '执行结束', created: '建立任务', decision_rejected: '决定未执行', integrity_failure: '完整性检查失败', contract_review: '验收契约检查', contract_review_started: '检查验收契约', quality_review: '交付质量检查', quality_review_started: '检查交付质量', posthoc_review: '事后复核', main_edit: '主 Agent 直接修改', tool_started: '请求项目工具', tool_result: '项目工具结果', tool_interrupted: '项目工具中断' }
 const examples = [
   { icon: 'file', text: '编写一个 CSV 销售报表工具，按地区汇总金额，并处理空行、无效金额和带引号的字段。' },
   { icon: 'sort', text: '实现区间合并工具：合并重叠或相邻的整数区间，查询某个点是否在区间内，返回窗口中的空隙。' },
@@ -23,6 +25,7 @@ const object = (value: unknown): Record<string, unknown> => value !== null && ty
 const printable = (value: unknown) => typeof value === 'string' ? value : JSON.stringify(value, null, 2)
 const timestamp = (value?: string) => value ? new Intl.DateTimeFormat('zh-CN', { month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false }).format(new Date(value)) : ''
 const selectedFromLocation = () => new URLSearchParams(window.location.hash.slice(1)).get('task')
+const projectFromLocation = () => new URLSearchParams(window.location.hash.slice(1)).get('project')
 
 function Icon({ name, size = 18 }: { name: string; size?: number }) {
   const paths: Record<string, ReactNode> = {
@@ -58,7 +61,9 @@ function Review({ step }: { step: Step }) {
 }
 
 export default function App() {
-  const [view, setView] = useState<View>('tasks')
+  const [view, setView] = useState<View>(() => projectFromLocation() !== null ? 'projects' : 'tasks')
+  const [selectedProject, setSelectedProject] = useState<string | null>(() => projectFromLocation() || null)
+  const [projectDraft, setProjectDraft] = useState('')
   const [health, setHealth] = useState<Health | null>(null)
   const [tasks, setTasks] = useState<TaskDefinition[]>([])
   const [runs, setRuns] = useState<Run[]>([])
@@ -154,7 +159,11 @@ export default function App() {
     return () => cancelAnimationFrame(frame)
   }, [panelOpen])
   useEffect(() => {
-    const navigate = () => { const id = selectedFromLocation(); selection.current = id; navigationVersion.current++; setSelectedRun(id); setRun(null); setView('tasks'); setPanel(null) }
+    const navigate = () => {
+      const id = selectedFromLocation(), projectId = projectFromLocation()
+      selection.current = id; navigationVersion.current++; setSelectedRun(id); setRun(null)
+      setSelectedProject(projectId || null); setProjectDraft(''); setView(projectId !== null ? 'projects' : 'tasks'); setPanel(null)
+    }
     window.addEventListener('hashchange', navigate)
     return () => window.removeEventListener('hashchange', navigate)
   }, [])
@@ -169,7 +178,7 @@ export default function App() {
         if (cancelled) return
         setRun(next)
         setRuns(previous => [next, ...previous.filter(item => item.id !== next.id)].sort((a, b) => b.created_at.localeCompare(a.created_at)))
-        if (['queued', 'running'].includes(next.status)) timer = setTimeout(poll, 1000)
+        if (['queued', 'running'].includes(next.status) || awaitsProjectPublication(next)) timer = setTimeout(poll, 1000)
       } catch (e) { if (!cancelled) { setError(e instanceof Error ? e.message : String(e)); timer = setTimeout(poll, 5000) } }
     }
     setRun(previous => previous?.id === selectedRun ? previous : null)
@@ -327,12 +336,29 @@ export default function App() {
     try { const evidence = await api<unknown>(runEndpoint(run.id)); download(`${run.id.replace(':', '-')}-evidence.json`, JSON.stringify(evidence, null, 2)) }
     catch (e) { setError(e instanceof Error ? e.message : String(e)) }
   }
-  function reviseRequirement() { if (run) setDraft(run.requirement + '\n\n补充说明：'); newTask() }
+  function openProject(id: string | null) {
+    selection.current = null; navigationVersion.current++; setSelectedRun(null); setRun(null)
+    setSelectedProject(id); setView('projects'); setPanel(null); setMobileNav(false); setError(''); setNotice('')
+    window.history.replaceState(null, '', `#project=${encodeURIComponent(id || '')}`)
+  }
+  function openProjectRun(record: DynamicRecord | string) {
+    setProjectDraft('')
+    if (typeof record === 'string') { selectRun(`auto:${record}`); return }
+    const next = normalizeAutonomous(record)
+    setRuns(previous => [next, ...previous.filter(item => item.id !== next.id)])
+    selectRun(next.id); setRun(next)
+  }
+  function reviseRequirement() {
+    if (run && typeof run.project_id === 'string') { setProjectDraft(run.requirement + '\n\n补充说明：'); openProject(run.project_id); return }
+    if (run) setDraft(run.requirement + '\n\n补充说明：')
+    newTask()
+  }
   function navigate(next: View) { navigationVersion.current++; setView(next); setPanel(null); setMobileNav(false); setError(''); setNotice('') }
 
   const navigation = <>
     <div className="sidebar-brand"><Icon name="forge" size={23} /><span>AgentForge</span><button className="icon-button mobile-only" aria-label="关闭导航" onClick={() => setMobileNav(false)}><Icon name="close" /></button></div>
     <button className="new-task" onClick={newTask}><Icon name="plus" /><span>新任务</span></button>
+    <button className={`nav-row ${view === 'projects' ? 'selected' : ''}`} onClick={() => { setProjectDraft(''); openProject(null) }} aria-current={view === 'projects' ? 'page' : undefined}><Icon name="folder" /><span>项目</span></button>
     <button className="nav-row" onClick={() => setSearchOpen(value => !value)} aria-expanded={searchOpen}><Icon name="search" /><span>搜索任务</span><kbd>Ctrl K</kbd></button>
     {searchOpen && <input ref={searchInput} className="history-search" aria-label="搜索历史任务" placeholder="搜索需求或任务名称" value={search} onChange={event => setSearch(event.target.value)} />}
     <div className="history-label">任务记录 <span>{runs.length}</span></div>
@@ -344,13 +370,14 @@ export default function App() {
     <aside className="sidebar desktop-sidebar" inert={modalPanelOpen}>{navigation}</aside>
     <dialog aria-label="任务导航" className="mobile-navigation" ref={mobileDialog} inert={modalPanelOpen} onCancel={() => setMobileNav(false)} onClose={() => setMobileNav(false)}>{mobileNav && navigation}</dialog>
     <div className="main-shell">
-      <header className="workspace-header" inert={modalPanelOpen}><div className="header-leading"><button className="icon-button mobile-only" aria-label="打开任务导航" onClick={() => setMobileNav(true)}><Icon name="panel" /></button><button className="project-label" onClick={() => setPanel(panel === 'project' ? null : 'project')}><Icon name="folder" size={17} /><span>{run && !autonomousRun ? '历史示例项目' : 'Python 项目'}</span><Icon name="chevron" size={12} /></button><span className="header-divider">/</span><span className="header-title">{view === 'agents' ? 'Agent 设置' : view === 'knowledge' ? '知识资料' : run ? titleOf(run) : selectedRun ? '读取任务…' : '新任务'}</span></div><button className={`environment-button ${!health?.sandbox.available ? 'warning-text' : ''}`} onClick={() => setEnvironmentOpen(value => !value)} aria-expanded={environmentOpen}><span className={`connection-dot ${health?.sandbox.available ? 'connected' : ''}`} /><span>{loading ? '连接中' : !health ? '未连接' : health.sandbox.available ? '环境就绪' : '需要启动隔离环境'}</span><Icon name="settings" size={15} /></button></header>
+      <header className="workspace-header" inert={modalPanelOpen}><div className="header-leading"><button className="icon-button mobile-only" aria-label="打开任务导航" onClick={() => setMobileNav(true)}><Icon name="panel" /></button><button className="project-label" onClick={() => view === 'projects' ? openProject(null) : setPanel(panel === 'project' ? null : 'project')}><Icon name="folder" size={17} /><span>{run && !autonomousRun ? '历史示例项目' : 'Python 项目'}</span><Icon name="chevron" size={12} /></button><span className="header-divider">/</span><span className="header-title">{view === 'projects' ? '项目工作区' : view === 'agents' ? 'Agent 设置' : view === 'knowledge' ? '知识资料' : run ? titleOf(run) : selectedRun ? '读取任务…' : '新任务'}</span></div><button className={`environment-button ${!health?.sandbox.available ? 'warning-text' : ''}`} onClick={() => setEnvironmentOpen(value => !value)} aria-expanded={environmentOpen}><span className={`connection-dot ${health?.sandbox.available ? 'connected' : ''}`} /><span>{loading ? '连接中' : !health ? '未连接' : health.sandbox.available ? '环境就绪' : '需要启动隔离环境'}</span><Icon name="settings" size={15} /></button></header>
       {environmentOpen && <section className="environment-details" aria-label="运行环境" inert={modalPanelOpen}><div><strong>运行环境</strong><button className="text-button" disabled={refreshing} onClick={() => void refresh()}><Icon name="refresh" size={14} />{refreshing ? '检查中…' : '重新检查'}</button></div><p>{health ? '后端已连接' : '后端未连接'} · {health?.sandbox.available ? 'Docker 隔离环境可用' : health?.sandbox.reason ?? '请启动项目的前后端服务。'}</p><p>{liveReady ? `默认模型：${health?.model.model}。${health?.model.verified ? '当前服务已验证模型调用。' : '已读取本地配置；实际可用性以本次调用结果为准。'}` : '真实模型尚未配置，请在本地 .env 中配置后重新连接。'}</p></section>}
       {error && <div className="message error-message" role="alert" inert={modalPanelOpen}><Icon name="alert" /><span>{error}</span><button className="text-button" onClick={() => { void refresh(); setPollVersion(value => value + 1) }}>重新连接</button><button className="icon-button" aria-label="关闭错误提示" onClick={() => setError('')}><Icon name="close" size={16} /></button></div>}
       {notice && <div className="message notice-message" role="status" inert={modalPanelOpen}><Icon name="check" /><span>{notice}</span><button className="icon-button" aria-label="关闭提示" onClick={() => setNotice('')}><Icon name="close" size={16} /></button></div>}
       <div className="workspace-content">
         <main className={`conversation-main ${!selectedRun && view === 'tasks' ? 'is-new' : ''}`} inert={modalPanelOpen}>
-          {view !== 'tasks' ? <><div className="detail-intro"><p>{view === 'agents' ? '这些设置只用于保留的历史工作流。新任务由主 Agent 按需创建子 Agent，不使用此处的固定角色。' : '这是原有工作区的知识资料；新任务的需求和验收标准会在对应运行中单独保存。'}</p></div><Management view={view} /></> : !selectedRun ? <div className="new-conversation">
+          {view === 'tasks' && run && typeof run.project_id === 'string' && <div className="project-run-return"><button className="text-button" onClick={() => { setProjectDraft(''); openProject(run.project_id as string) }}>← 返回项目与版本</button><span>{object(run.publication).status === 'saved' ? `本次修改已保存为版本 ${object(run.publication).number ?? ''}` : object(run.publication).status === 'conflict' ? '版本冲突，候选与执行记录已保留' : object(run.publication).status === 'failed' ? '版本保存失败，候选与执行记录已保留' : running ? '正在基于项目版本开发' : '查看项目当前版本与本次执行记录'}</span></div>}
+          {view === 'projects' ? <ProjectWorkspace projectId={selectedProject} initialRequirement={projectDraft} onSelectProject={id => { setProjectDraft(''); openProject(id) }} onOpenRun={openProjectRun} canDevelop={!!health && liveReady && !!health.sandbox.available} canExecute={!!health?.sandbox.available} environmentReason={!health ? '请先连接后端服务。' : !health.sandbox.available ? '请先启动 Docker 隔离环境。' : !liveReady ? '请先配置真实模型。' : ''} /> : view !== 'tasks' ? <><div className="detail-intro"><p>{view === 'agents' ? '这些设置只用于保留的历史工作流。新任务由主 Agent 按需创建子 Agent，不使用此处的固定角色。' : '这是原有工作区的知识资料；新任务的需求和验收标准会在对应运行中单独保存。'}</p></div><Management view={view} /></> : !selectedRun ? <div className="new-conversation">
             <div className="welcome"><div className="welcome-mark"><Icon name="forge" size={32} /></div><h1>想做些什么？</h1><p>描述需求，主 Agent 会拆分任务、安排协作，并根据执行结果调整计划。</p></div>
             <form className="composer" onSubmit={startRun}>
               <label className="sr-only" htmlFor="task-request">描述你的需求</label><textarea id="task-request" ref={input} value={draft} onChange={event => setDraft(event.target.value)} placeholder="描述想实现的功能、输入输出和需要注意的情况…" rows={3} maxLength={8000} onKeyDown={event => { if ((event.ctrlKey || event.metaKey) && event.key === 'Enter' && !event.nativeEvent.isComposing) { event.preventDefault(); event.currentTarget.form?.requestSubmit() } }} />
@@ -359,7 +386,7 @@ export default function App() {
             <div className="composer-guidance" aria-live="polite">{!health && !loading ? <span className="warning-text">请先连接后端服务。<button className="text-button" onClick={() => void refresh()}>重新连接</button></span> : health && !health.sandbox.available ? <span className="warning-text">隔离环境尚未就绪。<button className="text-button" onClick={() => setEnvironmentOpen(true)}>查看原因</button></span> : !liveReady && !loading ? <span className="warning-text">请配置真实模型后再开始。</span> : <span>支持 Python 标准库项目；模型调用会使用平台额度。Ctrl + Enter 发送。</span>}</div>
             {!draft.trim() && <div className="suggestions" aria-label="试试这些需求">{examples.map(example => <button key={example.text} onClick={() => useExample(example)}><Icon name={example.icon} size={19} /><span>{example.text}</span><Icon name="chevron" size={14} /></button>)}</div>}
             <p className="home-footnote">代码先保存在独立副本中，你可以查看执行记录、测试结果并导出文件。</p>
-          </div> : !run ? <div className="thread-skeleton skeleton" aria-label="正在读取任务"><i /><i /><i /><p>正在读取任务记录…</p></div> : autonomousRun ? <AutonomousThread run={run} elapsed={elapsed} onPanel={setPanel} onNewTask={newTask} onRevise={reviseRequirement} /> : <div className="conversation-thread">
+          </div> : !run ? <div className="thread-skeleton skeleton" aria-label="正在读取任务"><i /><i /><i /><p>正在读取任务记录…</p></div> : autonomousRun ? <AutonomousThread run={run} elapsed={elapsed} onPanel={setPanel} onNewTask={newTask} onRevise={reviseRequirement} onProject={typeof run.project_id === 'string' ? () => { setProjectDraft(''); openProject(run.project_id as string) } : undefined} /> : <div className="conversation-thread">
             <div className="thread-topline"><span>{timestamp(run.created_at)}</span><span className={`run-mode ${run.mode}`}>{run.mode === 'mock' ? '模拟演示 · 固定输出' : '真实模型'}{run.fault_injection === true ? ' · 预设缺陷' : ''}</span></div>
             <article className="user-message"><span className="sr-only">你的需求</span><p>{userPreview}</p>{userPreview !== userMessage && <details><summary>查看完整需求</summary><pre>{userMessage}</pre></details>}</article>
             <article className="assistant-message"><div className="assistant-heading"><span className="assistant-mark"><Icon name="forge" size={21} /></span><strong>AgentForge</strong><span>{run.mode === 'mock' ? '模拟执行记录' : '协作执行记录'}</span></div>

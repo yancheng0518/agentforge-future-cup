@@ -3,6 +3,7 @@ import type { Event, Run } from './types'
 export interface DynamicTask {
   id: string; title: string; instructions: string; depends_on: string[]; write_paths: string[];
   status: string; agent_id: string; started_at?: string; finished_at?: string;
+  profile_id?: string; profile_version?: number; profile_sha256?: string;
   result?: { summary?: string; changed_paths?: string[] }; error?: string;
 }
 export interface DynamicDecision {
@@ -126,8 +127,12 @@ export function dynamicProgress(run: Run): string {
   if (value.intake && value.intake.status !== 'completed') return '正在整理需求、接口和验收标准'
   const decision = value.controller_decisions?.at(-1)
   const lastVerification = value.verifications?.at(-1)
+  const lastActivity = [...(run.events ?? [])].reverse().find(event => ['main_edit', 'tool_started', 'tool_result', 'tool_interrupted'].includes(event.type))
+  if (decision?.action === 'edit') return lastActivity?.type === 'main_edit' ? '主 Agent 已修改代码，正在判断下一步' : '主 Agent 正在准备直接修改代码'
+  if (decision?.action === 'tool') return lastActivity?.type === 'tool_started' ? '已请求项目工具，等待实际结果' : '主 Agent 正在根据工具结果判断下一步'
   if (decision?.action === 'verify' && (!lastVerification || lastVerification.timestamp < decision.timestamp)) return '正在 Docker 中执行验收测试'
   if (lastVerification?.status === 'failed') {
+    if (lastVerification.classification === 'imported_baseline' && !value.task_graph?.length) return '项目基线检查已记录，主 Agent 正在规划本次修改'
     if (lastVerification.classification === 'input_baseline' && !value.task_graph?.length && value.intake) return '脚手架验证已完成，主 Agent 正在拆分任务'
     return '主 Agent 正在根据测试失败结果调整计划'
   }
@@ -139,6 +144,7 @@ export function dynamicResult(run: Run) {
   if (['failed', 'blocked'].includes(run.status)) return { title: failureTitle(run), tone: 'warning' }
   if (reviewProblems(run).length) return { title: hasCandidateProject(run) ? '验收存在问题，需要复核' : '验收标准尚未通过检查', tone: 'warning' }
   if (value.intake?.status === 'needs_input') return { title: '补充一些信息后继续', tone: 'warning' }
+  if (run.status === 'succeeded' && ['conflict', 'failed'].includes(String((value.publication as { status?: string } | undefined)?.status))) return { title: '开发运行已结束，项目版本尚未更新', tone: 'warning' }
   if (run.status === 'succeeded' && currentVerification(run)) return { title: '已完成，并通过本次验收', tone: 'success' }
   if (run.status === 'succeeded') return { title: '执行已结束，验收证据待核对', tone: 'warning' }
   if (run.status === 'needs_human') return { title: '需要你处理', tone: 'warning' }
@@ -146,7 +152,27 @@ export function dynamicResult(run: Run) {
   return { title: '本次任务尚未完成', tone: 'warning' }
 }
 export const actionNames: Record<string, string> = {
-  dispatch: '分配任务', continue: '继续执行', cancel: '调整任务', verify: '运行验收', finish: '完成检查', stop: '停止并说明原因',
+  dispatch: '分配任务', continue: '继续执行', cancel: '调整任务', verify: '运行验收', finish: '完成检查', stop: '停止并说明原因', edit: '直接修改代码', tool: '使用项目工具',
+}
+export function projectToolLabel(name: unknown): string {
+  return ({ read_file: '读取源码', search_project: '搜索项目', run_application: '运行候选程序' } as Record<string, string>)[String(name)] ?? '项目工具'
+}
+export function projectActivity(event: Event): { label: string; summary: string } | null {
+  const data = event.data && typeof event.data === 'object' && !Array.isArray(event.data) ? event.data as Record<string, unknown> : {}
+  if (event.type === 'main_edit') {
+    const changed = Array.isArray(data.changed_paths) ? data.changed_paths.filter(path => typeof path === 'string') : []
+    return { label: '主 Agent 直接修改', summary: changed.length ? `已修改 ${changed.join('、')}；尚需后续验收。` : '未产生源码变化。' }
+  }
+  if (!['tool_started', 'tool_result', 'tool_interrupted'].includes(event.type)) return null
+  const label = projectToolLabel(data.tool)
+  if (event.type === 'tool_started') return { label, summary: '已请求工具，等待实际结果；派发不代表执行完成。' }
+  if (event.type === 'tool_interrupted') return { label, summary: '工具已中断，完成情况未确认。' }
+  const result = data.result && typeof data.result === 'object' && !Array.isArray(data.result) ? data.result as Record<string, unknown> : {}
+  if (['blocked', 'failed'].includes(String(data.status))) return { label, summary: typeof data.error === 'string' ? data.error : typeof result.reason === 'string' ? result.reason : '工具未完成，错误已反馈给主 Agent。' }
+  if (data.tool === 'run_application') return { label, summary: result.isolated === true && result.container_invoked === true
+    ? `已收到 Docker 回执${typeof result.exit_code === 'number' ? `，退出码 ${result.exit_code}` : ''}；程序运行不等于验收通过。`
+    : '尚无完整 Docker 隔离回执；不能认定程序执行完成。' }
+  return { label, summary: '已返回只读查询结果，未运行候选代码。' }
 }
 export const dynamicStateNames: Record<string, string> = {
   queued: '等待开始', running: '执行中', pending: '待执行', succeeded: '已完成', failed: '失败', cancelled: '已撤销', blocked: '受阻', needs_human: '需要处理',
@@ -155,6 +181,7 @@ export function verificationLabel(verification: DynamicVerification, intake = fa
   if (verification.status === 'blocked' || verification.isolated !== true) return '隔离验收未获确认'
   if (verification.classification === 'seeded_defect_baseline') return '预设缺陷基线'
   if (verification.classification === 'seeded_experiment_candidate') return '预设缺陷实验候选'
+  if (verification.classification === 'imported_baseline') return '导入项目基线 · 修改前的实际代码'
   if (verification.classification === 'input_baseline') return intake ? '初始脚手架验证' : '修改前的项目基线'
   if (intake && verification.classification === 'natural_candidate' && verification.status === 'failed') return 'AI 验收下的候选，原因待核查'
   return '真实模型生成的候选'

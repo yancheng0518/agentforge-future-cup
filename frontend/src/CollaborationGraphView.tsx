@@ -8,7 +8,7 @@ type Props = { run: Run; expanded: boolean; onToggleExpanded: () => void }
 type Point = { x: number; y: number; width: number; height: number }
 type Geometry = { width: number; height: number; nodes: Record<string, Point> }
 const statusNames: Record<string, string> = {
-  queued: '等待开始', pending: '待执行', running: '执行中', preparing: '验收已请求 · 等待回执',
+  queued: '等待开始', pending: '待执行', running: '执行中', preparing: '验收已请求 · 等待回执', requested: '工具已请求 · 等待结果',
   succeeded: '已完成', passed: '通过', completed: '已完成', failed: '失败', blocked: '受阻',
   cancelled: '已撤销', needs_human: '需要处理', unknown: '尚未确认', unconfirmed: '执行未确认',
   review_required: '需复核', rejected: '未通过', proposed: '已提出', created: '已建立', stopped: '已停止',
@@ -24,6 +24,8 @@ const time = (value?: string) => {
 function toolCategory(node: GraphNode): string | null {
   if (node.kind !== 'tool') return null
   const data = node.details
+  if (data.category === 'project_tool') return '受控项目工具 · 非验收'
+  if (data.classification === 'imported_baseline') return '导入项目基线'
   if (data.classification === 'input_baseline') return data.acceptance_origin === 'model_generated' ? '初始脚手架' : '项目基线'
   if (data.classification === 'seeded_defect_baseline' || data.classification === 'seeded_experiment_candidate') return '预设缺陷'
   if (data.acceptance_origin === 'model_generated') return node.status === 'failed' ? 'AI 生成验收 · 原因待核查' : 'AI 生成验收'
@@ -46,6 +48,7 @@ function Glyph({ name }: { name: 'expand' | 'collapse' | 'previous' | 'next' | '
 
 function NodeFacts({ node }: { node: GraphNode }) {
   const details = node.details
+  const projectTool = details.category === 'project_tool', toolResult = record(details.result)
   const attestation = record(details.attestation)
   const taskResult = record(record(details.result).result)
   const requests = Array.isArray(details.requests) ? details.requests.map(record) : []
@@ -55,12 +58,20 @@ function NodeFacts({ node }: { node: GraphNode }) {
   const count = typeof details.test_count === 'number' && details.test_count > 0 ? details.test_count : null
   const failures = typeof attestation.failures === 'number' ? attestation.failures : details.failures
   const errors = typeof attestation.errors === 'number' ? attestation.errors : details.errors
-  const category = details.classification === 'input_baseline' ? '初始项目基线；未实现脚手架的失败不计为模型代码失败。'
+  const category = details.classification === 'imported_baseline' ? '修改前的真实项目源码；本轮基线结果与之后生成候选的结果分别记录。'
+    : details.classification === 'input_baseline' ? '初始项目基线；未实现脚手架的失败不计为模型代码失败。'
     : details.classification === 'seeded_defect_baseline' || details.classification === 'seeded_experiment_candidate' ? '公开预设缺陷实验，与自然失败分开记录。'
       : details.acceptance_origin === 'model_generated' ? 'AI 生成验收；测试不通过的原因仍需核查，不能仅凭失败计数认定代码有错。'
         : details.classification === 'natural_candidate' ? '真实模型候选，未注入预设缺陷。' : null
   return <div className="cg-node-facts">
-    {node.kind === 'tool' && <>
+    {node.kind === 'tool' && projectTool && <>
+      <p>这是主 Agent 的受控工具操作，结果反馈给后续决策，不计为验收通过。</p>
+      {details.tool === 'run_application' ? <><p className={details.isolationConfirmed === true ? 'cg-confirmed' : 'cg-unconfirmed'}>{details.isolationConfirmed === true ? '已收到真实 Docker 隔离回执。' : '容器执行尚未获得完整确认。'}{typeof toolResult.exit_code === 'number' ? ` 退出码 ${toolResult.exit_code}。` : ''}</p><p>应用数据仅在本次任务的临时空间延续，不读写项目正式数据。</p></> : <p>读取或搜索项目源码；没有执行候选代码。</p>}
+      {details.startObserved === false && <p className="cg-unconfirmed">记录中没有对应工具请求的起点。</p>}
+      {typeof details.error === 'string' && <p className="cg-unconfirmed">{details.error}</p>}
+      {typeof toolResult.reason === 'string' && <p className="cg-unconfirmed">{toolResult.reason}</p>}
+    </>}
+    {node.kind === 'tool' && !projectTool && <>
       <p className={details.isolationConfirmed === true ? 'cg-confirmed' : 'cg-unconfirmed'}>{details.isolationConfirmed === true ? '已收到真实 Docker 隔离执行回执。' : '容器执行尚未获得完整确认；准备或派发不等于已经运行测试。'}</p>
       <dl><div><dt>实际测试</dt><dd>{count === null ? '暂无完整计数' : `${count} 项`}</dd></div>{typeof failures === 'number' && <div><dt>失败</dt><dd>{failures} 项</dd></div>}{typeof errors === 'number' && <div><dt>错误</dt><dd>{errors} 项</dd></div>}{typeof details.exit_code === 'number' && <div><dt>退出状态</dt><dd>{details.exit_code}</dd></div>}</dl>
       {category && <p>{category}</p>}{typeof details.reason === 'string' && details.reason && <p className="cg-unconfirmed">{details.reason}</p>}

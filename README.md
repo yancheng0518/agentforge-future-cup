@@ -2,6 +2,8 @@
 
 未来杯赛题一的本地原型。按已确认的《项目策划案.md》实施，React + FastAPI + SQLite。暂定项目名称，不代表最终参赛名称。
 
+**2026-11-09 项目持续开发**：新增“项目”入口，导入现有标准库 Python 源码后，在同一项目继续提出需求、保留回归验收和不可变版本。主 Agent 可直接编辑、读文件、搜索及在 Docker 运行应用，也可按需要委派子 Agent。配置与项目资料按版本冻结并真实进入模型请求。机制与边界见 [项目工作区](docs/project-workspaces.md)，逐阶段上传与验证见 [提交记录](docs/github-progress-20261109.md)。
+
 **模型驱动编排已接入浅色对话界面（2026-11-08）**：直接输入需求，主 Agent 准备验收、动态拆任务、分配子 Agent，并按执行反馈调整计划。新任务不再选择固定角色或四类 Todo 任务。入口与边界见 [动态编排内核与复现](docs/autonomous-orchestration.md)，界面实测及全部失败见 [对话闭环验证](docs/autonomous-chat-verification.md)。旧实验与旧任务记录保留，旧“动态并行”对照不是新内核效果证据。
 
 **现已加入“查看协作图”与事件回放**：点击节点查看分工、指令、文件和真实 Docker 回执；时间轴支持逐步、播放、暂停和回到实时。已用新的文本统计任务完成真实界面闭环：2 个动态子任务、9 次请求、12/12 生成验收及 8/8 预声明独立 Docker 检查通过。首轮成功，无自然代码修正。使用、失败分类和完整证据见 [协作图验证与复现](docs/collaboration-graph-verification.md)。
@@ -39,23 +41,21 @@ powershell -ExecutionPolicy Bypass -File .\scripts\start-sandbox.ps1
 .\.venv\Scripts\python.exe scripts\preflight.py
 ```
 
-打开两个终端，均位于项目根目录：
+推荐在一个终端中启动构建后的工作台：
 
 ```powershell
-# 终端一
-powershell -ExecutionPolicy Bypass -File .\scripts\backend.ps1
+powershell -ExecutionPolicy Bypass -File .\scripts\workbench.ps1
 ```
 
-```powershell
-# 终端二
-powershell -ExecutionPolicy Bypass -File .\scripts\frontend.ps1
-```
+访问 <http://127.0.0.1:8000>，界面与 API 使用同一端口，API 文档在 <http://127.0.0.1:8000/docs>；按 Ctrl+C 停止。仅监听本机，没有部署公网，也不是多人服务。该方式避开 Windows/WSL 可能保留的 `5173` 端口，不修改系统端口保留或防火墙策略。
 
-访问 <http://127.0.0.1:5173>。API 文档在 <http://127.0.0.1:8000/docs>。两个终端分别按 Ctrl+C 停止。开发服务仅监听本机；没有部署公网，也不是多人服务。端口占用时先停掉占用服务，不要让 Vite 自动换端口后绕过后端允许来源列表。
+前端开发时仍可分别运行 `scripts/backend.ps1` 和 `scripts/frontend.ps1`，使用 `http://127.0.0.1:5173` 的热更新界面；若该端口报告 EACCES，请使用上方单端口方式。UI 代码更新后重新运行 `npm run build` 即可更新构建界面。
 
 Linux 复现可用 `python3 -m venv .venv`、`.venv/bin/python -m pip install -r backend/requirements-lock.txt`、`cd frontend && npm ci && npm run build`，然后运行 `uvicorn agentforge.app:app --app-dir backend --host 127.0.0.1 --port 8000` 和前端 `npm run dev`。**Linux 新机复现尚未实测。**
 
 ## 在界面里使用
+
+继续已有软件：打开左侧“项目”→“导入项目”→选择 Python 文件或文件夹→输入改进需求。运行结束后回到项目查看新版本、代码、测试与运行历史。“运行程序”选择入口和逐行参数，在 Docker 中使用该项目的独立持久数据。当前运行限制 15 秒、32 个数据文件/64 KiB；不支持常驻服务。版本和应用回执均可检查，不把模型总结当作测试结果。
 
 1. 打开工作台，直接描述需要的标准库 Python 功能、输入输出和边界要求。例如“制作 CSV 支出解析与分类汇总库，金额精确到分，非法数据报错”。
 2. 点击发送或按 Ctrl+Enter；Enter 换行。新入口使用真实模型与 Docker，缺少配置或隔离环境时会明确阻塞。
