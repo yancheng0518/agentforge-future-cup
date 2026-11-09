@@ -226,6 +226,8 @@ next action from the actual feedback. There is no prescribed edit/tool/delegate 
 Additional project-only action shapes are:
 {"action":"edit","summary":"specific reason for this edit","files":{"module.py":"full updated file content"}}
 {"action":"tool","summary":"what this observation will resolve","tool":"read_file","arguments":{"path":"module.py"}}
+read_file also accepts optional start_line/end_line (1-based, at most 400 lines)
+to continue after a truncated view.
 {"action":"tool","summary":"what to locate","tool":"search_project","arguments":{"query":"literal text"}}
 {"action":"tool","summary":"which CLI behavior to inspect","tool":"run_application","arguments":{"entrypoint":"cli.py","args":["--help"]}}
 Use only tools listed in context.project_actions.tools. If a tool is unavailable, do
@@ -307,8 +309,14 @@ def validate_project_tool(name, arguments):
     fields = {"read_file": {"path"}, "search_project": {"query"}, "run_application": {"entrypoint", "args"}}
     if not isinstance(name, str) or name not in fields:
         raise ValueError("Unknown project tool")
-    if not isinstance(arguments, dict) or set(arguments) != fields[name]:
+    allowed = fields[name] | ({"start_line", "end_line"} if name == "read_file" else set())
+    if not isinstance(arguments, dict) or not fields[name] <= set(arguments) or set(arguments) - allowed:
         raise ValueError("Project tool arguments have unexpected or missing fields")
+    if name == "read_file":
+        start = arguments.get("start_line", 1)
+        end = arguments.get("end_line", start + 399 if type(start) is int else 400)
+        if type(start) is not int or type(end) is not int or not 1 <= start <= end or end - start > 399:
+            raise ValueError("read_file requires 1-based ranges of at most 400 lines")
     if name in ("read_file", "run_application"):
         path = arguments["path" if name == "read_file" else "entrypoint"]
         try:

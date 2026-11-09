@@ -4,6 +4,8 @@
 
 **2026-11-09 项目持续开发**：新增“项目”入口，导入现有标准库 Python 源码后，在同一项目继续提出需求、保留回归验收和不可变版本。主 Agent 可直接编辑、读文件、搜索及在 Docker 运行应用，也可按需要委派子 Agent。配置与项目资料按版本冻结并真实进入模型请求。机制与边界见 [项目工作区](docs/project-workspaces.md)，逐阶段上传与验证见 [提交记录](docs/github-progress-20261109.md)。
 
+本轮同一记账项目经两次真实模型迭代保存到版本 3：13/13、20/20 Docker 验收通过，18 次请求、136,769 tokens、1 次格式重试、0 次自然代码失败或修复。第二轮主 Agent 自行运行 5 次 Docker 应用工具。详细证据与复现见 [连续开发验证](docs/project-workspaces-verification.md) 和 [归档恢复](docs/project-workspaces-restore.md)。
+
 **模型驱动编排已接入浅色对话界面（2026-11-08）**：直接输入需求，主 Agent 准备验收、动态拆任务、分配子 Agent，并按执行反馈调整计划。新任务不再选择固定角色或四类 Todo 任务。入口与边界见 [动态编排内核与复现](docs/autonomous-orchestration.md)，界面实测及全部失败见 [对话闭环验证](docs/autonomous-chat-verification.md)。旧实验与旧任务记录保留，旧“动态并行”对照不是新内核效果证据。
 
 **现已加入“查看协作图”与事件回放**：点击节点查看分工、指令、文件和真实 Docker 回执；时间轴支持逐步、播放、暂停和回到实时。已用新的文本统计任务完成真实界面闭环：2 个动态子任务、9 次请求、12/12 生成验收及 8/8 预声明独立 Docker 检查通过。首轮成功，无自然代码修正。使用、失败分类和完整证据见 [协作图验证与复现](docs/collaboration-graph-verification.md)。
@@ -49,6 +51,8 @@ powershell -ExecutionPolicy Bypass -File .\scripts\workbench.ps1
 
 访问 <http://127.0.0.1:8000>，界面与 API 使用同一端口，API 文档在 <http://127.0.0.1:8000/docs>；按 Ctrl+C 停止。仅监听本机，没有部署公网，也不是多人服务。该方式避开 Windows/WSL 可能保留的 `5173` 端口，不修改系统端口保留或防火墙策略。
 
+**本轮已启动的最终服务是 <http://127.0.0.1:8002>**，旧端口服务仍保留。需要自行重新启动同一端口时，先在该服务所属终端按 Ctrl+C，再执行 `powershell -ExecutionPolicy Bypass -File .\scripts\workbench.ps1 -Port 8002`。默认脚本仍使用 8000；不要重复启动占用同一端口。
+
 前端开发时仍可分别运行 `scripts/backend.ps1` 和 `scripts/frontend.ps1`，使用 `http://127.0.0.1:5173` 的热更新界面；若该端口报告 EACCES，请使用上方单端口方式。UI 代码更新后重新运行 `npm run build` 即可更新构建界面。
 
 Linux 复现可用 `python3 -m venv .venv`、`.venv/bin/python -m pip install -r backend/requirements-lock.txt`、`cd frontend && npm ci && npm run build`，然后运行 `uvicorn agentforge.app:app --app-dir backend --host 127.0.0.1 --port 8000` 和前端 `npm run dev`。**Linux 新机复现尚未实测。**
@@ -59,13 +63,13 @@ Linux 复现可用 `python3 -m venv .venv`、`.venv/bin/python -m pip install -r
 
 1. 打开工作台，直接描述需要的标准库 Python 功能、输入输出和边界要求。例如“制作 CSV 支出解析与分类汇总库，金额精确到分，非法数据报错”。
 2. 点击发送或按 Ctrl+Enter；Enter 换行。新入口使用真实模型与 Docker，缺少配置或隔离环境时会明确阻塞。
-3. 主 Agent 先拟定并审查验收方案，再动态分配子 Agent。页面显示实际任务、执行结果、Docker 测试、审查及修正记录；离开页面不会取消后台任务。
+3. 主 Agent 先拟定并审查验收方案，再根据需要直接工作或动态分配子 Agent。已有项目支持主 Agent 直接编辑和应用工具；独立“新任务”仍走动态委派路径。页面显示实际任务、执行结果、Docker 测试、审查及修正记录；离开页面不会取消后台任务。
 4. 点击“查看协作图”查看真实分工与反馈；点击节点看详情，使用时间轴回放运行。播放仅浏览已保存事件，不产生新模型调用；初始脚手架失败、AI 验收失败和格式重试分别标注。
 5. 完成后查看项目文件、验证结果，下载项目 ZIP 或完整运行记录。结果需要补充时点击“补充需求并新建任务”，会保留原运行并创建独立任务。
 
 左侧“新任务”开始独立需求，“搜索任务”或 Ctrl+K 查找新旧历史。“历史 Agent 设置”仅供旧工作流使用，不决定新任务的子 Agent。原有恢复、导出及应用功能保留在旧记录中。
 
-当前支持标准库 Python 多模块项目和 JSON 可传递的函数输入输出，不是通用网页或任意仓库开发器。范围不清或超出能力时会请求补充说明。AI 生成验收、语义审查均可能出错，测试通过不等于全部业务正确；界面标注验收来源及待复核原因。每个新需求使用独立工作区，不继承上一任务代码。旧界面实测留存在 [历史交互验证](docs/conversation-ui-verification.md)。
+当前支持标准库 Python 多模块项目和 JSON 可传递的函数输入输出，不是通用网页或任意仓库开发器。范围不清或超出能力时会请求补充说明。AI 生成验收、语义审查均可能出错，测试通过不等于全部业务正确；界面标注验收来源及待复核原因。“新任务”使用独立工作区；“项目 → 继续开发”继承选定基线源码和原有回归验收。旧界面实测留存在 [历史交互验证](docs/conversation-ui-verification.md)。
 
 ## 模型配置与实测
 

@@ -1,0 +1,47 @@
+{
+  "command": [
+    "delete",
+    "--id",
+    "1"
+  ],
+  "expected": {
+    "deleted_id": 1,
+    "remaining_count": 1
+  },
+  "expected_nonzero": false,
+  "passed": true,
+  "classification": "application_behavior_check",
+  "execution": {
+    "id": "b730aa817ade4e099dcf010852a14a7e",
+    "project_id": "4da12061fc7c43fe965b630637b86a2c",
+    "revision_id": "f0191ca23c9c4ae1b45b13ecf5be3274",
+    "created_at": "2026-11-09T06:25:49.966065+00:00",
+    "source_sha256": "123a742179c0aef9274809bbeab115a7b26de4e14c09ce83ca59f3b354f76a45",
+    "entrypoint": "main.py",
+    "args": [
+      "delete",
+      "--id",
+      "1"
+    ],
+    "kind": "application_execution",
+    "status": "succeeded",
+    "isolated": true,
+    "container_invoked": true,
+    "exit_code": 0,
+    "stdout": "{\"deleted_id\": 1, \"remaining_count\": 1}\n",
+    "stderr": "",
+    "image": "sha256:1edc3cba75dd1917bb78226e897fdb801a0272ea2e02319345de0bd3b8cae225",
+    "data_before_sha256": "c6a575d24b4d8636d43deaa809abca2d15601179df842a4eabbc8137e12bf0ae",
+    "data_after_sha256": "99084f486481ad770ebd49c936c76f9dab75993b34be891dd0c23e45e403a451",
+    "data_saved": true,
+    "reason": "",
+    "test_claim": false,
+    "runner_sha256": "7a6546518c6bdf20f5bd02422bf116f7029c5254cf438bc074c3d4070d660922",
+    "request_sha256": "82250de638a05238fa79a9adb571aa7ce31470d4831604ad524d812fb56b32b8",
+    "container_exit_code": 0,
+    "stdout_truncated": false,
+    "stderr_truncated": false,
+    "duration_ms": 6995
+  },
+  "model_calls": 0
+}

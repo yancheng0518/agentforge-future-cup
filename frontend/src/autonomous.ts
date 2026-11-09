@@ -120,6 +120,17 @@ export function dynamicProgress(run: Run): string {
   const active = value.task_graph?.filter(task => task.status === 'running') ?? []
   if (ongoing && active.length) return active.map(task => task.title).join(' · ')
   if (['failed', 'blocked'].includes(run.status)) return failureTitle(run)
+  if (ongoing) {
+    let review = ''
+    for (const event of run.events ?? []) {
+      if (event.type === 'quality_review_started') review = 'final_review'
+      else if (event.type === 'contract_review_started') review = 'contract_review'
+      else if (event.type === 'model_request') review = String((event.data as { role?: string } | null)?.role || '')
+      else if (['quality_review', 'contract_review', 'controller_decision', 'terminal'].includes(event.type)) review = ''
+    }
+    if (review === 'final_review') return '正在检查交付质量'
+    if (review === 'contract_review') return '正在检查验收契约'
+  }
   if (reviewProblems(run).length) return ongoing ? run.summary?.trim() || '检查发现问题，主 Agent 正在处理'
     : hasCandidateProject(run) ? '验收存在问题，需要复核' : '验收标准尚未通过检查'
   if (value.intake?.status === 'needs_input') return '需要补充需求'
@@ -137,7 +148,7 @@ export function dynamicProgress(run: Run): string {
     return '主 Agent 正在根据测试失败结果调整计划'
   }
   if (value.task_graph?.length) return '主 Agent 正在评估执行结果和下一步计划'
-  return run.status === 'queued' ? '等待主 Agent 开始' : '主 Agent 正在拆分任务'
+  return run.status === 'queued' ? '等待主 Agent 开始' : '主 Agent 正在判断下一步'
 }
 export function dynamicResult(run: Run) {
   const value = dynamicData(run)

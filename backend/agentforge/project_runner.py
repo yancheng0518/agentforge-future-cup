@@ -7,10 +7,12 @@ import hashlib
 import json
 from pathlib import Path
 import re
+import sqlite3
 import time
 from uuid import uuid4
 
 from .autonomous_sandbox import AutonomousSandbox, _sources, _json
+from .projects import ProjectConflictError
 from .runtime import RuntimeErrorSafe
 from .storage import now
 
@@ -75,6 +77,7 @@ class ProjectRunner:
         record = dict(id=identity, project_id=project_id, revision_id=revision['id'], created_at=now(),
                       source_sha256=digest(files), entrypoint=entrypoint, args=arguments,
                       kind='application_execution', status='blocked', isolated=False,
+                      application_completed=False, application_status='not_confirmed',
                       container_invoked=False, exit_code=None, stdout='', stderr='', image=None,
                       data_before_sha256=digest(state), data_after_sha256=digest(state), data_saved=False,
                       reason='', test_claim=False)
@@ -137,6 +140,7 @@ class ProjectRunner:
                 raise RuntimeErrorSafe('运行期间源码变化；回执不能用于该版本。')
             if receipt.get('completed') is True and type(receipt.get('exit_code')) is int:
                 record['status'] = 'succeeded' if receipt['exit_code'] == 0 else 'failed'
+                record.update(application_completed=True, application_status=record['status'])
             if record['status'] == 'succeeded' and receipt.get('state_valid') is True:
                 updated = validate_state(receipt['state'])
                 (base / 'data-after.json').write_text(_json(updated), encoding='utf-8')
@@ -161,14 +165,71 @@ class ProjectRunner:
             except (OSError, RuntimeErrorSafe, TimeoutError, asyncio.CancelledError):
                 pass
             record['duration_ms'] = round((time.monotonic() - start) * 1000)
-            # A prepared intent is not a completion claim. State and its execution
-            # receipt become authoritative together in one SQLite transaction.
-            (base / 'record-intent.json').write_text(_json(record), encoding='utf-8')
-            self.store.commit_execution(project_id, record, state=proposed_state,
-                                        expected_state_sha256=stored_state['sha256'])
-            try:
-                (base / 'record.json').write_text(_json(record), encoding='utf-8')
-            except OSError:
-                # The committed DB receipt stays true even if a derived file export fails.
-                record['file_export_failed'] = True
+            self._commit_result(project_id, base, record, proposed_state, stored_state['sha256'])
         return record
+
+    def _observe_saved_state(self, project_id, record):
+        """After a rejected/uncertain commit, never claim the old read is current."""
+        try:
+            current = self.store.application_state(project_id)
+            record.update(data_after_sha256=current['sha256'], data_after_version=current['version'],
+                          data_after_observed_at=now(), state_observation_unknown=False)
+        except (sqlite3.Error, OSError, RuntimeErrorSafe, ValueError, KeyError):
+            record.update(data_after_sha256=None, state_observation_unknown=True)
+
+    def _append_failed_commit(self, project_id, record):
+        # This is evidence-only: no proposed state is supplied or retried.
+        record.update(evidence_recorded=True, evidence_commit_unknown=False)
+        try:
+            self.store.save_execution(project_id, record)
+        except (sqlite3.Error, OSError, RuntimeErrorSafe, ValueError, KeyError) as exc:
+            record.update(evidence_recorded=False, evidence_commit_unknown=True,
+                          evidence_error_type=type(exc).__name__)
+
+    def _commit_result(self, project_id, base, record, proposed_state, expected_state_sha256):
+        """Preserve completed application evidence even if state cannot commit."""
+        intent_path = base / 'record-intent.json'
+        record.update(intent_path=intent_path.relative_to(self.directory).as_posix(),
+                      state_commit_unknown=False, evidence_recorded=True, evidence_commit_unknown=False,
+                      state_commit_status='committed' if proposed_state is not None else 'not_requested')
+        # An intent describes a proposed transaction, never a saved state or an
+        # overall successful execution. Its input hash remains the original read.
+        intent = {**record, 'kind': 'application_commit_intent', 'status': 'pending_commit',
+                  'completion_claim': False, 'state_commit_status': 'prepared',
+                  'data_saved': False, 'data_after_sha256': None, 'evidence_recorded': False,
+                  'state_write_requested': proposed_state is not None,
+                  'proposed_data_sha256': digest(proposed_state) if proposed_state is not None else None}
+        try:
+            intent_path.write_text(_json(intent), encoding='utf-8')
+        except OSError as exc:
+            # No state transaction was attempted if the prerequisite archive failed.
+            record.update(status='blocked', data_saved=False, intent_available=False,
+                          state_commit_status='not_attempted', storage_error_type=type(exc).__name__,
+                          reason='执行意图归档失败，未提交本次应用数据；请查看可用的数据库记录和本次响应。')
+            self._observe_saved_state(project_id, record)
+            self._append_failed_commit(project_id, record)
+        else:
+            record['intent_available'] = True
+            try:
+                self.store.commit_execution(project_id, record, state=proposed_state,
+                                            expected_state_sha256=expected_state_sha256)
+            except ProjectConflictError:
+                record.update(status='blocked', data_saved=False, state_commit_status='conflict',
+                              reason='应用已结束，但项目数据已被其他执行更新；本次数据未保存，未覆盖当前状态。')
+                self._observe_saved_state(project_id, record)
+                self._append_failed_commit(project_id, record)
+            except (sqlite3.Error, OSError, RuntimeErrorSafe, ValueError, KeyError) as exc:
+                # A storage error cannot establish whether a transaction committed.
+                # Keep the intent and append uncertainty if SQLite is still usable;
+                # never repeat the application or retry its proposed state write.
+                record.update(status='blocked', data_saved=False, state_commit_unknown=True,
+                              state_commit_status='unknown', storage_error_type=type(exc).__name__,
+                              reason='执行记录或应用数据的存储提交状态无法确认；请依据执行意图和数据库核查，不自动重跑应用。')
+                self._observe_saved_state(project_id, record)
+                self._append_failed_commit(project_id, record)
+        try:
+            (base / 'record.json').write_text(_json(record), encoding='utf-8')
+        except OSError:
+            # SQLite remains authoritative after a confirmed commit; this file is
+            # derived, so failure here must not relabel saved data as unsaved.
+            record['file_export_failed'] = True

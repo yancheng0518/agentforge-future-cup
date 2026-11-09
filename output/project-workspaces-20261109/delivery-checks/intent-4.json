@@ -1,0 +1,10 @@
+{
+  "revision_id": "f0191ca23c9c4ae1b45b13ecf5be3274",
+  "entrypoint": "main.py",
+  "args": [
+    "delete",
+    "--id",
+    "999"
+  ],
+  "idempotency_key": "delivery-685d53de874440fc931f8ba76787c486"
+}

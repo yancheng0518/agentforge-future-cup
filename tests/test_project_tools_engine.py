@@ -31,6 +31,15 @@ async def prepared(engine):
     return engine.store.run(run["id"])
 
 
+def test_model_read_file_schema_accepts_bounded_followup_pages():
+    args = {'path':'report.py', 'start_line':401, 'end_line':800}
+    assert validate_project_tool('read_file', args) == args
+    assert validate_project_tool('read_file', {'path':'report.py','start_line':401})['start_line'] == 401
+    for start, end in [(0,1),(1,401),(3,2),(True,4),(1,False)]:
+        with pytest.raises(ValueError):
+            validate_project_tool('read_file', {'path':'report.py','start_line':start,'end_line':end})
+
+
 def test_main_direct_edit_invalidates_finish_and_preserves_history(tmp_path):
     async def scenario():
         engine = environment(tmp_path)

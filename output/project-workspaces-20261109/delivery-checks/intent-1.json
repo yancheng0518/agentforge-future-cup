@@ -1,0 +1,8 @@
+{
+  "revision_id": "f0191ca23c9c4ae1b45b13ecf5be3274",
+  "entrypoint": "main.py",
+  "args": [
+    "report"
+  ],
+  "idempotency_key": "delivery-29b76179d40b403a934728dac30ee29b"
+}

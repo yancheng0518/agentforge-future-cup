@@ -14,7 +14,7 @@ sys.path.insert(0, str(ROOT / "backend"))
 from agentforge.project_runner import ProjectRunner, digest
 from agentforge.project_tools import ProjectTools
 from agentforge.projects import ProjectStore
-from agentforge.runtime import RuntimeErrorSafe
+from agentforge.autonomous_sandbox import SandboxIntegrityError
 
 
 class FakeSandbox:
@@ -202,17 +202,68 @@ class ProjectToolsAdapterTests(unittest.IsolatedAsyncioTestCase):
 
     async def test_candidate_change_during_tool_execution_never_returns_stale_hash(self):
         self.effects = [{"mutate_files": {"main.py": "# external edit during fake execution\n"}}]
-        with self.assertRaises(RuntimeErrorSafe):
+        with self.assertRaises(SandboxIntegrityError):
             await self.application()
         self.assertNotEqual(self.calls[0]["revision"]["source_sha256"], digest(self.sandbox.files))
         self.assert_user_state_untouched()
 
     async def test_runner_returned_source_or_candidate_hash_mismatch_is_not_relabelled(self):
+        self.effects = [{"state": {"stable": "e30="}}]
+        await self.application()
+        store, stable_project = self.scratch()
+        stable_state = store.application_state(stable_project)
         for key in ("source_sha256", "candidate_sha256"):
             with self.subTest(key=key):
                 self.effects = [{"returned": {key: "0" * 64}}]
-                with self.assertRaises(RuntimeErrorSafe):
+                call_count = len(self.calls)
+                with self.assertRaises(SandboxIntegrityError):
                     await self.application()
+                self.assertEqual(len(self.calls), call_count + 1)
+                store, current_project = self.scratch()
+                self.assertEqual(current_project, stable_project)
+                self.assertEqual(store.application_state(current_project), stable_state)
+                self.assertNotEqual(self.calls[-1]["project_id"], stable_project)
+                self.assertTrue(store.executions(self.calls[-1]["project_id"]))
+        self.assert_user_state_untouched()
+
+    async def test_unknown_state_or_evidence_commit_stops_without_advancing_scratch(self):
+        for key, run_id in (("state_commit_unknown", "run-one"),
+                            ("evidence_commit_unknown", "run-two")):
+            with self.subTest(unknown=key):
+                self.effects = [{"state": {"stable": "e30="}}]
+                await self.application(run_id)
+                store, stable_project = self.scratch(run_id)
+                stable_state = store.application_state(stable_project)
+                self.effects = [{"status": "blocked", "returned": {key: True}}]
+                call_count = len(self.calls)
+                with self.assertRaises(SandboxIntegrityError):
+                    await self.application(run_id)
+                self.assertEqual(len(self.calls), call_count + 1, "Unknown completion must not be retried by the adapter")
+                store, current_project = self.scratch(run_id)
+                self.assertEqual(current_project, stable_project)
+                self.assertEqual(store.application_state(current_project), stable_state)
+                blocked_project = self.calls[-1]["project_id"]
+                self.assertNotEqual(blocked_project, stable_project)
+                self.assertEqual(store.application_state(blocked_project)["state"], stable_state["state"])
+                records = store.executions(blocked_project)
+                self.assertEqual(records[-1]["record"]["status"], "blocked")
+                self.assertFalse(records[-1]["record"]["data_saved"])
+        self.assert_user_state_untouched()
+
+    async def test_first_unknown_commit_does_not_create_a_scratch_continuation_marker(self):
+        for key, run_id in (("state_commit_unknown", "run-one"),
+                            ("evidence_commit_unknown", "run-two")):
+            with self.subTest(unknown=key):
+                self.effects = [{"status": "blocked", "returned": {key: True}}]
+                call_count = len(self.calls)
+                with self.assertRaises(SandboxIntegrityError):
+                    await self.application(run_id)
+                self.assertEqual(len(self.calls), call_count + 1)
+                base = self.runtime._run_dir(run_id) / "application-tools"
+                self.assertFalse((base / "last-project.json").exists())
+                store = ProjectStore(base / "scratch.sqlite3")
+                self.assertTrue(store.executions(self.calls[-1]["project_id"]))
+        self.assert_user_state_untouched()
 
     async def test_unknown_tools_nonproject_runs_and_invalid_application_args_are_rejected(self):
         self.runs["not-project"] = {"id": "not-project"}

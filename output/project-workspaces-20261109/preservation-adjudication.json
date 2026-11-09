@@ -1,0 +1,12 @@
+{
+  "raw_report": "preservation-after.json",
+  "raw_check_passed": false,
+  "original_manifest_unchanged": true,
+  "historical_evidence_files_checked": 1646,
+  "historical_evidence_files_unchanged": 1646,
+  "original_database_rows_preserved": true,
+  "posthoc_scope_correction": true,
+  "excluded_mutable_runtime_disk": ".agentforge/wsl/AgentForge/ext4.vhdx",
+  "reason": "The pre-change manifest accidentally included the live WSL virtual disk. Docker execution writes that disk normally. It is environment state, not an immutable experiment record. The failed raw check is retained; no manifest or history is rewritten.",
+  "historical_evidence_preserved_after_explicit_adjudication": true
+}

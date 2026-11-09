@@ -1,8 +1,10 @@
 """Explicit fake transport tests. No candidate execution, real Docker or paid calls."""
 import asyncio
 import base64
+from contextlib import closing
 import json
 from pathlib import Path
+import sqlite3
 import sys
 
 import pytest
@@ -98,3 +100,182 @@ def test_runner_rejects_cross_project_revision_even_without_api_guard(tmp_path):
     with pytest.raises(ValueError):
         asyncio.run(runner.execute(imported['project']['id'], modified, 'main.py', []))
     assert not commands
+
+
+def test_state_cas_conflict_records_completed_app_without_overwriting_winner(tmp_path):
+    proposed, winner = {'app.json': 'WzFd'}, {'winner.json': 'WzJd'}
+    runner, imported, commands, store = setup(tmp_path, state=proposed)
+    project_id = imported['project']['id']
+    command = runner.runtime._command
+
+    async def concurrent_command(args, timeout=8):
+        result = await command(args, timeout)
+        if 'run' in args:
+            store.commit_execution(project_id, {'kind': 'concurrent-unit-winner'}, winner, digest({}))
+        return result
+
+    runner.runtime._command = concurrent_command
+    result = asyncio.run(runner.execute(project_id, imported['revision'], 'main.py', []))
+    assert result['status'] == 'blocked' and result['application_completed'] is True
+    assert result['application_status'] == 'succeeded' and result['exit_code'] == 0
+    assert result['data_saved'] is False and result['state_commit_status'] == 'conflict'
+    assert result['state_commit_unknown'] is False and result['evidence_recorded'] is True
+    assert result['data_before_sha256'] == digest({})
+    assert result['data_after_sha256'] == digest(winner)
+    assert result['data_after_version'] == 1
+    assert store.application_state(project_id)['state'] == winner
+    records = store.executions(project_id)
+    assert len(records) == 2 and records[-1]['record'] == result
+    assert sum('run' in args for args in commands) == 1
+    intent = json.loads((runner.directory / result['intent_path']).read_text(encoding='utf-8'))
+    assert intent['kind'] == 'application_commit_intent' and intent['status'] == 'pending_commit'
+    assert intent['completion_claim'] is False and intent['data_saved'] is False
+    assert intent['data_after_sha256'] is None and intent['proposed_data_sha256'] == digest(proposed)
+
+
+@pytest.mark.parametrize('seed_state', [False, True])
+def test_real_sqlite_state_write_failure_rolls_back_and_records_uncertainty(tmp_path, seed_state):
+    proposed = {'new.json': 'WzNd'}
+    runner, imported, commands, store = setup(tmp_path, state=proposed)
+    project_id = imported['project']['id']
+    if seed_state:
+        store.commit_execution(project_id, {'kind': 'unit-seed'}, {'old.json': 'e30='}, digest({}))
+    before = store.application_state(project_id)
+    action = 'UPDATE' if seed_state else 'INSERT'
+    with closing(sqlite3.connect(store.path)) as db, db:
+        db.execute(f"CREATE TRIGGER reject_state BEFORE {action} ON application_states BEGIN SELECT RAISE(ABORT,'unit storage failure'); END")
+    result = asyncio.run(runner.execute(project_id, imported['revision'], 'main.py', []))
+    assert result['status'] == 'blocked' and result['application_completed'] is True
+    assert result['application_status'] == 'succeeded'
+    assert result['data_saved'] is False and result['state_commit_unknown'] is True
+    assert result['state_commit_status'] == 'unknown' and result['storage_error_type'] == 'IntegrityError'
+    assert result['data_after_sha256'] == before['sha256']
+    assert store.application_state(project_id) == before
+    assert store.executions(project_id)[-1]['record'] == result
+    assert (runner.directory / result['intent_path']).is_file()
+    assert sum('run' in args for args in commands) == 1
+
+
+def test_unavailable_storage_returns_unknown_with_intent_and_never_retries_state(tmp_path, monkeypatch):
+    runner, imported, commands, store = setup(tmp_path, state={'new.json': 'WzRd'})
+    project_id = imported['project']['id']
+    before = store.application_state(project_id)
+    original_read = store.application_state
+    reads, commits = [], []
+
+    def unavailable_commit(project, record, state=None, expected_state_sha256=None):
+        commits.append(state)
+        raise sqlite3.OperationalError('Explicit unavailable unit database')
+
+    def unavailable_after_initial_read(project):
+        reads.append(project)
+        if len(reads) > 1:
+            raise sqlite3.OperationalError('Explicit unavailable unit database')
+        return original_read(project)
+
+    monkeypatch.setattr(store, 'commit_execution', unavailable_commit)
+    monkeypatch.setattr(store, 'application_state', unavailable_after_initial_read)
+    result = asyncio.run(runner.execute(project_id, imported['revision'], 'main.py', []))
+    assert result['status'] == 'blocked' and result['application_completed'] is True
+    assert result['data_saved'] is False and result['state_commit_unknown'] is True
+    assert result['data_after_sha256'] is None and result['state_observation_unknown'] is True
+    assert result['evidence_recorded'] is False and result['evidence_commit_unknown'] is True
+    assert len(commits) == 2 and commits[0] == {'new.json': 'WzRd'} and commits[1] is None
+    reopened = ProjectStore(store.path)
+    assert reopened.application_state(project_id) == before
+    assert reopened.executions(project_id) == []
+    assert sum('run' in args for args in commands) == 1
+    intent_path = runner.directory / result['intent_path']
+    assert intent_path.is_file()
+    archived = json.loads((intent_path.parent / 'record.json').read_text(encoding='utf-8'))
+    assert archived == result and archived['state_commit_unknown'] is True
+
+
+def test_storage_error_after_commit_is_unknown_and_reports_observed_current_hash(tmp_path, monkeypatch):
+    proposed = {'committed.json': 'WzVd'}
+    runner, imported, commands, store = setup(tmp_path, state=proposed)
+    project_id = imported['project']['id']
+    commit = store.commit_execution
+    calls = []
+
+    def ambiguous_commit(project, record, state=None, expected_state_sha256=None):
+        calls.append(state)
+        saved = commit(project, record, state, expected_state_sha256)
+        if state is not None:
+            raise OSError('Unit simulated lost confirmation after actual commit')
+        return saved
+
+    monkeypatch.setattr(store, 'commit_execution', ambiguous_commit)
+    result = asyncio.run(runner.execute(project_id, imported['revision'], 'main.py', []))
+    assert result['status'] == 'blocked' and result['state_commit_unknown'] is True
+    assert result['data_saved'] is False and result['application_status'] == 'succeeded'
+    assert result['data_after_sha256'] == digest(proposed)
+    assert store.application_state(project_id)['state'] == proposed
+    assert len(calls) == 2 and calls[1] is None
+    records = store.executions(project_id)
+    assert records[0]['record']['data_saved'] is True  # actual atomic transaction evidence
+    assert records[-1]['record']['state_commit_unknown'] is True  # caller could not confirm it
+    assert sum('run' in args for args in commands) == 1
+
+
+def test_intent_archive_failure_prevents_state_commit_and_preserves_completed_app_evidence(tmp_path, monkeypatch):
+    runner, imported, commands, store = setup(tmp_path, state={'new.json': 'WzZd'})
+    project_id = imported['project']['id']
+    before = store.application_state(project_id)
+    write = Path.write_text
+
+    def fail_intent(path, *args, **kwargs):
+        if path.name == 'record-intent.json':
+            raise OSError('Unit archive unavailable')
+        return write(path, *args, **kwargs)
+
+    monkeypatch.setattr(Path, 'write_text', fail_intent)
+    result = asyncio.run(runner.execute(project_id, imported['revision'], 'main.py', []))
+    assert result['status'] == 'blocked' and result['application_completed'] is True
+    assert result['data_saved'] is False and result['state_commit_status'] == 'not_attempted'
+    assert result['state_commit_unknown'] is False and result['intent_available'] is False
+    assert result['data_after_sha256'] == before['sha256']
+    assert store.application_state(project_id) == before
+    assert store.executions(project_id)[-1]['record'] == result
+    assert result['intent_path'].endswith('/record-intent.json')
+
+
+def test_final_file_export_failure_does_not_relabel_confirmed_database_commit(tmp_path, monkeypatch):
+    proposed = {'saved.json': 'Wzdd'}
+    runner, imported, _, store = setup(tmp_path, state=proposed)
+    project_id = imported['project']['id']
+    write = Path.write_text
+
+    def fail_final_export(path, *args, **kwargs):
+        if path.name == 'record.json':
+            raise OSError('Unit derived export unavailable')
+        return write(path, *args, **kwargs)
+
+    monkeypatch.setattr(Path, 'write_text', fail_final_export)
+    result = asyncio.run(runner.execute(project_id, imported['revision'], 'main.py', []))
+    assert result['status'] == 'succeeded' and result['data_saved'] is True
+    assert result['file_export_failed'] is True and result['state_commit_unknown'] is False
+    assert store.application_state(project_id)['state'] == proposed
+    saved = store.executions(project_id)[-1]['record']
+    assert saved['status'] == 'succeeded' and saved['data_saved'] is True
+    assert saved['state_commit_status'] == 'committed'
+
+
+def test_cancelled_application_records_interruption_without_committing_data(tmp_path):
+    runner, imported, _, store = setup(tmp_path, state={'new.json': 'Wzhd'})
+    project_id = imported['project']['id']
+    before = store.application_state(project_id)
+    command = runner.runtime._command
+
+    async def cancel_command(args, timeout=8):
+        if 'run' in args:
+            raise asyncio.CancelledError()
+        return await command(args, timeout)
+
+    runner.runtime._command = cancel_command
+    with pytest.raises(asyncio.CancelledError):
+        asyncio.run(runner.execute(project_id, imported['revision'], 'main.py', []))
+    assert store.application_state(project_id) == before
+    result = store.executions(project_id)[-1]['record']
+    assert result['status'] == 'blocked' and result['completion_unknown'] is True
+    assert result['application_completed'] is False and result['data_saved'] is False

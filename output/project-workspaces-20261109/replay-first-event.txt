@@ -1,0 +1,192 @@
+- complementary:
+  - generic: AgentForge
+  - button "新任务":
+    - generic: 新任务
+  - button "项目":
+    - generic: 项目
+  - button "搜索任务 Ctrl K":
+    - generic: 搜索任务
+    - generic: Ctrl K
+  - text: 任务记录
+  - generic: "25"
+  - navigation "任务记录":
+    - button "继续修改当前记账项目，保留已有 add/list/rep… 动态 · 已完成 · 11/09 14:21":
+      - generic: 继续修改当前记账项目，保留已有 add/list/rep…
+      - generic: 动态 · 已完成 · 11/09 14:21
+    - button "在现有记账项目上增加按分类汇总，保留已有 add/lis… 动态 · 已完成 · 11/09 14:17":
+      - generic: 在现有记账项目上增加按分类汇总，保留已有 add/lis…
+      - generic: 动态 · 已完成 · 11/09 14:17
+    - button "请创建一个标准库 Python 文本词频统计库，分为 t… 动态 · 已完成 · 11/08 22:04":
+      - generic: 请创建一个标准库 Python 文本词频统计库，分为 t…
+      - generic: 动态 · 已完成 · 11/08 22:04
+    - button "帮我做一个标准库 Python 的 CSV 支出汇总库，… 动态 · 已完成 · 11/08 21:25":
+      - generic: 帮我做一个标准库 Python 的 CSV 支出汇总库，…
+      - generic: 动态 · 已完成 · 11/08 21:25
+    - button "帮我做一个标准库 Python 的 CSV 支出汇总库，… 动态 · 需要处理 · 11/08 21:18":
+      - generic: 帮我做一个标准库 Python 的 CSV 支出汇总库，…
+      - generic: 动态 · 需要处理 · 11/08 21:18
+    - button "帮我做一个标准库 Python 的 CSV 支出汇总库，… 动态 · 执行失败 · 11/08 21:08":
+      - generic: 帮我做一个标准库 Python 的 CSV 支出汇总库，…
+      - generic: 动态 · 执行失败 · 11/08 21:08
+    - button "帮我做一个标准库 Python 的 CSV 支出汇总库，… 动态 · 执行失败 · 11/08 21:03":
+      - generic: 帮我做一个标准库 Python 的 CSV 支出汇总库，…
+      - generic: 动态 · 执行失败 · 11/08 21:03
+    - button "帮我做一个标准库 Python 的 CSV 支出汇总库，… 动态 · 需复核 · 11/08 20:50":
+      - generic: 帮我做一个标准库 Python 的 CSV 支出汇总库，…
+      - generic: 动态 · 需复核 · 11/08 20:50
+    - button "【界面验证】给待办加上完成状态和筛选 历史模拟 · 已完成 · 11/08 19:42":
+      - generic: 【界面验证】给待办加上完成状态和筛选
+      - generic: 历史模拟 · 已完成 · 11/08 19:42
+    - button "JSON 导入、导出与原子合并 历史 · 已完成 · 11/08 17:09":
+      - generic: JSON 导入、导出与原子合并
+      - generic: 历史 · 已完成 · 11/08 17:09
+    - button "优先级与稳定分页查询 历史 · 已完成 · 11/08 17:08":
+      - generic: 优先级与稳定分页查询
+      - generic: 历史 · 已完成 · 11/08 17:08
+    - button "批量编辑与原子更新 历史 · 已完成 · 11/08 17:07":
+      - generic: 批量编辑与原子更新
+      - generic: 历史 · 已完成 · 11/08 17:07
+    - button "完成状态与筛选 历史 · 已完成 · 11/08 17:06":
+      - generic: 完成状态与筛选
+      - generic: 历史 · 已完成 · 11/08 17:06
+    - button "JSON 导入、导出与原子合并 历史 · 执行失败 · 11/08 16:58":
+      - generic: JSON 导入、导出与原子合并
+      - generic: 历史 · 执行失败 · 11/08 16:58
+    - button "优先级与稳定分页查询 历史 · 执行失败 · 11/08 16:57":
+      - generic: 优先级与稳定分页查询
+      - generic: 历史 · 执行失败 · 11/08 16:57
+    - button "批量编辑与原子更新 历史 · 执行失败 · 11/08 16:56":
+      - generic: 批量编辑与原子更新
+      - generic: 历史 · 执行失败 · 11/08 16:56
+    - button "完成状态与筛选 历史 · 已完成 · 11/08 16:55":
+      - generic: 完成状态与筛选
+      - generic: 历史 · 已完成 · 11/08 16:55
+    - button "JSON 导入、导出与原子合并 历史 · 执行失败 · 11/08 16:54":
+      - generic: JSON 导入、导出与原子合并
+      - generic: 历史 · 执行失败 · 11/08 16:54
+    - button "优先级与稳定分页查询 历史 · 执行失败 · 11/08 16:53":
+      - generic: 优先级与稳定分页查询
+      - generic: 历史 · 执行失败 · 11/08 16:53
+    - button "批量编辑与原子更新 历史 · 已完成 · 11/08 16:50":
+      - generic: 批量编辑与原子更新
+      - generic: 历史 · 已完成 · 11/08 16:50
+    - button "完成状态与筛选 历史 · 执行失败 · 11/08 16:48":
+      - generic: 完成状态与筛选
+      - generic: 历史 · 执行失败 · 11/08 16:48
+    - button "增加任务完成状态，并支持按照完成状态筛选任务。 历史 · 需要处理 · 11/08 15:57":
+      - generic: 增加任务完成状态，并支持按照完成状态筛选任务。
+      - generic: 历史 · 需要处理 · 11/08 15:57
+    - button "增加任务完成状态，并支持按照完成状态筛选任务。 历史 · 已完成 · 11/08 15:54":
+      - generic: 增加任务完成状态，并支持按照完成状态筛选任务。
+      - generic: 历史 · 已完成 · 11/08 15:54
+    - button "增加任务完成状态，并支持按照完成状态筛选任务。 历史模拟 · 执行受阻 · 11/08 14:28":
+      - generic: 增加任务完成状态，并支持按照完成状态筛选任务。
+      - generic: 历史模拟 · 执行受阻 · 11/08 14:28
+    - button "增加任务完成状态，并支持按照完成状态筛选任务。 历史模拟 · 已完成 · 11/08 14:21":
+      - generic: 增加任务完成状态，并支持按照完成状态筛选任务。
+      - generic: 历史模拟 · 已完成 · 11/08 14:21
+  - button "历史 Agent 设置":
+    - generic: 历史 Agent 设置
+  - button "知识资料":
+    - generic: 知识资料
+  - generic: AF
+  - text: 本地工作区
+  - generic: Python 隔离开发
+  - generic "本地服务已连接"
+- banner:
+  - button "Python 项目":
+    - generic: Python 项目
+  - generic: /
+  - generic: 继续修改当前记账项目，保留已有 add/list/rep…
+  - button "环境就绪":
+    - generic: 环境就绪
+- main:
+  - button "← 返回项目与版本"
+  - generic: 本次修改已保存为版本 3
+  - generic: 2026/11/9 14:21:03
+  - generic: 真实模型 · 项目迭代
+  - article:
+    - generic: 你的需求
+    - paragraph: 继续修改当前记账项目，保留已有 add/list/report 和分类汇总行为，新增删除单条记录。 在 ledger.py 实现 delete_expense(entries, expense_id)：expense_id 必须是正整数，布尔值、非整数或非正数抛 ValueError；ID不存在抛 KeyError；存…
+    - generic "展开完整需求"
+  - article:
+    - generic: A
+    - strong: AgentForge
+    - generic: 主 Agent 与按需创建的子 Agent
+    - status:
+      - generic: 本次执行已结束
+      - generic: 1 分 34 秒
+    - generic "项目基线与本次协作配置"
+    - button "查看协作图"
+    - generic "› 主 Agent 的修改与工具操作 11 条实际记录":
+      - generic: › 主 Agent 的修改与工具操作
+      - generic: 11 条实际记录
+    - generic "需求理解与接口约定"
+    - region "实际测试进度":
+      - heading "Docker 测试" [level=3]
+      - button "查看详情"
+      - text: 第 1 次验收
+      - generic: 导入项目基线 · 修改前的实际代码
+      - strong: 未通过 · 0 失败 / 7 错误
+      - text: 第 2 次验收
+      - generic: 真实模型生成的候选
+      - strong: 通过 · 20 项
+    - generic "› 主 Agent 的计划与调整 8 次决定":
+      - generic: › 主 Agent 的计划与调整
+      - generic: 8 次决定
+    - heading "已完成，并通过本次验收" [level=2]
+    - paragraph: "当前候选哈希 123a7421… 的独立 Docker 验收已通过：20 个冻结测试全部通过（含 delete_expense 的布尔/非整数/非正数 ValueError、缺失 ID KeyError、不修改输入、保留顺序与额外字段，以及原有 add/list/report 与分类汇总回归）。ledger.py 已实现 delete_expense，main.py 已新增 delete --id 子命令，成功写回同一 expenses.json 并打印 {\"deleted_id\",\"remaining_count\"}，失败经异常传播非零退出且不写文件。此前已在本次运行临时数据区按用户要求实测 add→report→delete --id 1→list，以及 delete --id 999 非零失败且文件未变；临时数据隔离于 /data，不影响项目实际 Lunch 与 Bus 数据。仅用标准库。"
+    - button "Docker 验收通过 · 20 项":
+      - generic: Docker 验收通过 · 20 项
+    - button "查看代码"
+    - button "查看验证结果"
+    - paragraph: 候选保存在独立副本中。验收标准由 AI 生成，测试通过仍需要结合需求检查结果。
+    - button "查看完整执行记录 69":
+      - text: 查看完整执行记录
+      - generic: "69"
+    - generic: 12 次真实模型请求
+    - generic: 96,635 tokens
+    - generic: 格式重试 1 次
+  - strong: 继续改进这个项目
+  - paragraph: 返回项目查看当前版本、运行程序或提出下一项需求。
+  - button "返回项目"
+- dialog "任务详情":
+  - navigation "详情视图":
+    - button "修改"
+    - button "验证"
+    - button "协作图"
+    - button "过程"
+    - button "项目"
+  - button "关闭详情":
+  - region "真实执行协作图":
+    - heading "任务如何推进" [level=2]
+    - paragraph: 从已保存的执行事件查看分工、依赖与反馈。
+    - button "收起视图":
+      - text: 收起视图
+    - group "协作视图":
+      - button "协作图" [pressed]
+      - button "事件记录"
+    - generic: 历史回放
+    - generic "事件回放控制":
+      - generic: 事件 1 / 69
+      - time: 14:21:03
+      - slider "选择回放事件" [active]: "0"
+      - button "上一个事件" [disabled]:
+        - generic: 上一步
+      - button "播放事件回放":
+        - text: 播放
+      - button "下一个事件":
+        - generic: 下一步
+      - button "回到实时"
+      - paragraph: 减少动态效果已启用，回放逐条切换，无过渡动画。播放仅浏览已有事件，每秒一条，不会重试任务或调用模型。
+    - generic: 建立运行
+    - generic: "来源事件 #224"
+    - generic "任务关系图，可滚动查看":
+      - button "主 Agent 主 Agent 待执行":
+        - text: 主 Agent
+        - strong: 主 Agent
+        - generic: 待执行
+    - paragraph: 箭头表示派发、依赖、工具或反馈关系。位置不代表同时执行，也不是 Agent 私聊记录。
+    - complementary "选中节点详情":
+      - heading "这个节点尚未出现" [level=3]
+      - paragraph: 选择已保留；回放到对应派发事件后可继续查看。

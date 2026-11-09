@@ -6,6 +6,7 @@ the input database. The sole write is a new explicitly named JSON audit report.
 from __future__ import annotations
 
 import argparse
+import ast
 from collections import Counter
 import hashlib
 import json
@@ -68,6 +69,280 @@ def _read_row(body):
     return value
 
 
+def _acceptance_parts(source, depth=0):
+    """Read the frozen suite inventory as AST data; never execute/import it."""
+    if not source:
+        return []
+    if not isinstance(source, str) or depth > 8 or len(source.encode()) > 65536:
+        raise ValueError("Invalid or deeply nested acceptance inventory")
+    tree = ast.parse(source)
+    manifests = [n for n in tree.body if isinstance(n, ast.Assign)
+                 and any(isinstance(t, ast.Name) and t.id == "_AGENTFORGE_SUITE_PARTS" for t in n.targets)]
+    if manifests:
+        if len(manifests) != 1:
+            raise ValueError("Ambiguous acceptance manifest")
+        parts = ast.literal_eval(manifests[0].value)
+        if not isinstance(parts, list) or not 1 <= len(parts) <= 64:
+            raise ValueError("Invalid acceptance parts")
+        result = []
+        for part in parts:
+            if not isinstance(part, dict) or set(part) != {"source", "count"}:
+                raise ValueError("Invalid acceptance part")
+            nested = _acceptance_parts(part["source"], depth + 1)
+            if sum(p["count"] for p in nested) != part["count"]:
+                raise ValueError("Acceptance part count differs from source")
+            result.extend(nested)
+        return result
+    classes = [n for n in tree.body if isinstance(n, ast.ClassDef)]
+    if len({c.name for c in classes}) != len(classes):
+        raise ValueError("Duplicate acceptance class names")
+    count = 0
+    for cls in classes:
+        if any(isinstance(b, ast.Attribute) and isinstance(b.value, ast.Name)
+               and b.value.id == "unittest" and b.attr == "TestCase" for b in cls.bases):
+            names = [n.name for n in cls.body if isinstance(n, ast.FunctionDef) and n.name.startswith("test_")]
+            if len(names) != len(set(names)):
+                raise ValueError("Duplicate acceptance method names")
+            count += len(names)
+    if not count:
+        raise ValueError("No statically inventoried acceptance tests")
+    return [{"source": source, "count": count}]
+
+
+def _request_context(record):
+    return json.loads(record["request"]["messages"][1]["content"])["context"]
+
+
+def _project_contract(run, output, check):
+    """Compare a project bundle with its imported revision plus accepted additions."""
+    revision, bundle = run["project_context"], run["bundle"]
+    original, added = revision["files"], output["files"]
+    check(not ({p.casefold() for p in original} & {p.casefold() for p in added}),
+          "Project intake overwrote an imported source path")
+    check(bundle.get("files") == {**original, **added}, "Project bundle differs from imported source plus accepted new scaffolds")
+    old_parts = _acceptance_parts(revision.get("acceptance", ""))
+    new_parts = _acceptance_parts(output["acceptance"])
+    actual_parts = _acceptance_parts(bundle["acceptance"])
+    check(actual_parts == old_parts + new_parts, "Project acceptance lost or changed regression/new suite source")
+    manifest = {"regression_test_count": sum(p["count"] for p in old_parts),
+                "new_test_count": sum(p["count"] for p in new_parts),
+                "total_test_count": sum(p["count"] for p in actual_parts),
+                "parts": [{"sha256": digest(p["source"]), "count": p["count"],
+                           "origin": "regression" if i < len(old_parts) else "new_requirement"}
+                          for i, p in enumerate(old_parts + new_parts)]}
+    check(3 <= manifest["new_test_count"] <= 12, "Project intake does not contain 3 to 12 new tests")
+    check(run.get("acceptance_manifest") == manifest, "Project acceptance manifest differs from independently inventoried suites")
+    check(run.get("intake", {}).get("regression_manifest") == manifest, "Project intake regression manifest differs from frozen acceptance")
+
+
+def _project_configuration(run, records, events, check):
+    revision = run["project_context"]
+    check(digest(canonical(revision["files"])) == revision.get("source_sha256"), "Imported project source hash mismatch")
+    check(run.get("project_id") == revision.get("project_id") and run.get("base_revision_id") == revision.get("id"),
+          "Run project identity differs from frozen revision")
+    profiles, documents = run.get("profile_snapshot", []), run.get("knowledge_snapshot", [])
+    check(digest(canonical({"profiles": profiles, "knowledge": documents})) == run.get("configuration_sha256"), "Frozen project configuration hash mismatch")
+    profile_by_id, doc_by_id = {p["id"]: p for p in profiles}, {d["id"]: d for d in documents}
+    check(len(profile_by_id) == len(profiles) and len(doc_by_id) == len(documents), "Duplicate frozen configuration identities")
+    for profile in profiles:
+        business = {k: profile[k] for k in ("name", "description", "prompt", "capabilities", "enabled")}
+        check(digest(canonical(business)) == profile.get("sha256"), "Frozen profile version content hash mismatch")
+    for doc in documents:
+        check(digest(canonical({k: doc[k] for k in ("title", "content")})) == doc.get("sha256"), "Frozen knowledge version content hash mismatch")
+    frozen = [e.get("data", {}) for e in events if e.get("type") == "project_revision_frozen"]
+    expected = {"project_id": revision["project_id"], "revision_id": revision["id"], "number": revision["number"],
+                "source_sha256": revision["source_sha256"], "configuration_sha256": run.get("configuration_sha256"),
+                "profiles": [{k: p[k] for k in ("id", "version", "sha256", "enabled")} for p in profiles],
+                "knowledge": [{k: d[k] for k in ("id", "version", "sha256")} for d in documents]}
+    check(frozen == [expected], "Frozen project/configuration event differs from run snapshot")
+    tasks = {t["id"]: t for t in run.get("task_graph", [])}
+    for record in records:
+        context = _request_context(record)
+        configuration = context["configuration"]
+        check(record.get("configuration_sha256") == run.get("configuration_sha256"), "Request configuration hash differs from frozen project configuration")
+        check(record.get("request", {}).get("model") == run.get("model_config", {}).get("model"), "Project request changed the frozen model")
+        if record.get("role") == "intake":
+            check(context.get("project") == revision["files"], "Project intake request did not receive imported source")
+        expected_catalog = [{k: p[k] for k in ("id", "version", "name", "description", "capabilities", "sha256", "enabled")} for p in profiles]
+        check(configuration.get("profiles") == expected_catalog, "Model request profile catalog differs from frozen configuration")
+        selected = configuration.get("selected_profile")
+        assigned = tasks.get(record.get("task_id"), {}) if record.get("role") == "worker" else {}
+        expected_profile = profile_by_id.get(assigned.get("profile_id"))
+        check(selected == expected_profile, "Worker request did not receive its assigned frozen profile")
+        if expected_profile:
+            check(expected_profile.get("enabled") is True, "Worker used a disabled frozen profile")
+            check(assigned.get("profile_version") == expected_profile["version"] and assigned.get("profile_sha256") == expected_profile["sha256"], "Task profile identity differs from frozen version")
+        metadata = {k: selected[k] for k in ("id", "version", "sha256")} if selected else None
+        check(record.get("profile") == metadata and record.get("profile_model_policy") == "inherits_run_model", "Request profile evidence differs from actual payload")
+        matches = configuration.get("knowledge", [])
+        check(len(matches) <= 4, "Knowledge retrieval exceeds bounded context count")
+        for match in matches:
+            doc = doc_by_id.get(match.get("id"), {})
+            check(all(match.get(k) == doc.get(k) for k in ("id", "version", "title", "sha256")), "Retrieved knowledge identity differs from frozen version")
+            start, excerpt = match.get("excerpt_start"), match.get("excerpt")
+            check(type(start) is int and start >= 0 and isinstance(excerpt, str) and len(excerpt) <= 2400
+                  and doc.get("content", "")[start:start + len(excerpt)] == excerpt,
+                  "Retrieved knowledge excerpt differs from frozen content")
+        references = [{k: m[k] for k in ("id", "version", "sha256", "citation")} for m in matches]
+        check(record.get("knowledge_references") == references, "Request knowledge references differ from actual payload")
+        check(any(e.get("type") == "knowledge_retrieved" and e.get("data", {}).get("role") == record.get("role")
+                  and e.get("node_id") == record.get("task_id") and e.get("data", {}).get("matches") == matches for e in events),
+              "Request knowledge excerpts lack a matching retrieval event")
+
+
+def _project_actions(run, records, events, base, counts, check, warning):
+    """Replay evidence boundaries, not Python code or model decisions."""
+    current = deepcopy_json((run.get("bundle") or {}).get("files", run["project_context"]["files"]))
+    current_hash, verified = digest(canonical(current)), None
+    active, pending, interrupted = None, None, False
+    origin, source_history_complete = "imported_baseline", True
+    outcomes = set()
+    workers = {r.get("task_id"): r.get("output", {}) for r in records if r.get("role") == "worker" and r.get("status") == "accepted"}
+    allowed = {"read_file", "search_project", "run_application"}
+
+    def applied(patch, proposal, label):
+        nonlocal current, current_hash
+        snapshot = _read_json(_contained(base, patch["snapshot"]))
+        expected = {**current, **proposal}
+        expected_hash = digest(canonical(expected))
+        changed = sorted(path for path in proposal if proposal[path] != current.get(path))
+        check(snapshot.get("action") == "applied", label + " is not backed by an applied source snapshot")
+        check(snapshot.get("files") == expected, label + " source snapshot differs from accepted file proposal")
+        check(snapshot.get("before_sha256") == current_hash, label + " snapshot before hash breaks source continuity")
+        check(snapshot.get("candidate_sha256") == patch.get("candidate_sha256") == expected_hash, label + " snapshot after hash mismatch")
+        check(snapshot.get("changed_paths") == changed, label + " snapshot changed paths mismatch")
+        current, current_hash = expected, expected_hash
+        return changed
+
+    for event in events:
+        kind, data = event.get("type"), event.get("data", {})
+        if kind == "controller_decision":
+            if interrupted:
+                check(False, "Controller continued after a timed out or cancelled project tool")
+            if active and active.get("action") in {"edit", "tool"}:
+                check(active.get("index") in outcomes, "Project action advanced without a result or explicit rejection")
+            active = data
+        elif kind == "decision_rejected":
+            rejected = data.get("decision", {})
+            outcomes.add(rejected.get("index"))
+        elif kind == "main_edit":
+            counts["main_edits"] += 1
+            check(active is not None and active.get("action") == "edit", "Main edit lacks a corresponding controller edit decision")
+            if not active or active.get("action") != "edit":
+                continue
+            check(active.get("index") not in outcomes, "One edit decision produced duplicate main_edit outcomes")
+            before = current_hash
+            check(data.get("before_sha256") == before, "Main edit before hash differs from current candidate")
+            changed = applied(data["patch"], active["files"], "Main edit")
+            check(data.get("changed_paths") == changed and data.get("after_sha256") == current_hash,
+                  "Main edit event differs from its source snapshot")
+            if before != current_hash:
+                verified = None
+                origin = "natural_candidate"
+            outcomes.add(active.get("index"))
+        elif kind == "task_result" and data.get("status") == "succeeded":
+            task_id = data.get("id") or event.get("node_id")
+            proposal = workers.get(task_id, {}).get("files", {})
+            patch = data.get("result", {}).get("patch")
+            if patch:
+                applied(patch, proposal, "Worker edit")
+            if proposal:
+                verified = None
+                origin = "natural_candidate"
+        elif kind == "verification":
+            check(data.get("candidate_hash") == current_hash, "Verification is not bound to the candidate reconstructed from edits")
+            check(data.get("candidate_origin") == data.get("classification") == origin,
+                  "Project verification origin differs from committed source-edit history")
+            verified = current_hash if data.get("status") == "passed" else None
+        elif kind == "tool_started":
+            counts["project_tools_started"] += 1
+            check(pending is None, "Project tool started before the previous tool had a result")
+            check(active is not None and active.get("action") == "tool", "Project tool start lacks a controller tool decision")
+            check(data.get("tool") in allowed, "Unknown project tool was executed")
+            check(data.get("candidate_sha256") == current_hash and data.get("verification_evidence") is False,
+                  "Project tool start has a stale source hash or claims acceptance authority")
+            if active:
+                check(data.get("tool") == active.get("tool") and data.get("arguments") == active.get("arguments"),
+                      "Project tool call differs from accepted controller arguments")
+            pending = (active, data)
+        elif kind in {"tool_result", "tool_interrupted"}:
+            check(pending is not None, "Project tool result or interruption lacks a matching start")
+            if pending is None:
+                continue
+            decision, start = pending
+            check(all(data.get(k) == start.get(k) for k in ("tool", "arguments", "candidate_sha256")),
+                  "Project tool result scope differs from its start")
+            check(data.get("candidate_sha256") == current_hash and data.get("verification_evidence") is False,
+                  "Project tool result has a stale source hash or claims acceptance authority")
+            if kind == "tool_interrupted":
+                counts["project_tools_interrupted"] += 1
+                check(data.get("status") == "blocked" and data.get("completion_unknown") is True,
+                      "Interrupted project tool lacks an explicit unknown-completion state")
+                verified, interrupted = None, True
+            else:
+                counts["project_tools_completed"] += 1
+                counts["project_tools_failed"] += int(data.get("status") in {"failed", "blocked"})
+                result = data.get("result")
+                if result is not None:
+                    check(isinstance(result, dict), "Project tool result is not an object")
+                    if isinstance(result, dict):
+                        check("candidate_sha256" not in result or result["candidate_sha256"] == current_hash,
+                              "Project tool receipt belongs to another candidate")
+                        check("source_sha256" not in result or result["source_sha256"] == current_hash,
+                              "Application execution source hash differs from its tool invocation")
+                        check(not result.get("timed_out") and not result.get("cancelled")
+                              and result.get("status") not in {"timeout", "timed_out", "cancelled"},
+                              "Tool timeout or cancellation was disguised as an ordinary result")
+                        if start.get("tool") == "run_application" and result.get("exit_code") == 0 and result.get("status") == "succeeded":
+                            counts["successful_application_tools"] += 1
+                            check(result.get("isolated") is True and result.get("container_invoked") is True,
+                                  "Successful application tool lacks actual isolated execution evidence")
+                else:
+                    check(data.get("status") == "failed" and bool(data.get("error")), "Project tool result lacks output or an explicit error")
+            if decision:
+                outcomes.add(decision.get("index"))
+            pending = None
+        elif kind == "integrity_failure":
+            verified, interrupted, source_history_complete = None, True, False
+            check(run.get("status") != "succeeded", "Project succeeded despite an unresolved integrity failure")
+            warning("Project source integrity failed; last committed edits do not establish subsequent source state")
+        elif kind == "terminal":
+            check(data.get("status") == run.get("status") and data.get("summary") == run.get("summary"),
+                  "Terminal project event differs from final run state")
+            check(data.get("publication") == run.get("publication"), "Terminal event omitted or changed project publication result")
+    if pending:
+        counts["project_tools_unknown"] += 1
+        if run.get("status") in {"running", "queued", "blocked", "failed", "needs_human"}:
+            warning("Project tool has no committed result; completion remains unknown")
+        else:
+            check(False, "Successful project run has an uncompleted tool invocation")
+    if active and active.get("action") in {"edit", "tool"} and active.get("index") not in outcomes:
+        if run.get("status") == "succeeded":
+            check(False, "Successful project run ended with an uncommitted edit/tool action")
+        else:
+            warning("Last project action has no committed outcome; do not infer it completed")
+            if active.get("action") == "edit":
+                # The host invalidates before applying. Cancellation can occur
+                # between that save and the applied snapshot / main_edit event.
+                source_history_complete = False
+                if run.get("verified_hash") is None:
+                    verified = None
+    check(run.get("verified_hash") == verified, "Project retained stale verification or treated a tool result as acceptance")
+    publication = run.get("publication") or {}
+    if publication.get("status") == "saved":
+        check(publication.get("source_sha256") == current_hash, "Published project source hash differs from final candidate")
+    if publication.get("status") == "failed":
+        check(any(e.get("type") == "publication_failed" and e.get("data") == publication for e in events),
+              "Failed publication lacks its retained failure event")
+    return {"replayed_candidate_sha256": current_hash, "source_history_complete": source_history_complete,
+            "last_independent_verified_hash": verified,
+            "publication": publication, "tool_results_are_acceptance": False}
+
+
+def deepcopy_json(value):
+    return json.loads(json.dumps(value, ensure_ascii=False))
+
+
 def audit(data_dir, secret=""):
     data_dir = Path(data_dir).resolve()
     database = _read_database(data_dir)
@@ -81,6 +356,9 @@ def audit(data_dir, secret=""):
                       "seeded_candidate_failures", "natural_repair_runs", "seeded_repair_runs",
                       "generated_acceptance_candidate_failures", "generated_acceptance_repair_runs",
                       "posthoc_rejected_runs", "quality_rejected_runs",
+                      "imported_baseline_verifications", "imported_baseline_failures", "main_edits",
+                      "project_tools_started", "project_tools_completed", "project_tools_failed",
+                      "project_tools_interrupted", "project_tools_unknown", "successful_application_tools",
                       "unlinked_validation_results")
     aggregate.update({key: 0 for key in aggregate_keys})
 
@@ -107,6 +385,8 @@ def audit(data_dir, secret=""):
         events = database["events"].get(run_id, [])
         steps = database["steps"].get(run_id, [])
         snapshots = database["snapshots"].get(run_id, [])
+        project = run.get("project_context") if isinstance(run.get("project_context"), dict) else None
+        project_evidence = None
         run_issue_start = len(issues)
         check(run_id, run.get("engine") == "model-directed-v1", "Unexpected orchestration engine revision")
         check(run_id, run.get("mode") == "live", "Run is not labelled live")
@@ -214,8 +494,14 @@ def audit(data_dir, secret=""):
                 expected_status = "ready" if bundle or contract_rejected else "needs_input"
                 check(run_id, output.get("status") == expected_status, "Intake status differs from accepted model response")
                 if bundle:
-                    check(run_id, bundle.get("files") == output.get("files") and bundle.get("acceptance") == output.get("acceptance"),
-                          "Frozen bundle differs from accepted intake scaffold or tests")
+                    if project is not None:
+                        try:
+                            _project_contract(run, output, lambda condition, label: check(run_id, condition, label))
+                        except (ValueError, KeyError, TypeError, SyntaxError, AttributeError):
+                            issue(run_id, "Frozen project intake/regression contract cannot be independently inventoried")
+                    else:
+                        check(run_id, bundle.get("files") == output.get("files") and bundle.get("acceptance") == output.get("acceptance"),
+                              "Frozen bundle differs from accepted intake scaffold or tests")
                     check(run_id, intake.get("specification") == output.get("specification"), "Frozen specification differs from intake response")
                     check(run_id, intake.get("acceptance_origin") == "model_generated"
                           and bundle.get("provenance", {}).get("acceptance_origin") == "model_generated",
@@ -263,6 +549,11 @@ def audit(data_dir, secret=""):
             review = run.get("quality_review") or {}
             check(run_id, review.get("passed") is True and review.get("candidate_hash") == run.get("verified_hash"),
                   "Successful chat run lacks a passing semantic review of the verified candidate")
+        if project is not None:
+            try:
+                _project_configuration(run, records, events, lambda condition, label: check(run_id, condition, label))
+            except (ValueError, KeyError, TypeError, AttributeError):
+                issue(run_id, "Project configuration or request context evidence is malformed or incomplete")
         try:
             if not unprepared_intake:
                 expected_run_bundle = digest(json.dumps(run["bundle"], ensure_ascii=False, sort_keys=True))
@@ -319,13 +610,18 @@ def audit(data_dir, secret=""):
         for verification in verifications:
             counts["verifications"] += 1
             classification = verification.get("classification")
-            expected_class = ("seeded_defect_baseline" if seeded else "input_baseline") if verification.get("candidate_origin") == "baseline" else ("seeded_experiment_candidate" if seeded else "natural_candidate")
+            origin = verification.get("candidate_origin")
+            expected_class = ("imported_baseline" if project is not None and origin == "imported_baseline" else
+                              ("seeded_defect_baseline" if seeded else "input_baseline") if origin == "baseline" else
+                              ("seeded_experiment_candidate" if seeded else "natural_candidate"))
             check(run_id, classification == expected_class, "Verification failure provenance is inconsistent")
+            counts["imported_baseline_verifications"] += int(classification == "imported_baseline")
             status = verification.get("status")
             counts["passed_verifications"] += int(status == "passed")
             counts["blocked_verifications"] += int(status == "blocked")
             if status == "failed":
                 category = {"natural_candidate": "natural_candidate_failures", "input_baseline": "input_baseline_failures",
+                            "imported_baseline": "imported_baseline_failures",
                             "seeded_defect_baseline": "seeded_baseline_failures", "seeded_experiment_candidate": "seeded_candidate_failures"}.get(classification)
                 if category:
                     # AI-generated tests can themselves be wrong. Test failure
@@ -336,6 +632,15 @@ def audit(data_dir, secret=""):
                 check(run_id, verification.get("container_invoked") is True and bool(re.fullmatch(r"sha256:[a-f0-9]{64}", verification.get("image") or "")), "Passed verification lacks pinned Docker image evidence")
                 attestation = verification.get("attestation", {})
                 check(run_id, attestation.get("passed") is True and attestation.get("tests") == attestation.get("discovered") == verification.get("test_count"), "Passed verification lacks a complete test attestation")
+            if project is not None:
+                expected_tests = (run.get("acceptance_manifest") or {}).get("total_test_count")
+                check(run_id, verification.get("expected_test_count") == expected_tests, "Project verification expected-test count differs from frozen suite inventory")
+                if status == "passed":
+                    check(run_id, verification.get("test_count") == expected_tests and not verification.get("discovery_mismatch"),
+                          "Project passed verification omitted frozen regression or new tests")
+                if classification == "imported_baseline":
+                    check(run_id, verification.get("candidate_hash") == digest(canonical(bundle.get("files", {}))),
+                          "Imported baseline verification used edited source")
             if manifest:
                 check(run_id, verification.get("acceptance_sha256") == manifest["acceptance_sha256"], "Verification used a different acceptance suite")
                 check(run_id, verification.get("runner_sha256") == manifest["runner_sha256"], "Verification used a different runner")
@@ -367,6 +672,17 @@ def audit(data_dir, secret=""):
             if later_success and earlier.get("classification") in {"seeded_defect_baseline", "seeded_experiment_candidate"}:
                 counts["seeded_repair_runs"] = 1
 
+        if project is not None:
+            try:
+                project_evidence = _project_actions(run, records, events, base, counts,
+                    lambda condition, label: check(run_id, condition, label),
+                    lambda label: issue(run_id, label, "warning"))
+                if manifest and run.get("status") == "succeeded":
+                    check(run_id, project_evidence["replayed_candidate_sha256"] == hashes.get("candidate_sha256"),
+                          "Project candidate on disk differs from replayed source edits")
+            except (ValueError, OSError, KeyError, TypeError, AttributeError):
+                issue(run_id, "Project edit/tool evidence is missing, malformed, or outside the run directory")
+
         if secret:
             for path in base.rglob("*"):
                 try:
@@ -387,7 +703,8 @@ def audit(data_dir, secret=""):
             except (OSError, ValueError):
                 issue(run_id, "Final JSON export cannot be read")
         else:
-            issue(run_id, "No final JSON export; SQLite and request records remain primary evidence", "warning")
+            issue(run_id, "No final JSON export; SQLite and request records remain primary evidence",
+                  "error" if project is not None and any(e.get("type") == "terminal" for e in events) else "warning")
 
         aggregate.update(counts)
         aggregate["succeeded_runs" if run.get("status") == "succeeded" else "non_successful_runs"] += 1
@@ -395,6 +712,8 @@ def audit(data_dir, secret=""):
                         "intake_status": intake.get("status") if intake else None,
                         "posthoc_review": run.get("posthoc_review"), "quality_review": run.get("quality_review"),
                         "model_config": run.get("model_config"), "budget": run.get("budget"), "model_metrics": metrics,
+                        "project_id": run.get("project_id"), "base_revision_id": run.get("base_revision_id"),
+                        "project_evidence": project_evidence,
                         "recomputed_metrics": expected_metrics, "counts": dict(counts), "hashes": hashes,
                         "controller_actions": [d.get("action") for d in decisions],
                         "tasks": [{key: t.get(key) for key in ("id", "title", "agent_id", "status", "depends_on", "write_paths")} for t in graph],
@@ -404,7 +723,7 @@ def audit(data_dir, secret=""):
                         "passed": not any(i["severity"] == "error" for i in issues[run_issue_start:])})
     if secret_hits:
         issue(None, "Local configured credential detected in evidence; report does not disclose its value")
-    report = {"schema": "agentforge-autonomous-audit-v1", "data_dir": str(data_dir),
+    report = {"schema": "agentforge-autonomous-audit-v1", "audit_revision": "project-actions-v2", "data_dir": str(data_dir),
             "read_only_inputs": True, "models_invoked": False, "docker_invoked": False,
             "secret_scan": {"configured_key_available": bool(secret), "passed": not secret_hits,
                             "locations": secret_hits},

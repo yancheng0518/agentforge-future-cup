@@ -4,7 +4,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from .autonomous_sandbox import AutonomousSandbox, _json
+from .autonomous_sandbox import AutonomousSandbox, SandboxIntegrityError, _json
 from .project_runner import ProjectRunner, digest
 from .projects import ProjectStore
 from .runtime import RuntimeErrorSafe
@@ -28,7 +28,8 @@ class ProjectTools:
             path = arguments.get('path')
             if path not in files:
                 raise ValueError('文件不在当前候选项目中。')
-            start, end = arguments.get('start_line', 1), arguments.get('end_line', 400)
+            start = arguments.get('start_line', 1)
+            end = arguments.get('end_line', start + 399 if type(start) is int else 400)
             if type(start) is not int or type(end) is not int or not 1 <= start <= end or end - start > 399:
                 raise ValueError('一次最多读取 400 行，行号从 1 开始。')
             lines = files[path].splitlines()
@@ -67,7 +68,9 @@ class ProjectTools:
         runner = ProjectRunner(self.engine.runtime, base, registry)
         result = await runner.execute(project_id, imported['revision'], arguments['entrypoint'], arguments['args'])
         if result.get('source_sha256') != fingerprint or result.get('candidate_sha256', fingerprint) != fingerprint:
-            raise RuntimeErrorSafe('应用工具回执源码哈希不匹配；不能贴上当前候选哈希。')
+            raise SandboxIntegrityError('应用工具回执源码哈希不匹配；不能贴上当前候选哈希。')
+        if result.get('state_commit_unknown') or result.get('evidence_commit_unknown'):
+            raise SandboxIntegrityError('应用工具已执行但状态或证据提交未知；停止本轮，不自动重复运行。')
         # Even a failed application has a registered unchanged state. The next
         # tool call continues from that state, not from user's actual /data.
         marker.write_text(_json({'project_id': project_id}), encoding='utf-8')
@@ -76,5 +79,5 @@ class ProjectTools:
         if result.get('timed_out'):
             raise TimeoutError('Docker 应用工具超时，本轮停止；执行记录保留。')
         if await self.engine.sandbox.fingerprint(run_id) != fingerprint:
-            raise RuntimeErrorSafe('工具运行期间候选变化；结果不可用于当前候选。')
+            raise SandboxIntegrityError('工具运行期间候选变化；结果不可用于当前候选。')
         return result
