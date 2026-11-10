@@ -150,19 +150,19 @@ export function WebProjectPanel({ projectId, revision, previews, canExecute }: {
     catch (exception) { if (alive.current) setError(errorText(exception)) }
   }
   return <section className="pw-section web-project-panel" aria-label="Web 浏览器预览">
-    <div className="web-preview-heading"><div><h2>浏览器预览</h2><p>运行版本 {revision.number} · {revision.web?.entrypoint}</p></div>
+    <div className="web-preview-heading"><div><h2>试用这个版本</h2><p>版本 {revision.number} · 浏览器预览</p></div>
       <div className="pw-actions">{status?.active ? <button className="secondary-button" disabled={!!busy} onClick={() => void stop()}>{busy === 'stop' ? '正在停止…' : '停止预览'}</button>
-        : <button className="secondary-button" disabled={!!busy || !canExecute} onClick={() => void start()}>{busy === 'start' ? '正在启动…' : '启动预览'}</button>}
+        : <button className="primary-button" disabled={!!busy || !canExecute} onClick={() => void start()}>{busy === 'start' ? '正在启动…' : '启动预览'}</button>}
         {record && <button className="text-button" disabled={!!busy} onClick={() => void refresh()}>刷新状态</button>}</div>
     </div>
-    <p className="pw-help">在 Docker 中运行 Web 服务，并在独立地址中展示页面。能打开页面不代表开发验收通过；预览到期会自动停止。</p>
+    <p className="pw-help">直接操作实际页面，检查交互和显示效果。预览运行状态与开发验收分别记录。</p>
     {!canExecute && <p className="pw-help warning-text">Docker 当前不可用，请先检查运行环境。</p>}
     {error && <p className="pw-error" role="alert">{error}</p>}
     {record && <div className="web-preview-status" role="status"><span>{status?.label}</span>{previewExpiry(record) && status?.active && <span>到期时间：{date(previewExpiry(record)!)}</span>}{record.reason && <p>{record.reason}</p>}</div>}
     {safeUrl ? <div className="web-preview-frame"><div className="web-preview-toolbar"><span>版本 {revision.number} 的实际页面</span><button className="text-button" onClick={() => setFrameVersion(previous => previous + 1)}>重新加载页面</button></div>
       <iframe key={`${record!.id}-${frameVersion}`} src={safeUrl} title={`项目版本 ${revision.number} 的隔离 Web 预览`} sandbox="allow-scripts allow-forms allow-same-origin" referrerPolicy="no-referrer" />
-    </div> : <div className="web-preview-empty"><p>{busy === 'start' || record?.status === 'starting' ? '正在等待 Web 服务启动回执…' : status?.usable ? '预览地址未通过本地隔离检查，页面尚未加载。' : record ? '预览未运行。启动后将在这里显示页面。' : '启动预览，查看这个版本的实际页面。'}</p></div>}
-    <details className="web-dependency-details"><summary>入口与冻结依赖</summary><p>入口：<code>{revision.web?.entrypoint}</code></p><p>{revision.web?.requirements.join(' · ')}</p><p className="pw-hash">依赖锁：{revision.web?.lock_sha256}</p><p className="pw-hash">镜像：{revision.web?.image_id}</p></details>
+    </div> : <div className="web-preview-empty"><h3>{busy === 'start' || record?.status === 'starting' ? '正在准备实际页面' : '页面将在这里打开'}</h3><p>{busy === 'start' || record?.status === 'starting' ? '正在等待 Web 服务启动回执…' : status?.usable ? '预览地址未通过本地隔离检查，页面尚未加载。' : record ? '当前预览已停止或尚未就绪。点击“启动预览”重新试用。' : '点击“启动预览”，试用所选版本。'}</p></div>}
+    <details className="web-dependency-details"><summary>运行范围、入口与冻结依赖</summary><p>预览在 Docker 中运行，到期自动停止。预览产生的数据是临时的，停止或重启后不会保留。</p><p>入口：<code>{revision.web?.entrypoint}</code></p><p>{revision.web?.requirements.join(' · ')}</p><p className="pw-hash">依赖锁：{revision.web?.lock_sha256}</p><p className="pw-hash">镜像：{revision.web?.image_id}</p></details>
     {history.length > 0 && <details className="web-dependency-details"><summary>预览运行记录（{history.length}）</summary><ol className="web-preview-history">{history.map(item => <li key={item.id}>
       <div><strong>{previewStatus(item).label}</strong><small>{date(item.created_at)} · 记录 {item.id}</small>{item.reason && <p>{item.reason}</p>}</div>
       <details><summary>查看完整回执</summary><pre className="pw-json">{JSON.stringify(item, null, 2)}</pre></details>

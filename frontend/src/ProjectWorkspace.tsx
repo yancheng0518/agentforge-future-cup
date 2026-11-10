@@ -5,6 +5,7 @@ import type { DynamicRecord } from './autonomous'
 import { buildExecutionRequest, buildProjectRunRequest, buildWebImport, executionSummary, parseExecutionArgs, profileCapabilities, readProjectSources, retainRequestIntent, sameRequirements } from './projects'
 import type { ProjectDetail, ProjectExecution, ProjectKnowledge, ProjectProfile, ProjectRevision, ProjectSummary, SourceSelection, WebDependency } from './projects'
 import { DependencyPreparation, WebProjectPanel } from './WebProjectPanel'
+import { deliveryReviewFailed, projectDelivery } from './delivery'
 import './projects.css'
 
 type Props = {
@@ -103,12 +104,14 @@ function ProjectSession({ projectId, initialRequirement = '', onSelectProject, o
   const revision = loadedRevision?.id === revisionId ? loadedRevision : null
   const [loading, setLoading] = useState(true), [revisionLoading, setRevisionLoading] = useState(false)
   const [error, setError] = useState(''), [revisionError, setRevisionError] = useState(''), [notice, setNotice] = useState('')
+  const [projectReadError, setProjectReadError] = useState(''), [revisionRefresh, setRevisionRefresh] = useState(0)
   const [requirement, setRequirement] = useState(initialRequirement), [submitting, setSubmitting] = useState(false)
   const [entrypoint, setEntrypoint] = useState(''), [args, setArgs] = useState(''), [executing, setExecuting] = useState(false)
   const [downloadBusy, setDownloadBusy] = useState(false)
   const alive = useRef(true), readVersion = useRef(0), submitGuard = useRef(false), executeGuard = useRef(false), lastHead = useRef('')
   const lastSubmission = useRef<{ signature: string; key: string } | null>(null)
   const lastExecution = useRef<{ signature: string; key: string } | null>(null)
+  const requirementInput = useRef<HTMLTextAreaElement>(null)
   const endpoint = `/projects/${encodeURIComponent(projectId)}`
   const load = useCallback(async (keepError = false) => {
     const token = ++readVersion.current
@@ -118,24 +121,27 @@ function ProjectSession({ projectId, initialRequirement = '', onSelectProject, o
       if (!alive.current || token !== readVersion.current) return
       const previousHead = lastHead.current
       lastHead.current = result.head_revision_id
-      setProject(result); setRevisionId(previous => !previous || previous === previousHead ? result.head_revision_id : previous)
-    } catch (exception) { if (alive.current && token === readVersion.current) setError(errorText(exception)) }
+      setProject(result); setProjectReadError(''); setRevisionId(previous => !previous || previous === previousHead ? result.head_revision_id : previous)
+    } catch (exception) { if (alive.current && token === readVersion.current) { setError(errorText(exception)); setProjectReadError(errorText(exception)) } }
     finally { if (alive.current && token === readVersion.current) setLoading(false) }
   }, [projectId])
   useEffect(() => { alive.current = true; void load(); return () => { alive.current = false; readVersion.current++ } }, [load])
   const hasActiveRun = project?.runs?.some(item => ['queued', 'running'].includes(item.status)
     || (item.status === 'succeeded' && typeof object(item.publication).status !== 'string'))
   useEffect(() => {
-    if (!hasActiveRun) return
-    const timer = setInterval(() => { void load(true) }, 3000)
+    if (!hasActiveRun && !revision?.run_id) return
+    const timer = setInterval(() => { void load(true) }, hasActiveRun ? 3000 : 15000)
     return () => clearInterval(timer)
-  }, [hasActiveRun, load])
+  }, [hasActiveRun, revision?.run_id, load])
   useEffect(() => {
     if (!revisionId) return
     let current = true
-    setRevision(null); setRevisionError(''); setRevisionLoading(true)
+    // Keep the same immutable revision mounted during refresh, including any
+    // locally started preview. The revisionId guard hides a different version.
+    setRevision(previous => previous?.id === revisionId ? previous : null); setRevisionError(''); setRevisionLoading(true)
     void api<ProjectRevision>(`${endpoint}/revisions/${encodeURIComponent(revisionId)}`).then(result => {
       if (!current) return
+      if (result.id !== revisionId || result.project_id !== projectId) throw new Error('返回的版本与所选版本不一致，请重新读取。')
       setRevision(result)
       const paths = Object.keys(result.files || {})
       setFile(previous => paths.includes(previous) ? previous : paths[0] || '')
@@ -143,12 +149,14 @@ function ProjectSession({ projectId, initialRequirement = '', onSelectProject, o
     }).catch(exception => { if (current) setRevisionError(errorText(exception)) })
       .finally(() => { if (current) setRevisionLoading(false) })
     return () => { current = false }
-  }, [endpoint, revisionId])
+  }, [endpoint, projectId, revisionId, revisionRefresh])
   const atHead = !!project && revisionId === project.head_revision_id
   const revisionNumber = revision?.number ?? project?.revisions.find(item => item.id === revisionId)?.number
+  const delivery = project ? projectDelivery(project, revision, { loading: revisionLoading || loading, error: revisionError || projectReadError }) : null
+  function refreshProject() { setRevisionRefresh(value => value + 1); void load() }
   async function start(event: FormEvent) {
     event.preventDefault()
-    if (!project || !atHead || !canDevelop || submitGuard.current) return
+    if (!project || !revision || revisionLoading || projectReadError || !atHead || !canDevelop || submitGuard.current) return
     setError(''); setNotice('')
     try {
       const signature = JSON.stringify([projectId, revisionId, requirement.trim()])
@@ -202,19 +210,30 @@ function ProjectSession({ projectId, initialRequirement = '', onSelectProject, o
   if (!project) return <div className="project-workspace"><button className="text-button" onClick={() => onSelectProject(null)}>← 所有项目</button>{loading ? <div className="skeleton pw-skeleton" aria-label="正在读取项目"><i /><i /><i /></div> : <div className="pw-error" role="alert"><p>{error || '项目暂时不可读取。'}</p><button className="secondary-button" onClick={() => void load()}>重新读取</button></div>}</div>
   return <div className="project-workspace">
     <button className="text-button pw-back" onClick={() => onSelectProject(null)}>← 所有项目</button>
-    <header className="pw-heading"><div><h1>{project.name}</h1><p>同一项目，每次改进保留一个新版本。</p></div><button className="secondary-button" disabled={loading} onClick={() => void load()}>{loading ? '读取中…' : '刷新项目'}</button></header>
+    <header className="pw-heading"><div><h1>{project.name}</h1><p>查看交付版本，试用后继续改进。</p></div><button className="secondary-button" disabled={loading || revisionLoading} onClick={refreshProject}>{loading || revisionLoading ? '读取中…' : '刷新项目'}</button></header>
     {error && <p className="pw-error" role="alert">{error}</p>}{notice && <p className="pw-notice" role="status">{notice}</p>}
-    <section className="pw-version-bar" aria-label="项目版本"><label>查看版本<select value={revisionId} disabled={submitting || executing} onChange={event => setRevisionId(event.target.value)}>{project.revisions.map(item => <option key={item.id} value={item.id}>版本 {item.number}{item.id === project.head_revision_id ? ' · 当前' : ''}</option>)}</select></label><span>{revision?.run_id ? '从真实开发运行保存' : '导入版本 · 未验收'}</span><button className="secondary-button" disabled={!revision || downloadBusy} onClick={() => void download()}>{downloadBusy ? '准备下载…' : '下载此版本'}</button></section>
-    <section className="pw-compose"><h2>继续改进这个项目</h2><p>{atHead ? `基于当前版本${revisionNumber ? ` ${revisionNumber}` : ''}工作，保留已有源码和历史。` : '当前正在查看历史版本。继续开发前，请切回当前版本。'}</p>{!atHead && <button className="text-button" onClick={() => setRevisionId(project.head_revision_id)}>切回当前版本</button>}
-      <form onSubmit={start}><label className="sr-only" htmlFor="project-request">描述项目的新需求</label><textarea id="project-request" value={requirement} onChange={event => setRequirement(event.target.value)} rows={4} maxLength={8000} placeholder="例如：保留现有功能，增加导出报告，并检查边界情况…" disabled={submitting} onKeyDown={event => { if ((event.ctrlKey || event.metaKey) && event.key === 'Enter' && !event.nativeEvent.isComposing) { event.preventDefault(); event.currentTarget.form?.requestSubmit() } }} /><div className="pw-form-footer"><span>真实模型 · Docker 验收 · 配置与资料冻结</span><button className="primary-button" disabled={!atHead || !revision || !requirement.trim() || !canDevelop || submitting}>{submitting ? '正在创建任务…' : '继续开发'}</button></div></form>
-      {!canDevelop && <p className="pw-help warning-text">{environmentReason || '请先连接真实模型和 Docker 环境。'}</p>}
+    <section className="pw-delivery" aria-label="所选版本交付概况">
+      <div className="pw-version-bar"><label>查看版本<select value={revisionId} disabled={submitting || executing} onChange={event => setRevisionId(event.target.value)}>{project.revisions.map(item => <option key={item.id} value={item.id}>版本 {item.number}{item.id === project.head_revision_id ? ' · 当前' : ' · 历史'}</option>)}</select></label><span>{atHead ? '当前交付版本' : '历史版本 · 可查看与下载'}</span>{!atHead && <button className="text-button" onClick={() => setRevisionId(project.head_revision_id)}>切回当前版本</button>}</div>
+      <div className="pw-delivery-content">
+        <div className="pw-delivery-status" role="status" aria-live="polite"><h2 className={`pw-delivery-${delivery!.status}`}>{delivery!.label}</h2><p>{delivery!.detail}</p></div>
+        {delivery!.requirement && <details className="pw-delivery-request"><summary>本版需求<span>{preview(delivery!.requirement, 48)}</span></summary><p>{delivery!.requirement}</p></details>}
+        <dl className="pw-delivery-facts"><div><dt>版本来源</dt><dd>{delivery!.source}</dd></div><div><dt>源码</dt><dd>{revision ? `${Object.keys(revision.files || {}).length} 个文件` : '正在读取'}</dd></div><div><dt>验收记录</dt><dd>{delivery!.status === 'passed' ? `${delivery!.testCount} 项通过 · 模型审查通过` : delivery!.status === 'unverified' ? '尚无开发验收' : '等待核对'}</dd></div></dl>
+        <div className="pw-delivery-actions"><button className="secondary-button" disabled={!revision || downloadBusy} onClick={() => void download()}>{downloadBusy ? '准备下载…' : `下载版本 ${revisionNumber ?? ''}`}</button>{delivery!.runId && <button className="text-button" onClick={() => onOpenRun(delivery!.runId!)}>查看开发过程</button>}<button className="text-button" onClick={() => { requirementInput.current?.focus({ preventScroll: true }); requirementInput.current?.scrollIntoView({ behavior: 'instant', block: 'center' }) }}>继续改进</button></div>
+        {delivery!.status === 'passed' && <p className="pw-help">验收由 AI 生成并在开发前冻结；通过范围以本版测试为准。</p>}
+        {revisionError && <div className="pw-error" role="alert"><p>{revisionError}</p><button className="text-button" onClick={refreshProject}>重新读取版本</button></div>}
+      </div>
     </section>
     {revision?.web && <WebProjectPanel key={revision.id} projectId={projectId} revision={revision} previews={project.previews || []} canExecute={canExecute} />}
+    {revisionLoading && <div className="skeleton pw-skeleton" aria-label="正在读取所选版本"><i /><i /></div>}
+    {revision && !revision.web && <details className="pw-section pw-product-run"><summary>试用版本 {revision.number} · 运行程序</summary><p>选择入口与参数，在 Docker 中查看这个版本的实际输出。</p><form onSubmit={execute}><div className="pw-execution-inputs"><label>入口文件<select value={entrypoint} onChange={event => setEntrypoint(event.target.value)} disabled={executing}>{Object.keys(revision.files || {}).filter(path => path.endsWith('.py')).map(path => <option key={path}>{path}</option>)}</select></label><label>程序参数<textarea value={args} onChange={event => setArgs(event.target.value)} rows={3} disabled={executing} placeholder={'每行一个参数，例如：\n--name\n我的报告'} /></label></div><p className="pw-help">每行一个参数，原样传入；留空表示无参数。</p><button className="primary-button" disabled={!canExecute || !entrypoint || executing}>{executing ? '等待运行回执…' : `运行版本 ${revision.number}`}</button>{!canExecute && <p className="pw-help warning-text">Docker 当前不可用，请先检查运行环境。</p>}</form><details className="pw-runtime-details"><summary>运行范围与数据保存</summary><p>最长运行 15 秒，不调用模型。退出成功不代表通过开发验收。应用可在 /data 保存最多 64 KiB 数据，仅成功运行后保存，后续版本共享；验收不读取这份数据。</p></details></details>}
+    <section className="pw-compose" id="project-next-step"><h2>下一步，继续改进</h2><p>{atHead ? `基于版本${revisionNumber ? ` ${revisionNumber}` : ''}提出新需求，保留已有功能与回归验收。` : '当前正在查看历史版本。继续开发前，请切回当前版本。'}</p>{!atHead && <button className="text-button" onClick={() => setRevisionId(project.head_revision_id)}>切回当前版本</button>}
+      <form onSubmit={start}><label className="sr-only" htmlFor="project-request">描述项目的新需求</label><textarea id="project-request" ref={requirementInput} value={requirement} onChange={event => setRequirement(event.target.value)} rows={4} maxLength={8000} placeholder="例如：保留现有功能，增加导出报告，并检查边界情况…" disabled={submitting} onKeyDown={event => { if ((event.ctrlKey || event.metaKey) && event.key === 'Enter' && !event.nativeEvent.isComposing) { event.preventDefault(); event.currentTarget.form?.requestSubmit() } }} /><div className="pw-form-footer"><span>真实模型 · Docker 验收 · 配置与资料冻结</span><button className="primary-button" disabled={!atHead || !revision || revisionLoading || !!projectReadError || !requirement.trim() || !canDevelop || submitting}>{submitting ? '正在创建任务…' : '继续开发'}</button></div></form>
+      {!canDevelop && <p className="pw-help warning-text">{environmentReason || '请先连接真实模型和 Docker 环境。'}</p>}
+    </section>
     <details className="pw-section"><summary>查看版本 {revisionNumber ?? '…'} 的源码</summary>{revisionLoading && <p role="status">正在读取冻结源码…</p>}{revisionError && <p className="pw-error" role="alert">{revisionError}</p>}{revision && <><div className="pw-source-toolbar"><label>文件<select value={file} onChange={event => setFile(event.target.value)}>{Object.keys(revision.files || {}).map(path => <option key={path}>{path}</option>)}</select></label><span>{Object.keys(revision.files || {}).length} 个文件</span></div><div className="pw-source" tabIndex={0} aria-label="不可变版本源码"><pre><code>{revision.files?.[file] ?? '此版本没有可显示的源码。'}</code></pre></div><p className="pw-hash">源码 SHA-256：{revision.source_sha256}</p><details><summary>版本与验收记录</summary><pre className="pw-json">{JSON.stringify({ id: revision.id, parent_id: revision.parent_id, created_at: revision.created_at, run_id: revision.run_id, verification: revision.verification, acceptance: revision.acceptance }, null, 2)}</pre></details></>}</details>
     <CollaborationSettings projectId={projectId} documents={project.knowledge || []} onKnowledgeSaved={document => { readVersion.current++; setLoading(false); setProject(previous => previous ? { ...previous, knowledge: [document, ...previous.knowledge.filter(item => item.id !== document.id)] } : previous) }} />
-    {!revision?.web && <details className="pw-section"><summary>运行这个版本的程序</summary><p>在真实 Docker 中运行 Python 入口，最长 15 秒；此操作不调用模型。程序退出成功不代表已通过开发验收。</p><p className="pw-help">应用可在 /data 保存最多 64 KiB 的数据。仅成功运行后保存，后续版本共享；验收测试不读取这份应用数据。</p><form onSubmit={execute}><div className="pw-execution-inputs"><label>入口文件<select value={entrypoint} onChange={event => setEntrypoint(event.target.value)} disabled={!revision || executing}>{Object.keys(revision?.files || {}).filter(path => path.endsWith('.py')).map(path => <option key={path}>{path}</option>)}</select></label><label>程序参数<textarea value={args} onChange={event => setArgs(event.target.value)} rows={3} disabled={executing} placeholder={'每行一个参数，例如：\n--name\n我的报告'} /></label></div><p className="pw-help">参数逐行原样传入，不需要加引号；留空表示无参数。</p><button className="secondary-button" disabled={!canExecute || !revision || !entrypoint || executing}>{executing ? '等待 Docker 运行回执…' : `运行版本 ${revisionNumber ?? ''}`}</button>{!canExecute && <p className="pw-help warning-text">Docker 当前不可用，请先检查运行环境。</p>}</form></details>}
-    <section className="pw-section"><h2>开发记录</h2>{project.runs?.length ? <ol className="pw-history">{project.runs.map(item => { const publication = object(item.publication); return <li key={item.id}><div><strong title={item.requirement}>{preview(item.requirement.trim().split(/\r?\n/)[0] || '项目开发任务', 80)}</strong><small>{date(item.created_at)} · {stateNames[item.status] || item.status}{publication.status === 'saved' ? ` · 已保存版本 ${publication.number ?? ''}` : publication.status === 'conflict' ? ' · 版本存在冲突，未合入' : ''}</small>{item.summary && <><p>{preview(item.summary, 140)}</p>{Array.from(item.summary.trim()).length > 140 && <details><summary>展开完整结论</summary><p>{item.summary}</p></details>}</>}</div><button className="text-button" onClick={() => onOpenRun(item.id)}>查看过程</button></li> })}</ol> : <p className="pw-help">第一条需求会从当前版本开始，完整保存成功、失败与受阻记录。</p>}</section>
-    {(!revision?.web || !!project.executions?.length) && <section className="pw-section"><h2>程序运行记录</h2>{project.executions?.length ? <div className="pw-executions">{project.executions.map(record => <ExecutionRecord key={record.id} record={record} number={project.revisions.find(item => item.id === record.revision_id)?.number} />)}</div> : <p className="pw-help">尚未运行程序。上方可选择版本入口，在 Docker 中查看真实输出。</p>}</section>}
+    <section className="pw-section"><h2>开发记录</h2>{project.runs?.length ? <ol className="pw-history">{project.runs.map(item => { const publication = object(item.publication); const denied = deliveryReviewFailed(item); return <li key={item.id}><div><strong title={item.requirement}>{preview(item.requirement.trim().split(/\r?\n/)[0] || '项目开发任务', 80)}</strong><small>{date(item.created_at)} · {denied ? '复核未通过 · 需要处理' : stateNames[item.status] || item.status}{publication.status === 'saved' ? ` · 已保存版本 ${publication.number ?? ''}` : publication.status === 'conflict' ? ' · 版本存在冲突，未合入' : ''}</small>{denied && <p>后续复核否决了原结论，请查看开发过程中的问题与回执。</p>}{item.summary && !denied && <><p>{preview(item.summary, 140)}</p>{Array.from(item.summary.trim()).length > 140 && <details><summary>展开完整结论</summary><p>{item.summary}</p></details>}</>}</div><button className="text-button" onClick={() => onOpenRun(item.id)}>查看过程</button></li> })}</ol> : <p className="pw-help">第一条需求会从当前版本开始，完整保存成功、失败与受阻记录。</p>}</section>
+    {((revision && !revision.web) || !!project.executions?.length) && <section className="pw-section"><h2>程序运行记录</h2>{project.executions?.length ? <div className="pw-executions">{project.executions.map(record => <ExecutionRecord key={record.id} record={record} number={project.revisions.find(item => item.id === record.revision_id)?.number} />)}</div> : <p className="pw-help">尚未运行程序。上方可选择版本入口，查看实际输出。</p>}</section>}
   </div>
 }
 

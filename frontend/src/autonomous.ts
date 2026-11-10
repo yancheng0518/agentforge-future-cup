@@ -145,6 +145,9 @@ export function dynamicProgress(run: Run): string {
     }
     if (review === 'final_review') return '正在检查交付质量'
     if (review === 'contract_review') return '正在检查验收契约'
+    const finishing = value.finishing_state
+    if (finishing && typeof finishing === 'object' && !Array.isArray(finishing)
+        && (finishing as Record<string, unknown>).phase === 'finalizing') return '正在收尾，核对当前版本的验收与审查'
   }
   if (reviewProblems(run).length) return ongoing ? run.summary?.trim() || '检查发现问题，主 Agent 正在处理'
     : hasCandidateProject(run) ? '验收存在问题，需要复核' : '验收标准尚未通过检查'

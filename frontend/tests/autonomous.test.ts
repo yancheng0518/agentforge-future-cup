@@ -56,6 +56,22 @@ test('model summary alone cannot turn an unsuccessful run into success', () => {
   assert.equal(currentVerification(run), null)
   assert.equal(dynamicResult(run).tone, 'warning')
 })
+
+test('host finishing phase shows checks in progress without granting completion', () => {
+  const run = normalized({ finishing_state: { phase: 'finalizing', reason: 'tokens_reserve' } })
+  assert.match(dynamicProgress(run), /正在收尾/)
+  assert.equal(currentVerification(run), null)
+  assert.notEqual(dynamicResult(run).tone, 'success')
+  assert.doesNotMatch(dynamicProgress({ ...run, status: 'needs_human' }), /正在收尾/)
+  assert.doesNotMatch(dynamicProgress({ ...run, status: 'succeeded' }), /正在收尾/)
+})
+
+test('finishing event alone cannot mark an unverified candidate as delivered', () => {
+  const run = normalized({ status: 'succeeded', finishing_state: { phase: 'finalizing' } })
+  assert.equal(currentVerification(run), null)
+  assert.match(dynamicResult(run).title, /待核对/)
+  assert.doesNotMatch(dynamicProgress(normalized({ finishing_state: 'finalizing' })), /正在收尾/)
+})
 test('intake pending and clarification have explicit progress', () => {
   assert.match(dynamicProgress(normalized({ intake: { status: 'pending' } })), /整理需求/)
   assert.match(dynamicProgress(normalized({ intake: { status: 'needs_input', questions: ['输入格式是什么？'] } })), /补充需求/)

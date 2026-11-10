@@ -65,6 +65,9 @@ function describe(event: Event): { label: string; category: string } {
     contract_review_started: ['开始契约检查', 'review'], contract_review: ['契约检查结果', 'review'],
     quality_review_started: ['开始交付质量检查', 'review'], quality_review: ['交付质量检查结果', 'review'],
     model_request: ['发送真实模型请求', 'model_request'], model_response: ['收到模型响应', 'model_response'],
+    budget_reserve_blocked: ['为最终验证保留预算，未发送本次请求', 'budget'],
+    budget_finalizing: ['进入收尾验证', 'budget'], budget_finalization_stopped: ['收尾未完成，需要处理', 'budget'],
+    budget_finalized: ['收尾检查完成', 'budget'],
     terminal: ['运行结束', 'lifecycle'], snapshot: ['保存快照', 'snapshot'], error: ['记录错误', 'error'],
   }
   const [label, category] = labels[event.type] ?? [event.message || event.type, 'event']
