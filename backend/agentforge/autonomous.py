@@ -19,6 +19,8 @@ from .autonomous_sandbox import AutonomousSandbox, SandboxIntegrityError, _sourc
 from .runtime import RuntimeErrorSafe
 from .storage import now
 from .web_config import validate_web_config, web_runtime_sha256
+from .finishing_budget import (FinishingBudgetReached, freeze_policy, policy_for,
+                               finishing_reason, remaining_budget)
 
 
 DEFAULT_BUDGET = dict(max_calls=40, max_tokens=200000, max_output_tokens=4096,
@@ -61,6 +63,7 @@ class AutonomousEngine:
         self.sandbox = sandbox or AutonomousSandbox(runtime)
         self.tasks = {}
         self.running = set()
+        self.deadlines = {}
         self.completion_callback = None
         self.project_tool_callback = None
         self.project_cleanup_callback = None
@@ -70,6 +73,7 @@ class AutonomousEngine:
         limits = budget_config(budget)
         run = dict(id=uuid4().hex, engine=self.revision, mode="live", status="queued",
                    requirement=frozen["requirement"], bundle=deepcopy(frozen), budget=limits,
+                   finishing_budget=freeze_policy(limits),
                    created_at=now(), updated_at=now(), applied=False,
                    summary="等待主 Agent 分解任务", model_config=(self.model.config(limits)
                    if hasattr(self.model, "config") else self.runtime.model_config()),
@@ -94,6 +98,7 @@ class AutonomousEngine:
         limits = budget_config(budget)
         run = dict(id=uuid4().hex, engine=self.revision, mode="live", status="queued",
                    requirement=requirement.strip(), bundle=None, bundle_sha256=None, budget=limits,
+                   finishing_budget=freeze_policy(limits),
                    created_at=now(), updated_at=now(), applied=False,
                    summary="准备理解需求并生成可检查的验收标准",
                    model_config=(self.model.config(limits) if hasattr(self.model, "config") else self.runtime.model_config()),
@@ -207,6 +212,8 @@ class AutonomousEngine:
                     tasks=run["task_graph"], last_verification=(run["verifications"][-1]
                     if run["verifications"] else None), feedback=run.get("feedback"),
                     decisions=run["controller_decisions"][-6:], budget=run["budget"],
+                    **({"finishing_budget": run["finishing_budget"],
+                        "finishing_state": run.get("finishing_state")} if policy_for(run) else {}),
                     usage=run["model_metrics"], provenance=run["bundle"]["provenance"],
                     project_revision=({k: run["project_context"][k] for k in ("id", "project_id", "number", "source_sha256")}
                                       if run.get("project_context") else None),
@@ -336,6 +343,7 @@ class AutonomousEngine:
         return True
 
     def _dispatch(self, run, decision):
+        self._require_development(self.store.run(run["id"]))
         graph = deepcopy(run["task_graph"])
         additions = decision.get("tasks")
         if not isinstance(additions, list) or not additions:
@@ -395,6 +403,7 @@ class AutonomousEngine:
 
     async def _wave(self, run_id):
         run = self.store.run(run_id)
+        self._require_development(run)
         graph = deepcopy(run["task_graph"])
         successful = {t["id"] for t in graph if t["status"] == "succeeded"}
         chosen, owned = [], set()
@@ -421,6 +430,7 @@ class AutonomousEngine:
         results = await asyncio.gather(*(self.model.work(run, deepcopy(task), deepcopy(context))
                                          for task in chosen), return_exceptions=True)
         summaries = []
+        reserve_blocked = None
         for task, result in zip(chosen, results):
             try:
                 if isinstance(result, BaseException):
@@ -439,6 +449,8 @@ class AutonomousEngine:
                 self.store.event(run_id, "integrity_failure", "候选完整性未获确认，停止运行", task["id"], task)
                 raise
             except Exception as exc:
+                if isinstance(exc, FinishingBudgetReached):
+                    reserve_blocked = exc
                 # Safe transport exceptions never contain HTTP credentials/bodies.
                 message = str(exc) if isinstance(exc, (RuntimeErrorSafe, ValueError)) else type(exc).__name__
                 task.update(status="failed", error=message)
@@ -451,6 +463,8 @@ class AutonomousEngine:
         self._save(run_id, task_graph=graph, feedback={"kind": "execution_results", "results": summaries})
         self.store.snapshot(run_id, "wave", {"task_graph": graph,
                             "candidate_hash": await self.sandbox.fingerprint(run_id)})
+        if reserve_blocked is not None:
+            raise reserve_blocked
 
     async def _verify(self, run_id):
         run = self.store.run(run_id)
@@ -519,6 +533,8 @@ class AutonomousEngine:
     async def _action(self, run_id, decision):
         run = self.store.run(run_id)
         action = decision["action"]
+        if action in {"edit", "tool", "dispatch", "continue"}:
+            self._require_development(run)
         if action == "edit":
             await self._main_edit(run, decision)
         elif action == "tool":
@@ -560,6 +576,7 @@ class AutonomousEngine:
             raise DecisionRejected("Unknown controller action")
 
     async def _main_edit(self, run, decision):
+        self._require_development(self.store.run(run["id"]))
         if run.get("project_context") is None:
             raise DecisionRejected("Direct main-Agent edits are available only for project runs")
         if any(task["status"] in ("pending", "running") for task in run["task_graph"]):
@@ -593,6 +610,7 @@ class AutonomousEngine:
         self.store.event(run["id"], "main_edit", "主 Agent 已直接修改候选源码", data=deepcopy(feedback))
 
     async def _project_tool(self, run, decision):
+        self._require_development(self.store.run(run["id"]))
         if run.get("project_context") is None or not callable(self.project_tool_callback):
             raise DecisionRejected("Project tools require a project run and an installed host callback")
         try:
@@ -649,6 +667,52 @@ class AutonomousEngine:
             self._save(run_id, feedback=feedback)
             self.store.event(run_id, "tool_result", "项目工具失败，错误已反馈给主 Agent", data=deepcopy(feedback))
 
+    @staticmethod
+    def _require_development(run):
+        if policy_for(run) and run.get("finishing_state", {}).get("phase") == "finalizing":
+            raise DecisionRejected("收尾阶段已停止新增任务、代码写入和应用工具。")
+
+    def _seconds_left(self, run_id):
+        deadline = self.deadlines.get(run_id)
+        return max(0, deadline - time.monotonic()) if deadline is not None else None
+
+    async def _finalize_budget(self, run_id, reason):
+        """Freeze development and reuse the ordinary verification/review finish gate."""
+        run = self.store.run(run_id)
+        state = {"phase": "finalizing", "reason": reason, "started_at": now()}
+        self._save(run_id, finishing_state=state, summary="已保留收尾预算，停止扩张并检查当前候选")
+        self.store.event(run_id, "budget_finalizing", "进入预算收尾阶段；通过原有验收与审查后才可完成",
+                         data={**state, "policy": run["finishing_budget"],
+                               "remaining": remaining_budget(run, self._seconds_left(run_id))})
+        try:
+            if not run.get("bundle") or run.get("intake", {}).get("status") == "pending":
+                raise ModelBudgetExceeded("收尾预算不足以完成需求和冻结验收准备。")
+            if any(task["status"] in ("pending", "running") for task in run["task_graph"]):
+                raise ModelBudgetExceeded("仍有未完成的委派任务，保留原状态并转人工处理。")
+            fingerprint = await self.sandbox.fingerprint(run_id)
+            if run.get("verified_hash") != fingerprint:
+                previous = run["verifications"][-1] if run["verifications"] else None
+                if previous and previous.get("candidate_hash") == fingerprint and previous["status"] == "failed":
+                    raise ModelBudgetExceeded("当前候选已验收失败；收尾阶段不重复相同验收或追加修复。")
+                await self._verify(run_id)
+            current = self.store.run(run_id)
+            if current.get("verified_hash") != await self.sandbox.fingerprint(run_id):
+                raise ModelBudgetExceeded("收尾验收未通过，候选与失败证据已保留。")
+            await self._action(run_id, {"action": "finish", "summary": "预算收尾完成：当前候选已通过冻结验收及所需语义审查。"})
+            if self.store.run(run_id)["status"] != "succeeded":
+                raise ModelBudgetExceeded("收尾语义审查未通过，不能将测试通过当作需求完成。")
+        except SandboxIntegrityError:
+            raise
+        except (ModelBudgetExceeded, DecisionRejected, RuntimeErrorSafe) as exc:
+            self._save(run_id, status="needs_human", summary="预算收尾未完成：" + str(exc))
+            self.store.event(run_id, "budget_finalization_stopped", "收尾条件不足，保留证据并转人工处理",
+                             data={"reason": str(exc), "error_type": type(exc).__name__,
+                                   "remaining": remaining_budget(self.store.run(run_id), self._seconds_left(run_id))})
+        else:
+            self.store.event(run_id, "budget_finalized", "当前候选通过原有完成门控，预算收尾完成",
+                             data={"candidate_hash": self.store.run(run_id)["verified_hash"],
+                                   "remaining": remaining_budget(self.store.run(run_id), self._seconds_left(run_id))})
+
     async def _loop(self, run_id):
         run = self.store.run(run_id)
         if run.get("intake", {}).get("status") == "pending":
@@ -664,10 +728,18 @@ class AutonomousEngine:
                 return
         for index in range(run["budget"]["max_steps"]):
             current = self.store.run(run_id)
+            reason = finishing_reason(current, self._seconds_left(run_id))
+            if reason:
+                await self._finalize_budget(run_id, reason)
+                return
             decision = await self.model.decide(current, await self._context(run_id))
             record = {"index": index + 1, "timestamp": now(), **decision}
             self._save(run_id, controller_decisions=current["controller_decisions"] + [record])
             self.store.event(run_id, "controller_decision", "主 Agent 决策", data=record)
+            reason = finishing_reason(self.store.run(run_id), self._seconds_left(run_id))
+            if reason and decision["action"] in {"edit", "tool", "dispatch", "continue"}:
+                await self._finalize_budget(run_id, reason)
+                return
             try:
                 await self._action(run_id, decision)
             except DecisionRejected as exc:
@@ -686,6 +758,7 @@ class AutonomousEngine:
             return
         self.running.add(run_id)
         started = time.monotonic()
+        self.deadlines[run_id] = started + run["budget"]["wall_seconds"]
         self._save(run_id, status="running", summary="主 Agent 正在编排")
         try:
             configuration = (self.model.config(run["budget"]) if hasattr(self.model, "config")
@@ -693,9 +766,17 @@ class AutonomousEngine:
             if configuration != run["model_config"]:
                 raise RuntimeErrorSafe("Frozen model configuration changed")
             async with asyncio.timeout(run["budget"]["wall_seconds"]):
-                await self._loop(run_id)
+                try:
+                    await self._loop(run_id)
+                except FinishingBudgetReached as exc:
+                    await self._finalize_budget(run_id, str(exc))
         except (ModelBudgetExceeded, TimeoutError) as exc:
             self._save(run_id, status="needs_human", summary=str(exc) or "Run wall-time budget exhausted")
+            if self.store.run(run_id).get("finishing_state", {}).get("phase") == "finalizing":
+                self.store.event(run_id, "budget_finalization_stopped", "收尾触及原有总预算或硬时限，未宣称完成",
+                                 data={"reason": str(exc) or "Run wall-time budget exhausted",
+                                       "error_type": type(exc).__name__,
+                                       "remaining": remaining_budget(self.store.run(run_id), self._seconds_left(run_id))})
         except asyncio.CancelledError:
             self._save(run_id, status="blocked", summary="运行被中断；保留证据，不自动重放模型调用")
             raise
@@ -704,6 +785,7 @@ class AutonomousEngine:
             self._save(run_id, status="failed", summary=summary)
         finally:
             self.running.discard(run_id)
+            self.deadlines.pop(run_id, None)
             if self.project_cleanup_callback is not None:
                 try:
                     await self.project_cleanup_callback(run_id)

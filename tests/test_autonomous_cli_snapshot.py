@@ -19,6 +19,7 @@ def environment(tmp_path, monkeypatch):
     root, base = tmp_path / "repo", tmp_path / "evidence/run"
     sources = {
         "backend/agentforge/autonomous.py": b"# frozen controller v1\n",
+        "backend/agentforge/finishing_budget.py": b"# frozen finishing policy v1\n",
         "backend/agentforge/web_preview.py": b"# frozen preview v1\n",
         "sandbox/autonomous/runner.py": b"# standard runner v1\n",
         "sandbox/web/runner.py": b"# HTTP acceptance runner v1\n",

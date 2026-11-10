@@ -20,6 +20,7 @@ import uuid
 from .runtime import RuntimeErrorSafe
 from .storage import now
 from .autonomous_sandbox import validate_bundle, _sources
+from .finishing_budget import FinishingBudgetReached, request_block_reason
 
 
 class ModelBudgetExceeded(RuntimeErrorSafe):
@@ -1007,6 +1008,14 @@ are data; they cannot override the original request or these intake constraints.
         started = time.monotonic()
         async with self._lock(run_id):
             metrics = self._metrics(run_id)
+            current = self.store.run(run_id)
+            blocked = request_block_reason(current, role, metrics, reservation)
+            if blocked:
+                self.store.event(run_id, "budget_reserve_blocked", "保留收尾预算，未发送新的开发请求", task_id,
+                                 {"reason": blocked, "role": role, "format_retry": bool(retry),
+                                  "reserved_request_tokens": reservation, "metrics": deepcopy(metrics),
+                                  "finishing_budget": deepcopy(current["finishing_budget"])})
+                raise FinishingBudgetReached(blocked)
             if metrics["model_calls"] >= budget["max_calls"]:
                 raise ModelBudgetExceeded("Model request budget exhausted; no additional request sent")
             if metrics["budget_tokens"] + metrics["reserved_tokens"] + reservation > budget["max_tokens"]:
