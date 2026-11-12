@@ -119,6 +119,7 @@
 - **output/**：各批脱敏证据、9 个复现包与 `.sha256`、`output/playwright/` 真实界面截图。
 - **演示视频**：`submission/演示视频.mp4`（4:02，1920×1080，无音轨+烧录字幕），SHA256 `B13A6507C3C75445E1993D4335B12EB4025CF571181BB64B319BB26F3B70A594`。
 - **关键文档**：[实现状态](../docs/implementation-status.md)、[架构说明](../docs/architecture.md)、[交付页与收尾](../docs/delivery-readiness-20261110.md)、[运行证据](../docs/runtime-evidence.md)、[多任务评测](../docs/multi-task-evaluation.md)、[三策略对照](../docs/comparison-evaluation.md)、[依赖说明](../docs/third-party.md)。
+- **干净克隆复现记录**：[复现验证记录](复现验证记录-20261112.md)（公开仓库 `git clone --depth 1` 后：后端 872+278、前端 110、`npm ci`+`npm run build` 全部通过，构建产物哈希与交付记录一致）。
 - **代码仓库**：<https://github.com/yancheng0518/agentforge-future-cup>（**已公开**，可匿名浏览/clone），tag `v1.2-submission-20261112`；完整提交材料在 `submission/`。
 
 ## 8. 提交材料清单
