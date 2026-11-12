@@ -12,3 +12,9 @@ frontend/dist/
 *.sqlite*
 artifacts/private/
 *.log
+# 本地参考资料与提交视频工作目录（2026-11-12 发布整理）
+tt-main/
+submission/.work/
+submission/video-work/
+submission/*.mp4
+submission/frames/
