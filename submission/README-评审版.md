@@ -22,7 +22,15 @@
 
 已验证环境：Windows 11、Python 3.13.5、Node 24.14.1、npm 11.11.0、Git 2.51.0。首次安装依赖需要额外时间（约 3–10 分钟，取决于网络与镜像源），之后按以下五步即可体验。
 
-1. **安装依赖（项目根目录，PowerShell）**
+0. **一键启动（压缩包，最简）**：解压后在该目录执行
+
+   ```powershell
+   powershell -ExecutionPolicy Bypass -File .\一键启动.ps1
+   ```
+
+   自动载入演示数据、安装依赖、构建前端、尝试启动 Docker 并打开浏览器；无模型 Key 时可浏览已保存的历史运行、协作图与项目版本。完整部署用 `部署.ps1`，模型 Key 接入见 `08_部署与复现指南/模型接入文档.md`。
+
+1. **手动安装依赖（项目根目录，PowerShell）**
 
    ```powershell
    powershell -ExecutionPolicy Bypass -File .\scripts\setup.ps1

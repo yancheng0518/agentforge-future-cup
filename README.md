@@ -1,5 +1,7 @@
 # AgentForge 多智能体开发工作台
 
+> **一键启动**：仓库根目录运行 `powershell -ExecutionPolicy Bypass -File .\一键启动.ps1`（自动装依赖、构前端、尝试启动 Docker 并打开工作台；无模型 Key 可浏览历史运行）。部署与复现细节见 [部署与复现指南](docs/deploy-and-reproduce.md)。
+
 > **初赛提交材料（2026-11-12）**：方案书 PDF、方案讲解 PPT、演示视频、评审版复现说明与证据索引见 [`submission/`](submission/README-评审版.md)。评委请先读[评审版说明](submission/README-评审版.md)，其中含 5 分钟体验/复现路径、赛题要求对照与证据索引。
 
 未来杯赛题一的本地原型。按已确认的《项目策划案.md》实施，React + FastAPI + SQLite。暂定项目名称，不代表最终参赛名称。
