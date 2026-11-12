@@ -135,7 +135,7 @@
 | 材料 | 状态 | 位置 / 说明 |
 | --- | --- | --- |
 | PDF 方案书（≥5000 字） | ✅ 已完成：18 页 A4，中文约 9,730 字 | `submission/AgentForge-方案书.pdf`（源稿 `submission/方案书-初稿.md`） |
-| 方案讲解 PPT（10–15 页） | ✅ 已完成：16:9、14 页，逐页渲染检查 | `submission/项目介绍.pptx` |
+| 方案讲解 PPT（10–15 页） | ✅ 已完成：**2026 未来杯官方模板**、16:9、15 页（含封面/目录/结束页，正文 13 页），逐页渲染检查 | `submission/项目介绍.pptx` |
 | 演示视频（3–5 分钟） | ✅ 已完成：4:02、1920×1080、30fps、H.264、静音+烧录字幕 | `submission/演示视频.mp4`（52.9 MB；分镜见 `submission/演示视频脚本.md`；SHA256 见 `submission/演示视频.sha256`） |
 | 可运行源码仓库 | ✅ 已完成并公开 | <https://github.com/yancheng0518/agentforge-future-cup>，`main` + tag `v1.2-submission-20261112` |
 | 团队介绍 / 应用价值 / 推广设想 | ✅ 已填写 | 方案书 §9–11（团队信息以报名信息为准） |
