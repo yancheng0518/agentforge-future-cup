@@ -3,3 +3,5 @@ output/web-projects-20261109/** -text
 output/web-preview-platform-20261109/** -text
 output/web-projects-packaging-20261109/** -text
 benchmarks/web-projects/** -text
+# Preserve this batch's test logs and browser receipts without line conversion.
+output/delivery-readiness-20261110/** -text

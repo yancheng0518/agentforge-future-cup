@@ -1,0 +1,59 @@
+{
+  "date": "2026-11-10",
+  "implementation_commit": "9cebfc974a4c1a751dd592786d795f6af79ab73f",
+  "base_url": "http://127.0.0.1:8005",
+  "project_id": "f9d03a54795e45c48d8d30b5991c08ef",
+  "revision_id": "08cecbce616242119dce1a8fcada76c9",
+  "preview_id": "9b5c48a88a57421d84e2987cda0aad93",
+  "model_calls_added": 0,
+  "passed": true,
+  "checks": {
+    "imported_version_marked_unverified": true,
+    "current_version_shows_14_tests_and_review": true,
+    "continue_button_retains_project_hash_and_focuses_request": true,
+    "same_preview_url_after_project_refresh": true,
+    "preview_form_created_visible_item": true,
+    "post_api_tasks_status": 201,
+    "stop_removed_iframe": true,
+    "container_removed": true,
+    "wsl_client_reaped": true,
+    "development_process_opens_source_run": true,
+    "returned_to_project": true,
+    "console_errors_at_final_check": 0
+  },
+  "layout": {
+    "desktop": {
+      "width": 1280,
+      "scroll_width": 1280
+    },
+    "mobile": {
+      "width": 390,
+      "scroll_width": 390,
+      "iframe_width": 334,
+      "iframe_scroll_width": 334
+    },
+    "viewport_override_reset": true
+  },
+  "automation_failures": [
+    {
+      "kind": "selector_no_match",
+      "detail": "Exact label selector did not resolve the version selector; a fresh DOM snapshot identified the accessible combobox."
+    },
+    {
+      "kind": "iframe_click_target_unavailable",
+      "detail": "The high-level Add click failed after filling the field. Screenshot confirmed no item. Ordinary CDP mouse input submitted the form, POST 201 and visible item confirmed."
+    }
+  ],
+  "screenshots": {
+    "before-project.jpg": "9d706a81a55cd7e312ab26d0d33568a1f81c0629390c3f0ae8d075d0c42bdaf7",
+    "delivery-desktop-final.jpg": "ebd08dfe88c9b6859eca916b5e9cd9a537381d95a6be66efd558087da9ccd3b0",
+    "imported-version.jpg": "a8b2d3c68773d99e894964900b508083a9f5ba9662afb6ecfbe7b2f99d392aca",
+    "mobile-delivery-390.jpg": "99c23716caeb34f4ff49f6e8018c3ceda47585c2feee0336ad4f458330c76e4a",
+    "mobile-preview-390.jpg": "5d2578afa31cbff1313f8ac03b5d07b868fdd47f97e64360bef5143d1c222a9d",
+    "preview-after-refresh.jpg": "41025493ebccef4c68758f31c9b5f665b8e173ac42e91fd836248ba3f3e5bec0"
+  },
+  "limits": [
+    "Existing verified Web candidate reused; this was not a new LLM development evaluation.",
+    "Budget behavior validated with deterministic fake transports and platform tests; no claim of measured live-model cost or success-rate improvement."
+  ]
+}

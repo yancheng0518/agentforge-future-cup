@@ -1,0 +1,60 @@
+{
+  "id": "9b5c48a88a57421d84e2987cda0aad93",
+  "status": "stopped",
+  "owner": {
+    "dependency_id": "5fc859cd0e2673e5f6b69410ee3c325ce5e1158034a31e08c1815bf11a92b9aa",
+    "kind": "project",
+    "project_id": "f9d03a54795e45c48d8d30b5991c08ef",
+    "revision_id": "08cecbce616242119dce1a8fcada76c9",
+    "web_runtime_sha256": "0a67ae95bd0b0878db8c3cf512d5e6f3884ce9af764aad37806ee0f390a0df1a"
+  },
+  "source_sha256": "1e2318b774ee750fb80c6660e0a9e5cef893ba78c7ff3e7a9c74b2815881376e",
+  "image_id": "sha256:294f32c3bce20f4fe2d863d327a0ac5a782fb55c845851353525eca7f13a185c",
+  "entrypoint": "app.py",
+  "container_invoked": true,
+  "container_removed": true,
+  "isolated": true,
+  "isolation": {
+    "capabilities_dropped": true,
+    "host_ports_published": false,
+    "mounts_readonly": true,
+    "network": "none",
+    "nonroot": true,
+    "resource_limits_verified": true,
+    "root_readonly": true
+  },
+  "initial_http_status": 200,
+  "request_count": 11,
+  "created_at": "2026-11-10T07:44:20.509579+00:00",
+  "ready_at": "2026-11-10T07:44:23.374507+00:00",
+  "stopped_at": "2026-11-10T07:47:11.271390+00:00",
+  "stop_reason": "user",
+  "request_transport": "docker_exec_loopback_only",
+  "application_stdout": " * Serving Flask app 'app'\n * Debug mode: off\n",
+  "application_stderr": "\u001b[31m\u001b[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.\u001b[0m\n * Running on http://127.0.0.1:8080\n\u001b[33mPress CTRL+C to quit\u001b[0m\n127.0.0.1 - - [10/Nov/2026 07:44:25] \"GET / HTTP/1.1\" 200 -\n127.0.0.1 - - [10/Nov/2026 07:44:26] \"GET / HTTP/1.1\" 200 -\n127.0.0.1 - - [10/Nov/2026 07:44:27] \"GET /static/style.css HTTP/1.1\" 200 -\n127.0.0.1 - - [10/Nov/2026 07:44:27] \"GET /static/app.js HTTP/1.1\" 200 -\n127.0.0.1 - - [10/Nov/2026 07:44:27] \"GET /api/tasks?done=all HTTP/1.1\" 200 -\n127.0.0.1 - - [10/Nov/2026 07:45:11] \"GET / HTTP/1.1\" 200 -\n127.0.0.1 - - [10/Nov/2026 07:45:12] \"GET /static/style.css HTTP/1.1\" 200 -\n127.0.0.1 - - [10/Nov/2026 07:45:12] \"GET /static/app.js HTTP/1.1\" 200 -\n127.0.0.1 - - [10/Nov/2026 07:45:13] \"GET /api/tasks?done=all HTTP/1.1\" 200 -\n127.0.0.1 - - [10/Nov/2026 07:46:05] \"\u001b[35m\u001b[1mPOST /api/tasks HTTP/1.1\u001b[0m\" 201 -\n127.0.0.1 - - [10/Nov/2026 07:46:06] \"GET /api/tasks?done=all HTTP/1.1\" 200 -\n",
+  "runner_sha256": {
+    "http_probe.py": "88bb33892d098360b74cbd93bb6a3e7c1cec8c5478e9af888a68b888355a3d60",
+    "serve.py": "d73d90101f318caede26edfddada88ed376feff885f5179b447a2bdef326c921"
+  },
+  "wsl_lease": {
+    "candidate_executed": false,
+    "client_reaped": true,
+    "command": [
+      "wsl",
+      "--distribution",
+      "AgentForge",
+      "--user",
+      "root",
+      "--exec",
+      "sleep",
+      "780"
+    ],
+    "distro": "AgentForge",
+    "exit_code": 1,
+    "pid": 39504,
+    "released_at": "2026-11-10T07:47:11.271366+00:00",
+    "seconds": 780,
+    "status": "released"
+  },
+  "test_claim": false
+}
