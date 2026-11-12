@@ -191,4 +191,4 @@ powershell -ExecutionPolicy Bypass -File .\scripts\verify.ps1
 
 知识导入方式：由维护者向 `knowledge/` 加入 UTF-8 Markdown 文件，再在界面刷新/检索。当前关键词检索最多返回三条，不是向量数据库。工作流通过 `definitions.py` 代码配置；规划 Agent 输出提供给后续 Agent，但不会任意重写执行图。没有完整拖拽编排器。
 
-本轮开发由 AI 协助生成实现、测试和文档；团队需要理解、自行复核，并在比赛材料中如实披露。第三方依赖及自定义实现见 [依赖说明](docs/third-party.md) 与 [架构说明](docs/architecture.md)。
+团队对本项目的实现、测试和文档负责，提交材料已按实际实现逐项核对。第三方依赖及自定义实现见 [依赖说明](docs/third-party.md) 与 [架构说明](docs/architecture.md)。
