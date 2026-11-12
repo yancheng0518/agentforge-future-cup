@@ -1,0 +1,31 @@
+﻿{
+  "python": "3.13.5",
+  "root": "D:\\δ����",
+  "model": {
+    "configured": true,
+    "model": "deepseek-v4.1-flash",
+    "base_url": "https://aigw.omniedu.com/v1",
+    "key_source": "environment_or_dotenv",
+    "verified": false,
+    "config": {
+      "model": "deepseek-v4.1-flash",
+      "base_url": "https://aigw.omniedu.com/v1",
+      "temperature": 0.1,
+      "max_output_tokens": 4096,
+      "tool_rounds": 4,
+      "adapter_revision": 2,
+      "contract_retries": 1,
+      "automatic_tool_rounds": 2,
+      "min_request_interval": 4.2,
+      "timeout_seconds": 60
+    }
+  },
+  "sandbox": {
+    "available": true,
+    "reason": "Docker ���������վ�����ã�ʵ�ʲ��Խ�����������м�¼Ϊ׼��",
+    "image": "agentforge-test:py313",
+    "backend": "wsl",
+    "wsl_distro": "AgentForge"
+  },
+  "mode": "mock"
+}
