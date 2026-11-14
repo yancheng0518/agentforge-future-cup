@@ -1,7 +1,7 @@
 # AgentForge 部署与复现指南
 
 > 面向评审专家与复现者。项目：**AgentForge 可验证的多智能体开发编排工作台**（赛题一+奶龙队+AgentForge）。
-> 仓库：<https://github.com/yancheng0518/agentforge-future-cup>（公开，`main`，tag `v1.3-submission-20261114`）
+> 仓库：<https://github.com/yancheng0518/agentforge-future-cup>（公开，`main`，tag `v1.4-submission-20261114`）
 > 版本：2026-11-12
 
 ## 0.1 交付的脚本与文档一览
@@ -94,7 +94,7 @@ powershell -ExecutionPolicy Bypass -File .\一键启动.ps1 -Port 8010 -SkipSand
 ```powershell
 git clone https://github.com/yancheng0518/agentforge-future-cup.git
 cd agentforge-future-cup
-git checkout v1.3-submission-20261114
+git checkout v1.4-submission-20261114
 powershell -ExecutionPolicy Bypass -File .\scripts\setup.ps1
 ```
 

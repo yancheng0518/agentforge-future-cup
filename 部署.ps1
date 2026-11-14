@@ -100,6 +100,26 @@ function Show-State($state) {
     }
 }
 
+function Set-EnvBackend([string]$backend) {
+    $envPath = Join-Path $codeRoot '.env'
+    if (-not (Test-Path -LiteralPath $envPath)) {
+        Copy-Item -LiteralPath (Join-Path $codeRoot '.env.example') -Destination $envPath
+    }
+    $lines = @(Get-Content -LiteralPath $envPath -Encoding utf8)
+    $found = $false
+    $updated = foreach ($line in $lines) {
+        if ($line -match '^AGENTFORGE_DOCKER_BACKEND=') {
+            $found = $true
+            "AGENTFORGE_DOCKER_BACKEND=$backend"
+        } else {
+            $line
+        }
+    }
+    if (-not $found) { $updated = @($updated) + "AGENTFORGE_DOCKER_BACKEND=$backend" }
+    Set-Content -LiteralPath $envPath -Value $updated -Encoding utf8
+    Write-Ok "已同步 .env：AGENTFORGE_DOCKER_BACKEND=$backend"
+}
+
 # ================= 1. CheckOnly =================
 if ($CheckOnly) {
     Write-Step '部署状态检查'
@@ -133,6 +153,7 @@ if ($SkipSandbox) {
     $state = Get-SandboxState
     if ($NativeDocker) {
         Write-Step '使用原生 Docker 构建验收镜像'
+        Set-EnvBackend 'native'
         if (-not (Get-Command docker -ErrorAction SilentlyContinue)) {
             Write-Warn '未找到 docker CLI；请先安装 Docker Engine（Linux）或 Docker Desktop（Windows）'
             exit 2
@@ -177,8 +198,14 @@ if ($SkipSandbox) {
 
 # ================= 4. preflight =================
 Write-Step '运行环境预检（不发送模型请求）'
-& (Join-Path $codeRoot '.venv\Scripts\python.exe') (Join-Path $codeRoot 'scripts\preflight.py')
-$preflightExit = $LASTEXITCODE
+$pyExe = Join-Path $codeRoot '.venv\Scripts\python.exe'
+if (Test-Path -LiteralPath $pyExe) {
+    & $pyExe (Join-Path $codeRoot 'scripts\preflight.py')
+    $preflightExit = $LASTEXITCODE
+} else {
+    $preflightExit = 127
+    Write-Warn '缺少 Python 虚拟环境，未运行预检（先运行不带 -SkipDeps 的部署）'
+}
 
 Write-Step '部署结果'
 if ($preflightExit -eq 0) {
@@ -193,6 +220,9 @@ if ($preflightExit -eq 0) {
 if ($Launch) {
     Write-Step '启动工作台'
     & (Join-Path $script:root '一键启动.ps1') -Port $Port
+    if ($LASTEXITCODE -ne 0) { exit 1 }
 }
 Write-Note "下一步：powershell -ExecutionPolicy Bypass -File `"$(Join-Path $script:root '一键启动.ps1')`""
-exit 0
+if ($preflightExit -eq 0) { exit 0 }
+elseif ($preflightExit -eq 2) { exit 2 }
+else { exit 1 }

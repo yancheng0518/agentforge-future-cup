@@ -10,7 +10,7 @@
 | 参赛成员 | 王拙诚、吴捍卫、黄浩 |
 | 指导教师 | 刘浪 |
 | 队伍编号 | 2117173210695860225 |
-| 代码版本 | `v1.3-submission-20261114`（tag），`main` 分支 |
+| 代码版本 | `v1.4-submission-20261114`（tag），`main` 分支 |
 | 文档日期 | 2026-11-12 |
 
 ## 1. 三句话定位
@@ -131,7 +131,7 @@
 - **关键文档**：[实现状态](../docs/implementation-status.md)、[架构说明](../docs/architecture.md)、[交付页与收尾](../docs/delivery-readiness-20261110.md)、[运行证据](../docs/runtime-evidence.md)、[多任务评测](../docs/multi-task-evaluation.md)、[三策略对照](../docs/comparison-evaluation.md)、[依赖说明](../docs/third-party.md)。
 - **复现记录**：[复现验证记录-20261112](复现验证记录-20261112.md)（干净克隆：872+278、110、构建一致）；[复现验证记录-20261114](复现验证记录-20261114.md)（全新 venv/前端依赖从公开仓库安装，872+278、110、构建通过；base image digest 固定并重建，6 项沙箱探针通过）。
 - **审计整改记录**：[审计整改记录-20261114](审计整改记录-20261114.md)（6 项审计发现的处理、证据与仍未完成项）。
-- **代码仓库**：<https://github.com/yancheng0518/agentforge-future-cup>（**已公开**，可匿名浏览/clone），tag `v1.3-submission-20261114`；完整提交材料在 `submission/`。
+- **代码仓库**：<https://github.com/yancheng0518/agentforge-future-cup>（**已公开**，可匿名浏览/clone），tag `v1.4-submission-20261114`；完整提交材料在 `submission/`。
 
 ## 8. 提交材料清单
 
@@ -140,7 +140,7 @@
 | PDF 方案书（≥5000 字） | ✅ 已完成：18 页 A4，中文约 9,730 字 | `submission/AgentForge-方案书.pdf`（源稿 `submission/方案书-初稿.md`） |
 | 方案讲解 PPT（10–15 页） | ✅ 已完成：**2026 未来杯官方模板**、16:9、15 页（含封面/目录/结束页，正文 13 页），逐页渲染检查 | `submission/项目介绍.pptx` |
 | 演示视频（3–5 分钟） | ✅ 已完成：4:02、1920×1080、30fps、H.264、静音+烧录字幕 | `submission/演示视频.mp4`（52.9 MB；分镜见 `submission/演示视频脚本.md`；SHA256 见 `submission/演示视频.sha256`） |
-| 可运行源码仓库 | ✅ 已完成并公开 | <https://github.com/yancheng0518/agentforge-future-cup>，`main` + tag `v1.3-submission-20261114` |
+| 可运行源码仓库 | ✅ 已完成并公开 | <https://github.com/yancheng0518/agentforge-future-cup>，`main` + tag `v1.4-submission-20261114` |
 | 团队介绍 / 应用价值 / 推广设想 | ✅ 已填写 | 方案书 §9–11（团队信息以报名信息为准） |
 | 学生身份证明等证明材料 | ✅ 已含三位成员学籍在线验证报告（PDF+原图） | 公开仓库不含个人证件材料 |
 

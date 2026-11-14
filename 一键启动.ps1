@@ -55,26 +55,61 @@ Write-Host "AgentForge 多智能体开发编排工作台 · 一键启动" -Foreg
 Write-Host "赛题一+奶龙队+AgentForge · 2026 第五届未来杯创新大赛" -ForegroundColor DarkGray
 Write-Host "代码目录：$codeRoot"
 
-# ---- 1. demo data (single-file package layout; never overwrite existing data) ----
+# ---- 1. read-only inspection: data dir, demo source, tools ----
 $demoSrc = Join-Path $script:root '09_演示数据\.agentforge'
 $dataDir = Join-Path $codeRoot '.agentforge'
-$dataMarkers = @(
-    (Join-Path $dataDir 'agentforge.sqlite3'),
-    (Join-Path $dataDir 'autonomous\agentforge.sqlite3'),
-    (Join-Path $dataDir 'projects\projects.sqlite3'),
-    (Join-Path $dataDir 'web\requests.sqlite3')
-)
-$existingMarkers = @($dataMarkers | Where-Object { Test-Path -LiteralPath $_ })
-$hasExistingData = $existingMarkers.Count -gt 0
+$pyExe = Join-Path $codeRoot '.venv\Scripts\python.exe'
+$existingFiles = @()
+if (Test-Path -LiteralPath $dataDir) {
+    $existingFiles = @(Get-ChildItem -LiteralPath $dataDir -Recurse -File -Force -ErrorAction SilentlyContinue)
+}
+$hasExistingData = $existingFiles.Count -gt 0
 $demoLoaded = $false
+
+# ---- 2. SelfTest: strictly read-only, exits before any install/start/write ----
+if ($SelfTest) {
+    Write-Step '自检模式（只读：不安装、不启动、不写入）'
+    Write-Host "  代码目录        : $codeRoot"
+    Write-Host "  演示数据来源    : $(if (Test-Path -LiteralPath $demoSrc) { '存在（09_演示数据）' } else { '缺失' })"
+    Write-Host "  现有运行数据    : $(if ($hasExistingData) { "有（$($existingFiles.Count) 个文件），正式启动不会载入演示数据" } else { '无，正式启动会载入演示数据' })"
+    Write-Host "  Python 虚拟环境 : $(if (Test-Path -LiteralPath $pyExe) { '就绪' } else { '缺失' })"
+    $nodeCmd = Get-Command node -ErrorAction SilentlyContinue
+    Write-Host "  Node.js         : $(if ($nodeCmd) { (& node --version) } else { '缺失' })"
+    Write-Host "  前端构建产物    : $(if (Test-Path -LiteralPath (Join-Path $codeRoot 'frontend\dist\index.html')) { '就绪' } else { '缺失' })"
+    $distros = @(wsl.exe --list --quiet 2>$null) | ForEach-Object { ($_ -replace "`0", '').Trim() } | Where-Object { $_ }
+    $distroPresent = $distros -contains 'AgentForge'
+    $imagePresent = $false
+    if ($distroPresent) {
+        & wsl.exe --distribution AgentForge --user root --exec docker image inspect agentforge-test:py313 --format "{{.Id}}" 2>$null | Out-Null
+        $imagePresent = ($LASTEXITCODE -eq 0)
+    }
+    Write-Host "  WSL/Docker      : $(if ($distroPresent) { if ($imagePresent) { '发行版与验收镜像可用' } else { '发行版存在，验收镜像缺失' } } else { '未安装 AgentForge 发行版' })"
+    $envFile = Join-Path $codeRoot '.env'
+    if (Test-Path -LiteralPath $envFile) {
+        $keyLine = Get-Content -LiteralPath $envFile -Encoding utf8 | Where-Object { $_ -match '^AGENTFORGE_LLM_API_KEY=' }
+        $hasKey = $keyLine -and ($keyLine -replace '^AGENTFORGE_LLM_API_KEY=', '').Trim().Length -gt 0
+        Write-Host "  模型 API Key    : $(if ($hasKey) { '已填写（不显示内容）' } else { '未填写' })"
+    } else {
+        Write-Host '  模型 API Key    : 缺少 .env'
+    }
+    if (Test-Path -LiteralPath $pyExe) {
+        Write-Step '只读预检（不发送模型请求）'
+        & $pyExe (Join-Path $codeRoot 'scripts\preflight.py')
+        Write-Host "  预检退出码      : $LASTEXITCODE"
+    } else {
+        Write-Host '  预检            : 未运行（缺少 Python 虚拟环境）'
+    }
+    Write-Host '  自检完成：未安装、未启动、未写入任何文件。' -ForegroundColor Green
+    exit 0
+}
+
+# ---- 3. demo data (only when the data directory is completely empty) ----
 if ($SkipDemoData) {
     Write-Warn '已跳过演示数据载入（-SkipDemoData）'
 } elseif ($hasExistingData) {
-    Write-Ok "检测到已有运行数据（$($existingMarkers.Count) 项），跳过演示数据载入，绝不覆盖现有记录"
+    Write-Ok "检测到已有运行数据（$($existingFiles.Count) 个文件），跳过演示数据载入，绝不覆盖现有记录"
 } elseif (-not (Test-Path -LiteralPath $demoSrc)) {
     Write-Warn '未找到 09_演示数据，跳过演示数据载入'
-} elseif ($SelfTest) {
-    Write-Ok '自检：未发现已有运行数据，正式启动时将载入 09_演示数据（本次不写入）'
 } else {
     Write-Step '载入演示数据'
     New-Item -ItemType Directory -Force -Path $dataDir | Out-Null
@@ -146,18 +181,6 @@ if (Test-Path -LiteralPath $pyExe) {
 } else {
     $preflightExit = 127
     Write-Warn '缺少 Python 虚拟环境，未运行预检（正式启动时会先执行 scripts\setup.ps1）'
-}
-
-if ($SelfTest) {
-    Write-Step '自检结果'
-    Write-Host "  代码目录        : $codeRoot"
-    Write-Host "  演示数据        : $(if ($demoLoaded) { '本次已载入' } elseif ($hasExistingData) { '已有数据，跳过载入' } elseif (Test-Path -LiteralPath $demoSrc) { '未载入（自检模式不写入）' } else { '无演示数据' })"
-    Write-Host "  Python 虚拟环境 : $(if (Test-Path -LiteralPath $pyExe) { '就绪' } else { '缺失' })"
-    Write-Host "  前端构建        : $(if (Test-Path -LiteralPath (Join-Path $codeRoot 'frontend\dist\index.html')) { '就绪' } else { '缺失' })"
-    Write-Host "  Docker 隔离     : $(if ($sandboxReady) { '就绪' } else { '不可用/跳过' })"
-    Write-Host "  预检退出码      : $preflightExit"
-    Write-Host '  自检完成，未启动服务。' -ForegroundColor Green
-    exit 0
 }
 
 # ---- 5. already running? ----
