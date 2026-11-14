@@ -10,7 +10,7 @@
 | 参赛成员 | 王拙诚、吴捍卫、黄浩 |
 | 指导教师 | 刘浪 |
 | 队伍编号 | 2117173210695860225 |
-| 代码版本 | `v1.2-submission-20261112`（tag），`main` 分支 |
+| 代码版本 | `v1.3-submission-20261114`（tag），`main` 分支 |
 | 文档日期 | 2026-11-12 |
 
 ## 1. 三句话定位
@@ -106,18 +106,19 @@
 - **四项真实开发任务**：43 次模型请求 / 313,562 tokens，四项各 **10/10** Docker 验收通过；3 次 JSON 格式重试，自然代码失败与修正均为 0（`docs/multi-task-evaluation.md`）。
 - **项目持续开发**：同一记账项目两轮真实迭代到版本 3，**13/13、20/20** Docker 验收通过，18 次请求 / 136,769 tokens，1 次格式重试（`docs/project-workspaces-verification.md`）。
 - **Web 项目**：从 Flask 健康页真实开发工作项看板，**14 项**生成 HTTP 验收 + **12 项**事前冻结独立复核通过；另一预设缺陷实验按“真实失败 → 真实修正 → 12/12 通过”完成（`docs/web-projects-validation.md`）。
-- **动态编排对话**：2 个动态子任务、9 次请求、**12/12** 生成验收 + **8/8** 独立 Docker 检查通过（`docs/autonomous-chat-verification.md`）。
+- **动态编排对话**：2 个动态子任务、9 次请求 / 58,713 tokens、**12/12** 生成验收 + **8/8** 独立 Docker 检查通过（`docs/collaboration-graph-verification.md`）。
 - **三策略对照（24 个预注册槽位）**：单 Agent、固定串行、动态并行的功能通过为 **6/8、6/8、8/8**，完整流程为 **6/8、6/8、7/8**；174 请求 / 已知 1,150,622 tokens；保留 4 次 HTTP 429、13 次格式重试与 1 次本地记录中断（`docs/comparison-evaluation.md`）。
+- **2026-11-14 补充验证（当前版本）**：动态编排内核（主入口）2 次真实运行——正常预算 5 请求 / 21,113 tokens、12/12 独立 Docker 验收通过（dispatch→verify→finish）；收紧预算触发真实收尾，收尾验收未通过 → needs_human（1 请求 / 2,443 tokens，失败证据保留）。另保留 2026-11-12 模板闭环 7 请求 / 21,532 tokens、10/10。合计 15 次真实请求 / 45,630 tokens。
 - **最新交付批次（2026-11-10）**：模型调用增量 **0**；后端 **872 passed + 278 subtests**、前端 **110 passed + 构建通过**；真实 Docker 预览刷新/操作/停止与 390px 布局实测（`docs/delivery-readiness-20261110.md`）。
 - **边界与协议**：六项合成候选容器探针全部按预期（0 模型调用）；真实协议探针 2 请求 / 564 tokens 通过；预设合成缺陷的真实修复 4 请求 / 16,883 tokens 并通过独立验收与审查（`docs/runtime-evidence.md`）。
 
 ## 6. 已知边界（如实声明，不作为已完成项）
 
 - **单机本地原型**：未部署公网，不是多人服务；已在 Windows 11 + WSL2 路径实测，Linux 新机复现尚未实测。
-- **可复现性缺口**：Dockerfile 的 `FROM` 仍为浮动 tag `python:3.13-slim`，正式提交前需锁定 digest；源码发布许可证尚未最终确定。
+- **可复现性**：Dockerfile 的 `FROM` 已于 2026-11-14 固定为 `python:3.13-slim@sha256:e48f59cdba69a3cbd9ed2cf0f348d90d45a8d350d98134cf1070bc106ee9ed90`，重建镜像 ID `sha256:a6bd11ad555ce7120a31432d37209ae7050d0079f8a15f8e7bbd2ae1cac1f296`，6 项沙箱探针复验通过；换机从零安装仍未实测。源码发布许可证尚未最终确定。
 - **沙箱强度**：父子进程同容器、同 UID，是受控执行环境，不是面向任意恶意代码的强对抗沙箱，仅支持受控示例项目。
 - **效果声明**：真实模型任务成功率、费用与“动态并行优于单 Agent”尚未被统计证明；对照实验仅 24 槽位，且存在 429 与格式重试。
-- **自我修正**：已验证的是**预设合成缺陷**的真实修复；自然代码失败后的自动修正尚无样本，不宣称主工作流自然自修正已获证明。
+- **自我修正**：已验证的是**预设合成缺陷**的真实修复；自然代码失败后的自动修正尚无样本，不宣称主工作流自然自修正已获证明。2026-11-14 已补动态编排内核真实运行样本（正常预算 12/12 通过；收紧预算收尾→needs_human），但**尚未补齐新内核与模板/单 Agent 的同任务对照实验**。
 - **Web 能力**：预览仅支持 wheel 依赖的 Python Web 应用，无 npm 构建或外部网络服务；预览成功不替代 Docker 验收。
 - **其他**：知识库为关键词检索而非向量 RAG；工作流为代码化配置 + 可视化展示，无完整拖拽编辑器；无 Key 评委无法触发真实模型闭环。
 
@@ -128,8 +129,9 @@
 - **output/**：各批脱敏证据、9 个复现包与 `.sha256`、`output/playwright/` 真实界面截图。
 - **演示视频**：`submission/演示视频.mp4`（4:02，1920×1080，无音轨+烧录字幕），SHA256 `B13A6507C3C75445E1993D4335B12EB4025CF571181BB64B319BB26F3B70A594`。
 - **关键文档**：[实现状态](../docs/implementation-status.md)、[架构说明](../docs/architecture.md)、[交付页与收尾](../docs/delivery-readiness-20261110.md)、[运行证据](../docs/runtime-evidence.md)、[多任务评测](../docs/multi-task-evaluation.md)、[三策略对照](../docs/comparison-evaluation.md)、[依赖说明](../docs/third-party.md)。
-- **干净克隆复现记录**：[复现验证记录](复现验证记录-20261112.md)（公开仓库 `git clone --depth 1` 后：后端 872+278、前端 110、`npm ci`+`npm run build` 全部通过，构建产物哈希与交付记录一致）。
-- **代码仓库**：<https://github.com/yancheng0518/agentforge-future-cup>（**已公开**，可匿名浏览/clone），tag `v1.2-submission-20261112`；完整提交材料在 `submission/`。
+- **复现记录**：[复现验证记录-20261112](复现验证记录-20261112.md)（干净克隆：872+278、110、构建一致）；[复现验证记录-20261114](复现验证记录-20261114.md)（全新 venv/前端依赖从公开仓库安装，872+278、110、构建通过；base image digest 固定并重建，6 项沙箱探针通过）。
+- **审计整改记录**：[审计整改记录-20261114](审计整改记录-20261114.md)（6 项审计发现的处理、证据与仍未完成项）。
+- **代码仓库**：<https://github.com/yancheng0518/agentforge-future-cup>（**已公开**，可匿名浏览/clone），tag `v1.3-submission-20261114`；完整提交材料在 `submission/`。
 
 ## 8. 提交材料清单
 
@@ -138,7 +140,7 @@
 | PDF 方案书（≥5000 字） | ✅ 已完成：18 页 A4，中文约 9,730 字 | `submission/AgentForge-方案书.pdf`（源稿 `submission/方案书-初稿.md`） |
 | 方案讲解 PPT（10–15 页） | ✅ 已完成：**2026 未来杯官方模板**、16:9、15 页（含封面/目录/结束页，正文 13 页），逐页渲染检查 | `submission/项目介绍.pptx` |
 | 演示视频（3–5 分钟） | ✅ 已完成：4:02、1920×1080、30fps、H.264、静音+烧录字幕 | `submission/演示视频.mp4`（52.9 MB；分镜见 `submission/演示视频脚本.md`；SHA256 见 `submission/演示视频.sha256`） |
-| 可运行源码仓库 | ✅ 已完成并公开 | <https://github.com/yancheng0518/agentforge-future-cup>，`main` + tag `v1.2-submission-20261112` |
+| 可运行源码仓库 | ✅ 已完成并公开 | <https://github.com/yancheng0518/agentforge-future-cup>，`main` + tag `v1.3-submission-20261114` |
 | 团队介绍 / 应用价值 / 推广设想 | ✅ 已填写 | 方案书 §9–11（团队信息以报名信息为准） |
 | 学生身份证明等证明材料 | ✅ 已含三位成员学籍在线验证报告（PDF+原图） | 公开仓库不含个人证件材料 |
 

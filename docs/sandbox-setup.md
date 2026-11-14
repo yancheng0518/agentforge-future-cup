@@ -34,8 +34,8 @@ Windows重启或发行版停止后，执行 `powershell -ExecutionPolicy Bypass 
 - Windows磁盘：`D:\未来杯\.agentforge\wsl\AgentForge\ext4.vhdx`；项目映射路径：`/mnt/d/未来杯`。
 - Docker Engine与CLI：29.9.3；containerd：2.4.2；存储驱动overlayfs，cgroup v2；默认seccomp与cgroup namespace开启。
 - Docker服务参数：`dockerd -H fd:// --containerd=/run/containerd/containerd.sock`；实查2375/2376没有监听，未开放Docker TCP控制端口。
-- 验收镜像：`agentforge-test:py313`，镜像ID `sha256:1edc3cba75dd1917bb78226e897fdb801a0272ea2e02319345de0bd3b8cae225`，镜像配置用户`65534:65534`。
-- 本次实际拉取基础镜像：`python:3.13-slim@sha256:e48f59cdba69a3cbd9ed2cf0f348d90d45a8d350d98134cf1070bc106ee9ed90`。应将此digest固定到正式复现配置，不能只记录浮动tag。
+- 验收镜像：`agentforge-test:py313`，2026-11-14 固定 base digest 重建后镜像ID `sha256:a6bd11ad555ce…`（完整 `sha256:a6bd11ad555ce7120a31432d37209ae7050d0079f8a15f8e7bbd2ae1cac1f296`），镜像配置用户`65534:65534`。
+- 基础镜像 digest 已固定到 `sandbox/Dockerfile`：`python:3.13-slim@sha256:e48f59cdba69a3cbd9ed2cf0f348d90d45a8d350d98134cf1070bc106ee9ed90`（2026-11-14 更新，`docker build --pull` 重建并重跑 6 项沙箱探针通过）。
 - 重启后启动脚本`start-sandbox.ps1`已真实执行并返回0，Linux引擎与验收镜像都可访问。初次执行发现Windows PowerShell5向`sh -c`转义失败，已改为直接调用`ps`、`systemctl`或`service`并复验通过。
 
 Docker的安装与镜像构建是真实完成；这还不能替代项目隔离探针、Todo独立验收以及真实模型修正闭环的结果。这些由项目运行记录单独证明。Ubuntu基础rootfs为固定的旧发行镜像，本次仅更新安装所需证书/curl与官方Docker包，没有进行整套Linux发行版升级；后续维护仍应按团队环境策略更新安全包。

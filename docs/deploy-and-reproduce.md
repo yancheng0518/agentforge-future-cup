@@ -1,7 +1,7 @@
 # AgentForge 部署与复现指南
 
 > 面向评审专家与复现者。项目：**AgentForge 可验证的多智能体开发编排工作台**（赛题一+奶龙队+AgentForge）。
-> 仓库：<https://github.com/yancheng0518/agentforge-future-cup>（公开，`main`，tag `v1.2-submission-20261112`）
+> 仓库：<https://github.com/yancheng0518/agentforge-future-cup>（公开，`main`，tag `v1.3-submission-20261114`）
 > 版本：2026-11-12
 
 ## 0.1 交付的脚本与文档一览
@@ -46,7 +46,7 @@
 
 **隔离环境**：Windows 首选 WSL2 专用发行版（`部署.ps1 -DownloadInputs` 引导安装）；已有 Docker Desktop（Linux 容器）或其他原生 Docker 的机器可用 `部署.ps1 -NativeDocker`（需 `docker` CLI 可用）。macOS 与未安装 Docker 的环境仅能完成 L1/L2，不能完成真实候选的隔离验收。
 
-**首次成本与时间**：依赖安装约 2–10 分钟；WSL 运行时 + 发行版 + 验收镜像约 10–30 分钟（需管理员与网络，首次下载约 700MB）；镜像构建需联网拉取 `python:3.13-slim`（基础镜像仍用浮动 tag，未锁 digest）。真实运行按模型供应商计费。
+**首次成本与时间**：依赖安装约 2–10 分钟；WSL 运行时 + 发行版 + 验收镜像约 10–30 分钟（需管理员与网络，首次下载约 700MB）；镜像构建需联网拉取固定 base digest `python:3.13-slim@sha256:e48f59cdba69a3cbd9ed2cf0f348d90d45a8d350d98134cf1070bc106ee9ed90`（2026-11-14 已从浮动 tag 改为 digest 锁定；重建后的验收镜像 ID `sha256:a6bd11ad555ce7120a31432d37209ae7050d0079f8a15f8e7bbd2ae1cac1f296`）。真实运行按模型供应商计费。
 
 **已知不确定项（如实标注）**：换机从零复现未实测；WSL 预览生命周期历史上出现过退出失败（已修复并保留记录）；模型输出具有随机性；本项目不保证与历史批次在 tokens/耗时/修正轮次上逐项一致。
 
@@ -94,7 +94,7 @@ powershell -ExecutionPolicy Bypass -File .\一键启动.ps1 -Port 8010 -SkipSand
 ```powershell
 git clone https://github.com/yancheng0518/agentforge-future-cup.git
 cd agentforge-future-cup
-git checkout v1.2-submission-20261112
+git checkout v1.3-submission-20261114
 powershell -ExecutionPolicy Bypass -File .\scripts\setup.ps1
 ```
 

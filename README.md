@@ -126,7 +126,7 @@ powershell -ExecutionPolicy Bypass -File .\scripts\start-sandbox.ps1
 
 首次安装需按 [隔离环境配置](docs/sandbox-setup.md) 校验官方 WSL MSI 和 Ubuntu rootfs，再执行 `scripts/setup-wsl-sandbox.ps1` 导入专用发行版、安装官方 Docker Engine 并构建镜像。已有原生 Linux 容器 Docker 的其他机器可设置 `AGENTFORGE_DOCKER_BACKEND=native`，使用 `scripts/setup-sandbox.ps1` 构建。本机 Win11 build 22000 不满足当前 Docker Desktop 要求，本次已实际验证的是 WSL 内 Engine 路径。
 
-当前本地验收镜像 ID 为 `sha256:1edc3cba75dd1917bb78226e897fdb801a0272ea2e02319345de0bd3b8cae225`。本次构建实际解析的基础镜像为 `python:3.13-slim@sha256:e48f59cdba69a3cbd9ed2cf0f348d90d45a8d350d98134cf1070bc106ee9ed90`；`sandbox/Dockerfile` 的 `FROM` **仍使用浮动标签** `python:3.13-slim`，记录 digest 不代表已锁定构建。正式提交前仍须固定基础镜像 digest 并在新环境复现。
+当前本地验收镜像 ID 为 `sha256:a6bd11ad555ce7120a31432d37209ae7050d0079f8a15f8e7bbd2ae1cac1f296`（2026-11-14 使用固定 base digest 重建）。本次构建实际解析的基础镜像为 `python:3.13-slim@sha256:e48f59cdba69a3cbd9ed2cf0f348d90d45a8d350d98134cf1070bc106ee9ed90`；`sandbox/Dockerfile` 的 `FROM` **仍使用浮动标签** `python:3.13-slim`，记录 digest 不代表已锁定构建。正式提交前仍须固定基础镜像 digest 并在新环境复现。
 
 运行容器关闭网络、只读根目录和代码/验收挂载、非 root、丢弃 capabilities、限制内存/CPU/进程数，外层 25 秒超时并清理容器。独立验收在容器父进程中执行，候选只在子进程中通过受限 JSON 协议提供 TodoStore 行为；候选标准输出不会作为测试结果直接转发。返回引用变更通过代理转发，避免拷贝语义被序列化掩盖。
 
@@ -178,7 +178,7 @@ powershell -ExecutionPolicy Bypass -File .\scripts\verify.ps1
 
 已完成 24 个原计划槽位：功能通过分别 6/8、6/8、8/8，完整流程分别 6/8、6/8、7/8；保留 4 次 HTTP 429、13 次格式重试及 1 次本地记录中断。追加阶段只补原先未提交的 9 次，没有重测失败。复现包为 `output/agentforge-comparison-reproduction-20261108.zip`，历史多任务包保持原样。
 
-换机复现、正式材料与视频尚未完成，不能从平台单元测试或小样本对照推导普遍效果提升。
+换机从零复现仍待验证；正式材料（白皮书/方案书/PPT）与演示视频已完成并随初赛提交包提供。不能从平台单元测试或小样本对照推导普遍效果提升。
 
 ## 目录与数据
 
