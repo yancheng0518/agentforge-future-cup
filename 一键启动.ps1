@@ -27,6 +27,7 @@ param(
     [ValidateRange(1024, 65535)][int]$Port = 8005,
     [switch]$SkipSetup,
     [switch]$SkipSandbox,
+    [switch]$SkipDemoData,
     [switch]$NoBrowser,
     [switch]$SelfTest
 )
@@ -54,16 +55,32 @@ Write-Host "AgentForge 多智能体开发编排工作台 · 一键启动" -Foreg
 Write-Host "赛题一+奶龙队+AgentForge · 2026 第五届未来杯创新大赛" -ForegroundColor DarkGray
 Write-Host "代码目录：$codeRoot"
 
-# ---- 1. demo data (single-file package layout) ----
+# ---- 1. demo data (single-file package layout; never overwrite existing data) ----
 $demoSrc = Join-Path $script:root '09_演示数据\.agentforge'
 $dataDir = Join-Path $codeRoot '.agentforge'
-if ((Test-Path -LiteralPath $demoSrc) -and -not (Test-Path -LiteralPath (Join-Path $dataDir 'agentforge.sqlite3'))) {
+$dataMarkers = @(
+    (Join-Path $dataDir 'agentforge.sqlite3'),
+    (Join-Path $dataDir 'autonomous\agentforge.sqlite3'),
+    (Join-Path $dataDir 'projects\projects.sqlite3'),
+    (Join-Path $dataDir 'web\requests.sqlite3')
+)
+$existingMarkers = @($dataMarkers | Where-Object { Test-Path -LiteralPath $_ })
+$hasExistingData = $existingMarkers.Count -gt 0
+$demoLoaded = $false
+if ($SkipDemoData) {
+    Write-Warn '已跳过演示数据载入（-SkipDemoData）'
+} elseif ($hasExistingData) {
+    Write-Ok "检测到已有运行数据（$($existingMarkers.Count) 项），跳过演示数据载入，绝不覆盖现有记录"
+} elseif (-not (Test-Path -LiteralPath $demoSrc)) {
+    Write-Warn '未找到 09_演示数据，跳过演示数据载入'
+} elseif ($SelfTest) {
+    Write-Ok '自检：未发现已有运行数据，正式启动时将载入 09_演示数据（本次不写入）'
+} else {
     Write-Step '载入演示数据'
     New-Item -ItemType Directory -Force -Path $dataDir | Out-Null
     Copy-Item -Path (Join-Path $demoSrc '*') -Destination $dataDir -Recurse -Force
+    $demoLoaded = $true
     Write-Ok "已载入历史运行/项目演示数据到 $dataDir"
-} elseif (Test-Path -LiteralPath (Join-Path $dataDir 'agentforge.sqlite3')) {
-    Write-Ok '已存在运行数据，跳过演示数据载入'
 }
 
 # ---- 2. prerequisites ----
@@ -120,16 +137,21 @@ if (-not $SkipSandbox) {
 
 # ---- 4. preflight ----
 Write-Step '运行环境预检（不发送模型请求）'
-& $pyExe (Join-Path $codeRoot 'scripts\preflight.py')
-$preflightExit = $LASTEXITCODE
-if ($preflightExit -eq 0) { Write-Ok '模型配置与隔离环境均可用' }
-elseif ($preflightExit -eq 2) { Write-Warn '预检未完全通过（缺模型 Key 或 Docker）；仍可浏览已有运行记录' }
-else { Write-Warn "预检退出码 $preflightExit" }
+if (Test-Path -LiteralPath $pyExe) {
+    & $pyExe (Join-Path $codeRoot 'scripts\preflight.py')
+    $preflightExit = $LASTEXITCODE
+    if ($preflightExit -eq 0) { Write-Ok '模型配置与隔离环境均可用' }
+    elseif ($preflightExit -eq 2) { Write-Warn '预检未完全通过（缺模型 Key 或 Docker）；仍可浏览已有运行记录' }
+    else { Write-Warn "预检退出码 $preflightExit" }
+} else {
+    $preflightExit = 127
+    Write-Warn '缺少 Python 虚拟环境，未运行预检（正式启动时会先执行 scripts\setup.ps1）'
+}
 
 if ($SelfTest) {
     Write-Step '自检结果'
     Write-Host "  代码目录        : $codeRoot"
-    Write-Host "  演示数据        : $(if (Test-Path -LiteralPath (Join-Path $dataDir 'agentforge.sqlite3')) { '已载入' } else { '无' })"
+    Write-Host "  演示数据        : $(if ($demoLoaded) { '本次已载入' } elseif ($hasExistingData) { '已有数据，跳过载入' } elseif (Test-Path -LiteralPath $demoSrc) { '未载入（自检模式不写入）' } else { '无演示数据' })"
     Write-Host "  Python 虚拟环境 : $(if (Test-Path -LiteralPath $pyExe) { '就绪' } else { '缺失' })"
     Write-Host "  前端构建        : $(if (Test-Path -LiteralPath (Join-Path $codeRoot 'frontend\dist\index.html')) { '就绪' } else { '缺失' })"
     Write-Host "  Docker 隔离     : $(if ($sandboxReady) { '就绪' } else { '不可用/跳过' })"
