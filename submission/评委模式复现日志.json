@@ -108,20 +108,72 @@
       },
       "summary": "预算收尾未完成：收尾验收未通过，候选与失败证据已保留。",
       "note": "预算收紧后触发真实收尾；收尾验收未通过 → needs_human（不是成功样本，证明门控不会强行通过）。classification=input_baseline。"
+    },
+    {
+      "date": "2026-11-14",
+      "path": "model_directed_v1_finishing_success",
+      "name": "动态编排内核（主入口）收紧预算后成功收尾",
+      "run_id": "91ee01d49f71469092b3fe38da3c0d86",
+      "status": "succeeded",
+      "model_calls": 4,
+      "tokens": 15037,
+      "duration_seconds": 19.887,
+      "tasks": 2,
+      "decisions": [
+        "dispatch",
+        "verify"
+      ],
+      "verifications": [
+        {
+          "status": "passed",
+          "exit_code": 0,
+          "isolated": true
+        }
+      ],
+      "verified_hash": "56edd9508852e56b4c1fdb7ea1262202f811a445b4d325d7bec96302b3ba4662",
+      "finishing_budget": {
+        "revision": "finishing-budget-v1",
+        "reserved_calls": 1,
+        "reserved_tokens": 16000,
+        "reserved_verifications": 1,
+        "reserved_steps": 1,
+        "reserved_seconds": 60
+      },
+      "finishing_state": {
+        "phase": "finalizing",
+        "reason": "calls_reserve",
+        "started_at": "2026-11-14T09:02:29.726949+00:00"
+      },
+      "summary": "预算收尾完成：当前候选已通过冻结验收及所需语义审查。",
+      "note": "max_calls=5 触发 calls_reserve 收尾；收尾验收 12/12 通过、语义审查通过，status=succeeded。成功收尾路径已获真实样本。"
+    },
+    {
+      "date": "2026-11-14",
+      "path": "release_tag_v1_4_clean_clone",
+      "name": "最终发布标签 v1.4 干净克隆端到端复验（旧模板工作流）",
+      "run_id": "412a60041113444b9fb61a305f085274",
+      "status": "succeeded",
+      "model_calls": 12,
+      "tokens": 42978,
+      "duration_seconds": 61.74,
+      "verification": "真实隔离验收通过（real_isolated_test_passed=true）",
+      "note": "tag v1.4（72e6676）全新克隆+新 venv；后端启动后运行；镜像 a6bd11ad。"
     }
   ],
   "totals": {
-    "model_requests": 15,
-    "known_tokens": 45630,
-    "includes": "模型探针 2 请求 + 模板闭环 7 请求 + 动态编排 5 请求 + 收紧预算收尾 1 请求"
+    "model_requests": 31,
+    "known_tokens": 103645,
+    "includes": "模型探针 2 + 模板闭环 7 + 动态编排 5 + 收紧预算失败收尾 1 + 收紧预算成功收尾 4 + 最终 tag 复验 12 请求"
   },
   "conclusion": {
     "template_workflow_reproduced": true,
     "dynamic_orchestration_reproduced": true,
     "finishing_budget_real_sample_observed": true,
-    "finishing_budget_result": "needs_human（收尾验收未通过，保留失败证据）",
+    "finishing_budget_result": "已观察到两种真实收尾结果：预算不足时 needs_human（失败证据保留）；预算刚好触发时 succeeded（12/12 验收 + 语义审查通过）。",
     "no_natural_self_repair_sample": true,
-    "note": "动态编排与预算收尾均已有真实模型样本；仍无自然代码失败后自修正样本，材料不宣称自然自修复。"
+    "note": "动态编排与预算收尾均已有真实模型样本；仍无自然代码失败后自修正样本，材料不宣称自然自修复。",
+    "finishing_budget_success_observed": true,
+    "final_release_tag_verified": true
   },
   "limitations": [
     "单机运行；模型输出有随机性，tokens/耗时/轮次可能与历史不同。",
