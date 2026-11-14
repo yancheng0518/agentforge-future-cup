@@ -21,3 +21,4 @@ submission/frames/
 submission/upload/
 submission/*.zip
 submission/*.zip.sha256
+submission/credentials/
