@@ -1,0 +1,132 @@
+{
+  "kind": "judge_mode_reproduction_updated",
+  "updated_at": "2026-11-14T17:15:00+08:00",
+  "purpose": "模拟评委自备 API Key 后的真实复现；区分 2026-11-12 模板工作流闭环与 2026-11-14 动态编排内核（主入口）真实运行。",
+  "correction_note": "2026-11-12 的 L3 复现实际运行的是旧模板工作流 run_live_demo.py（模板 DAG），不是模型驱动动态编排；本更新保留原记录并补充动态编排内核的真实运行，避免把模板闭环误称为动态编排。",
+  "environment": {
+    "os": "Windows 11",
+    "python": "3.13.5",
+    "node": "24.14.1",
+    "wsl_runtime": "Microsoft WSL 3.0.3",
+    "wsl_distro": "AgentForge（Ubuntu 22.04）",
+    "docker_engine": "29.9.3",
+    "acceptance_image": "agentforge-test:py313",
+    "acceptance_image_id": "sha256:1edc3cba75dd1917bb78226e897fdb801a0272ea2e02319345de0bd3b8cae225",
+    "repository_commit": "ea30fa5",
+    "acceptance_image_id_20261114_after_pin": "sha256:a6bd11ad555ce7120a31432d37209ae7050d0079f8a15f8e7bbd2ae1cac1f296",
+    "base_image_digest": "sha256:e48f59cdba69a3cbd9ed2cf0f348d90d45a8d350d98134cf1070bc106ee9ed90",
+    "note": "2026-11-12/14 的模型运行使用当时镜像 sha256:1edc…；2026-11-14 已固定 base digest 重建为 a6bd…，并重跑 6 项沙箱探针通过（见证据样本/sandbox-probe.json）。"
+  },
+  "model": {
+    "base_url": "https://aigw.omniedu.com/v1",
+    "model": "deepseek-v4.1-flash",
+    "temperature": 0.1,
+    "timeout_seconds": 60,
+    "min_request_interval_seconds": 4.2,
+    "api_key": "本机 .env（不记录、不入包）"
+  },
+  "runs": [
+    {
+      "date": "2026-11-12",
+      "path": "legacy_template_workflow",
+      "name": "模板工作流闭环（run_live_demo.py，非动态编排）",
+      "run_id": "a47c4bfd06b6441b852b0a823cb0464b",
+      "status": "succeeded",
+      "model_calls": 7,
+      "tokens": 21532,
+      "duration_seconds": 38.85,
+      "events": 44,
+      "verification": "独立 Docker 验收 10/10 通过（exit_code=0, isolated=true）",
+      "repair_round": 0,
+      "note": "旧模板 DAG 路径；不作为动态编排证据。"
+    },
+    {
+      "date": "2026-11-14",
+      "path": "model_directed_v1",
+      "name": "动态编排内核（主入口）正常预算真实运行",
+      "run_id": "18673b44240446838132de4f66439671",
+      "status": "succeeded",
+      "model_calls": 5,
+      "tokens": 21113,
+      "duration_seconds": 37.889,
+      "tasks": 2,
+      "decisions": [
+        "dispatch",
+        "verify",
+        "finish"
+      ],
+      "verifications": [
+        {
+          "status": "passed",
+          "exit_code": 0,
+          "isolated": true
+        }
+      ],
+      "verified_hash": "ce2a248b2283c7f5121957bc71d2ff8d376fb0f340df2fc555cef90075db433e",
+      "finishing_budget": {
+        "revision": "finishing-budget-v1",
+        "reserved_calls": 2,
+        "reserved_tokens": 60000,
+        "reserved_verifications": 1,
+        "reserved_steps": 1,
+        "reserved_seconds": 60
+      },
+      "note": "dispatch→verify→finish；12/12 独立 Docker 验收，classification=natural_candidate。"
+    },
+    {
+      "date": "2026-11-14",
+      "path": "model_directed_v1_tight_budget",
+      "name": "动态编排内核（主入口）收紧预算真实收尾样本",
+      "run_id": "45b4a6b39d9a44d2a2002c6a72b8f534",
+      "status": "needs_human",
+      "model_calls": 1,
+      "tokens": 2443,
+      "duration_seconds": 10.997,
+      "tasks": 2,
+      "decisions": [
+        "dispatch"
+      ],
+      "verifications": [
+        {
+          "status": "failed",
+          "exit_code": 1,
+          "isolated": true
+        }
+      ],
+      "finishing_budget": {
+        "revision": "finishing-budget-v1",
+        "reserved_calls": 1,
+        "reserved_tokens": 4000,
+        "reserved_verifications": 1,
+        "reserved_steps": 1,
+        "reserved_seconds": 30
+      },
+      "finishing_state": {
+        "phase": "finalizing",
+        "reason": "tokens_reserve",
+        "started_at": "2026-11-14T08:37:47.995857+00:00"
+      },
+      "summary": "预算收尾未完成：收尾验收未通过，候选与失败证据已保留。",
+      "note": "预算收紧后触发真实收尾；收尾验收未通过 → needs_human（不是成功样本，证明门控不会强行通过）。classification=input_baseline。"
+    }
+  ],
+  "totals": {
+    "model_requests": 15,
+    "known_tokens": 45630,
+    "includes": "模型探针 2 请求 + 模板闭环 7 请求 + 动态编排 5 请求 + 收紧预算收尾 1 请求"
+  },
+  "conclusion": {
+    "template_workflow_reproduced": true,
+    "dynamic_orchestration_reproduced": true,
+    "finishing_budget_real_sample_observed": true,
+    "finishing_budget_result": "needs_human（收尾验收未通过，保留失败证据）",
+    "no_natural_self_repair_sample": true,
+    "note": "动态编排与预算收尾均已有真实模型样本；仍无自然代码失败后自修正样本，材料不宣称自然自修复。"
+  },
+  "limitations": [
+    "单机运行；模型输出有随机性，tokens/耗时/轮次可能与历史不同。",
+    "换机从零安装未验证；Windows + WSL2 是唯一实测环境。",
+    "模型服务为智云 deepseek-v4.1-flash；其他 OpenAI 兼容服务需先 probe_model.py。",
+    "真实模型调用会产生费用；本日志不含 API Key。"
+  ]
+}
