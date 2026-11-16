@@ -1,0 +1,2199 @@
+{
+  "video": "submission/演示视频-新版-20261116.mp4",
+  "video_sha256": "76fb26f5bdf5c0b5c54905c1342836f11ef65fc906162adcc7d61ba980d05c02",
+  "video_bytes": 11997240,
+  "duration_seconds": 203.29,
+  "width": 1920,
+  "height": 1080,
+  "fps": 30,
+  "voice": "zh-CN-XiaoxiaoNeural",
+  "rate": "-5%",
+  "original_video_sha256": "614d8020e2f1e4a77cf7c0f0f048f0aed554f05b3e117311634dd18256b14115",
+  "original_unchanged": true,
+  "full_decode_passed": true,
+  "new_model_calls": 0,
+  "live_preview_http_requests": 40,
+  "source_archive": "submission/video-remake-20261116-source.zip",
+  "source_archive_sha256": "9648cb0ed83d65decf3d87585d4301fedbfb59776236ab18d62afe9709462029",
+  "source_archive_bytes": 19385584,
+  "source_archive_crc_passed": true,
+  "source_input_count": 544,
+  "source_inputs": [
+    {
+      "path": "submission/video-work/remake-20261116/audio/01-01.json",
+      "sha256": "04b738e0322a56fd99a60273c10b631199397e825a9a3aac86e935066257bac4"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/audio/01-01.mp3",
+      "sha256": "1a8d338d9635c266892d0d84f644e9a906968424e2230d3761c02d5e49ccd9ec"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/audio/01-02.json",
+      "sha256": "098564b398635964701c6bba406a37aa3e99daa9f17e20e4edc94bae78ab905c"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/audio/01-02.mp3",
+      "sha256": "986c3ed3abccdc787b5dcb83f243b803aa2a83bf5c507f3c682dc5dcf5bac7cf"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/audio/01-03.json",
+      "sha256": "42b2c8a3fd04a04da0a520b1b4f3b26f80b3ef7ea3e411663ce3c8cd053074d6"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/audio/01-03.mp3",
+      "sha256": "eafd3c8f971a2e1247f2e5c783ea5dacf9f353d2b1942661ea53eb20307cd08f"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/audio/01-04.json",
+      "sha256": "80eb4cfdcc3157f77910365f2d6343edbc90ef4d088178a24505e9fe422dc17d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/audio/01-04.mp3",
+      "sha256": "338c247f59b20f3a486235fabda9813e13eaf2d7210d0d979e3287be72e1f64e"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/audio/02-01.json",
+      "sha256": "4c0fa8375362865c0e4ac38c03fe8b682976681e4e23bdd53bb556596c008df5"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/audio/02-01.mp3",
+      "sha256": "1fd56d206c99cd0ae720be3a9d6fcc3c362f87fb6c8262ab2f545c5e99d4a233"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/audio/02-02.json",
+      "sha256": "7382a678d6ee90722e5ed0ccef92f70c3403c7d4628c864f6db20544960c2826"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/audio/02-02.mp3",
+      "sha256": "ac8a920962b8c429caf518143badbb94c428c60b9786bf168b55bcba6e712866"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/audio/02-03.json",
+      "sha256": "bfc145ef504cb63e42bc7187c87190b201fe4dc5e1377fd8ccee372ba5d02576"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/audio/02-03.mp3",
+      "sha256": "c00f2276a07dcda918f85221f3eb6fc9bf2f0ab2f9d0b2aaa4517106831d3ced"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/audio/02-04.json",
+      "sha256": "6145a74c2fd826cefb79577b072d5411e8de0ba931a2d826573843d42d389fa6"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/audio/02-04.mp3",
+      "sha256": "f419ca00f60029a2094e0cd1b48d4de21ce95384b2b34f681c353069fbe0396c"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/audio/03-01.json",
+      "sha256": "9bee39ab54816b913ecc701d830c102323c4edb45bcf5f3f985d9a19e6711b16"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/audio/03-01.mp3",
+      "sha256": "fff41e57f91ce1c25d56bf5ce808a4d40b66d4285ac0817870129809268a5bf3"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/audio/03-02.json",
+      "sha256": "cb4b01b6fdea92094d0491c98867f1a499429417ad86249b4b5ffb4d8aa72de2"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/audio/03-02.mp3",
+      "sha256": "c5f0b1d7e3a5cd3ef061e458e0e4969be4ef498e563bd5739b7df4959222a808"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/audio/03-03.json",
+      "sha256": "8fffe68ad5751365d142d21c6d16d668cd5890c0809368a84c19308213e70a29"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/audio/03-03.mp3",
+      "sha256": "25d742e9048bb4cf698202b3e0cf54837c5d9a41b504e45412c37ba214555d50"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/audio/03-04.json",
+      "sha256": "5c1fbfce9b25c9ce329492845422d4e7f478bf3d4e796b6645ffb750a792f463"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/audio/03-04.mp3",
+      "sha256": "723ab45afaa095bbe94e276a713e1f2229ac904272f0a9bdaf6abdfa1c9c053f"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/audio/04-01.json",
+      "sha256": "91e6cb9290a9be9330341a48d6454ddd408856f85e7f0a833e2892ea756b8c46"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/audio/04-01.mp3",
+      "sha256": "409fa0f486ea4dacb469e0d3c6296763882b0c7124c3616e71fd8a8138c43ff2"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/audio/04-02.json",
+      "sha256": "3023f2584d3a6d16f6a6e6e3696dec9c5024882f3f5f785745840f12d1ef13b9"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/audio/04-02.mp3",
+      "sha256": "528d1de7467569ad87c7f7991ebac76bc61341b73e40504b07e8d7f1eefe846a"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/audio/04-03.json",
+      "sha256": "bca3776733867b0d1f50a0674df3d0f9dd89e8df4e3e830edf9ea7be7b24b710"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/audio/04-03.mp3",
+      "sha256": "ba3a2038fd1b3bfdbb6c5fd15a4281eda23533643cbec5afcf986734b2690a9c"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/audio/04-04.json",
+      "sha256": "c00fa3fe84712d8f0a926e7e102c6c7284ab8f851f947ae30c49a5308f2a604b"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/audio/04-04.mp3",
+      "sha256": "ba3a2038fd1b3bfdbb6c5fd15a4281eda23533643cbec5afcf986734b2690a9c"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/audio/05-01.json",
+      "sha256": "d22acf42337fb9d1a298c18c34ab5a3df44caaee0dbb5fb696e8b718f42f1427"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/audio/05-01.mp3",
+      "sha256": "27f2d90a8a3525da91377bfac80afbfb1dfc9cb13e562b827d123287aa2a9b29"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/audio/05-02.json",
+      "sha256": "4994598e1dc4e15217f1b6bfa085a6bc0a0f29eaa29f7a5d49c07e79f69c2656"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/audio/05-02.mp3",
+      "sha256": "dd64f6b7d378a1f5a4ae728dd8afec6ef52123d3be61f739ae866608f494d413"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/audio/05-03.json",
+      "sha256": "62cbe1403e39825961c46c0805bd1ef94a46667da9ac4332ddcf77bf95b810ad"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/audio/05-03.mp3",
+      "sha256": "d174a900afb675cdd0d9520184ba0e90f4185a2b5410daf51e82ef2d455b9bf3"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/audio/05-04.json",
+      "sha256": "465e94522b45c8b21bf36bc779edf56235dd1625bb909773c04c3cf3c5e2e318"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/audio/05-04.mp3",
+      "sha256": "7817a846ce347a6a84d7672895f92e6a390ab50d4de556083d241344e7c2ca9b"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/audio/06-01.json",
+      "sha256": "e2246141e77418f2bbdda32de1c8d97d95412876ec98602ee638fbd8a8eaf051"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/audio/06-01.mp3",
+      "sha256": "dea8b1635a14f7b49ea9d648837996f2e88f32b29c35db80b82dad02bd76a596"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/audio/06-02.json",
+      "sha256": "cc0124a385fdef4345a9c288c90284590dabca1c2c891b88ae08824f07cee569"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/audio/06-02.mp3",
+      "sha256": "a439e1484480427cdbff80384a5c6531dad1505b1c59c0c90cec745f8bc16809"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/audio/06-03.json",
+      "sha256": "826e01864e96a6b0c471b07cba160ec64e271e2228e9ae5d8a2295e3b87fed9d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/audio/06-03.mp3",
+      "sha256": "373efb714da8032db5f05b76e94cfc5e1c94f3610a53ff3eb73cdb10cf6abce1"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/audio/07-01.json",
+      "sha256": "0833c6e6fad6baf14632d7c85baa648e0359e65c5978a9415ba6080d421177b8"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/audio/07-01.mp3",
+      "sha256": "0567614f171822a977c461551e3ef24a06f7659d81b1274d72d62e57b7ededef"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/audio/07-02.json",
+      "sha256": "6e87137a1bd7f5dd5fcb3273857e2e40beaf9890e6e6509cdf885dca497f1662"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/audio/07-02.mp3",
+      "sha256": "8e184bf584eb77b8ccb11b5987c1d92384e1e41bd005c76b6825adee97d768f3"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/audio/07-03.json",
+      "sha256": "a3bce5bd2e8aed6285e0b43bdf45e33794d649fa25d4ae18ea8e50344cbdd104"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/audio/07-03.mp3",
+      "sha256": "4dfe1f12d6e4f56c0c16a4e8e7d916bf2f6f2e2b1bc373c10cbcd615eecb9ac5"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/audio/07-04.json",
+      "sha256": "70f71c7ed90e8c8bee509cf9404d27c202c017155d25364221229ebaebb8874c"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/audio/07-04.mp3",
+      "sha256": "d29d8bb195cc3dceea74dab88f36f98c5f3f4e46b3315958705c9e5509ef3d7b"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/audio/08-01.json",
+      "sha256": "ce35c134268bacb84753d30bbc0666bcf3d65500c1aa616b8995c15d1e9993e0"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/audio/08-01.mp3",
+      "sha256": "73e9c6c3fe3b4e6bdfad9d59c70f9c6e173540ce35b7fa68956b5224f90e4a51"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/audio/08-02.json",
+      "sha256": "1ca34c6a70b10be171e669f16882a79de312fb52331de3cd1fa508d2f0347f38"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/audio/08-02.mp3",
+      "sha256": "f50202761b169de888ed61628042144817797bf65402c9e90385e42672e044eb"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/audio/08-03.json",
+      "sha256": "2e717543dee2c87fb9a85d2e93a51a9709fdb788375621e717a07c9a1926ca39"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/audio/08-03.mp3",
+      "sha256": "64894e4849361d42dd1341ebd8584ab24100376add6e26e73193146c2d4b35e7"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/audio/captions.json",
+      "sha256": "94cbb26fd0846444028327f024e1c7efa98d9c4e4940d88b75d330a114484b39"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/audio/captions.srt",
+      "sha256": "5f5d17d774cdf50f9d2e211db9e43cb727345e8c374568920936fcf6b9817313"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/audio/manifest.json",
+      "sha256": "920e4ecc56fa1848b135f8929883c34e989b72e04bec2580530912ebbfd97366"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/audio/narration.wav",
+      "sha256": "183a7e03c7e5ab275246056e3398076efd9712c64e8841d317fe5796c77a5ae0"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/board-final.png",
+      "sha256": "2f7b5b0a1ecdf3584d7634188feeb853f4a2bed4e8c0134ad3c52e736f5ef0e6"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-actions-edit/board-actions-edit.mp4",
+      "sha256": "df2efce7d4892389c0fb29c4d7131ce1fedc850d18e6405e1a8012af20e5c141"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-actions-edit/edit-note.txt",
+      "sha256": "1c35cc0a7742f561411ef1833eb37a73d306d653f7b1ba5fe67f3f09a027e5f2"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00000.png",
+      "sha256": "d7e6efd03c6f0d5c9bf493b700f367dcc3411f1eeb77be2973e1d8ec6ae7bdec"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00001.png",
+      "sha256": "aa3f54d71e58d7d8318a32da8ede2799a0f15cce0edd19c0e9e9b02540172d72"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00002.png",
+      "sha256": "4de6f647fb994f4b9669433c4d24a3d39ce105f661caf0f2f6e4115a527f2d42"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00003.png",
+      "sha256": "f6ccc273363b32fba274c75a95af0bd79d37e85c9a506f9b48dc03f77a2e1656"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00004.png",
+      "sha256": "711d511a38802690cb062f5755eec2683744c2577606b55c96a0af59b893ef43"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00005.png",
+      "sha256": "d7995f6a92569304c7975bc76134e2ce6af06716cb8daf8a41f7e65c6c22e397"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00006.png",
+      "sha256": "d7995f6a92569304c7975bc76134e2ce6af06716cb8daf8a41f7e65c6c22e397"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00007.png",
+      "sha256": "44686db0887f4824e25ab0c59a741bae3986bbf10b91c9939ba8fdb65f6361bb"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00008.png",
+      "sha256": "7ab83267c863bcd91c0bde3672addbfdaefcff01ab3eb9a1593ae810940053aa"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00009.png",
+      "sha256": "7ab83267c863bcd91c0bde3672addbfdaefcff01ab3eb9a1593ae810940053aa"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00010.png",
+      "sha256": "7ab83267c863bcd91c0bde3672addbfdaefcff01ab3eb9a1593ae810940053aa"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00011.png",
+      "sha256": "7ab83267c863bcd91c0bde3672addbfdaefcff01ab3eb9a1593ae810940053aa"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00012.png",
+      "sha256": "7ab83267c863bcd91c0bde3672addbfdaefcff01ab3eb9a1593ae810940053aa"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00013.png",
+      "sha256": "7ab83267c863bcd91c0bde3672addbfdaefcff01ab3eb9a1593ae810940053aa"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00014.png",
+      "sha256": "7ab83267c863bcd91c0bde3672addbfdaefcff01ab3eb9a1593ae810940053aa"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00015.png",
+      "sha256": "7ab83267c863bcd91c0bde3672addbfdaefcff01ab3eb9a1593ae810940053aa"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00016.png",
+      "sha256": "7ab83267c863bcd91c0bde3672addbfdaefcff01ab3eb9a1593ae810940053aa"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00017.png",
+      "sha256": "7ab83267c863bcd91c0bde3672addbfdaefcff01ab3eb9a1593ae810940053aa"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00018.png",
+      "sha256": "7ab83267c863bcd91c0bde3672addbfdaefcff01ab3eb9a1593ae810940053aa"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00019.png",
+      "sha256": "7ab83267c863bcd91c0bde3672addbfdaefcff01ab3eb9a1593ae810940053aa"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00020.png",
+      "sha256": "7ab83267c863bcd91c0bde3672addbfdaefcff01ab3eb9a1593ae810940053aa"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00021.png",
+      "sha256": "7ab83267c863bcd91c0bde3672addbfdaefcff01ab3eb9a1593ae810940053aa"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00022.png",
+      "sha256": "7ab83267c863bcd91c0bde3672addbfdaefcff01ab3eb9a1593ae810940053aa"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00023.png",
+      "sha256": "7ab83267c863bcd91c0bde3672addbfdaefcff01ab3eb9a1593ae810940053aa"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00024.png",
+      "sha256": "7ab83267c863bcd91c0bde3672addbfdaefcff01ab3eb9a1593ae810940053aa"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00025.png",
+      "sha256": "7ab83267c863bcd91c0bde3672addbfdaefcff01ab3eb9a1593ae810940053aa"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00026.png",
+      "sha256": "7ab83267c863bcd91c0bde3672addbfdaefcff01ab3eb9a1593ae810940053aa"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00027.png",
+      "sha256": "7ab83267c863bcd91c0bde3672addbfdaefcff01ab3eb9a1593ae810940053aa"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00028.png",
+      "sha256": "7ab83267c863bcd91c0bde3672addbfdaefcff01ab3eb9a1593ae810940053aa"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00029.png",
+      "sha256": "7ab83267c863bcd91c0bde3672addbfdaefcff01ab3eb9a1593ae810940053aa"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00030.png",
+      "sha256": "7ab83267c863bcd91c0bde3672addbfdaefcff01ab3eb9a1593ae810940053aa"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00031.png",
+      "sha256": "7ab83267c863bcd91c0bde3672addbfdaefcff01ab3eb9a1593ae810940053aa"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00032.png",
+      "sha256": "7ab83267c863bcd91c0bde3672addbfdaefcff01ab3eb9a1593ae810940053aa"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00033.png",
+      "sha256": "886d56558960561be87023ef54a0e14ec919be4ebaa87b8676fe6e4a1b57222d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00034.png",
+      "sha256": "886d56558960561be87023ef54a0e14ec919be4ebaa87b8676fe6e4a1b57222d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00035.png",
+      "sha256": "886d56558960561be87023ef54a0e14ec919be4ebaa87b8676fe6e4a1b57222d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00036.png",
+      "sha256": "886d56558960561be87023ef54a0e14ec919be4ebaa87b8676fe6e4a1b57222d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00037.png",
+      "sha256": "886d56558960561be87023ef54a0e14ec919be4ebaa87b8676fe6e4a1b57222d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00038.png",
+      "sha256": "886d56558960561be87023ef54a0e14ec919be4ebaa87b8676fe6e4a1b57222d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00039.png",
+      "sha256": "886d56558960561be87023ef54a0e14ec919be4ebaa87b8676fe6e4a1b57222d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00040.png",
+      "sha256": "886d56558960561be87023ef54a0e14ec919be4ebaa87b8676fe6e4a1b57222d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00041.png",
+      "sha256": "886d56558960561be87023ef54a0e14ec919be4ebaa87b8676fe6e4a1b57222d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00042.png",
+      "sha256": "886d56558960561be87023ef54a0e14ec919be4ebaa87b8676fe6e4a1b57222d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00043.png",
+      "sha256": "886d56558960561be87023ef54a0e14ec919be4ebaa87b8676fe6e4a1b57222d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00044.png",
+      "sha256": "886d56558960561be87023ef54a0e14ec919be4ebaa87b8676fe6e4a1b57222d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00045.png",
+      "sha256": "886d56558960561be87023ef54a0e14ec919be4ebaa87b8676fe6e4a1b57222d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00046.png",
+      "sha256": "886d56558960561be87023ef54a0e14ec919be4ebaa87b8676fe6e4a1b57222d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00047.png",
+      "sha256": "886d56558960561be87023ef54a0e14ec919be4ebaa87b8676fe6e4a1b57222d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00048.png",
+      "sha256": "886d56558960561be87023ef54a0e14ec919be4ebaa87b8676fe6e4a1b57222d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00049.png",
+      "sha256": "886d56558960561be87023ef54a0e14ec919be4ebaa87b8676fe6e4a1b57222d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00050.png",
+      "sha256": "886d56558960561be87023ef54a0e14ec919be4ebaa87b8676fe6e4a1b57222d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00051.png",
+      "sha256": "886d56558960561be87023ef54a0e14ec919be4ebaa87b8676fe6e4a1b57222d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00052.png",
+      "sha256": "886d56558960561be87023ef54a0e14ec919be4ebaa87b8676fe6e4a1b57222d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00053.png",
+      "sha256": "886d56558960561be87023ef54a0e14ec919be4ebaa87b8676fe6e4a1b57222d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00054.png",
+      "sha256": "886d56558960561be87023ef54a0e14ec919be4ebaa87b8676fe6e4a1b57222d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00055.png",
+      "sha256": "886d56558960561be87023ef54a0e14ec919be4ebaa87b8676fe6e4a1b57222d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00056.png",
+      "sha256": "08d19756c0b0701fd0495b050f4ccf3fcc67a312cad414bb747456c130669a3e"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00057.png",
+      "sha256": "08d19756c0b0701fd0495b050f4ccf3fcc67a312cad414bb747456c130669a3e"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00058.png",
+      "sha256": "08d19756c0b0701fd0495b050f4ccf3fcc67a312cad414bb747456c130669a3e"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00059.png",
+      "sha256": "08d19756c0b0701fd0495b050f4ccf3fcc67a312cad414bb747456c130669a3e"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00060.png",
+      "sha256": "08d19756c0b0701fd0495b050f4ccf3fcc67a312cad414bb747456c130669a3e"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00061.png",
+      "sha256": "08d19756c0b0701fd0495b050f4ccf3fcc67a312cad414bb747456c130669a3e"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00062.png",
+      "sha256": "08d19756c0b0701fd0495b050f4ccf3fcc67a312cad414bb747456c130669a3e"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00063.png",
+      "sha256": "08d19756c0b0701fd0495b050f4ccf3fcc67a312cad414bb747456c130669a3e"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00064.png",
+      "sha256": "08d19756c0b0701fd0495b050f4ccf3fcc67a312cad414bb747456c130669a3e"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00065.png",
+      "sha256": "08d19756c0b0701fd0495b050f4ccf3fcc67a312cad414bb747456c130669a3e"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00066.png",
+      "sha256": "08d19756c0b0701fd0495b050f4ccf3fcc67a312cad414bb747456c130669a3e"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00067.png",
+      "sha256": "08d19756c0b0701fd0495b050f4ccf3fcc67a312cad414bb747456c130669a3e"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00068.png",
+      "sha256": "08d19756c0b0701fd0495b050f4ccf3fcc67a312cad414bb747456c130669a3e"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00069.png",
+      "sha256": "08d19756c0b0701fd0495b050f4ccf3fcc67a312cad414bb747456c130669a3e"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00070.png",
+      "sha256": "08d19756c0b0701fd0495b050f4ccf3fcc67a312cad414bb747456c130669a3e"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00071.png",
+      "sha256": "08d19756c0b0701fd0495b050f4ccf3fcc67a312cad414bb747456c130669a3e"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00072.png",
+      "sha256": "08d19756c0b0701fd0495b050f4ccf3fcc67a312cad414bb747456c130669a3e"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00073.png",
+      "sha256": "08d19756c0b0701fd0495b050f4ccf3fcc67a312cad414bb747456c130669a3e"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00074.png",
+      "sha256": "08d19756c0b0701fd0495b050f4ccf3fcc67a312cad414bb747456c130669a3e"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00075.png",
+      "sha256": "08d19756c0b0701fd0495b050f4ccf3fcc67a312cad414bb747456c130669a3e"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00076.png",
+      "sha256": "08d19756c0b0701fd0495b050f4ccf3fcc67a312cad414bb747456c130669a3e"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00077.png",
+      "sha256": "08d19756c0b0701fd0495b050f4ccf3fcc67a312cad414bb747456c130669a3e"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00078.png",
+      "sha256": "08d19756c0b0701fd0495b050f4ccf3fcc67a312cad414bb747456c130669a3e"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00079.png",
+      "sha256": "08d19756c0b0701fd0495b050f4ccf3fcc67a312cad414bb747456c130669a3e"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00080.png",
+      "sha256": "08d19756c0b0701fd0495b050f4ccf3fcc67a312cad414bb747456c130669a3e"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00081.png",
+      "sha256": "08d19756c0b0701fd0495b050f4ccf3fcc67a312cad414bb747456c130669a3e"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00082.png",
+      "sha256": "08d19756c0b0701fd0495b050f4ccf3fcc67a312cad414bb747456c130669a3e"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00083.png",
+      "sha256": "08d19756c0b0701fd0495b050f4ccf3fcc67a312cad414bb747456c130669a3e"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00084.png",
+      "sha256": "08d19756c0b0701fd0495b050f4ccf3fcc67a312cad414bb747456c130669a3e"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00085.png",
+      "sha256": "08d19756c0b0701fd0495b050f4ccf3fcc67a312cad414bb747456c130669a3e"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00086.png",
+      "sha256": "08d19756c0b0701fd0495b050f4ccf3fcc67a312cad414bb747456c130669a3e"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00087.png",
+      "sha256": "08d19756c0b0701fd0495b050f4ccf3fcc67a312cad414bb747456c130669a3e"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00088.png",
+      "sha256": "08d19756c0b0701fd0495b050f4ccf3fcc67a312cad414bb747456c130669a3e"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00089.png",
+      "sha256": "08d19756c0b0701fd0495b050f4ccf3fcc67a312cad414bb747456c130669a3e"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00090.png",
+      "sha256": "08d19756c0b0701fd0495b050f4ccf3fcc67a312cad414bb747456c130669a3e"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00091.png",
+      "sha256": "08d19756c0b0701fd0495b050f4ccf3fcc67a312cad414bb747456c130669a3e"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00092.png",
+      "sha256": "08d19756c0b0701fd0495b050f4ccf3fcc67a312cad414bb747456c130669a3e"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00093.png",
+      "sha256": "08d19756c0b0701fd0495b050f4ccf3fcc67a312cad414bb747456c130669a3e"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00094.png",
+      "sha256": "08d19756c0b0701fd0495b050f4ccf3fcc67a312cad414bb747456c130669a3e"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00095.png",
+      "sha256": "08d19756c0b0701fd0495b050f4ccf3fcc67a312cad414bb747456c130669a3e"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00096.png",
+      "sha256": "08d19756c0b0701fd0495b050f4ccf3fcc67a312cad414bb747456c130669a3e"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00097.png",
+      "sha256": "08d19756c0b0701fd0495b050f4ccf3fcc67a312cad414bb747456c130669a3e"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00098.png",
+      "sha256": "08d19756c0b0701fd0495b050f4ccf3fcc67a312cad414bb747456c130669a3e"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00099.png",
+      "sha256": "08d19756c0b0701fd0495b050f4ccf3fcc67a312cad414bb747456c130669a3e"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00100.png",
+      "sha256": "08d19756c0b0701fd0495b050f4ccf3fcc67a312cad414bb747456c130669a3e"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00101.png",
+      "sha256": "08d19756c0b0701fd0495b050f4ccf3fcc67a312cad414bb747456c130669a3e"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00102.png",
+      "sha256": "08d19756c0b0701fd0495b050f4ccf3fcc67a312cad414bb747456c130669a3e"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00103.png",
+      "sha256": "08d19756c0b0701fd0495b050f4ccf3fcc67a312cad414bb747456c130669a3e"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00104.png",
+      "sha256": "08d19756c0b0701fd0495b050f4ccf3fcc67a312cad414bb747456c130669a3e"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00105.png",
+      "sha256": "08d19756c0b0701fd0495b050f4ccf3fcc67a312cad414bb747456c130669a3e"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00106.png",
+      "sha256": "08d19756c0b0701fd0495b050f4ccf3fcc67a312cad414bb747456c130669a3e"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00107.png",
+      "sha256": "08d19756c0b0701fd0495b050f4ccf3fcc67a312cad414bb747456c130669a3e"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00108.png",
+      "sha256": "08d19756c0b0701fd0495b050f4ccf3fcc67a312cad414bb747456c130669a3e"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00109.png",
+      "sha256": "08d19756c0b0701fd0495b050f4ccf3fcc67a312cad414bb747456c130669a3e"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00110.png",
+      "sha256": "08d19756c0b0701fd0495b050f4ccf3fcc67a312cad414bb747456c130669a3e"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00111.png",
+      "sha256": "08d19756c0b0701fd0495b050f4ccf3fcc67a312cad414bb747456c130669a3e"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00112.png",
+      "sha256": "08d19756c0b0701fd0495b050f4ccf3fcc67a312cad414bb747456c130669a3e"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00113.png",
+      "sha256": "08d19756c0b0701fd0495b050f4ccf3fcc67a312cad414bb747456c130669a3e"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00114.png",
+      "sha256": "08d19756c0b0701fd0495b050f4ccf3fcc67a312cad414bb747456c130669a3e"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00115.png",
+      "sha256": "08d19756c0b0701fd0495b050f4ccf3fcc67a312cad414bb747456c130669a3e"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00116.png",
+      "sha256": "08d19756c0b0701fd0495b050f4ccf3fcc67a312cad414bb747456c130669a3e"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00117.png",
+      "sha256": "08d19756c0b0701fd0495b050f4ccf3fcc67a312cad414bb747456c130669a3e"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00118.png",
+      "sha256": "08d19756c0b0701fd0495b050f4ccf3fcc67a312cad414bb747456c130669a3e"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00119.png",
+      "sha256": "08d19756c0b0701fd0495b050f4ccf3fcc67a312cad414bb747456c130669a3e"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00120.png",
+      "sha256": "08d19756c0b0701fd0495b050f4ccf3fcc67a312cad414bb747456c130669a3e"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00121.png",
+      "sha256": "08d19756c0b0701fd0495b050f4ccf3fcc67a312cad414bb747456c130669a3e"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00122.png",
+      "sha256": "08d19756c0b0701fd0495b050f4ccf3fcc67a312cad414bb747456c130669a3e"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00123.png",
+      "sha256": "08d19756c0b0701fd0495b050f4ccf3fcc67a312cad414bb747456c130669a3e"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00124.png",
+      "sha256": "08d19756c0b0701fd0495b050f4ccf3fcc67a312cad414bb747456c130669a3e"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00125.png",
+      "sha256": "08d19756c0b0701fd0495b050f4ccf3fcc67a312cad414bb747456c130669a3e"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00126.png",
+      "sha256": "08d19756c0b0701fd0495b050f4ccf3fcc67a312cad414bb747456c130669a3e"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00127.png",
+      "sha256": "08d19756c0b0701fd0495b050f4ccf3fcc67a312cad414bb747456c130669a3e"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00128.png",
+      "sha256": "08d19756c0b0701fd0495b050f4ccf3fcc67a312cad414bb747456c130669a3e"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00129.png",
+      "sha256": "08d19756c0b0701fd0495b050f4ccf3fcc67a312cad414bb747456c130669a3e"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00130.png",
+      "sha256": "08d19756c0b0701fd0495b050f4ccf3fcc67a312cad414bb747456c130669a3e"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00131.png",
+      "sha256": "08d19756c0b0701fd0495b050f4ccf3fcc67a312cad414bb747456c130669a3e"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00132.png",
+      "sha256": "08d19756c0b0701fd0495b050f4ccf3fcc67a312cad414bb747456c130669a3e"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00133.png",
+      "sha256": "08d19756c0b0701fd0495b050f4ccf3fcc67a312cad414bb747456c130669a3e"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00134.png",
+      "sha256": "08d19756c0b0701fd0495b050f4ccf3fcc67a312cad414bb747456c130669a3e"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00135.png",
+      "sha256": "08d19756c0b0701fd0495b050f4ccf3fcc67a312cad414bb747456c130669a3e"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00136.png",
+      "sha256": "08d19756c0b0701fd0495b050f4ccf3fcc67a312cad414bb747456c130669a3e"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00137.png",
+      "sha256": "08d19756c0b0701fd0495b050f4ccf3fcc67a312cad414bb747456c130669a3e"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00138.png",
+      "sha256": "08d19756c0b0701fd0495b050f4ccf3fcc67a312cad414bb747456c130669a3e"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00139.png",
+      "sha256": "08d19756c0b0701fd0495b050f4ccf3fcc67a312cad414bb747456c130669a3e"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00140.png",
+      "sha256": "08d19756c0b0701fd0495b050f4ccf3fcc67a312cad414bb747456c130669a3e"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/00141.png",
+      "sha256": "08d19756c0b0701fd0495b050f4ccf3fcc67a312cad414bb747456c130669a3e"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/board-add-live.mp4",
+      "sha256": "bcc97b9e35ab744352becd44bb36958bed2cdad8d9ae2614f03f8bf074fbe47d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/capture.json",
+      "sha256": "c0255d7f5ff9a7ac36585d08aba8af25d51440361f5a9b45de5cae0840e2c824"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-add-live/frames.ffconcat",
+      "sha256": "129596ce9442ed37c6eaf6252e4c35d802bcf930ebd8b48e153bf26482a93d54"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00000.png",
+      "sha256": "08d19756c0b0701fd0495b050f4ccf3fcc67a312cad414bb747456c130669a3e"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00001.png",
+      "sha256": "389aad9cde17721817c340ef87bfde4e854f059da6e6f13df39f3d3b113a2833"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00002.png",
+      "sha256": "389aad9cde17721817c340ef87bfde4e854f059da6e6f13df39f3d3b113a2833"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00003.png",
+      "sha256": "389aad9cde17721817c340ef87bfde4e854f059da6e6f13df39f3d3b113a2833"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00004.png",
+      "sha256": "389aad9cde17721817c340ef87bfde4e854f059da6e6f13df39f3d3b113a2833"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00005.png",
+      "sha256": "389aad9cde17721817c340ef87bfde4e854f059da6e6f13df39f3d3b113a2833"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00006.png",
+      "sha256": "389aad9cde17721817c340ef87bfde4e854f059da6e6f13df39f3d3b113a2833"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00007.png",
+      "sha256": "389aad9cde17721817c340ef87bfde4e854f059da6e6f13df39f3d3b113a2833"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00008.png",
+      "sha256": "389aad9cde17721817c340ef87bfde4e854f059da6e6f13df39f3d3b113a2833"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00009.png",
+      "sha256": "389aad9cde17721817c340ef87bfde4e854f059da6e6f13df39f3d3b113a2833"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00010.png",
+      "sha256": "389aad9cde17721817c340ef87bfde4e854f059da6e6f13df39f3d3b113a2833"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00011.png",
+      "sha256": "389aad9cde17721817c340ef87bfde4e854f059da6e6f13df39f3d3b113a2833"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00012.png",
+      "sha256": "389aad9cde17721817c340ef87bfde4e854f059da6e6f13df39f3d3b113a2833"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00013.png",
+      "sha256": "389aad9cde17721817c340ef87bfde4e854f059da6e6f13df39f3d3b113a2833"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00014.png",
+      "sha256": "389aad9cde17721817c340ef87bfde4e854f059da6e6f13df39f3d3b113a2833"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00015.png",
+      "sha256": "389aad9cde17721817c340ef87bfde4e854f059da6e6f13df39f3d3b113a2833"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00016.png",
+      "sha256": "389aad9cde17721817c340ef87bfde4e854f059da6e6f13df39f3d3b113a2833"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00017.png",
+      "sha256": "389aad9cde17721817c340ef87bfde4e854f059da6e6f13df39f3d3b113a2833"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00018.png",
+      "sha256": "389aad9cde17721817c340ef87bfde4e854f059da6e6f13df39f3d3b113a2833"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00019.png",
+      "sha256": "389aad9cde17721817c340ef87bfde4e854f059da6e6f13df39f3d3b113a2833"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00020.png",
+      "sha256": "fd656af3a28a89c724f17808843b614aeb9a7f9737f610ad34d1bf1abb20318b"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00021.png",
+      "sha256": "fd656af3a28a89c724f17808843b614aeb9a7f9737f610ad34d1bf1abb20318b"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00022.png",
+      "sha256": "fd656af3a28a89c724f17808843b614aeb9a7f9737f610ad34d1bf1abb20318b"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00023.png",
+      "sha256": "fd656af3a28a89c724f17808843b614aeb9a7f9737f610ad34d1bf1abb20318b"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00024.png",
+      "sha256": "fd656af3a28a89c724f17808843b614aeb9a7f9737f610ad34d1bf1abb20318b"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00025.png",
+      "sha256": "fd656af3a28a89c724f17808843b614aeb9a7f9737f610ad34d1bf1abb20318b"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00026.png",
+      "sha256": "fd656af3a28a89c724f17808843b614aeb9a7f9737f610ad34d1bf1abb20318b"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00027.png",
+      "sha256": "fd656af3a28a89c724f17808843b614aeb9a7f9737f610ad34d1bf1abb20318b"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00028.png",
+      "sha256": "fd656af3a28a89c724f17808843b614aeb9a7f9737f610ad34d1bf1abb20318b"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00029.png",
+      "sha256": "fd656af3a28a89c724f17808843b614aeb9a7f9737f610ad34d1bf1abb20318b"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00030.png",
+      "sha256": "fd656af3a28a89c724f17808843b614aeb9a7f9737f610ad34d1bf1abb20318b"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00031.png",
+      "sha256": "fd656af3a28a89c724f17808843b614aeb9a7f9737f610ad34d1bf1abb20318b"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00032.png",
+      "sha256": "fd656af3a28a89c724f17808843b614aeb9a7f9737f610ad34d1bf1abb20318b"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00033.png",
+      "sha256": "fd656af3a28a89c724f17808843b614aeb9a7f9737f610ad34d1bf1abb20318b"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00034.png",
+      "sha256": "fd656af3a28a89c724f17808843b614aeb9a7f9737f610ad34d1bf1abb20318b"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00035.png",
+      "sha256": "fd656af3a28a89c724f17808843b614aeb9a7f9737f610ad34d1bf1abb20318b"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00036.png",
+      "sha256": "fd656af3a28a89c724f17808843b614aeb9a7f9737f610ad34d1bf1abb20318b"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00037.png",
+      "sha256": "fd656af3a28a89c724f17808843b614aeb9a7f9737f610ad34d1bf1abb20318b"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00038.png",
+      "sha256": "fd656af3a28a89c724f17808843b614aeb9a7f9737f610ad34d1bf1abb20318b"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00039.png",
+      "sha256": "fd656af3a28a89c724f17808843b614aeb9a7f9737f610ad34d1bf1abb20318b"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00040.png",
+      "sha256": "fd656af3a28a89c724f17808843b614aeb9a7f9737f610ad34d1bf1abb20318b"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00041.png",
+      "sha256": "c140f512c4c17738835b26e66aa9990864b804d29480a5ebca230091c2fa28f3"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00042.png",
+      "sha256": "c140f512c4c17738835b26e66aa9990864b804d29480a5ebca230091c2fa28f3"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00043.png",
+      "sha256": "c140f512c4c17738835b26e66aa9990864b804d29480a5ebca230091c2fa28f3"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00044.png",
+      "sha256": "ba450443364c92b7650fd26febd11d62e29c2265b868c8d17b158a4f99811dad"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00045.png",
+      "sha256": "060376ce1c7f1abac646c9df16145a569eb83e3f9e3ebe84f090d8869afb8c97"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00046.png",
+      "sha256": "060376ce1c7f1abac646c9df16145a569eb83e3f9e3ebe84f090d8869afb8c97"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00047.png",
+      "sha256": "060376ce1c7f1abac646c9df16145a569eb83e3f9e3ebe84f090d8869afb8c97"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00048.png",
+      "sha256": "060376ce1c7f1abac646c9df16145a569eb83e3f9e3ebe84f090d8869afb8c97"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00049.png",
+      "sha256": "060376ce1c7f1abac646c9df16145a569eb83e3f9e3ebe84f090d8869afb8c97"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00050.png",
+      "sha256": "060376ce1c7f1abac646c9df16145a569eb83e3f9e3ebe84f090d8869afb8c97"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00051.png",
+      "sha256": "060376ce1c7f1abac646c9df16145a569eb83e3f9e3ebe84f090d8869afb8c97"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00052.png",
+      "sha256": "060376ce1c7f1abac646c9df16145a569eb83e3f9e3ebe84f090d8869afb8c97"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00053.png",
+      "sha256": "060376ce1c7f1abac646c9df16145a569eb83e3f9e3ebe84f090d8869afb8c97"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00054.png",
+      "sha256": "060376ce1c7f1abac646c9df16145a569eb83e3f9e3ebe84f090d8869afb8c97"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00055.png",
+      "sha256": "060376ce1c7f1abac646c9df16145a569eb83e3f9e3ebe84f090d8869afb8c97"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00056.png",
+      "sha256": "060376ce1c7f1abac646c9df16145a569eb83e3f9e3ebe84f090d8869afb8c97"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00057.png",
+      "sha256": "060376ce1c7f1abac646c9df16145a569eb83e3f9e3ebe84f090d8869afb8c97"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00058.png",
+      "sha256": "060376ce1c7f1abac646c9df16145a569eb83e3f9e3ebe84f090d8869afb8c97"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00059.png",
+      "sha256": "060376ce1c7f1abac646c9df16145a569eb83e3f9e3ebe84f090d8869afb8c97"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00060.png",
+      "sha256": "060376ce1c7f1abac646c9df16145a569eb83e3f9e3ebe84f090d8869afb8c97"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00061.png",
+      "sha256": "060376ce1c7f1abac646c9df16145a569eb83e3f9e3ebe84f090d8869afb8c97"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00062.png",
+      "sha256": "060376ce1c7f1abac646c9df16145a569eb83e3f9e3ebe84f090d8869afb8c97"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00063.png",
+      "sha256": "060376ce1c7f1abac646c9df16145a569eb83e3f9e3ebe84f090d8869afb8c97"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00064.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00065.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00066.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00067.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00068.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00069.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00070.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00071.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00072.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00073.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00074.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00075.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00076.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00077.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00078.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00079.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00080.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00081.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00082.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00083.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00084.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00085.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00086.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00087.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00088.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00089.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00090.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00091.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00092.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00093.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00094.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00095.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00096.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00097.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00098.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00099.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00100.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00101.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00102.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00103.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00104.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00105.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00106.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00107.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00108.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00109.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00110.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00111.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00112.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00113.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00114.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00115.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00116.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00117.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00118.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00119.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00120.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00121.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00122.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00123.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00124.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00125.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00126.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00127.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00128.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00129.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00130.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00131.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00132.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00133.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00134.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00135.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00136.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00137.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00138.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00139.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00140.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00141.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00142.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00143.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00144.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00145.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00146.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00147.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00148.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00149.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00150.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00151.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00152.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00153.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00154.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00155.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00156.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00157.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00158.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00159.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00160.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00161.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00162.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00163.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00164.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00165.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00166.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00167.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00168.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00169.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00170.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00171.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00172.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00173.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00174.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00175.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00176.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00177.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00178.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00179.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00180.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00181.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00182.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00183.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00184.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00185.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00186.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/00187.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/board-filter-live.mp4",
+      "sha256": "d25ec06fd059e9f3086a980a239d8324f1705afa01bf34d5d420950d05224952"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/capture.json",
+      "sha256": "c48483618531ddf164c9830e00028870bd913fc5c7a4bf30c2a47b863e67ce97"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-filter-live/frames.ffconcat",
+      "sha256": "f609efb22bbf8a82f9165a0d888982b9f19dd7c76ae64f5f63f296b9f67753a2"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00000.png",
+      "sha256": "5a2df27796d149316a4bf5481f4050163dea137d772a2e6f68e6707b97cae86d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00001.png",
+      "sha256": "4098b07e979f85f21add79ca5d420e45d1186420bf9b96534e42679856ad8f97"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00002.png",
+      "sha256": "4098b07e979f85f21add79ca5d420e45d1186420bf9b96534e42679856ad8f97"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00003.png",
+      "sha256": "4098b07e979f85f21add79ca5d420e45d1186420bf9b96534e42679856ad8f97"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00004.png",
+      "sha256": "4098b07e979f85f21add79ca5d420e45d1186420bf9b96534e42679856ad8f97"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00005.png",
+      "sha256": "4098b07e979f85f21add79ca5d420e45d1186420bf9b96534e42679856ad8f97"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00006.png",
+      "sha256": "4098b07e979f85f21add79ca5d420e45d1186420bf9b96534e42679856ad8f97"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00007.png",
+      "sha256": "4098b07e979f85f21add79ca5d420e45d1186420bf9b96534e42679856ad8f97"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00008.png",
+      "sha256": "acd5a4f0e24a9e1cac9308aa82ac9679e2c38f6147477d403daa547e8a3456f8"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00009.png",
+      "sha256": "acd5a4f0e24a9e1cac9308aa82ac9679e2c38f6147477d403daa547e8a3456f8"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00010.png",
+      "sha256": "acd5a4f0e24a9e1cac9308aa82ac9679e2c38f6147477d403daa547e8a3456f8"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00011.png",
+      "sha256": "acd5a4f0e24a9e1cac9308aa82ac9679e2c38f6147477d403daa547e8a3456f8"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00012.png",
+      "sha256": "acd5a4f0e24a9e1cac9308aa82ac9679e2c38f6147477d403daa547e8a3456f8"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00013.png",
+      "sha256": "acd5a4f0e24a9e1cac9308aa82ac9679e2c38f6147477d403daa547e8a3456f8"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00014.png",
+      "sha256": "acd5a4f0e24a9e1cac9308aa82ac9679e2c38f6147477d403daa547e8a3456f8"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00015.png",
+      "sha256": "acd5a4f0e24a9e1cac9308aa82ac9679e2c38f6147477d403daa547e8a3456f8"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00016.png",
+      "sha256": "acd5a4f0e24a9e1cac9308aa82ac9679e2c38f6147477d403daa547e8a3456f8"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00017.png",
+      "sha256": "acd5a4f0e24a9e1cac9308aa82ac9679e2c38f6147477d403daa547e8a3456f8"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00018.png",
+      "sha256": "acd5a4f0e24a9e1cac9308aa82ac9679e2c38f6147477d403daa547e8a3456f8"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00019.png",
+      "sha256": "acd5a4f0e24a9e1cac9308aa82ac9679e2c38f6147477d403daa547e8a3456f8"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00020.png",
+      "sha256": "acd5a4f0e24a9e1cac9308aa82ac9679e2c38f6147477d403daa547e8a3456f8"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00021.png",
+      "sha256": "acd5a4f0e24a9e1cac9308aa82ac9679e2c38f6147477d403daa547e8a3456f8"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00022.png",
+      "sha256": "acd5a4f0e24a9e1cac9308aa82ac9679e2c38f6147477d403daa547e8a3456f8"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00023.png",
+      "sha256": "acd5a4f0e24a9e1cac9308aa82ac9679e2c38f6147477d403daa547e8a3456f8"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00024.png",
+      "sha256": "2f7b5b0a1ecdf3584d7634188feeb853f4a2bed4e8c0134ad3c52e736f5ef0e6"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00025.png",
+      "sha256": "2f7b5b0a1ecdf3584d7634188feeb853f4a2bed4e8c0134ad3c52e736f5ef0e6"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00026.png",
+      "sha256": "2f7b5b0a1ecdf3584d7634188feeb853f4a2bed4e8c0134ad3c52e736f5ef0e6"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00027.png",
+      "sha256": "2f7b5b0a1ecdf3584d7634188feeb853f4a2bed4e8c0134ad3c52e736f5ef0e6"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00028.png",
+      "sha256": "2f7b5b0a1ecdf3584d7634188feeb853f4a2bed4e8c0134ad3c52e736f5ef0e6"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00029.png",
+      "sha256": "2f7b5b0a1ecdf3584d7634188feeb853f4a2bed4e8c0134ad3c52e736f5ef0e6"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00030.png",
+      "sha256": "2f7b5b0a1ecdf3584d7634188feeb853f4a2bed4e8c0134ad3c52e736f5ef0e6"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00031.png",
+      "sha256": "2f7b5b0a1ecdf3584d7634188feeb853f4a2bed4e8c0134ad3c52e736f5ef0e6"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00032.png",
+      "sha256": "2f7b5b0a1ecdf3584d7634188feeb853f4a2bed4e8c0134ad3c52e736f5ef0e6"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00033.png",
+      "sha256": "2f7b5b0a1ecdf3584d7634188feeb853f4a2bed4e8c0134ad3c52e736f5ef0e6"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00034.png",
+      "sha256": "2f7b5b0a1ecdf3584d7634188feeb853f4a2bed4e8c0134ad3c52e736f5ef0e6"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00035.png",
+      "sha256": "2f7b5b0a1ecdf3584d7634188feeb853f4a2bed4e8c0134ad3c52e736f5ef0e6"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00036.png",
+      "sha256": "2f7b5b0a1ecdf3584d7634188feeb853f4a2bed4e8c0134ad3c52e736f5ef0e6"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00037.png",
+      "sha256": "2f7b5b0a1ecdf3584d7634188feeb853f4a2bed4e8c0134ad3c52e736f5ef0e6"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00038.png",
+      "sha256": "2f7b5b0a1ecdf3584d7634188feeb853f4a2bed4e8c0134ad3c52e736f5ef0e6"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00039.png",
+      "sha256": "2f7b5b0a1ecdf3584d7634188feeb853f4a2bed4e8c0134ad3c52e736f5ef0e6"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00040.png",
+      "sha256": "2f7b5b0a1ecdf3584d7634188feeb853f4a2bed4e8c0134ad3c52e736f5ef0e6"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00041.png",
+      "sha256": "2f7b5b0a1ecdf3584d7634188feeb853f4a2bed4e8c0134ad3c52e736f5ef0e6"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00042.png",
+      "sha256": "2f7b5b0a1ecdf3584d7634188feeb853f4a2bed4e8c0134ad3c52e736f5ef0e6"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00043.png",
+      "sha256": "2f7b5b0a1ecdf3584d7634188feeb853f4a2bed4e8c0134ad3c52e736f5ef0e6"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00044.png",
+      "sha256": "2f7b5b0a1ecdf3584d7634188feeb853f4a2bed4e8c0134ad3c52e736f5ef0e6"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00045.png",
+      "sha256": "2f7b5b0a1ecdf3584d7634188feeb853f4a2bed4e8c0134ad3c52e736f5ef0e6"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00046.png",
+      "sha256": "2f7b5b0a1ecdf3584d7634188feeb853f4a2bed4e8c0134ad3c52e736f5ef0e6"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00047.png",
+      "sha256": "2f7b5b0a1ecdf3584d7634188feeb853f4a2bed4e8c0134ad3c52e736f5ef0e6"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00048.png",
+      "sha256": "2f7b5b0a1ecdf3584d7634188feeb853f4a2bed4e8c0134ad3c52e736f5ef0e6"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00049.png",
+      "sha256": "2f7b5b0a1ecdf3584d7634188feeb853f4a2bed4e8c0134ad3c52e736f5ef0e6"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00050.png",
+      "sha256": "2f7b5b0a1ecdf3584d7634188feeb853f4a2bed4e8c0134ad3c52e736f5ef0e6"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00051.png",
+      "sha256": "2f7b5b0a1ecdf3584d7634188feeb853f4a2bed4e8c0134ad3c52e736f5ef0e6"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00052.png",
+      "sha256": "2f7b5b0a1ecdf3584d7634188feeb853f4a2bed4e8c0134ad3c52e736f5ef0e6"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00053.png",
+      "sha256": "2f7b5b0a1ecdf3584d7634188feeb853f4a2bed4e8c0134ad3c52e736f5ef0e6"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00054.png",
+      "sha256": "2f7b5b0a1ecdf3584d7634188feeb853f4a2bed4e8c0134ad3c52e736f5ef0e6"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00055.png",
+      "sha256": "2f7b5b0a1ecdf3584d7634188feeb853f4a2bed4e8c0134ad3c52e736f5ef0e6"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00056.png",
+      "sha256": "2f7b5b0a1ecdf3584d7634188feeb853f4a2bed4e8c0134ad3c52e736f5ef0e6"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00057.png",
+      "sha256": "2f7b5b0a1ecdf3584d7634188feeb853f4a2bed4e8c0134ad3c52e736f5ef0e6"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00058.png",
+      "sha256": "2f7b5b0a1ecdf3584d7634188feeb853f4a2bed4e8c0134ad3c52e736f5ef0e6"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00059.png",
+      "sha256": "2f7b5b0a1ecdf3584d7634188feeb853f4a2bed4e8c0134ad3c52e736f5ef0e6"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00060.png",
+      "sha256": "2f7b5b0a1ecdf3584d7634188feeb853f4a2bed4e8c0134ad3c52e736f5ef0e6"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00061.png",
+      "sha256": "2f7b5b0a1ecdf3584d7634188feeb853f4a2bed4e8c0134ad3c52e736f5ef0e6"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00062.png",
+      "sha256": "2f7b5b0a1ecdf3584d7634188feeb853f4a2bed4e8c0134ad3c52e736f5ef0e6"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00063.png",
+      "sha256": "2f7b5b0a1ecdf3584d7634188feeb853f4a2bed4e8c0134ad3c52e736f5ef0e6"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00064.png",
+      "sha256": "2f7b5b0a1ecdf3584d7634188feeb853f4a2bed4e8c0134ad3c52e736f5ef0e6"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00065.png",
+      "sha256": "2f7b5b0a1ecdf3584d7634188feeb853f4a2bed4e8c0134ad3c52e736f5ef0e6"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00066.png",
+      "sha256": "2f7b5b0a1ecdf3584d7634188feeb853f4a2bed4e8c0134ad3c52e736f5ef0e6"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00067.png",
+      "sha256": "2f7b5b0a1ecdf3584d7634188feeb853f4a2bed4e8c0134ad3c52e736f5ef0e6"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00068.png",
+      "sha256": "2f7b5b0a1ecdf3584d7634188feeb853f4a2bed4e8c0134ad3c52e736f5ef0e6"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00069.png",
+      "sha256": "2f7b5b0a1ecdf3584d7634188feeb853f4a2bed4e8c0134ad3c52e736f5ef0e6"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00070.png",
+      "sha256": "2f7b5b0a1ecdf3584d7634188feeb853f4a2bed4e8c0134ad3c52e736f5ef0e6"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00071.png",
+      "sha256": "2f7b5b0a1ecdf3584d7634188feeb853f4a2bed4e8c0134ad3c52e736f5ef0e6"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00072.png",
+      "sha256": "2f7b5b0a1ecdf3584d7634188feeb853f4a2bed4e8c0134ad3c52e736f5ef0e6"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00073.png",
+      "sha256": "2f7b5b0a1ecdf3584d7634188feeb853f4a2bed4e8c0134ad3c52e736f5ef0e6"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00074.png",
+      "sha256": "2f7b5b0a1ecdf3584d7634188feeb853f4a2bed4e8c0134ad3c52e736f5ef0e6"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00075.png",
+      "sha256": "2f7b5b0a1ecdf3584d7634188feeb853f4a2bed4e8c0134ad3c52e736f5ef0e6"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00076.png",
+      "sha256": "2f7b5b0a1ecdf3584d7634188feeb853f4a2bed4e8c0134ad3c52e736f5ef0e6"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00077.png",
+      "sha256": "2f7b5b0a1ecdf3584d7634188feeb853f4a2bed4e8c0134ad3c52e736f5ef0e6"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00078.png",
+      "sha256": "2f7b5b0a1ecdf3584d7634188feeb853f4a2bed4e8c0134ad3c52e736f5ef0e6"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00079.png",
+      "sha256": "2f7b5b0a1ecdf3584d7634188feeb853f4a2bed4e8c0134ad3c52e736f5ef0e6"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00080.png",
+      "sha256": "2f7b5b0a1ecdf3584d7634188feeb853f4a2bed4e8c0134ad3c52e736f5ef0e6"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00081.png",
+      "sha256": "2f7b5b0a1ecdf3584d7634188feeb853f4a2bed4e8c0134ad3c52e736f5ef0e6"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00082.png",
+      "sha256": "2f7b5b0a1ecdf3584d7634188feeb853f4a2bed4e8c0134ad3c52e736f5ef0e6"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00083.png",
+      "sha256": "2f7b5b0a1ecdf3584d7634188feeb853f4a2bed4e8c0134ad3c52e736f5ef0e6"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00084.png",
+      "sha256": "2f7b5b0a1ecdf3584d7634188feeb853f4a2bed4e8c0134ad3c52e736f5ef0e6"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00085.png",
+      "sha256": "2f7b5b0a1ecdf3584d7634188feeb853f4a2bed4e8c0134ad3c52e736f5ef0e6"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00086.png",
+      "sha256": "2f7b5b0a1ecdf3584d7634188feeb853f4a2bed4e8c0134ad3c52e736f5ef0e6"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00087.png",
+      "sha256": "2f7b5b0a1ecdf3584d7634188feeb853f4a2bed4e8c0134ad3c52e736f5ef0e6"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00088.png",
+      "sha256": "2f7b5b0a1ecdf3584d7634188feeb853f4a2bed4e8c0134ad3c52e736f5ef0e6"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00089.png",
+      "sha256": "2f7b5b0a1ecdf3584d7634188feeb853f4a2bed4e8c0134ad3c52e736f5ef0e6"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00090.png",
+      "sha256": "2f7b5b0a1ecdf3584d7634188feeb853f4a2bed4e8c0134ad3c52e736f5ef0e6"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00091.png",
+      "sha256": "2f7b5b0a1ecdf3584d7634188feeb853f4a2bed4e8c0134ad3c52e736f5ef0e6"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00092.png",
+      "sha256": "2f7b5b0a1ecdf3584d7634188feeb853f4a2bed4e8c0134ad3c52e736f5ef0e6"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00093.png",
+      "sha256": "2f7b5b0a1ecdf3584d7634188feeb853f4a2bed4e8c0134ad3c52e736f5ef0e6"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00094.png",
+      "sha256": "2f7b5b0a1ecdf3584d7634188feeb853f4a2bed4e8c0134ad3c52e736f5ef0e6"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00095.png",
+      "sha256": "2f7b5b0a1ecdf3584d7634188feeb853f4a2bed4e8c0134ad3c52e736f5ef0e6"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00096.png",
+      "sha256": "2f7b5b0a1ecdf3584d7634188feeb853f4a2bed4e8c0134ad3c52e736f5ef0e6"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00097.png",
+      "sha256": "2f7b5b0a1ecdf3584d7634188feeb853f4a2bed4e8c0134ad3c52e736f5ef0e6"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00098.png",
+      "sha256": "2f7b5b0a1ecdf3584d7634188feeb853f4a2bed4e8c0134ad3c52e736f5ef0e6"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00099.png",
+      "sha256": "2f7b5b0a1ecdf3584d7634188feeb853f4a2bed4e8c0134ad3c52e736f5ef0e6"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00100.png",
+      "sha256": "2f7b5b0a1ecdf3584d7634188feeb853f4a2bed4e8c0134ad3c52e736f5ef0e6"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00101.png",
+      "sha256": "2f7b5b0a1ecdf3584d7634188feeb853f4a2bed4e8c0134ad3c52e736f5ef0e6"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00102.png",
+      "sha256": "2f7b5b0a1ecdf3584d7634188feeb853f4a2bed4e8c0134ad3c52e736f5ef0e6"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00103.png",
+      "sha256": "2f7b5b0a1ecdf3584d7634188feeb853f4a2bed4e8c0134ad3c52e736f5ef0e6"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/00104.png",
+      "sha256": "2f7b5b0a1ecdf3584d7634188feeb853f4a2bed4e8c0134ad3c52e736f5ef0e6"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/board-refresh-live.mp4",
+      "sha256": "4b920fe0915979a880a923ff9c9ed6aade6ff91130d172b5ae82023624f7b55b"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/capture.json",
+      "sha256": "300fc556737ff3b7ad94a6a9435811cf1635ba90e2b43df536bb17898f78a2f2"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/board-refresh-live/frames.ffconcat",
+      "sha256": "3d81edee2bf212e49d3a6e0a44139046bfa01b16aef6d3d8ab648e084fac6f18"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/graph-replay/00000.jpg",
+      "sha256": "5de493553f69160d2c16c8b877ecc3b282bc2f9b129c29b814b84eb213309a98"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/graph-replay/00001.jpg",
+      "sha256": "f6e710971b27b7d10cc89036685bd03843aa5318ef6b9533f45326596e6dae87"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/graph-replay/00002.jpg",
+      "sha256": "f6e710971b27b7d10cc89036685bd03843aa5318ef6b9533f45326596e6dae87"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/graph-replay/00003.jpg",
+      "sha256": "71f81d1b0618324624d7a52a27ea2f01b9ef4ff618ce816ec7dcaf476d07b35b"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/graph-replay/00004.jpg",
+      "sha256": "9a03548d458670912c16ffbc6ef29db64ee3626872f1e5b2cee01726088097dd"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/graph-replay/00005.jpg",
+      "sha256": "1204b0536118a077f9649d9e5e61851543515b2121e91accd5e5047b2e0abde9"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/graph-replay/00006.jpg",
+      "sha256": "29313b39a768c60fc626bda10e90c75ee37cd8f0a85d2ce56c6471d3260d6eaf"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/graph-replay/00007.jpg",
+      "sha256": "69b25c7457317ed79fb6e73eac59dfd31ef8a7187402c5fae4c177e51d619f3a"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/graph-replay/00008.jpg",
+      "sha256": "5678aaadddfffde4666241044c21eec33b48379ac44cedcb27da1935d588de48"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/graph-replay/00009.jpg",
+      "sha256": "0ab3c5596f737508b9c87dd345689185b7c7735fe5a4874ea74931f6a3534cca"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/graph-replay/00010.jpg",
+      "sha256": "7907ac553acf555b16f8feff6690d3349d07b4ad87bb1a9cfdd0c4b78863f5af"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/graph-replay/00011.jpg",
+      "sha256": "2883cdd4d8f9a0402cf92b17c55104fd3ec5649d786f276872b7e97ee5777336"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/graph-replay/00012.jpg",
+      "sha256": "0030d70bcef7629b4008b01875f6a936bc44b5b0b8782ee8ef0d9b3b2f2f6e26"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/graph-replay/00013.jpg",
+      "sha256": "58cbcbb75a976ddca24697c93200433d441ce2fe9e928a0a38706fa4880cd9e6"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/graph-replay/00014.jpg",
+      "sha256": "16f8dc981ef17f9d0abb9b3c27099c00aaee103d97687749f8e0888f632e949f"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/graph-replay/00015.jpg",
+      "sha256": "645cc5b1b966836732803870af2b190d7154e768754a69b86530865be562fb93"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/graph-replay/capture.json",
+      "sha256": "f2212e2d647ead043b8cde5df9a4ce6edc13410770673c7ed5efff3944b4e216"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/graph-replay/frames.ffconcat",
+      "sha256": "213a5cae5f68ca6a8c84b44c52e8cb617332a71c80894e4b4ca3b75a7709d597"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/captures/graph-replay/graph-replay.mp4",
+      "sha256": "5b0ca4272e2008d041e283924a29ba534c3754a2831515962dba4e1aedd6d79c"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/natural-backend-full.png",
+      "sha256": "7233c270ef0032487defe329f21b8f54d88f7df27eac114a7de43eb77973aec9"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/natural-graph-complete.png",
+      "sha256": "bf5d27bea4171acd4a5ac068d200396553f89a8edc741e9d7754a4255c2b4247"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/natural-overview.png",
+      "sha256": "015a6f12a8008d5ddd13f3c356db3f0e09925fca6ac260194a3f2e39fb2ab48b"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/natural-requirement.png",
+      "sha256": "97e99e357602518548fbe59e0d259975348b80775e9b6e79f17ec1211265cb01"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/natural-tests.png",
+      "sha256": "c61465414957f1d1ea71890d978675c1775f7e3498c19f3a0c123fbe4ae43b34"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/preview-receipt.json",
+      "sha256": "a0e0560a6b26e76d7177192c60eee8b93fb6da633a026f2d3ef663f5538d951a"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/preview-stopped.png",
+      "sha256": "9a348ca782f7e912907f76e8f96ef52d043967432c0afe2bdd91bb36f2920723"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/project-source.png",
+      "sha256": "9ee4fccb830bc8581d444a890dfddd694b40becc3c66b3e3796ac2ce7166d89d"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/project-version2.png",
+      "sha256": "a1a8a53b0cf9eab3129a9474587a72799bb3964aef8242029f2ca60bae11e1fa"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/rejected-draft-01/review.json",
+      "sha256": "8ee5a9cf17bbe70b83eb7e995b393bc7869ec1901d87da360bffdfc3f047eafe"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/rejected-draft-02/review.json",
+      "sha256": "de346406983792b05a0913141f73a0fecaa2d64505711e69029e50a379cfc34b"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/seeded-overview.png",
+      "sha256": "3412397e80a4fd5a989f2cfe741ccacfa66aeef4c0dbc28741d85347fb51ca9f"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/seeded-tests-plan.png",
+      "sha256": "cb0c59d22ea6fab2003ee10dd1188a9b31ac8fbfefc75fe4efe21d652c20d30a"
+    },
+    {
+      "path": "submission/video-work/remake-20261116/ui-recording-notes.json",
+      "sha256": "0714260b5d0938c10cbe2d68a0491464058eca344a296e8d88faf476ba90ef5a"
+    }
+  ]
+}

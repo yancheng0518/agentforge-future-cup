@@ -1,0 +1,22 @@
+{
+  "video_sha256": "76fb26f5bdf5c0b5c54905c1342836f11ef65fc906162adcc7d61ba980d05c02",
+  "status": "passed_after_two_visual_corrections",
+  "full_audio_video_decode": true,
+  "subtitle_source": "Measured TTS WordBoundary, 55 cues, 27 edits",
+  "subtitle_text_checked_against_narration": true,
+  "audio_peak_dbfs": -1.2,
+  "audio_mean_dbfs": -19.9,
+  "visual_checks": [
+    "All 27 edit contact frames inspected",
+    "Node/detail clip source corrected",
+    "Project/source/stop left crop corrected and inspected",
+    "Live preview create/complete/filter/reload footage matches UI observations",
+    "Source badge distinguishes historical run, new preview and seeded experiment"
+  ],
+  "limitations": [
+    "Synthetic narrator; no human full-length listening review",
+    "Historical model execution, not a new model development experiment",
+    "No claims of persistent data after container restart"
+  ],
+  "original_video_preserved": true
+}

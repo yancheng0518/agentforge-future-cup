@@ -1,0 +1,12 @@
+{
+  "draft": "draft-01",
+  "status": "rejected_in_visual_review",
+  "reason": "Four screenshot-sequence clips captured board tab while action was on workbench tab. Actions succeeded, wrong visual source. All four removed from final edit; replaced with individually verified screenshots and correct CDP graph-replay.",
+  "excluded_captures": [
+    "graph-node-detail-live",
+    "graph-events-live",
+    "project-source",
+    "preview-stop"
+  ],
+  "video_sha256": "0669c7c212d3b4fd66dbb5613f972061429ec31596c5470edfe774e913e0db1b"
+}

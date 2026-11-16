@@ -1,0 +1,39 @@
+Input #0, mov,mp4,m4a,3gp,3g2,mj2, from 'D:\未来杯\submission\演示视频-新版-20261116.mp4':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    encoder         : Lavf63.1.102
+  Duration: 00:03:23.29, start: 0.000000, bitrate: 472 kb/s
+  Stream #0:0[0x1](und): Video: h264 (High) (avc1 / 0x31637661), yuv420p(progressive), 1920x1080, 318 kb/s, 30 fps, 30 tbr, 15360 tbn, start 0.021354 (default)
+    Metadata:
+      handler_name    : VideoHandler
+      encoder         : Lavc63.1.102 libx264
+  Stream #0:1[0x2](und): Audio: aac (LC) (mp4a / 0x6134706D), 48000 Hz, stereo, fltp, 144 kb/s (default)
+    Metadata:
+      handler_name    : SoundHandler
+[Parsed_volumedetect_0 @ 000001ef63d65d80] n_samples: 0
+Stream mapping:
+  Stream #0:1 -> #0:0 (aac (native) -> pcm_s16le (native))
+Press [q] to stop, [?] for help
+Output #0, null, to 'pipe:':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    encoder         : Lavf63.1.102
+  Stream #0:0(und): Audio: pcm_s16le, 48000 Hz, stereo, s16, 1536 kb/s (default)
+    Metadata:
+      encoder         : Lavc63.1.102 pcm_s16le
+      handler_name    : SoundHandler
+[Parsed_volumedetect_0 @ 000001ef63f88ec0] n_samples: 19592192
+[Parsed_volumedetect_0 @ 000001ef63f88ec0] mean_volume: -19.9 dB
+[Parsed_volumedetect_0 @ 000001ef63f88ec0] max_volume: -1.2 dB
+[Parsed_volumedetect_0 @ 000001ef63f88ec0] histogram_1db: 88
+[Parsed_volumedetect_0 @ 000001ef63f88ec0] histogram_2db: 144
+[Parsed_volumedetect_0 @ 000001ef63f88ec0] histogram_3db: 574
+[Parsed_volumedetect_0 @ 000001ef63f88ec0] histogram_4db: 2142
+[Parsed_volumedetect_0 @ 000001ef63f88ec0] histogram_5db: 5707
+[Parsed_volumedetect_0 @ 000001ef63f88ec0] histogram_6db: 16127
+[out#0/null @ 000001ef62148f40] video:0KiB audio:38266KiB subtitle:0KiB other streams:0KiB global headers:0KiB muxing overhead: unknown
+size=N/A time=00:03:23.28 bitrate=N/A speed=1.38e+03x elapsed=0:00:00.14    

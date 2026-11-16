@@ -1,0 +1,1547 @@
+{
+  "title": "AgentForge · 从一句需求到可操作的软件",
+  "output": "D:\\未来杯\\submission\\演示视频-新版-20261116.mp4",
+  "duration_from_edit": 203.26666666666668,
+  "duration_probed": 203.29,
+  "bytes": 11997240,
+  "sha256": "76fb26f5bdf5c0b5c54905c1342836f11ef65fc906162adcc7d61ba980d05c02",
+  "original_unchanged": true,
+  "original_sha256": "614d8020e2f1e4a77cf7c0f0f048f0aed554f05b3e117311634dd18256b14115",
+  "format": {
+    "width": 1920,
+    "height": 1080,
+    "fps": 30,
+    "video": "H.264",
+    "audio": "AAC 48kHz stereo"
+  },
+  "ffmpeg": "ffmpeg version 9.0.2-essentials_build-www.gyan.dev Copyright (c) 2000-2026 the FFmpeg developers",
+  "full_decode_passed": true,
+  "probe": "Input #0, mov,mp4,m4a,3gp,3g2,mj2, from 'D:\\未来杯\\submission\\演示视频-新版-20261116.mp4':\n  Metadata:\n    major_brand     : isom\n    minor_version   : 512\n    compatible_brands: isomiso2avc1mp41\n    encoder         : Lavf63.1.102\n  Duration: 00:03:23.29, start: 0.000000, bitrate: 472 kb/s\n  Stream #0:0[0x1](und): Video: h264 (High) (avc1 / 0x31637661), yuv420p(progressive), 1920x1080, 318 kb/s, 30 fps, 30 tbr, 15360 tbn, start 0.021354 (default)\n    Metadata:\n      handler_name    : VideoHandler\n      encoder         : Lavc63.1.102 libx264\n  Stream #0:1[0x2](und): Audio: aac (LC) (mp4a / 0x6134706D), 48000 Hz, stereo, fltp, 144 kb/s (default)\n    Metadata:\n      handler_name    : SoundHandler\nAt least one output file must be specified\n",
+  "render_script_sha256": "92a20545db0fd203de6e545e9dbefa0bf36e8022e6289e7a0a05b80dd7fb8572",
+  "config_sha256": "c4c024475722700b832807e54ffd322d4af9671fbca4624adeaa2c9e71f32ea3",
+  "segments": [
+    {
+      "index": 0,
+      "kind": "card",
+      "duration": 4.1,
+      "audio_duration": 3.89,
+      "source_hashes": {
+        "submission/video-work/remake-20261116/audio/01-01.mp3": "1a8d338d9635c266892d0d84f644e9a906968424e2230d3761c02d5e49ccd9ec"
+      },
+      "segment": {
+        "id": "01-01",
+        "chapter": "01",
+        "kicker": "一句需求，交付一个能用的页面",
+        "title": "一句需求，怎样成为软件？",
+        "source": "产品演示",
+        "audio": "submission/video-work/remake-20261116/audio/01-01.mp3",
+        "text": "一句需求，怎样变成真正能用的软件？",
+        "kind": "card",
+        "headline": "一句需求。\n一个可以操作的交付。",
+        "detail": "从动态分工到独立验收，让结果看得见。",
+        "subtitle_cues": [
+          {
+            "text": "一句需求，怎样变成真正能用的软件？",
+            "start": 0.103,
+            "end": 3.381
+          }
+        ],
+        "pause_after": 0.18
+      },
+      "captions": [
+        {
+          "text": "一句需求，怎样变成真正能用的软件？",
+          "start": 0.103,
+          "end": 3.381
+        }
+      ],
+      "clip": "submission/video-work/remake-20261116/render/000-fc1dd5922a1b6fc8/clip.mp4",
+      "cache_key": "fc1dd5922a1b6fc8",
+      "start": 0.0,
+      "end": 4.1
+    },
+    {
+      "index": 1,
+      "kind": "card",
+      "duration": 4.866666666666666,
+      "audio_duration": 4.68,
+      "source_hashes": {
+        "submission/video-work/remake-20261116/audio/01-02.mp3": "986c3ed3abccdc787b5dcb83f243b803aa2a83bf5c507f3c682dc5dcf5bac7cf"
+      },
+      "segment": {
+        "id": "01-02",
+        "chapter": "01",
+        "kicker": "一句需求，交付一个能用的页面",
+        "title": "AgentForge · 多智能体软件开发工作台",
+        "source": "奶龙队 / 未来杯 · 赛题一",
+        "audio": "submission/video-work/remake-20261116/audio/01-02.mp3",
+        "text": "这是 AgentForge，多智能体软件开发工作台。",
+        "kind": "card",
+        "headline": "AgentForge",
+        "detail": "主 Agent 根据需求组织协作，执行结果决定下一步。",
+        "flow": [
+          "理解需求",
+          "动态分工",
+          "运行验收",
+          "版本交付"
+        ],
+        "subtitle_cues": [
+          {
+            "text": "这是 AgentForge",
+            "start": 0.10300000000000065,
+            "end": 1.5650000000000004
+          },
+          {
+            "text": "多智能体软件开发工作台",
+            "start": 1.734,
+            "end": 4.183
+          }
+        ],
+        "pause_after": 0.18
+      },
+      "captions": [
+        {
+          "text": "这是 AgentForge",
+          "start": 0.10300000000000065,
+          "end": 1.5650000000000004
+        },
+        {
+          "text": "多智能体软件开发工作台",
+          "start": 1.734,
+          "end": 4.183
+        }
+      ],
+      "clip": "submission/video-work/remake-20261116/render/001-04f0f3e2d58bae6a/clip.mp4",
+      "cache_key": "04f0f3e2d58bae6a",
+      "start": 4.1,
+      "end": 8.966666666666665
+    },
+    {
+      "index": 2,
+      "kind": "video",
+      "duration": 8.433333333333334,
+      "audio_duration": 8.23,
+      "source_hashes": {
+        "submission/video-work/remake-20261116/audio/01-03.mp3": "eafd3c8f971a2e1247f2e5c783ea5dacf9f353d2b1942661ea53eb20307cd08f",
+        "submission/video-work/remake-20261116/captures/board-add-live/board-add-live.mp4": "bcc97b9e35ab744352becd44bb36958bed2cdad8d9ae2614f03f8bf074fbe47d"
+      },
+      "segment": {
+        "id": "01-03",
+        "chapter": "01",
+        "kicker": "一句需求，交付一个能用的页面",
+        "title": "成品先看：中文工作项看板",
+        "source": "2026.11.16 实录 · Docker 交付版本 2",
+        "audio": "submission/video-work/remake-20261116/audio/01-03.mp3",
+        "text": "这次，我们要给现有项目加上中文工作项看板，支持新增、完成和状态筛选。",
+        "kind": "video",
+        "media": "submission/video-work/remake-20261116/captures/board-add-live/board-add-live.mp4",
+        "crop": [
+          270,
+          10,
+          740,
+          370
+        ],
+        "subtitle_cues": [
+          {
+            "text": "这次，我们要给现有项目加上中文工作项看板",
+            "start": 0.10299999999999976,
+            "end": 4.552
+          },
+          {
+            "text": "支持新增、完成和状态筛选",
+            "start": 4.786999999999999,
+            "end": 7.736000000000001
+          }
+        ],
+        "pause_after": 0.18
+      },
+      "captions": [
+        {
+          "text": "这次，我们要给现有项目加上中文工作项看板",
+          "start": 0.10299999999999976,
+          "end": 4.552
+        },
+        {
+          "text": "支持新增、完成和状态筛选",
+          "start": 4.786999999999999,
+          "end": 7.736000000000001
+        }
+      ],
+      "clip": "submission/video-work/remake-20261116/render/002-95c9afff88d8e55a/clip.mp4",
+      "cache_key": "95c9afff88d8e55a",
+      "start": 8.966666666666665,
+      "end": 17.4
+    },
+    {
+      "index": 3,
+      "kind": "video",
+      "duration": 6.633333333333334,
+      "audio_duration": 5.93,
+      "source_hashes": {
+        "submission/video-work/remake-20261116/audio/01-04.mp3": "338c247f59b20f3a486235fabda9813e13eaf2d7210d0d979e3287be72e1f64e",
+        "submission/video-work/remake-20261116/captures/board-filter-live/board-filter-live.mp4": "d25ec06fd059e9f3086a980a239d8324f1705afa01bf34d5d420950d05224952"
+      },
+      "segment": {
+        "id": "01-04",
+        "chapter": "01",
+        "kicker": "一句需求，交付一个能用的页面",
+        "title": "新增、完成、筛选，直接操作",
+        "source": "2026.11.16 实录 · Docker 交付版本 2",
+        "audio": "submission/video-work/remake-20261116/audio/01-04.mp3",
+        "text": "先看看交付的页面，再回到工作台，看看它是怎样完成的。",
+        "kind": "video",
+        "media": "submission/video-work/remake-20261116/captures/board-filter-live/board-filter-live.mp4",
+        "crop": [
+          270,
+          10,
+          740,
+          370
+        ],
+        "subtitle_cues": [
+          {
+            "text": "先看看交付的页面，再回到工作台",
+            "start": 0.10300000000000153,
+            "end": 3.367000000000001
+          },
+          {
+            "text": "看看它是怎样完成的",
+            "start": 3.5109999999999992,
+            "end": 5.433
+          }
+        ],
+        "pause_after": 0.7
+      },
+      "captions": [
+        {
+          "text": "先看看交付的页面，再回到工作台",
+          "start": 0.10300000000000153,
+          "end": 3.367000000000001
+        },
+        {
+          "text": "看看它是怎样完成的",
+          "start": 3.5109999999999992,
+          "end": 5.433
+        }
+      ],
+      "clip": "submission/video-work/remake-20261116/render/003-dd15c82431bef1c9/clip.mp4",
+      "cache_key": "dd15c82431bef1c9",
+      "start": 17.4,
+      "end": 24.03333333333333
+    },
+    {
+      "index": 4,
+      "kind": "image",
+      "duration": 7.266666666666667,
+      "audio_duration": 7.08,
+      "source_hashes": {
+        "submission/video-work/remake-20261116/audio/02-01.mp3": "1fd56d206c99cd0ae720be3a9d6fcc3c362f87fb6c8262ab2f545c5e99d4a233",
+        "submission/video-work/remake-20261116/natural-overview.png": "015a6f12a8008d5ddd13f3c356db3f0e09925fca6ac260194a3f2e39fb2ab48b"
+      },
+      "segment": {
+        "id": "02-01",
+        "chapter": "02",
+        "kicker": "先说清楚，什么叫完成",
+        "title": "回到开发现场",
+        "source": "真实模型开发 · 历史回放 / 4af425ca",
+        "audio": "submission/video-work/remake-20261116/audio/02-01.mp3",
+        "text": "这里展示的是已保存的真实开发回放，模型调用和测试都有原始记录。",
+        "kind": "image",
+        "media": "submission/video-work/remake-20261116/natural-overview.png",
+        "crop": [
+          395,
+          100,
+          835,
+          600
+        ],
+        "subtitle_cues": [
+          {
+            "text": "这里展示的是已保存的真实开发回放",
+            "start": 0.10300000000000153,
+            "end": 3.3939999999999984
+          },
+          {
+            "text": "模型调用和测试都有原始记录",
+            "start": 3.6679999999999993,
+            "end": 6.577999999999999
+          }
+        ],
+        "pause_after": 0.18
+      },
+      "captions": [
+        {
+          "text": "这里展示的是已保存的真实开发回放",
+          "start": 0.10300000000000153,
+          "end": 3.3939999999999984
+        },
+        {
+          "text": "模型调用和测试都有原始记录",
+          "start": 3.6679999999999993,
+          "end": 6.577999999999999
+        }
+      ],
+      "clip": "submission/video-work/remake-20261116/render/004-001f7684233c6944/clip.mp4",
+      "cache_key": "001f7684233c6944",
+      "start": 24.03333333333333,
+      "end": 31.299999999999997
+    },
+    {
+      "index": 5,
+      "kind": "image",
+      "duration": 9.4,
+      "audio_duration": 9.19,
+      "source_hashes": {
+        "submission/video-work/remake-20261116/audio/02-02.mp3": "ac8a920962b8c429caf518143badbb94c428c60b9786bf168b55bcba6e712866",
+        "submission/video-work/remake-20261116/natural-requirement.png": "97e99e357602518548fbe59e0d259975348b80775e9b6e79f17ec1211265cb01"
+      },
+      "segment": {
+        "id": "02-02",
+        "chapter": "02",
+        "kicker": "先说清楚，什么叫完成",
+        "title": "把需求和接口说清楚",
+        "source": "真实模型开发 · 历史回放 / 4af425ca",
+        "audio": "submission/video-work/remake-20261116/audio/02-02.mp3",
+        "text": "项目起点只有健康检查和占位首页；新的需求、接口与验收条件，先在工作台里确认。",
+        "kind": "image",
+        "media": "submission/video-work/remake-20261116/natural-requirement.png",
+        "crop": [
+          395,
+          110,
+          835,
+          590
+        ],
+        "subtitle_cues": [
+          {
+            "text": "项目起点只有健康检查和占位首页",
+            "start": 0.10299999999999798,
+            "end": 3.7749999999999986
+          },
+          {
+            "text": "新的需求、接口与验收条件",
+            "start": 4.049999999999997,
+            "end": 6.853999999999999
+          },
+          {
+            "text": "先在工作台里确认",
+            "start": 7.024000000000001,
+            "end": 8.695999999999998
+          }
+        ],
+        "pause_after": 0.18
+      },
+      "captions": [
+        {
+          "text": "项目起点只有健康检查和占位首页",
+          "start": 0.10299999999999798,
+          "end": 3.7749999999999986
+        },
+        {
+          "text": "新的需求、接口与验收条件",
+          "start": 4.049999999999997,
+          "end": 6.853999999999999
+        },
+        {
+          "text": "先在工作台里确认",
+          "start": 7.024000000000001,
+          "end": 8.695999999999998
+        }
+      ],
+      "clip": "submission/video-work/remake-20261116/render/005-daf8242a81fec4b4/clip.mp4",
+      "cache_key": "daf8242a81fec4b4",
+      "start": 31.299999999999997,
+      "end": 40.699999999999996
+    },
+    {
+      "index": 6,
+      "kind": "card",
+      "duration": 6.966666666666667,
+      "audio_duration": 6.26,
+      "source_hashes": {
+        "submission/video-work/remake-20261116/audio/02-03.mp3": "c00f2276a07dcda918f85221f3eb6fc9bf2f0ab2f9d0b2aaa4517106831d3ced"
+      },
+      "segment": {
+        "id": "02-03",
+        "chapter": "02",
+        "kicker": "先说清楚，什么叫完成",
+        "title": "先冻结验收，再开始实现",
+        "source": "流程说明 · 对应本次真实记录",
+        "audio": "submission/video-work/remake-20261116/audio/02-03.mp3",
+        "text": "验收标准在开发前冻结，让每一轮实现都面对同一把尺子。",
+        "kind": "card",
+        "headline": "每一轮实现，\n面对同一套验收。",
+        "detail": "保留原始需求、项目基线与冻结测试。",
+        "flow": [
+          "确认需求",
+          "冻结标准",
+          "实现代码",
+          "独立验收"
+        ],
+        "subtitle_cues": [
+          {
+            "text": "验收标准在开发前冻结",
+            "start": 0.10300000000000153,
+            "end": 2.472999999999999
+          },
+          {
+            "text": "让每一轮实现都面对同一把尺子",
+            "start": 2.681999999999995,
+            "end": 5.7620000000000005
+          }
+        ],
+        "pause_after": 0.7
+      },
+      "captions": [
+        {
+          "text": "验收标准在开发前冻结",
+          "start": 0.10300000000000153,
+          "end": 2.472999999999999
+        },
+        {
+          "text": "让每一轮实现都面对同一把尺子",
+          "start": 2.681999999999995,
+          "end": 5.7620000000000005
+        }
+      ],
+      "clip": "submission/video-work/remake-20261116/render/006-a406db9f57ce8d7e/clip.mp4",
+      "cache_key": "a406db9f57ce8d7e",
+      "start": 40.699999999999996,
+      "end": 47.666666666666664
+    },
+    {
+      "index": 7,
+      "kind": "image",
+      "duration": 6.266666666666667,
+      "audio_duration": 6.07,
+      "source_hashes": {
+        "submission/video-work/remake-20261116/audio/03-01.mp3": "fff41e57f91ce1c25d56bf5ce808a4d40b66d4285ac0817870129809268a5bf3",
+        "submission/video-work/remake-20261116/natural-graph-complete.png": "bf5d27bea4171acd4a5ac068d200396553f89a8edc741e9d7754a4255c2b4247"
+      },
+      "segment": {
+        "id": "03-01",
+        "chapter": "03",
+        "kicker": "按需求分工，不套固定角色",
+        "title": "需求决定分工",
+        "source": "真实模型开发 · 历史回放 / 4af425ca",
+        "audio": "submission/video-work/remake-20261116/audio/03-01.mp3",
+        "text": "主智能体根据需求，拆出后端接口和前端页面两个任务。",
+        "kind": "image",
+        "media": "submission/video-work/remake-20261116/natural-graph-complete.png",
+        "crop": [
+          272,
+          204,
+          580,
+          414
+        ],
+        "subtitle_cues": [
+          {
+            "text": "主智能体根据需求，拆出后端接口和前端页面两个任务",
+            "start": 0.10300000000000153,
+            "end": 5.591000000000001
+          }
+        ],
+        "pause_after": 0.18
+      },
+      "captions": [
+        {
+          "text": "主智能体根据需求，拆出后端接口和前端页面两个任务",
+          "start": 0.10300000000000153,
+          "end": 5.591000000000001
+        }
+      ],
+      "clip": "submission/video-work/remake-20261116/render/007-9f4d0e8d1e247de7/clip.mp4",
+      "cache_key": "9f4d0e8d1e247de7",
+      "start": 47.666666666666664,
+      "end": 53.93333333333333
+    },
+    {
+      "index": 8,
+      "kind": "card",
+      "duration": 7.266666666666667,
+      "audio_duration": 7.06,
+      "source_hashes": {
+        "submission/video-work/remake-20261116/audio/03-02.mp3": "c5f0b1d7e3a5cd3ef061e458e0e4969be4ef498e563bd5739b7df4959222a808"
+      },
+      "segment": {
+        "id": "03-02",
+        "chapter": "03",
+        "kicker": "按需求分工，不套固定角色",
+        "title": "两个任务，分别修改不同文件",
+        "source": "真实执行摘要 · 运行时间存在重叠",
+        "audio": "submission/video-work/remake-20261116/audio/03-02.mp3",
+        "text": "两个子智能体分别修改不同文件，这次执行的时间确实存在重叠。",
+        "kind": "card",
+        "headline": "后端接口 + 中文前端",
+        "detail": "这一次，主 Agent 拆出两个可独立执行的任务。",
+        "stats": [
+          {
+            "value": "app.py",
+            "label": "后端 API 与数据校验"
+          },
+          {
+            "value": "CSS / JS",
+            "label": "本地页面资产与交互"
+          }
+        ],
+        "subtitle_cues": [
+          {
+            "text": "两个子智能体分别修改不同文件",
+            "start": 0.10299999999999443,
+            "end": 3.235999999999997
+          },
+          {
+            "text": "这次执行的时间确实存在重叠",
+            "start": 3.524000000000001,
+            "end": 6.552
+          }
+        ],
+        "pause_after": 0.18
+      },
+      "captions": [
+        {
+          "text": "两个子智能体分别修改不同文件",
+          "start": 0.10299999999999443,
+          "end": 3.235999999999997
+        },
+        {
+          "text": "这次执行的时间确实存在重叠",
+          "start": 3.524000000000001,
+          "end": 6.552
+        }
+      ],
+      "clip": "submission/video-work/remake-20261116/render/008-df2a47524d682dd5/clip.mp4",
+      "cache_key": "df2a47524d682dd5",
+      "start": 53.93333333333333,
+      "end": 61.199999999999996
+    },
+    {
+      "index": 9,
+      "kind": "image",
+      "duration": 9.466666666666667,
+      "audio_duration": 8.74,
+      "source_hashes": {
+        "submission/video-work/remake-20261116/audio/03-03.mp3": "25d742e9048bb4cf698202b3e0cf54837c5d9a41b504e45412c37ba214555d50",
+        "submission/video-work/remake-20261116/natural-backend-full.png": "7233c270ef0032487defe329f21b8f54d88f7df27eac114a7de43eb77973aec9"
+      },
+      "segment": {
+        "id": "03-03",
+        "chapter": "03",
+        "kicker": "按需求分工，不套固定角色",
+        "title": "点击节点，查看指令与文件范围",
+        "source": "真实模型开发 · 历史回放 / 4af425ca",
+        "audio": "submission/video-work/remake-20261116/audio/03-03.mp3",
+        "text": "协作图把任务派发、依赖和反馈串起来；点开节点，就能查看具体指令和文件范围。",
+        "kind": "image",
+        "media": "submission/video-work/remake-20261116/natural-backend-full.png",
+        "crop": [
+          270,
+          125,
+          985,
+          580
+        ],
+        "subtitle_cues": [
+          {
+            "text": "协作图把任务派发、依赖和反馈串起来",
+            "start": 0.10300000000000153,
+            "end": 3.8810000000000073
+          },
+          {
+            "text": "点开节点，就能查看具体指令和文件范围",
+            "start": 4.154999999999994,
+            "end": 8.235999999999997
+          }
+        ],
+        "pause_after": 0.7
+      },
+      "captions": [
+        {
+          "text": "协作图把任务派发、依赖和反馈串起来",
+          "start": 0.10300000000000153,
+          "end": 3.8810000000000073
+        },
+        {
+          "text": "点开节点，就能查看具体指令和文件范围",
+          "start": 4.154999999999994,
+          "end": 8.235999999999997
+        }
+      ],
+      "clip": "submission/video-work/remake-20261116/render/009-5a7aedf0f0f12397/clip.mp4",
+      "cache_key": "5a7aedf0f0f12397",
+      "start": 61.199999999999996,
+      "end": 70.66666666666666
+    },
+    {
+      "index": 10,
+      "kind": "image",
+      "duration": 6.566666666666666,
+      "audio_duration": 6.36,
+      "source_hashes": {
+        "submission/video-work/remake-20261116/audio/04-01.mp3": "409fa0f486ea4dacb469e0d3c6296763882b0c7124c3616e71fd8a8138c43ff2",
+        "submission/video-work/remake-20261116/natural-tests.png": "c61465414957f1d1ea71890d978675c1775f7e3498c19f3a0c123fbe4ae43b34"
+      },
+      "segment": {
+        "id": "04-01",
+        "chapter": "04",
+        "kicker": "完成说明之后，还要真正验收",
+        "title": "首个自然候选：14 项验收通过",
+        "source": "真实模型开发 · 历史回放 / 4af425ca",
+        "audio": "submission/video-work/remake-20261116/audio/04-01.mp3",
+        "text": "这条自然开发记录中，首个候选通过了十四项 Docker 接口验收。",
+        "kind": "image",
+        "media": "submission/video-work/remake-20261116/natural-tests.png",
+        "crop": [
+          790,
+          155,
+          460,
+          500
+        ],
+        "subtitle_cues": [
+          {
+            "text": "这条自然开发记录中，首个候选通过了十四项 Docker",
+            "start": 0.10299999999999443,
+            "end": 4.8160000000000025
+          },
+          {
+            "text": "接口验收",
+            "start": 4.825999999999993,
+            "end": 5.867000000000004
+          }
+        ],
+        "pause_after": 0.18
+      },
+      "captions": [
+        {
+          "text": "这条自然开发记录中，首个候选通过了十四项 Docker",
+          "start": 0.10299999999999443,
+          "end": 4.8160000000000025
+        },
+        {
+          "text": "接口验收",
+          "start": 4.825999999999993,
+          "end": 5.867000000000004
+        }
+      ],
+      "clip": "submission/video-work/remake-20261116/render/010-94f6c87f47bc9d18/clip.mp4",
+      "cache_key": "94f6c87f47bc9d18",
+      "start": 70.66666666666666,
+      "end": 77.23333333333332
+    },
+    {
+      "index": 11,
+      "kind": "card",
+      "duration": 7.2,
+      "audio_duration": 7.01,
+      "source_hashes": {
+        "submission/video-work/remake-20261116/audio/04-02.mp3": "528d1de7467569ad87c7f7991ebac76bc61341b73e40504b07e8d7f1eefe846a"
+      },
+      "segment": {
+        "id": "04-02",
+        "chapter": "04",
+        "kicker": "完成说明之后，还要真正验收",
+        "title": "再用独立用例复核",
+        "source": "真实回执摘要 · 两套结果分别保存",
+        "audio": "submission/video-work/remake-20261116/audio/04-02.mp3",
+        "text": "另外一套事先冻结的独立用例，也通过了十二项；两套结果分别保存。",
+        "kind": "card",
+        "headline": "14 项 + 独立 12 项",
+        "detail": "两套 HTTP 验收分别记账，不合并成新的任务成功次数。",
+        "stats": [
+          {
+            "value": "14 / 14",
+            "label": "开发前冻结的 HTTP 验收"
+          },
+          {
+            "value": "12 / 12",
+            "label": "维护者独立 HTTP 用例"
+          }
+        ],
+        "subtitle_cues": [
+          {
+            "text": "另外一套事先冻结的独立用例",
+            "start": 0.10299999999999443,
+            "end": 2.7620000000000005
+          },
+          {
+            "text": "也通过了十二项；两套结果分别保存",
+            "start": 2.8789999999999907,
+            "end": 6.5120000000000005
+          }
+        ],
+        "pause_after": 0.18
+      },
+      "captions": [
+        {
+          "text": "另外一套事先冻结的独立用例",
+          "start": 0.10299999999999443,
+          "end": 2.7620000000000005
+        },
+        {
+          "text": "也通过了十二项；两套结果分别保存",
+          "start": 2.8789999999999907,
+          "end": 6.5120000000000005
+        }
+      ],
+      "clip": "submission/video-work/remake-20261116/render/011-f2d982d0568a0fd6/clip.mp4",
+      "cache_key": "f2d982d0568a0fd6",
+      "start": 77.23333333333332,
+      "end": 84.43333333333332
+    },
+    {
+      "index": 12,
+      "kind": "card",
+      "duration": 8.466666666666667,
+      "audio_duration": 7.75,
+      "source_hashes": {
+        "submission/video-work/remake-20261116/audio/04-03.mp3": "ba3a2038fd1b3bfdbb6c5fd15a4281eda23533643cbec5afcf986734b2690a9c"
+      },
+      "segment": {
+        "id": "04-03",
+        "chapter": "04",
+        "kicker": "完成说明之后，还要真正验收",
+        "title": "格式重试，单独记录",
+        "source": "真实运行分类 · 4af425ca",
+        "audio": "submission/video-work/remake-20261116/audio/04-03.mp3",
+        "text": "过程中的两次输出格式重试，同样保留，但不会计作代码失败或自动修复。",
+        "kind": "card",
+        "headline": "2 次格式重试",
+        "detail": "协议输出格式错误与候选代码失败，分别记录。",
+        "stats": [
+          {
+            "value": "2",
+            "label": "输出格式重试"
+          },
+          {
+            "value": "0",
+            "label": "本次自然候选代码失败"
+          }
+        ],
+        "subtitle_cues": [
+          {
+            "text": "过程中的两次输出格式重试",
+            "start": 0.10300000000000864,
+            "end": 2.6570000000000107
+          },
+          {
+            "text": "同样保留，但不会计作代码失败或自动修复",
+            "start": 2.747,
+            "end": 7.2620000000000005
+          }
+        ],
+        "pause_after": 0.7
+      },
+      "captions": [
+        {
+          "text": "过程中的两次输出格式重试",
+          "start": 0.10300000000000864,
+          "end": 2.6570000000000107
+        },
+        {
+          "text": "同样保留，但不会计作代码失败或自动修复",
+          "start": 2.747,
+          "end": 7.2620000000000005
+        }
+      ],
+      "clip": "submission/video-work/remake-20261116/render/012-19153eb1f4cc9957/clip.mp4",
+      "cache_key": "19153eb1f4cc9957",
+      "start": 84.43333333333332,
+      "end": 92.89999999999999
+    },
+    {
+      "index": 13,
+      "kind": "image",
+      "duration": 8.6,
+      "audio_duration": 8.42,
+      "source_hashes": {
+        "submission/video-work/remake-20261116/audio/05-01.mp3": "27f2d90a8a3525da91377bfac80afbfb1dfc9cb13e562b827d123287aa2a9b29",
+        "submission/video-work/remake-20261116/seeded-overview.png": "3412397e80a4fd5a989f2cfe741ccacfa66aeef4c0dbc28741d85347fb51ca9f"
+      },
+      "segment": {
+        "id": "05-01",
+        "chapter": "05",
+        "kicker": "让失败成为下一步的输入",
+        "title": "独立实验：预先移除筛选分支",
+        "source": "预设缺陷实验 · 独立副本 / 1ea0bc86",
+        "audio": "submission/video-work/remake-20261116/audio/05-01.mp3",
+        "text": "再看一个明确标注的预设缺陷实验：在独立副本中，预先删除完成状态的筛选分支。",
+        "kind": "image",
+        "media": "submission/video-work/remake-20261116/seeded-overview.png",
+        "crop": [
+          400,
+          120,
+          830,
+          540
+        ],
+        "subtitle_cues": [
+          {
+            "text": "再看一个明确标注的预设缺陷实验",
+            "start": 0.10299999999999443,
+            "end": 3.195999999999998
+          },
+          {
+            "text": "在独立副本中，预先删除完成状态的筛选分支",
+            "start": 3.444999999999993,
+            "end": 7.9199999999999875
+          }
+        ],
+        "pause_after": 0.18
+      },
+      "captions": [
+        {
+          "text": "再看一个明确标注的预设缺陷实验",
+          "start": 0.10299999999999443,
+          "end": 3.195999999999998
+        },
+        {
+          "text": "在独立副本中，预先删除完成状态的筛选分支",
+          "start": 3.444999999999993,
+          "end": 7.9199999999999875
+        }
+      ],
+      "clip": "submission/video-work/remake-20261116/render/013-18c5a189b400ade7/clip.mp4",
+      "cache_key": "18c5a189b400ade7",
+      "start": 92.89999999999999,
+      "end": 101.49999999999999
+    },
+    {
+      "index": 14,
+      "kind": "image",
+      "duration": 7.4,
+      "audio_duration": 7.22,
+      "source_hashes": {
+        "submission/video-work/remake-20261116/audio/05-02.mp3": "dd64f6b7d378a1f5a4ae728dd8afec6ef52123d3be61f739ae866608f494d413",
+        "submission/video-work/remake-20261116/seeded-tests-plan.png": "cb0c59d22ea6fab2003ee10dd1188a9b31ac8fbfefc75fe4efe21d652c20d30a"
+      },
+      "segment": {
+        "id": "05-02",
+        "chapter": "05",
+        "kicker": "让失败成为下一步的输入",
+        "title": "失败反馈成为修正任务",
+        "source": "预设缺陷实验 · 独立副本 / 1ea0bc86",
+        "audio": "submission/video-work/remake-20261116/audio/05-02.mp3",
+        "text": "第一轮验收出现一项失败，主智能体读取反馈，派发筛选修复任务。",
+        "kind": "image",
+        "media": "submission/video-work/remake-20261116/seeded-tests-plan.png",
+        "crop": [
+          400,
+          180,
+          830,
+          500
+        ],
+        "subtitle_cues": [
+          {
+            "text": "第一轮验收出现一项失败",
+            "start": 0.10299999999999443,
+            "end": 2.590999999999994
+          },
+          {
+            "text": "主智能体读取反馈，派发筛选修复任务",
+            "start": 2.8259999999999934,
+            "end": 6.722999999999999
+          }
+        ],
+        "pause_after": 0.18
+      },
+      "captions": [
+        {
+          "text": "第一轮验收出现一项失败",
+          "start": 0.10299999999999443,
+          "end": 2.590999999999994
+        },
+        {
+          "text": "主智能体读取反馈，派发筛选修复任务",
+          "start": 2.8259999999999934,
+          "end": 6.722999999999999
+        }
+      ],
+      "clip": "submission/video-work/remake-20261116/render/014-4dc3666c438283c1/clip.mp4",
+      "cache_key": "4dc3666c438283c1",
+      "start": 101.49999999999999,
+      "end": 108.89999999999999
+    },
+    {
+      "index": 15,
+      "kind": "card",
+      "duration": 5.966666666666667,
+      "audio_duration": 5.76,
+      "source_hashes": {
+        "submission/video-work/remake-20261116/audio/05-03.mp3": "d174a900afb675cdd0d9520184ba0e90f4185a2b5410daf51e82ef2d455b9bf3"
+      },
+      "segment": {
+        "id": "05-03",
+        "chapter": "05",
+        "kicker": "让失败成为下一步的输入",
+        "title": "使用同一套冻结测试复验",
+        "source": "预设缺陷实验 · 独立副本 / 1ea0bc86",
+        "audio": "submission/video-work/remake-20261116/audio/05-03.mp3",
+        "text": "修改后，再用同一套冻结测试检查，十二项全部通过。",
+        "kind": "card",
+        "headline": "1 项失败 → 12 项通过",
+        "detail": "恢复 done=true / false 筛选逻辑，重新执行 Docker 验收。",
+        "flow": [
+          "失败回执",
+          "派发修正",
+          "修改候选",
+          "冻结复验"
+        ],
+        "subtitle_cues": [
+          {
+            "text": "修改后，再用同一套冻结测试检查",
+            "start": 0.10299999999999443,
+            "end": 3.4989999999999952
+          },
+          {
+            "text": "十二项全部通过",
+            "start": 3.6159999999999997,
+            "end": 5.2620000000000005
+          }
+        ],
+        "pause_after": 0.18
+      },
+      "captions": [
+        {
+          "text": "修改后，再用同一套冻结测试检查",
+          "start": 0.10299999999999443,
+          "end": 3.4989999999999952
+        },
+        {
+          "text": "十二项全部通过",
+          "start": 3.6159999999999997,
+          "end": 5.2620000000000005
+        }
+      ],
+      "clip": "submission/video-work/remake-20261116/render/015-e086ce867cb04db9/clip.mp4",
+      "cache_key": "e086ce867cb04db9",
+      "start": 108.89999999999999,
+      "end": 114.86666666666666
+    },
+    {
+      "index": 16,
+      "kind": "image",
+      "duration": 8.6,
+      "audio_duration": 7.87,
+      "source_hashes": {
+        "submission/video-work/remake-20261116/audio/05-04.mp3": "7817a846ce347a6a84d7672895f92e6a390ab50d4de556083d241344e7c2ca9b",
+        "submission/video-work/remake-20261116/seeded-tests-plan.png": "cb0c59d22ea6fab2003ee10dd1188a9b31ac8fbfefc75fe4efe21d652c20d30a"
+      },
+      "segment": {
+        "id": "05-04",
+        "chapter": "05",
+        "kicker": "让失败成为下一步的输入",
+        "title": "失败、修改、复验，全部保留",
+        "source": "预设缺陷实验 · 独立副本 / 1ea0bc86",
+        "audio": "submission/video-work/remake-20261116/audio/05-04.mp3",
+        "text": "原始失败、修复内容和复验结果完整保留；这是一条预设缺陷的修正证据。",
+        "kind": "image",
+        "media": "submission/video-work/remake-20261116/seeded-tests-plan.png",
+        "crop": [
+          400,
+          80,
+          830,
+          610
+        ],
+        "subtitle_cues": [
+          {
+            "text": "原始失败、修复内容和复验结果完整保留",
+            "start": 0.10299999999999443,
+            "end": 4.433000000000007
+          },
+          {
+            "text": "这是一条预设缺陷的修正证据",
+            "start": 4.707999999999998,
+            "end": 7.367000000000004
+          }
+        ],
+        "pause_after": 0.7
+      },
+      "captions": [
+        {
+          "text": "原始失败、修复内容和复验结果完整保留",
+          "start": 0.10299999999999443,
+          "end": 4.433000000000007
+        },
+        {
+          "text": "这是一条预设缺陷的修正证据",
+          "start": 4.707999999999998,
+          "end": 7.367000000000004
+        }
+      ],
+      "clip": "submission/video-work/remake-20261116/render/016-38fd6ce1bb6f3072/clip.mp4",
+      "cache_key": "38fd6ce1bb6f3072",
+      "start": 114.86666666666666,
+      "end": 123.46666666666665
+    },
+    {
+      "index": 17,
+      "kind": "image",
+      "duration": 7.633333333333334,
+      "audio_duration": 7.44,
+      "source_hashes": {
+        "submission/video-work/remake-20261116/audio/06-01.mp3": "dea8b1635a14f7b49ea9d648837996f2e88f32b29c35db80b82dad02bd76a596",
+        "submission/video-work/remake-20261116/project-version2.png": "a1a8a53b0cf9eab3129a9474587a72799bb3964aef8242029f2ca60bae11e1fa"
+      },
+      "segment": {
+        "id": "06-01",
+        "chapter": "06",
+        "kicker": "每次交付，都有可追溯的版本",
+        "title": "回到自然开发的交付版本",
+        "source": "真实项目页面 · 自然候选版本 2",
+        "audio": "submission/video-work/remake-20261116/audio/06-01.mp3",
+        "text": "回到自然开发的交付版本，需求、源码、验收与开发过程都留在项目里。",
+        "kind": "image",
+        "media": "submission/video-work/remake-20261116/project-version2.png",
+        "crop": [
+          295,
+          110,
+          945,
+          530
+        ],
+        "subtitle_cues": [
+          {
+            "text": "回到自然开发的交付版本",
+            "start": 0.10299999999999443,
+            "end": 2.2620000000000005
+          },
+          {
+            "text": "需求、源码、验收与开发过程都留在项目里",
+            "start": 2.444999999999993,
+            "end": 6.958999999999989
+          }
+        ],
+        "pause_after": 0.18
+      },
+      "captions": [
+        {
+          "text": "回到自然开发的交付版本",
+          "start": 0.10299999999999443,
+          "end": 2.2620000000000005
+        },
+        {
+          "text": "需求、源码、验收与开发过程都留在项目里",
+          "start": 2.444999999999993,
+          "end": 6.958999999999989
+        }
+      ],
+      "clip": "submission/video-work/remake-20261116/render/017-d1b127756dd1d1fc/clip.mp4",
+      "cache_key": "d1b127756dd1d1fc",
+      "start": 123.46666666666665,
+      "end": 131.1
+    },
+    {
+      "index": 18,
+      "kind": "image",
+      "duration": 6.1,
+      "audio_duration": 5.9,
+      "source_hashes": {
+        "submission/video-work/remake-20261116/audio/06-02.mp3": "a439e1484480427cdbff80384a5c6531dad1505b1c59c0c90cec745f8bc16809",
+        "submission/video-work/remake-20261116/project-source.png": "9ee4fccb830bc8581d444a890dfddd694b40becc3c66b3e3796ac2ce7166d89d"
+      },
+      "segment": {
+        "id": "06-02",
+        "chapter": "06",
+        "kicker": "每次交付，都有可追溯的版本",
+        "title": "源码与记录随版本一起保存",
+        "source": "真实项目页面 · 不可变版本源码",
+        "audio": "submission/video-work/remake-20261116/audio/06-02.mp3",
+        "text": "通过检查的候选保存为版本二，原始导入文件仍然保留。",
+        "kind": "image",
+        "media": "submission/video-work/remake-20261116/project-source.png",
+        "crop": [
+          295,
+          270,
+          945,
+          430
+        ],
+        "subtitle_cues": [
+          {
+            "text": "通过检查的候选保存为版本二",
+            "start": 0.10300000000000864,
+            "end": 2.841000000000008
+          },
+          {
+            "text": "原始导入文件仍然保留",
+            "start": 3.0889999999999986,
+            "end": 5.407000000000011
+          }
+        ],
+        "pause_after": 0.18
+      },
+      "captions": [
+        {
+          "text": "通过检查的候选保存为版本二",
+          "start": 0.10300000000000864,
+          "end": 2.841000000000008
+        },
+        {
+          "text": "原始导入文件仍然保留",
+          "start": 3.0889999999999986,
+          "end": 5.407000000000011
+        }
+      ],
+      "clip": "submission/video-work/remake-20261116/render/018-12193c8815d7e565/clip.mp4",
+      "cache_key": "12193c8815d7e565",
+      "start": 131.1,
+      "end": 137.2
+    },
+    {
+      "index": 19,
+      "kind": "image",
+      "duration": 8.8,
+      "audio_duration": 8.09,
+      "source_hashes": {
+        "submission/video-work/remake-20261116/audio/06-03.mp3": "373efb714da8032db5f05b76e94cfc5e1c94f3610a53ff3eb73cdb10cf6abce1",
+        "submission/video-work/remake-20261116/project-source.png": "9ee4fccb830bc8581d444a890dfddd694b40becc3c66b3e3796ac2ce7166d89d"
+      },
+      "segment": {
+        "id": "06-03",
+        "chapter": "06",
+        "kicker": "每次交付，都有可追溯的版本",
+        "title": "基于当前版本，继续下一项需求",
+        "source": "真实项目页面 · 此处未提交新任务",
+        "audio": "submission/video-work/remake-20261116/audio/06-03.mp3",
+        "text": "继续开发时，可以基于当前版本提出新需求，也可以查看历史，确认这一轮改了什么。",
+        "kind": "image",
+        "media": "submission/video-work/remake-20261116/project-source.png",
+        "crop": [
+          295,
+          100,
+          945,
+          330
+        ],
+        "subtitle_cues": [
+          {
+            "text": "继续开发时，可以基于当前版本提出新需求",
+            "start": 0.10300000000000864,
+            "end": 4.23599999999999
+          },
+          {
+            "text": "也可以查看历史，确认这一轮改了什么",
+            "start": 4.338999999999999,
+            "end": 7.591000000000008
+          }
+        ],
+        "pause_after": 0.7
+      },
+      "captions": [
+        {
+          "text": "继续开发时，可以基于当前版本提出新需求",
+          "start": 0.10300000000000864,
+          "end": 4.23599999999999
+        },
+        {
+          "text": "也可以查看历史，确认这一轮改了什么",
+          "start": 4.338999999999999,
+          "end": 7.591000000000008
+        }
+      ],
+      "clip": "submission/video-work/remake-20261116/render/019-55fb9879e711a787/clip.mp4",
+      "cache_key": "55fb9879e711a787",
+      "start": 137.2,
+      "end": 146.0
+    },
+    {
+      "index": 20,
+      "kind": "image",
+      "duration": 5.5,
+      "audio_duration": 5.3,
+      "source_hashes": {
+        "submission/video-work/remake-20261116/audio/07-01.mp3": "0567614f171822a977c461551e3ef24a06f7659d81b1274d72d62e57b7ededef",
+        "submission/video-work/remake-20261116/board-final.png": "2f7b5b0a1ecdf3584d7634188feeb853f4a2bed4e8c0134ad3c52e736f5ef0e6"
+      },
+      "segment": {
+        "id": "07-01",
+        "chapter": "07",
+        "kicker": "交付之后，直接操作",
+        "title": "打开交付页面",
+        "source": "2026.11.16 实录 · Docker 交付版本 2",
+        "audio": "submission/video-work/remake-20261116/audio/07-01.mp3",
+        "text": "现在打开 Docker 中的浏览器预览，实际使用这个页面。",
+        "kind": "image",
+        "media": "submission/video-work/remake-20261116/board-final.png",
+        "crop": [
+          270,
+          10,
+          740,
+          370
+        ],
+        "subtitle_cues": [
+          {
+            "text": "现在打开 Docker 中的浏览器预览",
+            "start": 0.10299999999998022,
+            "end": 3.0250000000000057
+          },
+          {
+            "text": "实际使用这个页面",
+            "start": 3.194999999999993,
+            "end": 4.814999999999998
+          }
+        ],
+        "pause_after": 0.18
+      },
+      "captions": [
+        {
+          "text": "现在打开 Docker 中的浏览器预览",
+          "start": 0.10299999999998022,
+          "end": 3.0250000000000057
+        },
+        {
+          "text": "实际使用这个页面",
+          "start": 3.194999999999993,
+          "end": 4.814999999999998
+        }
+      ],
+      "clip": "submission/video-work/remake-20261116/render/020-06bd7888bf69c431/clip.mp4",
+      "cache_key": "06bd7888bf69c431",
+      "start": 146.0,
+      "end": 151.5
+    },
+    {
+      "index": 21,
+      "kind": "video",
+      "duration": 8.333333333333334,
+      "audio_duration": 8.14,
+      "source_hashes": {
+        "submission/video-work/remake-20261116/audio/07-02.mp3": "8e184bf584eb77b8ccb11b5987c1d92384e1e41bd005c76b6825adee97d768f3",
+        "submission/video-work/remake-20261116/captures/board-actions-edit/board-actions-edit.mp4": "df2efce7d4892389c0fb29c4d7131ce1fedc850d18e6405e1a8012af20e5c141"
+      },
+      "segment": {
+        "id": "07-02",
+        "chapter": "07",
+        "kicker": "交付之后，直接操作",
+        "title": "新增 → 标记完成 → 筛选",
+        "source": "2026.11.16 实录 · Docker 交付版本 2 · 等待片段已剪短",
+        "audio": "submission/video-work/remake-20261116/audio/07-02.mp3",
+        "text": "输入一项工作，设置优先级，点击新增；接着标记完成，切换到已完成列表。",
+        "kind": "video",
+        "media": "submission/video-work/remake-20261116/captures/board-actions-edit/board-actions-edit.mp4",
+        "crop": [
+          270,
+          10,
+          740,
+          370
+        ],
+        "subtitle_cues": [
+          {
+            "text": "输入一项工作，设置优先级",
+            "start": 0.10300000000000864,
+            "end": 2.9460000000000264
+          },
+          {
+            "text": "点击新增；接着标记完成",
+            "start": 3.011000000000024,
+            "end": 5.723000000000013
+          },
+          {
+            "text": "切换到已完成列表",
+            "start": 5.800000000000011,
+            "end": 7.6440000000000055
+          }
+        ],
+        "pause_after": 0.18
+      },
+      "captions": [
+        {
+          "text": "输入一项工作，设置优先级",
+          "start": 0.10300000000000864,
+          "end": 2.9460000000000264
+        },
+        {
+          "text": "点击新增；接着标记完成",
+          "start": 3.011000000000024,
+          "end": 5.723000000000013
+        },
+        {
+          "text": "切换到已完成列表",
+          "start": 5.800000000000011,
+          "end": 7.6440000000000055
+        }
+      ],
+      "clip": "submission/video-work/remake-20261116/render/021-22eb4934447e6a86/clip.mp4",
+      "cache_key": "22eb4934447e6a86",
+      "start": 151.5,
+      "end": 159.83333333333334
+    },
+    {
+      "index": 22,
+      "kind": "video",
+      "duration": 5.233333333333333,
+      "audio_duration": 5.04,
+      "source_hashes": {
+        "submission/video-work/remake-20261116/audio/07-03.mp3": "4dfe1f12d6e4f56c0c16a4e8e7d916bf2f6f2e2b1bc373c10cbcd615eecb9ac5",
+        "submission/video-work/remake-20261116/captures/board-refresh-live/board-refresh-live.mp4": "4b920fe0915979a880a923ff9c9ed6aade6ff91130d172b5ae82023624f7b55b"
+      },
+      "segment": {
+        "id": "07-03",
+        "chapter": "07",
+        "kicker": "交付之后，直接操作",
+        "title": "刷新后，检查当前容器内的状态",
+        "source": "2026.11.16 实录 · Docker 交付版本 2",
+        "audio": "submission/video-work/remake-20261116/audio/07-03.mp3",
+        "text": "再切回全部，刷新页面，检查操作后的状态。",
+        "kind": "video",
+        "media": "submission/video-work/remake-20261116/captures/board-refresh-live/board-refresh-live.mp4",
+        "crop": [
+          270,
+          10,
+          740,
+          370
+        ],
+        "subtitle_cues": [
+          {
+            "text": "再切回全部，刷新页面",
+            "start": 0.10300000000000864,
+            "end": 2.578000000000003
+          },
+          {
+            "text": "检查操作后的状态",
+            "start": 2.734000000000009,
+            "end": 4.538000000000011
+          }
+        ],
+        "pause_after": 0.18
+      },
+      "captions": [
+        {
+          "text": "再切回全部，刷新页面",
+          "start": 0.10300000000000864,
+          "end": 2.578000000000003
+        },
+        {
+          "text": "检查操作后的状态",
+          "start": 2.734000000000009,
+          "end": 4.538000000000011
+        }
+      ],
+      "clip": "submission/video-work/remake-20261116/render/022-5e4c818c3ed3803b/clip.mp4",
+      "cache_key": "5e4c818c3ed3803b",
+      "start": 159.83333333333334,
+      "end": 165.06666666666666
+    },
+    {
+      "index": 23,
+      "kind": "image",
+      "duration": 9.933333333333334,
+      "audio_duration": 9.22,
+      "source_hashes": {
+        "submission/video-work/remake-20261116/audio/07-04.mp3": "d29d8bb195cc3dceea74dab88f36f98c5f3f4e46b3315958705c9e5509ef3d7b",
+        "submission/video-work/remake-20261116/preview-stopped.png": "9a348ca782f7e912907f76e8f96ef52d043967432c0afe2bdd91bb36f2920723"
+      },
+      "segment": {
+        "id": "07-04",
+        "chapter": "07",
+        "kicker": "交付之后，直接操作",
+        "title": "结束演示，停止预览",
+        "source": "本次操作截图 · 已确认容器停止",
+        "audio": "submission/video-work/remake-20261116/audio/07-04.mp3",
+        "text": "这一段是本次重新录制的真实操作；浏览器预览与开发验收分别记录，结束后停止预览。",
+        "kind": "image",
+        "media": "submission/video-work/remake-20261116/preview-stopped.png",
+        "crop": [
+          295,
+          145,
+          945,
+          570
+        ],
+        "subtitle_cues": [
+          {
+            "text": "这一段是本次重新录制的真实操作",
+            "start": 0.10300000000000864,
+            "end": 3.302000000000021
+          },
+          {
+            "text": "浏览器预览与开发验收分别记录",
+            "start": 3.576000000000022,
+            "end": 6.749000000000024
+          },
+          {
+            "text": "结束后停止预览",
+            "start": 6.984000000000009,
+            "end": 8.709000000000003
+          }
+        ],
+        "pause_after": 0.7
+      },
+      "captions": [
+        {
+          "text": "这一段是本次重新录制的真实操作",
+          "start": 0.10300000000000864,
+          "end": 3.302000000000021
+        },
+        {
+          "text": "浏览器预览与开发验收分别记录",
+          "start": 3.576000000000022,
+          "end": 6.749000000000024
+        },
+        {
+          "text": "结束后停止预览",
+          "start": 6.984000000000009,
+          "end": 8.709000000000003
+        }
+      ],
+      "clip": "submission/video-work/remake-20261116/render/023-54e67ef23e88e36e/clip.mp4",
+      "cache_key": "54e67ef23e88e36e",
+      "start": 165.06666666666666,
+      "end": 175.0
+    },
+    {
+      "index": 24,
+      "kind": "video",
+      "duration": 9.966666666666667,
+      "audio_duration": 9.77,
+      "source_hashes": {
+        "submission/video-work/remake-20261116/audio/08-01.mp3": "73e9c6c3fe3b4e6bdfad9d59c70f9c6e173540ce35b7fa68956b5224f90e4a51",
+        "submission/video-work/remake-20261116/captures/graph-replay/graph-replay.mp4": "5b0ca4272e2008d041e283924a29ba534c3754a2831515962dba4e1aedd6d79c"
+      },
+      "segment": {
+        "id": "08-01",
+        "chapter": "08",
+        "kicker": "把开发过程，变成可检查的交付",
+        "title": "整个过程，可以查看，也可以回放",
+        "source": "真实模型开发 · 历史回放 / 4af425ca",
+        "audio": "submission/video-work/remake-20261116/audio/08-01.mp3",
+        "text": "从需求、动态分工，到测试、修正和版本交付，AgentForge 让整个过程可以查看、可以回放。",
+        "kind": "video",
+        "media": "submission/video-work/remake-20261116/captures/graph-replay/graph-replay.mp4",
+        "crop": [
+          330,
+          145,
+          1250,
+          730
+        ],
+        "subtitle_cues": [
+          {
+            "text": "从需求、动态分工，到测试、修正和版本交付",
+            "start": 0.10299999999998022,
+            "end": 5.222999999999985
+          },
+          {
+            "text": "AgentForge 让整个过程可以查看、可以回放",
+            "start": 5.417999999999978,
+            "end": 9.274999999999977
+          }
+        ],
+        "pause_after": 0.18
+      },
+      "captions": [
+        {
+          "text": "从需求、动态分工，到测试、修正和版本交付",
+          "start": 0.10299999999998022,
+          "end": 5.222999999999985
+        },
+        {
+          "text": "AgentForge 让整个过程可以查看、可以回放",
+          "start": 5.417999999999978,
+          "end": 9.274999999999977
+        }
+      ],
+      "clip": "submission/video-work/remake-20261116/render/024-50d3597d123cce83/clip.mp4",
+      "cache_key": "50d3597d123cce83",
+      "start": 175.0,
+      "end": 184.96666666666667
+    },
+    {
+      "index": 25,
+      "kind": "card",
+      "duration": 9.5,
+      "audio_duration": 9.29,
+      "source_hashes": {
+        "submission/video-work/remake-20261116/audio/08-02.mp3": "f50202761b169de888ed61628042144817797bf65402c9e90385e42672e044eb"
+      },
+      "segment": {
+        "id": "08-02",
+        "chapter": "08",
+        "kicker": "把开发过程，变成可检查的交付",
+        "title": "已经验证的能力，清楚标注边界",
+        "source": "验证范围 · 保留成功与失败证据",
+        "audio": "submission/video-work/remake-20261116/audio/08-02.mp3",
+        "text": "目前，自然代码失败后的自动修正，还没有成功样本；刚才的修正证据来自预设缺陷实验。",
+        "kind": "card",
+        "headline": "修正闭环已验证。\n证据来自预设缺陷实验。",
+        "detail": "自然代码失败后的自动修正，目前尚无成功样本。",
+        "subtitle_cues": [
+          {
+            "text": "目前，自然代码失败后的自动修正",
+            "start": 0.10300000000000864,
+            "end": 3.459000000000003
+          },
+          {
+            "text": "还没有成功样本；刚才的修正证据来自预设缺陷实验",
+            "start": 3.5630000000000166,
+            "end": 8.788000000000011
+          }
+        ],
+        "pause_after": 0.18
+      },
+      "captions": [
+        {
+          "text": "目前，自然代码失败后的自动修正",
+          "start": 0.10300000000000864,
+          "end": 3.459000000000003
+        },
+        {
+          "text": "还没有成功样本；刚才的修正证据来自预设缺陷实验",
+          "start": 3.5630000000000166,
+          "end": 8.788000000000011
+        }
+      ],
+      "clip": "submission/video-work/remake-20261116/render/025-7034cd1084e5730a/clip.mp4",
+      "cache_key": "7034cd1084e5730a",
+      "start": 184.96666666666667,
+      "end": 194.46666666666667
+    },
+    {
+      "index": 26,
+      "kind": "card",
+      "duration": 8.8,
+      "audio_duration": 8.09,
+      "source_hashes": {
+        "submission/video-work/remake-20261116/audio/08-03.mp3": "64894e4849361d42dd1341ebd8584ab24100376add6e26e73193146c2d4b35e7"
+      },
+      "segment": {
+        "id": "08-03",
+        "chapter": "08",
+        "kicker": "把开发过程，变成可检查的交付",
+        "title": "AgentForge · 让交付有据可查",
+        "source": "奶龙队 / 未来杯 · 赛题一",
+        "audio": "submission/video-work/remake-20261116/audio/08-03.mp3",
+        "text": "我们希望交付的不只是生成的代码，还有能操作的软件，以及每一步经得起检查的记录。",
+        "kind": "card",
+        "headline": "能操作的软件。\n经得起检查的记录。",
+        "detail": "完整证据与复现入口：submission/证据索引.md",
+        "flow": [
+          "需求",
+          "协作",
+          "验收",
+          "修正",
+          "交付"
+        ],
+        "subtitle_cues": [
+          {
+            "text": "我们希望交付的不只是生成的代码",
+            "start": 0.10299999999998022,
+            "end": 3.0379999999999825
+          },
+          {
+            "text": "还有能操作的软件，以及每一步经得起检查的记录",
+            "start": 3.194999999999993,
+            "end": 7.603999999999985
+          }
+        ],
+        "pause_after": 0.7
+      },
+      "captions": [
+        {
+          "text": "我们希望交付的不只是生成的代码",
+          "start": 0.10299999999998022,
+          "end": 3.0379999999999825
+        },
+        {
+          "text": "还有能操作的软件，以及每一步经得起检查的记录",
+          "start": 3.194999999999993,
+          "end": 7.603999999999985
+        }
+      ],
+      "clip": "submission/video-work/remake-20261116/render/026-f75b38eeea573baf/clip.mp4",
+      "cache_key": "f75b38eeea573baf",
+      "start": 194.46666666666667,
+      "end": 203.26666666666668
+    }
+  ]
+}

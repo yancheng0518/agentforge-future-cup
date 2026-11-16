@@ -321,9 +321,9 @@
       "kind": "image",
       "media": "submission/video-work/remake-20261116/project-version2.png",
       "crop": [
-        400,
+        295,
         110,
-        830,
+        945,
         530
       ]
     },
@@ -338,9 +338,9 @@
       "kind": "image",
       "media": "submission/video-work/remake-20261116/project-source.png",
       "crop": [
-        400,
+        295,
         270,
-        830,
+        945,
         430
       ]
     },
@@ -355,9 +355,9 @@
       "kind": "image",
       "media": "submission/video-work/remake-20261116/project-source.png",
       "crop": [
-        400,
+        295,
         100,
-        830,
+        945,
         330
       ]
     },
@@ -423,9 +423,9 @@
       "kind": "image",
       "media": "submission/video-work/remake-20261116/preview-stopped.png",
       "crop": [
-        395,
-        115,
-        850,
+        295,
+        145,
+        945,
         570
       ]
     },
