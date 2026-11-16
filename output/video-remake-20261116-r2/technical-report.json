@@ -1,0 +1,8 @@
+{
+  "video_sha256": "1de6143268e6ee805c4df2f49ab5ae92101959f2537978877e92e5050f7a3e0b",
+  "full_decode_exit_code": 0,
+  "black_intervals_over_0_2s": 0,
+  "audio_peak_dbfs": -1.2,
+  "audio_mean_dbfs": -19.9,
+  "note": "Technical decode, black-frame and volume checks. Separate PTS sync measurements required; not a human listening review."
+}

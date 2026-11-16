@@ -1,0 +1,28 @@
+{
+  "video_sha256": "1de6143268e6ee805c4df2f49ab5ae92101959f2537978877e92e5050f7a3e0b",
+  "full_decode_passed": true,
+  "sync_measurement": {
+    "caption_count": 55,
+    "caption_measurement_errors": 0,
+    "min_audio_correlation": 0.9845562011842841,
+    "max_abs_caption_vs_speech_ms": 32.667,
+    "min_caption_vs_speech_ms": 0.0,
+    "max_caption_vs_speech_ms": 32.667
+  },
+  "audio_timestamp_discontinuities": 0,
+  "audio_assembly": "video-only concat; frame-exact PCM; one final AAC encode",
+  "visual_review": "All 27 edits sampled at start/mid/end across two independent reviewers; actions, filter, reload and graph replay additionally sampled densely. Final 06-03 checked at 137.55/141.60/145.80 seconds. Other 26 visual clips reused without re-encoding.",
+  "original_and_first_release_hashes_unchanged": true,
+  "claims_reviewed": [
+    "Historical real model and Docker execution explicitly labeled",
+    "New preview operations against existing v2: 40 HTTP requests, zero new model requests",
+    "Seeded defect experiment explicitly separate from natural candidate failures and output-format retries"
+  ],
+  "limitations": [
+    "No complete human listening review",
+    "About 43ms measurement resolution; not independent phoneme alignment",
+    "Small detailed contract text is contextual, not intended for reading all clauses in a small player",
+    "No full clean-machine video rebuild was performed in this recheck; selected-input archive completeness and new-render smoke were verified"
+  ],
+  "preliminary_inference_retracted": "Raw PCM cumulative offset ignored AAC timestamps; corrected PTS measurements do not establish cumulative playback drift in the first release."
+}

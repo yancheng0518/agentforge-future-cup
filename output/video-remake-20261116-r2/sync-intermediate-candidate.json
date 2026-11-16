@@ -1,0 +1,875 @@
+{
+  "video_sha256": "794f04ec354a9f8b1facec3ee0146a354cadb2091f42856da2b828d948c22af2",
+  "method": "PTS-corrected 10ms audio envelope correlation; 30fps burnt-caption pixel matching",
+  "limitations": "Not a listening assessment. Caption/audio estimate resolution about 43ms (one frame plus one audio envelope bin). Independent phoneme alignment not performed.",
+  "audio_timestamps": {
+    "frame_count": 9529,
+    "discontinuities": [],
+    "overlap_total_ms": 0,
+    "gap_total_ms": 0,
+    "decoded_samples_seconds": 203.26666666666665,
+    "last_frame_end_seconds": 203.26666666666668
+  },
+  "audio_alignment": {
+    "01-01": {
+      "edit_start": 0.0,
+      "audio_offset_ms": 0,
+      "envelope_correlation": 0.9999646790877879
+    },
+    "01-02": {
+      "edit_start": 4.1,
+      "audio_offset_ms": 0,
+      "envelope_correlation": 0.9999888602436069
+    },
+    "01-03": {
+      "edit_start": 8.966666666666667,
+      "audio_offset_ms": 0,
+      "envelope_correlation": 0.9889600812975187
+    },
+    "01-04": {
+      "edit_start": 17.4,
+      "audio_offset_ms": 0,
+      "envelope_correlation": 0.9999945144511593
+    },
+    "02-01": {
+      "edit_start": 24.033333333333335,
+      "audio_offset_ms": 0,
+      "envelope_correlation": 0.9863633944357151
+    },
+    "02-02": {
+      "edit_start": 31.3,
+      "audio_offset_ms": 0,
+      "envelope_correlation": 0.999974560909358
+    },
+    "02-03": {
+      "edit_start": 40.7,
+      "audio_offset_ms": 0,
+      "envelope_correlation": 0.9999912768673648
+    },
+    "03-01": {
+      "edit_start": 47.666666666666664,
+      "audio_offset_ms": 0,
+      "envelope_correlation": 0.9859198642772712
+    },
+    "03-02": {
+      "edit_start": 53.93333333333333,
+      "audio_offset_ms": 0,
+      "envelope_correlation": 0.9887632774868527
+    },
+    "03-03": {
+      "edit_start": 61.2,
+      "audio_offset_ms": 0,
+      "envelope_correlation": 0.9999951067008387
+    },
+    "04-01": {
+      "edit_start": 70.66666666666667,
+      "audio_offset_ms": 0,
+      "envelope_correlation": 0.9873001863694306
+    },
+    "04-02": {
+      "edit_start": 77.23333333333333,
+      "audio_offset_ms": 0,
+      "envelope_correlation": 0.9877367076705805
+    },
+    "04-03": {
+      "edit_start": 84.43333333333334,
+      "audio_offset_ms": 0,
+      "envelope_correlation": 0.9860792964875383
+    },
+    "05-01": {
+      "edit_start": 92.9,
+      "audio_offset_ms": 0,
+      "envelope_correlation": 0.9999702104367718
+    },
+    "05-02": {
+      "edit_start": 101.5,
+      "audio_offset_ms": 0,
+      "envelope_correlation": 0.9999967319665025
+    },
+    "05-03": {
+      "edit_start": 108.9,
+      "audio_offset_ms": 0,
+      "envelope_correlation": 0.999996997056441
+    },
+    "05-04": {
+      "edit_start": 114.86666666666666,
+      "audio_offset_ms": 0,
+      "envelope_correlation": 0.9845562011842841
+    },
+    "06-01": {
+      "edit_start": 123.46666666666667,
+      "audio_offset_ms": 0,
+      "envelope_correlation": 0.986984515667144
+    },
+    "06-02": {
+      "edit_start": 131.1,
+      "audio_offset_ms": 0,
+      "envelope_correlation": 0.999950025846264
+    },
+    "06-03": {
+      "edit_start": 137.2,
+      "audio_offset_ms": 0,
+      "envelope_correlation": 0.9999923704906446
+    },
+    "07-01": {
+      "edit_start": 146.0,
+      "audio_offset_ms": 0,
+      "envelope_correlation": 0.9999983326445481
+    },
+    "07-02": {
+      "edit_start": 151.5,
+      "audio_offset_ms": 0,
+      "envelope_correlation": 0.9999857110721063
+    },
+    "07-03": {
+      "edit_start": 159.83333333333334,
+      "audio_offset_ms": 0,
+      "envelope_correlation": 0.9897681459987384
+    },
+    "07-04": {
+      "edit_start": 165.06666666666666,
+      "audio_offset_ms": 0,
+      "envelope_correlation": 0.9866444502509025
+    },
+    "08-01": {
+      "edit_start": 175.0,
+      "audio_offset_ms": 0,
+      "envelope_correlation": 0.9999876323909282
+    },
+    "08-02": {
+      "edit_start": 184.96666666666667,
+      "audio_offset_ms": 0,
+      "envelope_correlation": 0.9880289750397113
+    },
+    "08-03": {
+      "edit_start": 194.46666666666667,
+      "audio_offset_ms": 0,
+      "envelope_correlation": 0.9889645688105813
+    }
+  },
+  "caption_measurements": [
+    {
+      "segment": "01-01",
+      "index": 0,
+      "text": "一句需求，怎样变成真正能用的软件？",
+      "expected_start": 0.103,
+      "expected_end": 3.381,
+      "observed_start": 0.133333,
+      "observed_end": 3.4,
+      "burnt_minus_srt_start_ms": 30.333000000000013,
+      "burnt_minus_srt_end_ms": 19.000000000000128,
+      "burnt_minus_estimated_spoken_word_start_ms": 30.333000000000013,
+      "audio_correlation": 0.9999646790877879
+    },
+    {
+      "segment": "01-02",
+      "index": 0,
+      "text": "这是 AgentForge",
+      "expected_start": 4.203,
+      "expected_end": 5.665,
+      "observed_start": 4.233333,
+      "observed_end": 5.666667,
+      "burnt_minus_srt_start_ms": 30.33299999999972,
+      "burnt_minus_srt_end_ms": 1.6670000000003071,
+      "burnt_minus_estimated_spoken_word_start_ms": 30.33299999999972,
+      "audio_correlation": 0.9999888602436069
+    },
+    {
+      "segment": "01-02",
+      "index": 1,
+      "text": "多智能体软件开发工作台",
+      "expected_start": 5.834,
+      "expected_end": 8.283,
+      "observed_start": 5.866667,
+      "observed_end": 8.3,
+      "burnt_minus_srt_start_ms": 32.667,
+      "burnt_minus_srt_end_ms": 17.000000000001236,
+      "burnt_minus_estimated_spoken_word_start_ms": 32.667,
+      "audio_correlation": 0.9999888602436069
+    },
+    {
+      "segment": "01-03",
+      "index": 0,
+      "text": "这次，我们要给现有项目加上中文工作项看板",
+      "expected_start": 9.069666666666667,
+      "expected_end": 13.518666666666666,
+      "observed_start": 9.1,
+      "observed_end": 13.533333,
+      "burnt_minus_srt_start_ms": 30.3333333333331,
+      "burnt_minus_srt_end_ms": 14.666333333334336,
+      "burnt_minus_estimated_spoken_word_start_ms": 30.3333333333331,
+      "audio_correlation": 0.9889600812975187
+    },
+    {
+      "segment": "01-03",
+      "index": 1,
+      "text": "支持新增、完成和状态筛选",
+      "expected_start": 13.753666666666666,
+      "expected_end": 16.702666666666666,
+      "observed_start": 13.766667,
+      "observed_end": 16.733333,
+      "burnt_minus_srt_start_ms": 13.000333333334169,
+      "burnt_minus_srt_end_ms": 30.666333333332574,
+      "burnt_minus_estimated_spoken_word_start_ms": 13.000333333334169,
+      "audio_correlation": 0.9889600812975187
+    },
+    {
+      "segment": "01-04",
+      "index": 0,
+      "text": "先看看交付的页面，再回到工作台",
+      "expected_start": 17.503,
+      "expected_end": 20.767,
+      "observed_start": 17.533333,
+      "observed_end": 20.8,
+      "burnt_minus_srt_start_ms": 30.332999999998833,
+      "burnt_minus_srt_end_ms": 33.00000000000125,
+      "burnt_minus_estimated_spoken_word_start_ms": 30.332999999998833,
+      "audio_correlation": 0.9999945144511593
+    },
+    {
+      "segment": "01-04",
+      "index": 1,
+      "text": "看看它是怎样完成的",
+      "expected_start": 20.910999999999998,
+      "expected_end": 22.833,
+      "observed_start": 20.933333,
+      "observed_end": 22.833333,
+      "burnt_minus_srt_start_ms": 22.333000000003267,
+      "burnt_minus_srt_end_ms": 0.33300000000124896,
+      "burnt_minus_estimated_spoken_word_start_ms": 22.333000000003267,
+      "audio_correlation": 0.9999945144511593
+    },
+    {
+      "segment": "02-01",
+      "index": 0,
+      "text": "这里展示的是已保存的真实开发回放",
+      "expected_start": 24.136333333333337,
+      "expected_end": 27.427333333333333,
+      "observed_start": 24.166667,
+      "observed_end": 27.433333,
+      "burnt_minus_srt_start_ms": 30.333666666663817,
+      "burnt_minus_srt_end_ms": 5.999666666667736,
+      "burnt_minus_estimated_spoken_word_start_ms": 30.333666666663817,
+      "audio_correlation": 0.9863633944357151
+    },
+    {
+      "segment": "02-01",
+      "index": 1,
+      "text": "模型调用和测试都有原始记录",
+      "expected_start": 27.701333333333334,
+      "expected_end": 30.611333333333334,
+      "observed_start": 27.733333,
+      "observed_end": 30.633333,
+      "burnt_minus_srt_start_ms": 31.999666666663984,
+      "burnt_minus_srt_end_ms": 21.999666666665973,
+      "burnt_minus_estimated_spoken_word_start_ms": 31.999666666663984,
+      "audio_correlation": 0.9863633944357151
+    },
+    {
+      "segment": "02-02",
+      "index": 0,
+      "text": "项目起点只有健康检查和占位首页",
+      "expected_start": 31.403,
+      "expected_end": 35.075,
+      "observed_start": 31.433333,
+      "observed_end": 35.1,
+      "burnt_minus_srt_start_ms": 30.333000000002386,
+      "burnt_minus_srt_end_ms": 24.99999999999858,
+      "burnt_minus_estimated_spoken_word_start_ms": 30.333000000002386,
+      "audio_correlation": 0.999974560909358
+    },
+    {
+      "segment": "02-02",
+      "index": 1,
+      "text": "新的需求、接口与验收条件",
+      "expected_start": 35.349999999999994,
+      "expected_end": 38.153999999999996,
+      "observed_start": 35.366667,
+      "observed_end": 38.166667,
+      "burnt_minus_srt_start_ms": 16.667000000005316,
+      "burnt_minus_srt_end_ms": 12.667000000000428,
+      "burnt_minus_estimated_spoken_word_start_ms": 16.667000000005316,
+      "audio_correlation": 0.999974560909358
+    },
+    {
+      "segment": "02-02",
+      "index": 2,
+      "text": "先在工作台里确认",
+      "expected_start": 38.324,
+      "expected_end": 39.995999999999995,
+      "observed_start": 38.333333,
+      "observed_end": 40.0,
+      "burnt_minus_srt_start_ms": 9.333000000005143,
+      "burnt_minus_srt_end_ms": 4.0000000000048885,
+      "burnt_minus_estimated_spoken_word_start_ms": 9.333000000005143,
+      "audio_correlation": 0.999974560909358
+    },
+    {
+      "segment": "02-03",
+      "index": 0,
+      "text": "验收标准在开发前冻结",
+      "expected_start": 40.803000000000004,
+      "expected_end": 43.173,
+      "observed_start": 40.833333,
+      "observed_end": 43.2,
+      "burnt_minus_srt_start_ms": 30.332999999998833,
+      "burnt_minus_srt_end_ms": 27.000000000001023,
+      "burnt_minus_estimated_spoken_word_start_ms": 30.332999999998833,
+      "audio_correlation": 0.9999912768673648
+    },
+    {
+      "segment": "02-03",
+      "index": 1,
+      "text": "让每一轮实现都面对同一把尺子",
+      "expected_start": 43.382,
+      "expected_end": 46.462,
+      "observed_start": 43.4,
+      "observed_end": 46.466667,
+      "burnt_minus_srt_start_ms": 18.000000000000682,
+      "burnt_minus_srt_end_ms": 4.666999999997756,
+      "burnt_minus_estimated_spoken_word_start_ms": 18.000000000000682,
+      "audio_correlation": 0.9999912768673648
+    },
+    {
+      "segment": "03-01",
+      "index": 0,
+      "text": "主智能体根据需求，拆出后端接口和前端页面两个任务",
+      "expected_start": 47.769666666666666,
+      "expected_end": 53.257666666666665,
+      "observed_start": 47.8,
+      "observed_end": 53.266667,
+      "burnt_minus_srt_start_ms": 30.333333333331325,
+      "burnt_minus_srt_end_ms": 9.000333333332833,
+      "burnt_minus_estimated_spoken_word_start_ms": 30.333333333331325,
+      "audio_correlation": 0.9859198642772712
+    },
+    {
+      "segment": "03-02",
+      "index": 0,
+      "text": "两个子智能体分别修改不同文件",
+      "expected_start": 54.036333333333324,
+      "expected_end": 57.16933333333333,
+      "observed_start": 54.066667,
+      "observed_end": 57.2,
+      "burnt_minus_srt_start_ms": 30.333666666678027,
+      "burnt_minus_srt_end_ms": 30.666666666675724,
+      "burnt_minus_estimated_spoken_word_start_ms": 30.333666666678027,
+      "audio_correlation": 0.9887632774868527
+    },
+    {
+      "segment": "03-02",
+      "index": 1,
+      "text": "这次执行的时间确实存在重叠",
+      "expected_start": 57.45733333333333,
+      "expected_end": 60.48533333333333,
+      "observed_start": 57.466667,
+      "observed_end": 60.5,
+      "burnt_minus_srt_start_ms": 9.333666666670126,
+      "burnt_minus_srt_end_ms": 14.66666666667038,
+      "burnt_minus_estimated_spoken_word_start_ms": 9.333666666670126,
+      "audio_correlation": 0.9887632774868527
+    },
+    {
+      "segment": "03-03",
+      "index": 0,
+      "text": "协作图把任务派发、依赖和反馈串起来",
+      "expected_start": 61.303000000000004,
+      "expected_end": 65.08100000000002,
+      "observed_start": 61.333333,
+      "observed_end": 65.1,
+      "burnt_minus_srt_start_ms": 30.332999999998833,
+      "burnt_minus_srt_end_ms": 18.999999999977035,
+      "burnt_minus_estimated_spoken_word_start_ms": 30.332999999998833,
+      "audio_correlation": 0.9999951067008387
+    },
+    {
+      "segment": "03-03",
+      "index": 1,
+      "text": "点开节点，就能查看具体指令和文件范围",
+      "expected_start": 65.35499999999999,
+      "expected_end": 69.436,
+      "observed_start": 65.366667,
+      "observed_end": 69.466667,
+      "burnt_minus_srt_start_ms": 11.66700000001697,
+      "burnt_minus_srt_end_ms": 30.666999999994005,
+      "burnt_minus_estimated_spoken_word_start_ms": 11.66700000001697,
+      "audio_correlation": 0.9999951067008387
+    },
+    {
+      "segment": "04-01",
+      "index": 0,
+      "text": "这条自然开发记录中，首个候选通过了十四项 Docker",
+      "expected_start": 70.76966666666667,
+      "expected_end": 75.48266666666667,
+      "observed_start": 70.8,
+      "observed_end": 75.5,
+      "burnt_minus_srt_start_ms": 30.333333333331325,
+      "burnt_minus_srt_end_ms": 17.333333333326095,
+      "burnt_minus_estimated_spoken_word_start_ms": 30.333333333331325,
+      "audio_correlation": 0.9873001863694306
+    },
+    {
+      "segment": "04-01",
+      "index": 1,
+      "text": "接口验收",
+      "expected_start": 75.49266666666666,
+      "expected_end": 76.53366666666668,
+      "observed_start": 75.5,
+      "observed_end": 76.566667,
+      "burnt_minus_srt_start_ms": 7.33333333333519,
+      "burnt_minus_srt_end_ms": 33.00033333331953,
+      "burnt_minus_estimated_spoken_word_start_ms": 7.33333333333519,
+      "audio_correlation": 0.9873001863694306
+    },
+    {
+      "segment": "04-02",
+      "index": 0,
+      "text": "另外一套事先冻结的独立用例",
+      "expected_start": 77.33633333333333,
+      "expected_end": 79.99533333333333,
+      "observed_start": 77.366667,
+      "observed_end": 80.0,
+      "burnt_minus_srt_start_ms": 30.333666666678027,
+      "burnt_minus_srt_end_ms": 4.6666666666652645,
+      "burnt_minus_estimated_spoken_word_start_ms": 30.333666666678027,
+      "audio_correlation": 0.9877367076705805
+    },
+    {
+      "segment": "04-02",
+      "index": 1,
+      "text": "也通过了十二项；两套结果分别保存",
+      "expected_start": 80.11233333333332,
+      "expected_end": 83.74533333333333,
+      "observed_start": 80.133333,
+      "observed_end": 83.766667,
+      "burnt_minus_srt_start_ms": 20.999666666668304,
+      "burnt_minus_srt_end_ms": 21.333666666663476,
+      "burnt_minus_estimated_spoken_word_start_ms": 20.999666666668304,
+      "audio_correlation": 0.9877367076705805
+    },
+    {
+      "segment": "04-03",
+      "index": 0,
+      "text": "过程中的两次输出格式重试",
+      "expected_start": 84.53633333333335,
+      "expected_end": 87.09033333333335,
+      "observed_start": 84.566667,
+      "observed_end": 87.1,
+      "burnt_minus_srt_start_ms": 30.333666666649606,
+      "burnt_minus_srt_end_ms": 9.666666666646506,
+      "burnt_minus_estimated_spoken_word_start_ms": 30.333666666649606,
+      "audio_correlation": 0.9860792964875383
+    },
+    {
+      "segment": "04-03",
+      "index": 1,
+      "text": "同样保留，但不会计作代码失败或自动修复",
+      "expected_start": 87.18033333333334,
+      "expected_end": 91.69533333333334,
+      "observed_start": 87.2,
+      "observed_end": 91.7,
+      "burnt_minus_srt_start_ms": 19.666666666665833,
+      "burnt_minus_srt_end_ms": 4.6666666666652645,
+      "burnt_minus_estimated_spoken_word_start_ms": 19.666666666665833,
+      "audio_correlation": 0.9860792964875383
+    },
+    {
+      "segment": "05-01",
+      "index": 0,
+      "text": "再看一个明确标注的预设缺陷实验",
+      "expected_start": 93.003,
+      "expected_end": 96.096,
+      "observed_start": 93.033333,
+      "observed_end": 96.1,
+      "burnt_minus_srt_start_ms": 30.332999999998833,
+      "burnt_minus_srt_end_ms": 3.9999999999906777,
+      "burnt_minus_estimated_spoken_word_start_ms": 30.332999999998833,
+      "audio_correlation": 0.9999702104367718
+    },
+    {
+      "segment": "05-01",
+      "index": 1,
+      "text": "在独立副本中，预先删除完成状态的筛选分支",
+      "expected_start": 96.345,
+      "expected_end": 100.82,
+      "observed_start": 96.366667,
+      "observed_end": 100.833333,
+      "burnt_minus_srt_start_ms": 21.667000000007874,
+      "burnt_minus_srt_end_ms": 13.333000000002926,
+      "burnt_minus_estimated_spoken_word_start_ms": 21.667000000007874,
+      "audio_correlation": 0.9999702104367718
+    },
+    {
+      "segment": "05-02",
+      "index": 0,
+      "text": "第一轮验收出现一项失败",
+      "expected_start": 101.603,
+      "expected_end": 104.091,
+      "observed_start": 101.633333,
+      "observed_end": 104.1,
+      "burnt_minus_srt_start_ms": 30.332999999998833,
+      "burnt_minus_srt_end_ms": 9.000000000000341,
+      "burnt_minus_estimated_spoken_word_start_ms": 30.332999999998833,
+      "audio_correlation": 0.9999967319665025
+    },
+    {
+      "segment": "05-02",
+      "index": 1,
+      "text": "主智能体读取反馈，派发筛选修复任务",
+      "expected_start": 104.326,
+      "expected_end": 108.223,
+      "observed_start": 104.333333,
+      "observed_end": 108.233333,
+      "burnt_minus_srt_start_ms": 7.3330000000026985,
+      "burnt_minus_srt_end_ms": 10.333000000002812,
+      "burnt_minus_estimated_spoken_word_start_ms": 7.3330000000026985,
+      "audio_correlation": 0.9999967319665025
+    },
+    {
+      "segment": "05-03",
+      "index": 0,
+      "text": "修改后，再用同一套冻结测试检查",
+      "expected_start": 109.003,
+      "expected_end": 112.399,
+      "observed_start": 109.033333,
+      "observed_end": 112.4,
+      "burnt_minus_srt_start_ms": 30.332999999998833,
+      "burnt_minus_srt_end_ms": 1.0000000000047748,
+      "burnt_minus_estimated_spoken_word_start_ms": 30.332999999998833,
+      "audio_correlation": 0.999996997056441
+    },
+    {
+      "segment": "05-03",
+      "index": 1,
+      "text": "十二项全部通过",
+      "expected_start": 112.516,
+      "expected_end": 114.162,
+      "observed_start": 112.533333,
+      "observed_end": 114.166667,
+      "burnt_minus_srt_start_ms": 17.332999999993604,
+      "burnt_minus_srt_end_ms": 4.666999999997756,
+      "burnt_minus_estimated_spoken_word_start_ms": 17.332999999993604,
+      "audio_correlation": 0.999996997056441
+    },
+    {
+      "segment": "05-04",
+      "index": 0,
+      "text": "原始失败、修复内容和复验结果完整保留",
+      "expected_start": 114.96966666666665,
+      "expected_end": 119.29966666666667,
+      "observed_start": 115.0,
+      "observed_end": 119.3,
+      "burnt_minus_srt_start_ms": 30.333333333345536,
+      "burnt_minus_srt_end_ms": 0.333333333330188,
+      "burnt_minus_estimated_spoken_word_start_ms": 30.333333333345536,
+      "audio_correlation": 0.9845562011842841
+    },
+    {
+      "segment": "05-04",
+      "index": 1,
+      "text": "这是一条预设缺陷的修正证据",
+      "expected_start": 119.57466666666666,
+      "expected_end": 122.23366666666666,
+      "observed_start": 119.6,
+      "observed_end": 122.266667,
+      "burnt_minus_srt_start_ms": 25.333333333335872,
+      "burnt_minus_srt_end_ms": 33.00033333333374,
+      "burnt_minus_estimated_spoken_word_start_ms": 25.333333333335872,
+      "audio_correlation": 0.9845562011842841
+    },
+    {
+      "segment": "06-01",
+      "index": 0,
+      "text": "回到自然开发的交付版本",
+      "expected_start": 123.56966666666666,
+      "expected_end": 125.72866666666667,
+      "observed_start": 123.6,
+      "observed_end": 125.733333,
+      "burnt_minus_srt_start_ms": 30.333333333331325,
+      "burnt_minus_srt_end_ms": 4.666333333332773,
+      "burnt_minus_estimated_spoken_word_start_ms": 30.333333333331325,
+      "audio_correlation": 0.986984515667144
+    },
+    {
+      "segment": "06-01",
+      "index": 1,
+      "text": "需求、源码、验收与开发过程都留在项目里",
+      "expected_start": 125.91166666666666,
+      "expected_end": 130.42566666666664,
+      "observed_start": 125.933333,
+      "observed_end": 130.433333,
+      "burnt_minus_srt_start_ms": 21.66633333334289,
+      "burnt_minus_srt_end_ms": 7.666333333361308,
+      "burnt_minus_estimated_spoken_word_start_ms": 21.66633333334289,
+      "audio_correlation": 0.986984515667144
+    },
+    {
+      "segment": "06-02",
+      "index": 0,
+      "text": "通过检查的候选保存为版本二",
+      "expected_start": 131.203,
+      "expected_end": 133.941,
+      "observed_start": 131.233333,
+      "observed_end": 133.966667,
+      "burnt_minus_srt_start_ms": 30.332999999984622,
+      "burnt_minus_srt_end_ms": 25.666999999998552,
+      "burnt_minus_estimated_spoken_word_start_ms": 30.332999999984622,
+      "audio_correlation": 0.999950025846264
+    },
+    {
+      "segment": "06-02",
+      "index": 1,
+      "text": "原始导入文件仍然保留",
+      "expected_start": 134.189,
+      "expected_end": 136.507,
+      "observed_start": 134.2,
+      "observed_end": 136.533333,
+      "burnt_minus_srt_start_ms": 10.99999999999568,
+      "burnt_minus_srt_end_ms": 26.332999999993945,
+      "burnt_minus_estimated_spoken_word_start_ms": 10.99999999999568,
+      "audio_correlation": 0.999950025846264
+    },
+    {
+      "segment": "06-03",
+      "index": 0,
+      "text": "继续开发时，可以基于当前版本提出新需求",
+      "expected_start": 137.303,
+      "expected_end": 141.43599999999998,
+      "observed_start": 137.333333,
+      "observed_end": 141.466667,
+      "burnt_minus_srt_start_ms": 30.333000000013044,
+      "burnt_minus_srt_end_ms": 30.667000000022426,
+      "burnt_minus_estimated_spoken_word_start_ms": 30.333000000013044,
+      "audio_correlation": 0.9999923704906446
+    },
+    {
+      "segment": "06-03",
+      "index": 1,
+      "text": "也可以查看历史，确认这一轮改了什么",
+      "expected_start": 141.539,
+      "expected_end": 144.791,
+      "observed_start": 141.566667,
+      "observed_end": 144.8,
+      "burnt_minus_srt_start_ms": 27.667000000008102,
+      "burnt_minus_srt_end_ms": 9.000000000014552,
+      "burnt_minus_estimated_spoken_word_start_ms": 27.667000000008102,
+      "audio_correlation": 0.9999923704906446
+    },
+    {
+      "segment": "07-01",
+      "index": 0,
+      "text": "现在打开 Docker 中的浏览器预览",
+      "expected_start": 146.10299999999998,
+      "expected_end": 149.025,
+      "observed_start": 146.133333,
+      "observed_end": 149.033333,
+      "burnt_minus_srt_start_ms": 30.333000000013044,
+      "burnt_minus_srt_end_ms": 8.332999999993262,
+      "burnt_minus_estimated_spoken_word_start_ms": 30.333000000013044,
+      "audio_correlation": 0.9999983326445481
+    },
+    {
+      "segment": "07-01",
+      "index": 1,
+      "text": "实际使用这个页面",
+      "expected_start": 149.195,
+      "expected_end": 150.815,
+      "observed_start": 149.2,
+      "observed_end": 150.833333,
+      "burnt_minus_srt_start_ms": 4.9999999999954525,
+      "burnt_minus_srt_end_ms": 18.33300000001259,
+      "burnt_minus_estimated_spoken_word_start_ms": 4.9999999999954525,
+      "audio_correlation": 0.9999983326445481
+    },
+    {
+      "segment": "07-02",
+      "index": 0,
+      "text": "输入一项工作，设置优先级",
+      "expected_start": 151.603,
+      "expected_end": 154.44600000000003,
+      "observed_start": 151.633333,
+      "observed_end": 154.466667,
+      "burnt_minus_srt_start_ms": 30.332999999984622,
+      "burnt_minus_srt_end_ms": 20.666999999974678,
+      "burnt_minus_estimated_spoken_word_start_ms": 30.332999999984622,
+      "audio_correlation": 0.9999857110721063
+    },
+    {
+      "segment": "07-02",
+      "index": 1,
+      "text": "点击新增；接着标记完成",
+      "expected_start": 154.51100000000002,
+      "expected_end": 157.223,
+      "observed_start": 154.533333,
+      "observed_end": 157.233333,
+      "burnt_minus_srt_start_ms": 22.332999999974845,
+      "burnt_minus_srt_end_ms": 10.33299999997439,
+      "burnt_minus_estimated_spoken_word_start_ms": 22.332999999974845,
+      "audio_correlation": 0.9999857110721063
+    },
+    {
+      "segment": "07-02",
+      "index": 2,
+      "text": "切换到已完成列表",
+      "expected_start": 157.3,
+      "expected_end": 159.144,
+      "observed_start": 157.3,
+      "observed_end": 159.166667,
+      "burnt_minus_srt_start_ms": 0.0,
+      "burnt_minus_srt_end_ms": 22.666999999984228,
+      "burnt_minus_estimated_spoken_word_start_ms": 0.0,
+      "audio_correlation": 0.9999857110721063
+    },
+    {
+      "segment": "07-03",
+      "index": 0,
+      "text": "再切回全部，刷新页面",
+      "expected_start": 159.93633333333335,
+      "expected_end": 162.41133333333335,
+      "observed_start": 159.966667,
+      "observed_end": 162.433333,
+      "burnt_minus_srt_start_ms": 30.333666666649606,
+      "burnt_minus_srt_end_ms": 21.999666666658868,
+      "burnt_minus_estimated_spoken_word_start_ms": 30.333666666649606,
+      "audio_correlation": 0.9897681459987384
+    },
+    {
+      "segment": "07-03",
+      "index": 1,
+      "text": "检查操作后的状态",
+      "expected_start": 162.56733333333335,
+      "expected_end": 164.37133333333335,
+      "observed_start": 162.6,
+      "observed_end": 164.4,
+      "burnt_minus_srt_start_ms": 32.66666666664264,
+      "burnt_minus_srt_end_ms": 28.666666666651963,
+      "burnt_minus_estimated_spoken_word_start_ms": 32.66666666664264,
+      "audio_correlation": 0.9897681459987384
+    },
+    {
+      "segment": "07-04",
+      "index": 0,
+      "text": "这一段是本次重新录制的真实操作",
+      "expected_start": 165.16966666666667,
+      "expected_end": 168.36866666666668,
+      "observed_start": 165.2,
+      "observed_end": 168.4,
+      "burnt_minus_srt_start_ms": 30.333333333317114,
+      "burnt_minus_srt_end_ms": 31.33333333332189,
+      "burnt_minus_estimated_spoken_word_start_ms": 30.333333333317114,
+      "audio_correlation": 0.9866444502509025
+    },
+    {
+      "segment": "07-04",
+      "index": 1,
+      "text": "浏览器预览与开发验收分别记录",
+      "expected_start": 168.64266666666668,
+      "expected_end": 171.8156666666667,
+      "observed_start": 168.666667,
+      "observed_end": 171.833333,
+      "burnt_minus_srt_start_ms": 24.00033333330498,
+      "burnt_minus_srt_end_ms": 17.66633333332379,
+      "burnt_minus_estimated_spoken_word_start_ms": 24.00033333330498,
+      "audio_correlation": 0.9866444502509025
+    },
+    {
+      "segment": "07-04",
+      "index": 2,
+      "text": "结束后停止预览",
+      "expected_start": 172.05066666666667,
+      "expected_end": 173.77566666666667,
+      "observed_start": 172.066667,
+      "observed_end": 173.8,
+      "burnt_minus_srt_start_ms": 16.000333333323624,
+      "burnt_minus_srt_end_ms": 24.33333333334531,
+      "burnt_minus_estimated_spoken_word_start_ms": 16.000333333323624,
+      "audio_correlation": 0.9866444502509025
+    },
+    {
+      "segment": "08-01",
+      "index": 0,
+      "text": "从需求、动态分工，到测试、修正和版本交付",
+      "expected_start": 175.10299999999998,
+      "expected_end": 180.22299999999998,
+      "observed_start": 175.133333,
+      "observed_end": 180.233333,
+      "burnt_minus_srt_start_ms": 30.333000000013044,
+      "burnt_minus_srt_end_ms": 10.333000000002812,
+      "burnt_minus_estimated_spoken_word_start_ms": 30.333000000013044,
+      "audio_correlation": 0.9999876323909282
+    },
+    {
+      "segment": "08-01",
+      "index": 1,
+      "text": "AgentForge 让整个过程可以查看、可以回放",
+      "expected_start": 180.41799999999998,
+      "expected_end": 184.27499999999998,
+      "observed_start": 180.433333,
+      "observed_end": 184.3,
+      "burnt_minus_srt_start_ms": 15.333000000026686,
+      "burnt_minus_srt_end_ms": 25.000000000034106,
+      "burnt_minus_estimated_spoken_word_start_ms": 15.333000000026686,
+      "audio_correlation": 0.9999876323909282
+    },
+    {
+      "segment": "08-02",
+      "index": 0,
+      "text": "目前，自然代码失败后的自动修正",
+      "expected_start": 185.06966666666668,
+      "expected_end": 188.42566666666667,
+      "observed_start": 185.1,
+      "observed_end": 188.433333,
+      "burnt_minus_srt_start_ms": 30.333333333317114,
+      "burnt_minus_srt_end_ms": 7.6663333333328865,
+      "burnt_minus_estimated_spoken_word_start_ms": 30.333333333317114,
+      "audio_correlation": 0.9880289750397113
+    },
+    {
+      "segment": "08-02",
+      "index": 1,
+      "text": "还没有成功样本；刚才的修正证据来自预设缺陷实验",
+      "expected_start": 188.52966666666669,
+      "expected_end": 193.75466666666668,
+      "observed_start": 188.533333,
+      "observed_end": 193.766667,
+      "burnt_minus_srt_start_ms": 3.666333333313787,
+      "burnt_minus_srt_end_ms": 12.000333333332946,
+      "burnt_minus_estimated_spoken_word_start_ms": 3.666333333313787,
+      "audio_correlation": 0.9880289750397113
+    },
+    {
+      "segment": "08-03",
+      "index": 0,
+      "text": "我们希望交付的不只是生成的代码",
+      "expected_start": 194.56966666666665,
+      "expected_end": 197.50466666666665,
+      "observed_start": 194.6,
+      "observed_end": 197.533333,
+      "burnt_minus_srt_start_ms": 30.333333333345536,
+      "burnt_minus_srt_end_ms": 28.666333333347893,
+      "burnt_minus_estimated_spoken_word_start_ms": 30.333333333345536,
+      "audio_correlation": 0.9889645688105813
+    },
+    {
+      "segment": "08-03",
+      "index": 1,
+      "text": "还有能操作的软件，以及每一步经得起检查的记录",
+      "expected_start": 197.66166666666666,
+      "expected_end": 202.07066666666665,
+      "observed_start": 197.666667,
+      "observed_end": 202.1,
+      "burnt_minus_srt_start_ms": 5.000333333327944,
+      "burnt_minus_srt_end_ms": 29.33333333334076,
+      "burnt_minus_estimated_spoken_word_start_ms": 5.000333333327944,
+      "audio_correlation": 0.9889645688105813
+    }
+  ],
+  "summary": {
+    "caption_count": 55,
+    "caption_measurement_errors": 0,
+    "min_audio_correlation": 0.9845562011842841,
+    "max_abs_caption_vs_speech_ms": 32.667,
+    "min_caption_vs_speech_ms": 0.0,
+    "max_caption_vs_speech_ms": 32.667
+  }
+}

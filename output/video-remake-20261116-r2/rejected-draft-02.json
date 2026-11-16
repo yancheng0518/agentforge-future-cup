@@ -1,0 +1,7 @@
+{
+  "status": "rejected_crop_review",
+  "sha256": "507b2a233263459a3640b68f90aa408bfd822e6a3d20e1257ce14889ec083d8f",
+  "issue": "Project panel crops started too far right, hiding source filename and stopped status.",
+  "fix": "Widened project-related crops to start at x=295, preserving original page content.",
+  "preserved": "Build metadata, contact sheet and original cached segment clips remain."
+}

@@ -20,6 +20,9 @@ submission/*.mp4
 submission/演示视频-新版-*.build.json
 submission/演示视频-新版-*.contact.jpg
 submission/演示视频-新版-*.srt
+submission/演示视频-复核修正版-*.build.json
+submission/演示视频-复核修正版-*.contact.jpg
+submission/演示视频-复核修正版-*.srt
 submission/frames/
 submission/upload/
 submission/*.zip

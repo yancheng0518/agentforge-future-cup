@@ -1,5 +1,6 @@
 """Bundle only reviewed edit inputs; never include env, databases or other captures."""
 from pathlib import Path
+import argparse
 import hashlib
 import json
 import shutil
@@ -9,8 +10,8 @@ import imageio_ffmpeg
 
 ROOT = Path(__file__).resolve().parents[2]
 WORK = ROOT / 'submission/video-work/remake-20261116'
-OUT = ROOT / 'output/video-remake-20261116'
-VIDEO = ROOT / 'submission/演示视频-新版-20261116.mp4'
+OUT = ROOT / 'output/video-remake-20261116-r2'
+VIDEO = ROOT / 'submission/演示视频-复核修正版-r2-20261116.mp4'
 
 
 def sha(path):
@@ -18,11 +19,20 @@ def sha(path):
 
 
 def main():
+    global VIDEO, OUT
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--video', type=Path, default=VIDEO)
+    parser.add_argument('--output-dir', type=Path, default=OUT)
+    parser.add_argument('--source-archive', type=Path, default=ROOT/'submission/video-remake-20261116-r2-source.zip')
+    args = parser.parse_args()
+    VIDEO, OUT = args.video.resolve(), args.output_dir.resolve()
     OUT.mkdir(parents=True, exist_ok=True)
     config = json.loads((ROOT/'scripts/video_remake/edit.json').read_text(encoding='utf8'))
     build = json.loads(VIDEO.with_suffix('.build.json').read_text(encoding='utf8'))
     if sha(VIDEO) != build['sha256'] or not build['full_decode_passed']:
         raise ValueError('Final video does not match its successful decode record')
+    if sha(ROOT/'scripts/video_remake/edit.json') != build['config_sha256']:
+        raise ValueError('Current edit configuration differs from the video build; use the matching Git revision')
     inputs = {ROOT / s['media'] for s in config['segments'] if s.get('media')}
     inputs.update((WORK/'audio').glob('*'))
     for name in ('board-add-live','board-filter-live','board-refresh-live','graph-replay'):
@@ -34,7 +44,7 @@ def main():
     inputs = sorted(p for p in inputs if p.is_file())
     for path in inputs:
         path.resolve().relative_to(WORK.resolve())
-    archive = ROOT/'submission/video-remake-20261116-source.zip'
+    archive = args.source_archive.resolve()
     with zipfile.ZipFile(archive,'w',compression=zipfile.ZIP_DEFLATED,compresslevel=6) as z:
         for path in inputs:
             z.write(path, path.relative_to(ROOT).as_posix())

@@ -1,0 +1,59 @@
+{
+  "id": "6400568ef76d49818135973b6dde07fd",
+  "status": "stopped",
+  "created_at": "2026-11-16T19:44:40.802966+08:00",
+  "stopped_at": "2026-11-16T19:47:44.76809+08:00",
+  "stop_reason": "user",
+  "request_count": 40,
+  "image_id": "sha256:294f32c3bce20f4fe2d863d327a0ac5a782fb55c845851353525eca7f13a185c",
+  "container_invoked": true,
+  "container_removed": true,
+  "isolated": true,
+  "source_sha256": "1e2318b774ee750fb80c6660e0a9e5cef893ba78c7ff3e7a9c74b2815881376e",
+  "application_data_persistent": false,
+  "test_claim": false,
+  "project_id": "f9d03a54795e45c48d8d30b5991c08ef",
+  "revision_id": "08cecbce616242119dce1a8fcada76c9",
+  "revision_number": 2,
+  "evidence_record": ".agentforge/web/previews/6400568ef76d49818135973b6dde07fd/events/1794829664772285000-d8e598ce.json",
+  "evidence_sha256": "409ed46789e338b05f284a988481b10116fe4f99976c2c1f4902ab1363bf1358",
+  "recorded_at": "2026-11-16T19:51:52.282261+08:00",
+  "capture_type": "live_browser_preview_of_existing_project_revision",
+  "model_development": "historical_replay_only",
+  "verification": {
+    "run_counts": {
+      "legacy": 18,
+      "autonomous": 10
+    },
+    "ui_run_total": 28,
+    "ui_run_total_before_recording": 28,
+    "run_total_unchanged": true,
+    "new_run_events_since_runtime_setup": 0,
+    "new_model_events_since_runtime_setup": 0,
+    "new_model_requests": 0,
+    "latest_run_event_timestamps": {
+      "legacy": "2026-11-12T23:14:26.261121+08:00",
+      "autonomous": "2026-11-09T16:20:25.354934+08:00"
+    },
+    "basis": "Read-only runs/events tables in both production run databases; no new events since this recording setup."
+  },
+  "cleanup": {
+    "preview_stopped_via_ui": true,
+    "preview_container_removed": true,
+    "recording_helper_processes": "stopped",
+    "stopped_process_ids": [
+      3080,
+      35160
+    ],
+    "stopped_at_utc": "2026-11-16T11:52:08.8781581Z",
+    "legacy_8004_untouched": true,
+    "verified_absent_process_ids": [
+      3080,
+      5328,
+      35160,
+      34660,
+      33944
+    ],
+    "note": "Only owned recording server and keepalive process chains were stopped after command-line identity checks. Terminating leaf processes also closed their wrappers. No changes to port 8004."
+  }
+}
