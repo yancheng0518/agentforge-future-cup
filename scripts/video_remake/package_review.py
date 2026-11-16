@@ -49,7 +49,7 @@ def main():
     f = imageio_ffmpeg.get_ffmpeg_exe()
     subprocess.run([f,'-hide_banner','-loglevel','error','-y','-ss','13','-i',str(VIDEO),'-frames:v','1',str(OUT/'poster.png')],check=True)
     audio = subprocess.run([f,'-hide_banner','-i',str(VIDEO),'-af','volumedetect','-vn','-sn','-dn','-f','null','-'],capture_output=True,encoding='utf8',errors='replace',check=True)
-    (OUT/'audio-qa.txt').write_text(audio.stderr,encoding='utf8')
+    (OUT/'audio-qa.txt').write_text('\n'.join(line.rstrip() for line in audio.stderr.splitlines())+'\n',encoding='utf8')
     receipt = {'video':VIDEO.relative_to(ROOT).as_posix(),'video_sha256':sha(VIDEO),'video_bytes':VIDEO.stat().st_size,
         'duration_seconds':build['duration_probed'],'width':1920,'height':1080,'fps':30,'voice':'zh-CN-XiaoxiaoNeural','rate':'-5%',
         'original_video_sha256':build['original_sha256'],'original_unchanged':build['original_unchanged'],
