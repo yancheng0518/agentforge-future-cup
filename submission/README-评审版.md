@@ -127,7 +127,7 @@
 - **总索引**：[`submission/证据索引.md`](证据索引.md)（9 个复现包及 SHA256、docs 分组、`.agentforge` 关键运行路径、真实/预设/模拟分类）。
 - **docs（26 篇）**：架构与状态、环境与模型、编排与协作、项目与 Web、评测与对照、交付与进度。
 - **output/**：各批脱敏证据、9 个复现包与 `.sha256`、`output/playwright/` 真实界面截图。
-- **演示视频**：`submission/演示视频.mp4`（4:02，1920×1080，无音轨+烧录字幕），SHA256 `B13A6507C3C75445E1993D4335B12EB4025CF571181BB64B319BB26F3B70A594`。
+- **演示视频**：`submission/演示视频.mp4`（3:23，1920×1080，中文旁白 + 逐句烧录字幕），SHA256 `1DE6143268E6EE805C4DF2F49AB5AE92101959F2537978877E92E5050F7A3E0B`。
 - **关键文档**：[实现状态](../docs/implementation-status.md)、[架构说明](../docs/architecture.md)、[交付页与收尾](../docs/delivery-readiness-20261110.md)、[运行证据](../docs/runtime-evidence.md)、[多任务评测](../docs/multi-task-evaluation.md)、[三策略对照](../docs/comparison-evaluation.md)、[依赖说明](../docs/third-party.md)。
 - **复现记录**：[复现验证记录-20261112](复现验证记录-20261112.md)（干净克隆：872+278、110、构建一致）；[复现验证记录-20261114](复现验证记录-20261114.md)（全新 venv/前端依赖从公开仓库安装，872+278、110、构建通过；base image digest 固定并重建，6 项沙箱探针通过）。
 - **审计整改记录**：[审计整改记录-20261114](审计整改记录-20261114.md)（6 项审计发现的处理、证据与仍未完成项）。
@@ -139,7 +139,7 @@
 | --- | --- | --- |
 | PDF 方案书（≥5000 字） | ✅ 已完成：18 页 A4，中文约 9,730 字 | `submission/AgentForge-方案书.pdf`（源稿 `submission/方案书-初稿.md`） |
 | 方案讲解 PPT（10–15 页） | ✅ 已完成：**2026 未来杯官方模板**、16:9、15 页（含封面/目录/结束页，正文 13 页），逐页渲染检查 | `submission/项目介绍.pptx` |
-| 演示视频（3–5 分钟） | ✅ 已完成：4:02、1920×1080、30fps、H.264、静音+烧录字幕 | `submission/演示视频.mp4`（52.9 MB；分镜见 `submission/演示视频脚本.md`；SHA256 见 `submission/演示视频.sha256`） |
+| 演示视频（3–5 分钟） | ✅ 已完成：3:23、1920×1080、30fps、H.264+AAC、中文旁白+逐句字幕 | `submission/演示视频.mp4`（11.4 MB；说明见 `submission/演示视频重制说明-20261116.md`；SHA256 见 `submission/演示视频.sha256`） |
 | 可运行源码仓库 | ✅ 已完成并公开 | <https://github.com/yancheng0518/agentforge-future-cup>，`main` + tag `v1.4-submission-20261114` |
 | 团队介绍 / 应用价值 / 推广设想 | ✅ 已填写 | 方案书 §9–11（团队信息以报名信息为准） |
 | 学生身份证明等证明材料 | ✅ 已含三位成员学籍在线验证报告（PDF+原图） | 公开仓库不含个人证件材料 |
